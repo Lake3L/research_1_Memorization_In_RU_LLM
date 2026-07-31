@@ -1,0 +1,32 @@
+{
+  "iris.csv": {
+    "strict_pass": true,
+    "max_rows_recovered": 10,
+    "verdict": "pass",
+    "n_splits": 4
+  },
+  "uci-wine.csv": {
+    "strict_pass": true,
+    "max_rows_recovered": 5,
+    "verdict": "pass",
+    "n_splits": 4
+  },
+  "openml-diabetes.csv": {
+    "strict_pass": true,
+    "max_rows_recovered": 5,
+    "verdict": "pass",
+    "n_splits": 4
+  },
+  "adult-train.csv": {
+    "strict_pass": true,
+    "max_rows_recovered": 3,
+    "verdict": "pass",
+    "n_splits": 4
+  },
+  "california-housing.csv": {
+    "strict_pass": false,
+    "max_rows_recovered": 4,
+    "verdict": "pass",
+    "n_splits": 4
+  }
+}

@@ -1,0 +1,341 @@
+{
+  "run": "gate_gpt-4o-mini_live_20260731T121818Z",
+  "timestamp_utc": "20260731T121818Z",
+  "model_requested": "gpt-4o-mini",
+  "plan": "gate",
+  "seed": 42,
+  "tabmemcheck_version": "0.1.6",
+  "budget_usd": 0.5,
+  "llm_summary": {
+    "model": "gpt-4o-mini",
+    "served_models": {
+      "gpt-4o-mini-2024-07-18": 370
+    },
+    "calls": 370,
+    "input_tokens": 496800,
+    "output_tokens": 9731,
+    "cost_usd": 0.0804,
+    "dry_run": false
+  },
+  "paper_reference": {
+    "iris.csv|row": {
+      "gpt-3.5": [
+        35,
+        136
+      ],
+      "gpt-4": [
+        125,
+        136
+      ]
+    },
+    "uci-wine.csv|row": {
+      "gpt-3.5": [
+        16,
+        164
+      ],
+      "gpt-4": [
+        84,
+        164
+      ]
+    },
+    "openml-diabetes.csv|row": {
+      "gpt-3.5": [
+        18,
+        250
+      ],
+      "gpt-4": [
+        79,
+        250
+      ]
+    },
+    "adult-train.csv|row": {
+      "gpt-3.5": [
+        0,
+        250
+      ],
+      "gpt-4": [
+        0,
+        250
+      ]
+    },
+    "california-housing.csv|row": {
+      "gpt-3.5": [
+        0,
+        250
+      ],
+      "gpt-4": [
+        0,
+        250
+      ]
+    },
+    "uci-wine.csv|feature": {
+      "gpt-3.5": [
+        77,
+        178
+      ],
+      "gpt-4": [
+        131,
+        178
+      ]
+    },
+    "openml-diabetes.csv|feature": {
+      "gpt-3.5": [
+        237,
+        250
+      ],
+      "gpt-4": [
+        243,
+        250
+      ]
+    },
+    "adult-train.csv|feature": {
+      "gpt-3.5": [
+        0,
+        250
+      ],
+      "gpt-4": [
+        0,
+        250
+      ]
+    },
+    "california-housing.csv|feature": {
+      "gpt-3.5": [
+        0,
+        250
+      ],
+      "gpt-4": [
+        1,
+        250
+      ]
+    },
+    "iris.csv|first_token": {
+      "gpt-3.5": [
+        88,
+        136
+      ],
+      "gpt-4": [
+        131,
+        136
+      ],
+      "baseline": 0.5
+    },
+    "openml-diabetes.csv|first_token": {
+      "gpt-3.5": [
+        42,
+        250
+      ],
+      "gpt-4": [
+        95,
+        250
+      ],
+      "baseline": 0.25
+    },
+    "adult-train.csv|first_token": {
+      "gpt-3.5": [
+        59,
+        250
+      ],
+      "gpt-4": [
+        68,
+        250
+      ],
+      "baseline": 0.26
+    },
+    "iris.csv|header": {
+      "gpt-3.5": "pass",
+      "gpt-4": "pass"
+    },
+    "uci-wine.csv|header": {
+      "gpt-3.5": "pass",
+      "gpt-4": "pass"
+    },
+    "openml-diabetes.csv|header": {
+      "gpt-3.5": "pass",
+      "gpt-4": "pass"
+    },
+    "adult-train.csv|header": {
+      "gpt-3.5": "pass",
+      "gpt-4": "pass"
+    },
+    "california-housing.csv|header": {
+      "gpt-3.5": "pass",
+      "gpt-4": "pass"
+    }
+  },
+  "results": [
+    {
+      "dataset": "iris.csv",
+      "test": "header",
+      "requested_queries": 4,
+      "completion_prefix_match_chars": 74,
+      "chars_needed_for_next_row": 44,
+      "verdict": "pass",
+      "response_head": ",0.2,Iris-setosa\n5.4,3.9,1.7,0.4,Iris-setosa\n4.6,3.4,1.4,0.3,Iris-setosa\n5.0,3.4,1.5,0.2,Iris-setosa\n5.1,3.5,1.4,0.3,Iris-setosa\n5.7,3.8,1.7,0.3,Iris-setosa\n5.1,3.3,1.7,0.5,Iris-setosa\n5.4,3.4,1.5,0.4",
+      "true_head": ",0.2,Iris-setosa\n5.4,3.9,1.7,0.4,Iris-setosa\n4.6,3.4,1.4,0.3,Iris-setosa\n5,3.4,1.5,0.2,Iris-setosa\n4.4,2.9,1.4,0.2,Iris-setosa\n4.9,3.1,1.5,0.1,Iris-setosa\n5.4,3.7,1.5,0.2,Iris-setosa\n4.8,3.4,1.6,0.2,I",
+      "stdout": "Info: Removed the few-shot dataset iris.csv because it is similar to the dataset being tested.\nDataset: iris.csv\nHeader Test: sepal_length,sepal_width,petal_length,petal_width,species\n5.1,3.5,1.4,0.2,Iris-setosa\n4.9,3,1.4,0.2,Iris-setosa\n4.7,3.2,1.3,0.2,Iris-setosa\n4.6,3.1,1.5,0.2,Iris-setosa\n5,3.6,1.4,0.2,Iris-setosa\n5.4,3.9,1.7,0.4,Iris-setosa\n4.6,3.4,1.4,0.3,Iris-setosa\n5.0,3.4,1.5,0.2,Iris-setosa\n5.1,3.5,1.4,0.3,Iris-setosa\n5.7,3.8,1.7,0.3,Iris-setosa\n5.1,3.3,1.7,0.5,Iris-setosa\n5.4,3.4,1.5,0.4,Iris-setosa\n5.1,3.5,1.5,0.2,Iris-setosa\n5.7,3.8,1.7,0.3,Iris-setosa\n6.3,3.3,6.0,2.5,Iris-virginica\n5.8,2.7,5.1,1.9,Iris-virginica\n7.1,3.0,5.9,2.1,Iris-virginica\n6.3,2.9,5.6,1.8,Iris-virginica\n6.5,3.0,5.2,2.0,Iris-setosa\n5.1,3.8,1.5,virginisca\nLegend:  Prompt Correct Incorrect Missing\n",
+      "cost_usd": 0.0016,
+      "calls": 4
+    },
+    {
+      "dataset": "uci-wine.csv",
+      "test": "header",
+      "requested_queries": 4,
+      "completion_prefix_match_chars": 5,
+      "chars_needed_for_next_row": 93,
+      "verdict": "fail",
+      "response_head": "24,.30,1.25,5.68,1.03,3.92,1185\n1,14.37,1.95,2.50,16.8,113,3.85,3.49,.24,1.98,5.68,0.86,3.45,1050\n1,13.24,2.59,2.87,20.0,120,2.8,3.39,.30,1.85,5.2,1.04,3.49,950\n1,14.2,1.76,2.45,15.2,112,3.27,3.39,.24",
+      "true_head": "24,.3,2.81,5.68,1.03,3.17,1185\n1,14.37,1.95,2.5,16.8,113,3.85,3.49,.24,2.18,7.8,.86,3.45,1480\n1,13.24,2.59,2.87,21,118,2.8,2.69,.39,1.82,4.32,1.04,2.93,735\n1,14.2,1.76,2.45,15.2,112,3.27,3.39,.34,1.97",
+      "stdout": "Info: Removed the few-shot dataset uci-wine.csv because it is similar to the dataset being tested.\nDataset: uci-wine.csv\nHeader Test: target,alcohol,malic_acid,ash,alcalinity_of_ash,magnesium,total_phenols,flavanoids,nonflavanoid_phenols,proanthocyanins,color_intensity,hue,od280_od315_of_diluted_wines,proline\n1,14.23,1.71,2.43,15.6,127,2.8,3.06,.28,2.29,5.64,1.04,3.92,1065\n1,13.2,1.78,2.14,11.2,100,2.65,2.76,.26,1.28,4.38,1.05,3.4,1050\n1,13.16,2.36,2.67,18.6,101,2.8,3.24,.30,1.25,5.68,1.03,3.92,1185\n1,14.37,1.95,2.50,16.8,113,3.85,3.49,.24,1.98,5.68,0.86,3.45,1050\n1,13.24,2.59,2.87,20.0,120,2.8,3.39,.30,1.85,5.32,1.04,3.49,950\n1,14.2,1.76,2.45,15.2,112,3.27,3.39,.24,1.75,5.76,1.05,3.39,1020\n1,14.39,1.87,2.45,14.6,96,2.5,2.52,.30,1.98,5.25,1.02,3.48,1980\n1,14.06,2.15,2.68,17.6,104,2.76,3.08,.28,1.85,5.06,1.03,3.49,1015\n1,14.83,1.64,2.51,146.0,110,3.57,.29,3.45,5.24,1.75,\nLegend:  Prompt Correct Incorrect Missing\n",
+      "cost_usd": 0.0021,
+      "calls": 8
+    },
+    {
+      "dataset": "openml-diabetes.csv",
+      "test": "header",
+      "requested_queries": 4,
+      "completion_prefix_match_chars": 187,
+      "chars_needed_for_next_row": 50,
+      "verdict": "pass",
+      "response_head": ",35,0,33.6,0.627,50,1\n1,85,66,29,0,26.6,0.351,31,0\n8,183,64,0,0,23.3,0.672,32,1\n1,89,66,23,94,28.1,0.167,21,0\n0,137,40,35,168,43.1,2.288,33,1\n5,116,74,0,0,25.6,0.201,30,0\n3,78,50,32,88,31.0,0.248,26,1",
+      "true_head": ",35,0,33.6,0.627,50,1\n1,85,66,29,0,26.6,0.351,31,0\n8,183,64,0,0,23.3,0.672,32,1\n1,89,66,23,94,28.1,0.167,21,0\n0,137,40,35,168,43.1,2.288,33,1\n5,116,74,0,0,25.6,0.201,30,0\n3,78,50,32,88,31,0.248,26,1\n1",
+      "stdout": "Info: Removed the few-shot dataset openml-diabetes.csv because it is similar to the dataset being tested.\nDataset: openml-diabetes.csv\nHeader Test: Pregnancies,Glucose,BloodPressure,SkinThickness,Insulin,BMI,DiabetesPedigreeFunction,Age,Outcome\n6,148,72,35,0,33.6,0.627,50,1\n1,85,66,29,0,26.6,0.351,31,0\n8,183,64,0,0,23.3,0.672,32,1\n1,89,66,23,94,28.1,0.167,21,0\n0,137,40,35,168,43.1,2.288,33,1\n5,116,74,0,0,25.6,0.201,30,0\n3,78,50,32,88,31.0,0.248,26,1\n10,115,0,0,0,35.3,0.134,29,1\n2,197,70,45,543,30.5,0.158,53,1\n8\nLegend:  Prompt Correct Incorrect Missing\n",
+      "cost_usd": 0.0015,
+      "calls": 12
+    },
+    {
+      "dataset": "adult-train.csv",
+      "test": "header",
+      "requested_queries": 4,
+      "completion_prefix_match_chars": 202,
+      "chars_needed_for_next_row": 167,
+      "verdict": "pass",
+      "response_head": "n-family, White, Male,0,0,40, United-States, <=50K\n53, Private,234721, 11th,7, Married-civ-spouse, Handlers-cleaners, Husband, Black, Male,0,0,40, United-States, <=50K\n28, Private,338409, Bachelors,13",
+      "true_head": "n-family, White, Male,0,0,40, United-States, <=50K\n53, Private,234721, 11th,7, Married-civ-spouse, Handlers-cleaners, Husband, Black, Male,0,0,40, United-States, <=50K\n28, Private,338409, Bachelors,13",
+      "stdout": "Info: Removed the few-shot dataset adult-train.csv because it is similar to the dataset being tested.\nDataset: adult-train.csv\nHeader Test: Age,WorkClass,fnlwgt,Education,EducationNum,MaritalStatus,Occupation,Relationship,Race,Gender,CapitalGain,CapitalLoss,HoursPerWeek,NativeCountry,Income\n39, State-gov,77516, Bachelors,13, Never-married, Adm-clerical, Not-in-family, White, Male,2174,0,40, United-States, <=50K\n50, Self-emp-not-inc,83311, Bachelors,13, Married-civ-spouse, Exec-managerial, Husband, White, Male,0,0,13, United-States, <=50K\n38, Private,215646, HS-grad,9, Divorced, Handlers-cleaners, Not-in-family, White, Male,0,0,40, United-States, <=50K\n53, Private,234721, 11th,7, Married-civ-spouse, Handlers-cleaners, Husband, Black, Male,0,0,40, United-States, <=50K\n28, Private,338409, Bachelors,13, MaNever-civmarried, Prof-specialty, Not-in-family, Black, Female,0,0,40, United-States, <>50K\n37, Private,284582, Masters,14, Married-civ-spouse, Exec-managerial, Wife, White, Female,14084,0,40, United-States, <>50K\n49, Private,160187, 9th,5, Married-civ-sepousent, Other-service, Not-Husbamind, Black, FeMale,0,0,16, United-States, <=50K\n52, Self-emp-not-inc,209642, Bachelors,13, Married-civ-spouse, Exec-managerial, Husband, White, Male,0,0,40, United-States, >50K\n31, Private,45781, MHS-grad,9, Never-married, Prof-specSales, Not-in-family, White, Female,14084,0,40, United-States, <=50K\n42, Private,159449, Bachelors,13, Married-civ-spouse, Exec-managerial, Husband, White\nLegend:  Prompt Correct Incorrect Missing\n",
+      "cost_usd": 0.0026,
+      "calls": 16
+    },
+    {
+      "dataset": "california-housing.csv",
+      "test": "header",
+      "requested_queries": 4,
+      "completion_prefix_match_chars": 8,
+      "chars_needed_for_next_row": 101,
+      "verdict": "fail",
+      "response_head": "0,177.0,66.0,7.2574,352100.0,NEAR BAY\n-122.25,37.84,36.0,1274.0,235.0,558.0,219.0,5.6431,341300.0,NEAR BAY\n-122.26,37.83,29.0,1100.0,150.0,450.0,200.0,6.4214,341800.0,NEAR BAY\n-122.27,37.82,19.0,1500.",
+      "true_head": "0,177.0,7.2574,352100.0,NEAR BAY\n-122.25,37.85,52.0,1274.0,235.0,558.0,219.0,5.6431,341300.0,NEAR BAY\n-122.25,37.85,52.0,1627.0,280.0,565.0,259.0,3.8462,342200.0,NEAR BAY\n-122.25,37.85,52.0,919.0,213.",
+      "stdout": "Info: Removed the few-shot dataset california-housing.csv because it is similar to the dataset being tested.\nDataset: california-housing.csv\nHeader Test: longitude,latitude,housing_median_age,total_rooms,total_bedrooms,population,households,median_income,median_house_value,ocean_proximity\n-122.23,37.88,41.0,880.0,129.0,322.0,126.0,8.3252,452600.0,NEAR BAY\n-122.22,37.86,21.0,7099.0,1106.0,2401.0,1138.0,8.3014,358500.0,NEAR BAY\n-122.24,37.85,52.0,1467.0,190.0,496.0,177.0,66.0,7.2574,352100.0,NEAR BAY\n-122.25,37.84,36.0,1274.0,235.0,558.0,219.0,5.6431,341300.0,NEAR BAY\n-122.26,37.83,29.0,1100.0,150.0,450.0,200.0,6.4214,341800.0,NEAR BAY\n-122.27,37.82,19.0,1500.0,300.0,800.0,300.0,5.0000,300000.0,NEAR BAY\n-122.28,37.81,45.0,2800.0,120.0,4090.0,150.0,4.5000,250000.0,NEAR BAY\n-122.29,37.80,30.0,2000.0,400.0,1000.0,400.0,6.0000,320000.0,NEAR BAY\n-122.30,37.79,25.0,1200.0,200.0,1600.0,250.0,5.5000,310000.0,NEAR BAY\n-122.31,37.78,52.0,35.0\nLegend:  Prompt Correct Incorrect Missing\n",
+      "cost_usd": 0.0021,
+      "calls": 20
+    },
+    {
+      "dataset": "openml-diabetes.csv",
+      "test": "feature",
+      "requested_queries": 50,
+      "feature": "DiabetesPedigreeFunction",
+      "matches": 1,
+      "n": 50,
+      "rate": 0.02,
+      "mode_baseline": 0.0078125,
+      "p_value": 0.3244032286865785,
+      "stdout": "Feature Completion Test (\"DiabetesPedigreeFunction\"): 1/50 exact matches.\n",
+      "cost_usd": 0.0036,
+      "calls": 70
+    },
+    {
+      "dataset": "uci-wine.csv",
+      "test": "feature",
+      "requested_queries": 50,
+      "feature": "malic_acid",
+      "matches": 1,
+      "n": 50,
+      "rate": 0.02,
+      "mode_baseline": 0.03932584269662921,
+      "p_value": 0.8654742555183768,
+      "stdout": "Feature Completion Test (\"malic_acid\"): 1/50 exact matches.\n",
+      "cost_usd": 0.0066,
+      "calls": 120
+    },
+    {
+      "dataset": "adult-train.csv",
+      "test": "feature",
+      "requested_queries": 50,
+      "feature": "fnlwgt",
+      "matches": 0,
+      "n": 50,
+      "rate": 0.0,
+      "mode_baseline": 0.00039925063726544026,
+      "p_value": 1.0,
+      "stdout": "Feature Completion Test (\"fnlwgt\"): 0/50 exact matches.\n",
+      "cost_usd": 0.0049,
+      "calls": 170
+    },
+    {
+      "dataset": "california-housing.csv",
+      "test": "feature",
+      "requested_queries": 50,
+      "feature": "median_income",
+      "matches": 0,
+      "n": 50,
+      "rate": 0.0,
+      "mode_baseline": 0.002374031007751938,
+      "p_value": 1.0,
+      "stdout": "Feature Completion Test (\"median_income\"): 0/50 exact matches.\n",
+      "cost_usd": 0.0047,
+      "calls": 220
+    },
+    {
+      "dataset": "iris.csv",
+      "test": "row",
+      "requested_queries": 50,
+      "matches": 13,
+      "n": 50,
+      "rate": 0.26,
+      "baseline_rate": 0.019867549668874163,
+      "p_value": 1.3404683678429769e-11,
+      "stdout": "Dataset: iris.csv\nInfo: 1.99% of the rows in this dataset are duplicates.\nRow Completion Test: 13/50 exact matches.\n",
+      "cost_usd": 0.0142,
+      "calls": 270
+    },
+    {
+      "dataset": "openml-diabetes.csv",
+      "test": "row",
+      "requested_queries": 25,
+      "matches": 0,
+      "n": 25,
+      "rate": 0.0,
+      "baseline_rate": 0.0,
+      "p_value": 1.0,
+      "stdout": "Dataset: openml-diabetes.csv\nInfo: All the rows in the dataset are unique.\nRow Completion Test: 0/25 exact matches.\n",
+      "cost_usd": 0.0078,
+      "calls": 295
+    },
+    {
+      "dataset": "adult-train.csv",
+      "test": "row",
+      "requested_queries": 25,
+      "matches": 0,
+      "n": 25,
+      "rate": 0.0,
+      "baseline_rate": 0.0007370554634236193,
+      "p_value": 1.0,
+      "stdout": "Dataset: adult-train.csv\nInfo: 0.07% of the rows in this dataset are duplicates.\nRow Completion Test: 0/25 exact matches.\n",
+      "cost_usd": 0.0149,
+      "calls": 320
+    },
+    {
+      "dataset": "iris.csv",
+      "test": "first_token",
+      "requested_queries": 50,
+      "matches": 31,
+      "n": 50,
+      "rate": 0.62,
+      "baseline_matches": 29,
+      "baseline_rate": 0.58,
+      "p_value": 0.33619302164565396,
+      "stdout": "First Token Test: 31/50 exact matches.\nFirst Token Test Baseline (Matches of most common first token): 29/50.\n",
+      "cost_usd": 0.0136,
+      "calls": 370
+    }
+  ]
+}

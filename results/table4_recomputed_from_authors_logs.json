@@ -1,0 +1,4099 @@
+{
+  "description": "Table 4 of Bordt et al. (COLM 2024) recomputed from the authors' published chatlogs using the authors' own evaluation rules.",
+  "source_archive": "D:\\Microsoft Visual Studio\\Projects VSC\\_MyPapers_\\research_1_Memorization_In_RU_LLM\\external\\colm-chatlogs\\colm-2024-chatlogs.zip",
+  "authors_code": "D:\\Microsoft Visual Studio\\Projects VSC\\_MyPapers_\\research_1_Memorization_In_RU_LLM\\external\\LLM-Tabular-Memorization-Checker\\colm-2024-paper-code",
+  "models": [
+    "gpt4",
+    "gpt-3.5-0125"
+  ],
+  "ground_truth_notes": {
+    "titanic": {
+      "ground_truth_source": "chatlogs (few-shot examples)",
+      "n_test_points": 891,
+      "n_indices_recovered": 891,
+      "canonical_label_conflicts": 0,
+      "statistical_class_permutation": {
+        "0": {
+          "map": {
+            "0": 0,
+            "1": 1
+          },
+          "support": {
+            "0": 549,
+            "1": 342
+          },
+          "purity": {
+            "0": 1.0,
+            "1": 1.0
+          }
+        },
+        "1": {
+          "map": {
+            "0": 0,
+            "1": 1
+          },
+          "support": {
+            "0": 549,
+            "1": 342
+          },
+          "purity": {
+            "0": 1.0,
+            "1": 1.0
+          }
+        },
+        "2": {
+          "map": {
+            "0": 0,
+            "1": 1
+          },
+          "support": {
+            "0": 549,
+            "1": 342
+          },
+          "purity": {
+            "0": 1.0,
+            "1": 1.0
+          }
+        }
+      }
+    },
+    "spaceship-titanic": {
+      "ground_truth_source": "chatlogs (few-shot examples)",
+      "n_test_points": 1000,
+      "n_indices_recovered": 1000,
+      "canonical_label_conflicts": 0,
+      "statistical_class_permutation": {
+        "0": {
+          "map": {
+            "0": 0,
+            "1": 1
+          },
+          "support": {
+            "0": 468,
+            "1": 478
+          },
+          "purity": {
+            "0": 1.0,
+            "1": 1.0
+          }
+        },
+        "1": {
+          "map": {
+            "0": 1,
+            "1": 0
+          },
+          "support": {
+            "0": 471,
+            "1": 480
+          },
+          "purity": {
+            "0": 1.0,
+            "1": 1.0
+          }
+        },
+        "2": {
+          "map": {
+            "0": 0,
+            "1": 1
+          },
+          "support": {
+            "0": 463,
+            "1": 474
+          },
+          "purity": {
+            "0": 1.0,
+            "1": 1.0
+          }
+        }
+      }
+    },
+    "fico": {
+      "ground_truth_source": "chatlogs (few-shot examples)",
+      "n_test_points": 1000,
+      "n_indices_recovered": 938,
+      "canonical_label_conflicts": 0,
+      "statistical_class_permutation": {
+        "0": {
+          "map": {
+            "1": 0,
+            "0": 1
+          },
+          "support": {
+            "1": 393,
+            "0": 451
+          },
+          "purity": {
+            "1": 1.0,
+            "0": 1.0
+          }
+        },
+        "1": {
+          "map": {
+            "0": 1,
+            "1": 0
+          },
+          "support": {
+            "0": 450,
+            "1": 393
+          },
+          "purity": {
+            "0": 1.0,
+            "1": 1.0
+          }
+        },
+        "2": {
+          "map": {
+            "0": 0,
+            "1": 1
+          },
+          "support": {
+            "0": 448,
+            "1": 386
+          },
+          "purity": {
+            "0": 1.0,
+            "1": 1.0
+          }
+        }
+      }
+    }
+  },
+  "aggregated": [
+    {
+      "model": "gpt-3.5-0125",
+      "dataset": "titanic",
+      "format": "original",
+      "panel": "A_memorized",
+      "seeds": [
+        0,
+        1,
+        2
+      ],
+      "n_seeds": 3,
+      "accuracy_mean_over_seeds": 0.8122,
+      "accuracy_seed0": 0.8148,
+      "accuracy_per_seed": [
+        0.8148,
+        0.8114,
+        0.8103
+      ],
+      "n_evaluated_seed0": 891,
+      "n_missing_ground_truth_seed0": 0,
+      "n_prompt_mismatch_vs_csv_seed0": null,
+      "published_table4": 0.81,
+      "delta_vs_published": 0.0022
+    },
+    {
+      "model": "gpt-3.5-0125",
+      "dataset": "titanic",
+      "format": "perturbed",
+      "panel": "A_memorized",
+      "seeds": [
+        0,
+        1,
+        2
+      ],
+      "n_seeds": 3,
+      "accuracy_mean_over_seeds": 0.7811,
+      "accuracy_seed0": 0.789,
+      "accuracy_per_seed": [
+        0.789,
+        0.7733,
+        0.7811
+      ],
+      "n_evaluated_seed0": 891,
+      "n_missing_ground_truth_seed0": 0,
+      "n_prompt_mismatch_vs_csv_seed0": null,
+      "published_table4": 0.78,
+      "delta_vs_published": 0.0011
+    },
+    {
+      "model": "gpt-3.5-0125",
+      "dataset": "titanic",
+      "format": "task",
+      "panel": "A_memorized",
+      "seeds": [
+        0,
+        1,
+        2
+      ],
+      "n_seeds": 3,
+      "accuracy_mean_over_seeds": 0.774,
+      "accuracy_seed0": 0.7733,
+      "accuracy_per_seed": [
+        0.7733,
+        0.7666,
+        0.7823
+      ],
+      "n_evaluated_seed0": 891,
+      "n_missing_ground_truth_seed0": 0,
+      "n_prompt_mismatch_vs_csv_seed0": null,
+      "published_table4": 0.77,
+      "delta_vs_published": 0.004
+    },
+    {
+      "model": "gpt-3.5-0125",
+      "dataset": "titanic",
+      "format": "statistical",
+      "panel": "A_memorized",
+      "seeds": [
+        0,
+        1,
+        2
+      ],
+      "n_seeds": 3,
+      "accuracy_mean_over_seeds": 0.6147,
+      "accuracy_seed0": 0.6083,
+      "accuracy_per_seed": [
+        0.6083,
+        0.6207,
+        0.615
+      ],
+      "n_evaluated_seed0": 891,
+      "n_missing_ground_truth_seed0": 0,
+      "n_prompt_mismatch_vs_csv_seed0": null,
+      "published_table4": 0.61,
+      "delta_vs_published": 0.0047
+    },
+    {
+      "model": "gpt-3.5-0125",
+      "dataset": "adult",
+      "format": "original",
+      "panel": "A_memorized",
+      "seeds": [
+        0,
+        1,
+        2
+      ],
+      "n_seeds": 3,
+      "accuracy_mean_over_seeds": 0.7773,
+      "accuracy_seed0": 0.771,
+      "accuracy_per_seed": [
+        0.771,
+        0.783,
+        0.778
+      ],
+      "n_evaluated_seed0": 1000,
+      "n_missing_ground_truth_seed0": 0,
+      "n_prompt_mismatch_vs_csv_seed0": 0,
+      "published_table4": 0.78,
+      "delta_vs_published": -0.0027
+    },
+    {
+      "model": "gpt-3.5-0125",
+      "dataset": "adult",
+      "format": "perturbed",
+      "panel": "A_memorized",
+      "seeds": [
+        0,
+        1,
+        2
+      ],
+      "n_seeds": 3,
+      "accuracy_mean_over_seeds": 0.7817,
+      "accuracy_seed0": 0.774,
+      "accuracy_per_seed": [
+        0.774,
+        0.786,
+        0.785
+      ],
+      "n_evaluated_seed0": 1000,
+      "n_missing_ground_truth_seed0": 0,
+      "n_prompt_mismatch_vs_csv_seed0": 0,
+      "published_table4": null,
+      "delta_vs_published": null
+    },
+    {
+      "model": "gpt-3.5-0125",
+      "dataset": "adult",
+      "format": "task",
+      "panel": "A_memorized",
+      "seeds": [
+        0,
+        1,
+        2
+      ],
+      "n_seeds": 3,
+      "accuracy_mean_over_seeds": 0.7487,
+      "accuracy_seed0": 0.743,
+      "accuracy_per_seed": [
+        0.743,
+        0.742,
+        0.761
+      ],
+      "n_evaluated_seed0": 1000,
+      "n_missing_ground_truth_seed0": 0,
+      "n_prompt_mismatch_vs_csv_seed0": 0,
+      "published_table4": 0.75,
+      "delta_vs_published": -0.0013
+    },
+    {
+      "model": "gpt-3.5-0125",
+      "dataset": "adult",
+      "format": "statistical",
+      "panel": "A_memorized",
+      "seeds": [
+        0,
+        1,
+        2
+      ],
+      "n_seeds": 3,
+      "accuracy_mean_over_seeds": 0.7,
+      "accuracy_seed0": 0.7,
+      "accuracy_per_seed": [
+        0.7,
+        0.725,
+        0.675
+      ],
+      "n_evaluated_seed0": 1000,
+      "n_missing_ground_truth_seed0": 0,
+      "n_prompt_mismatch_vs_csv_seed0": 1000,
+      "published_table4": 0.7,
+      "delta_vs_published": -0.0
+    },
+    {
+      "model": "gpt-3.5-0125",
+      "dataset": "openml-diabetes",
+      "format": "original",
+      "panel": "A_memorized",
+      "seeds": [
+        0,
+        1,
+        2
+      ],
+      "n_seeds": 3,
+      "accuracy_mean_over_seeds": 0.7374,
+      "accuracy_seed0": 0.7396,
+      "accuracy_per_seed": [
+        0.7396,
+        0.7344,
+        0.7383
+      ],
+      "n_evaluated_seed0": 768,
+      "n_missing_ground_truth_seed0": 0,
+      "n_prompt_mismatch_vs_csv_seed0": 768,
+      "published_table4": 0.74,
+      "delta_vs_published": -0.0026
+    },
+    {
+      "model": "gpt-3.5-0125",
+      "dataset": "openml-diabetes",
+      "format": "perturbed",
+      "panel": "A_memorized",
+      "seeds": [
+        0,
+        1,
+        2
+      ],
+      "n_seeds": 3,
+      "accuracy_mean_over_seeds": 0.7287,
+      "accuracy_seed0": 0.7292,
+      "accuracy_per_seed": [
+        0.7292,
+        0.7201,
+        0.737
+      ],
+      "n_evaluated_seed0": 768,
+      "n_missing_ground_truth_seed0": 0,
+      "n_prompt_mismatch_vs_csv_seed0": 768,
+      "published_table4": null,
+      "delta_vs_published": null
+    },
+    {
+      "model": "gpt-3.5-0125",
+      "dataset": "openml-diabetes",
+      "format": "task",
+      "panel": "A_memorized",
+      "seeds": [
+        0,
+        1,
+        2
+      ],
+      "n_seeds": 3,
+      "accuracy_mean_over_seeds": 0.6979,
+      "accuracy_seed0": 0.7057,
+      "accuracy_per_seed": [
+        0.7057,
+        0.6862,
+        0.7018
+      ],
+      "n_evaluated_seed0": 768,
+      "n_missing_ground_truth_seed0": 0,
+      "n_prompt_mismatch_vs_csv_seed0": 768,
+      "published_table4": null,
+      "delta_vs_published": null
+    },
+    {
+      "model": "gpt-3.5-0125",
+      "dataset": "openml-diabetes",
+      "format": "statistical",
+      "panel": "A_memorized",
+      "seeds": [
+        0,
+        1,
+        2
+      ],
+      "n_seeds": 3,
+      "accuracy_mean_over_seeds": 0.6766,
+      "accuracy_seed0": 0.6849,
+      "accuracy_per_seed": [
+        0.6849,
+        0.6628,
+        0.6823
+      ],
+      "n_evaluated_seed0": 768,
+      "n_missing_ground_truth_seed0": 0,
+      "n_prompt_mismatch_vs_csv_seed0": 0,
+      "published_table4": 0.68,
+      "delta_vs_published": -0.0034
+    },
+    {
+      "model": "gpt-3.5-0125",
+      "dataset": "uci-wine",
+      "format": "original",
+      "panel": "A_memorized",
+      "seeds": [
+        0,
+        1,
+        2
+      ],
+      "n_seeds": 3,
+      "accuracy_mean_over_seeds": 0.8783,
+      "accuracy_seed0": 0.8989,
+      "accuracy_per_seed": [
+        0.8989,
+        0.8539,
+        0.882
+      ],
+      "n_evaluated_seed0": 178,
+      "n_missing_ground_truth_seed0": 0,
+      "n_prompt_mismatch_vs_csv_seed0": 178,
+      "published_table4": 0.88,
+      "delta_vs_published": -0.0017
+    },
+    {
+      "model": "gpt-3.5-0125",
+      "dataset": "uci-wine",
+      "format": "perturbed",
+      "panel": "A_memorized",
+      "seeds": [
+        0,
+        1,
+        2
+      ],
+      "n_seeds": 3,
+      "accuracy_mean_over_seeds": 0.8764,
+      "accuracy_seed0": 0.8764,
+      "accuracy_per_seed": [
+        0.8764,
+        0.8483,
+        0.9045
+      ],
+      "n_evaluated_seed0": 178,
+      "n_missing_ground_truth_seed0": 0,
+      "n_prompt_mismatch_vs_csv_seed0": 178,
+      "published_table4": null,
+      "delta_vs_published": null
+    },
+    {
+      "model": "gpt-3.5-0125",
+      "dataset": "uci-wine",
+      "format": "task",
+      "panel": "A_memorized",
+      "seeds": [
+        0,
+        1,
+        2
+      ],
+      "n_seeds": 3,
+      "accuracy_mean_over_seeds": 0.8652,
+      "accuracy_seed0": 0.8652,
+      "accuracy_per_seed": [
+        0.8652,
+        0.8708,
+        0.8596
+      ],
+      "n_evaluated_seed0": 178,
+      "n_missing_ground_truth_seed0": 0,
+      "n_prompt_mismatch_vs_csv_seed0": 0,
+      "published_table4": 0.87,
+      "delta_vs_published": -0.0048
+    },
+    {
+      "model": "gpt-3.5-0125",
+      "dataset": "uci-wine",
+      "format": "statistical",
+      "panel": "A_memorized",
+      "seeds": [
+        0,
+        1,
+        2
+      ],
+      "n_seeds": 3,
+      "accuracy_mean_over_seeds": 0.8614,
+      "accuracy_seed0": 0.882,
+      "accuracy_per_seed": [
+        0.882,
+        0.8596,
+        0.8427
+      ],
+      "n_evaluated_seed0": 178,
+      "n_missing_ground_truth_seed0": 0,
+      "n_prompt_mismatch_vs_csv_seed0": 0,
+      "published_table4": null,
+      "delta_vs_published": null
+    },
+    {
+      "model": "gpt-3.5-0125",
+      "dataset": "iris",
+      "format": "original",
+      "panel": "A_memorized",
+      "seeds": [
+        0,
+        1,
+        2
+      ],
+      "n_seeds": 3,
+      "accuracy_mean_over_seeds": 0.9844,
+      "accuracy_seed0": 0.9867,
+      "accuracy_per_seed": [
+        0.9867,
+        0.98,
+        0.9867
+      ],
+      "n_evaluated_seed0": 150,
+      "n_missing_ground_truth_seed0": 0,
+      "n_prompt_mismatch_vs_csv_seed0": 0,
+      "published_table4": 0.98,
+      "delta_vs_published": 0.0044
+    },
+    {
+      "model": "gpt-3.5-0125",
+      "dataset": "iris",
+      "format": "perturbed",
+      "panel": "A_memorized",
+      "seeds": [
+        0,
+        1,
+        2
+      ],
+      "n_seeds": 3,
+      "accuracy_mean_over_seeds": 0.9511,
+      "accuracy_seed0": 0.9333,
+      "accuracy_per_seed": [
+        0.9333,
+        0.9667,
+        0.9533
+      ],
+      "n_evaluated_seed0": 150,
+      "n_missing_ground_truth_seed0": 0,
+      "n_prompt_mismatch_vs_csv_seed0": 0,
+      "published_table4": 0.95,
+      "delta_vs_published": 0.0011
+    },
+    {
+      "model": "gpt-3.5-0125",
+      "dataset": "iris",
+      "format": "task",
+      "panel": "A_memorized",
+      "seeds": [
+        0,
+        1,
+        2
+      ],
+      "n_seeds": 3,
+      "accuracy_mean_over_seeds": 0.9533,
+      "accuracy_seed0": 0.94,
+      "accuracy_per_seed": [
+        0.94,
+        0.9533,
+        0.9667
+      ],
+      "n_evaluated_seed0": 150,
+      "n_missing_ground_truth_seed0": 0,
+      "n_prompt_mismatch_vs_csv_seed0": 0,
+      "published_table4": null,
+      "delta_vs_published": null
+    },
+    {
+      "model": "gpt-3.5-0125",
+      "dataset": "iris",
+      "format": "statistical",
+      "panel": "A_memorized",
+      "seeds": [
+        0,
+        1,
+        2
+      ],
+      "n_seeds": 3,
+      "accuracy_mean_over_seeds": 0.8711,
+      "accuracy_seed0": 0.8667,
+      "accuracy_per_seed": [
+        0.8667,
+        0.8733,
+        0.8733
+      ],
+      "n_evaluated_seed0": 150,
+      "n_missing_ground_truth_seed0": 0,
+      "n_prompt_mismatch_vs_csv_seed0": 0,
+      "published_table4": 0.87,
+      "delta_vs_published": 0.0011
+    },
+    {
+      "model": "gpt-3.5-0125",
+      "dataset": "spaceship-titanic",
+      "format": "original",
+      "panel": "B_novel",
+      "seeds": [
+        0,
+        1,
+        2
+      ],
+      "n_seeds": 3,
+      "accuracy_mean_over_seeds": 0.5763,
+      "accuracy_seed0": 0.567,
+      "accuracy_per_seed": [
+        0.567,
+        0.569,
+        0.593
+      ],
+      "n_evaluated_seed0": 1000,
+      "n_missing_ground_truth_seed0": 0,
+      "n_prompt_mismatch_vs_csv_seed0": null,
+      "published_table4": 0.58,
+      "delta_vs_published": -0.0037
+    },
+    {
+      "model": "gpt-3.5-0125",
+      "dataset": "spaceship-titanic",
+      "format": "perturbed",
+      "panel": "B_novel",
+      "seeds": [
+        0,
+        1,
+        2
+      ],
+      "n_seeds": 3,
+      "accuracy_mean_over_seeds": 0.574,
+      "accuracy_seed0": 0.576,
+      "accuracy_per_seed": [
+        0.576,
+        0.565,
+        0.581
+      ],
+      "n_evaluated_seed0": 1000,
+      "n_missing_ground_truth_seed0": 0,
+      "n_prompt_mismatch_vs_csv_seed0": null,
+      "published_table4": null,
+      "delta_vs_published": null
+    },
+    {
+      "model": "gpt-3.5-0125",
+      "dataset": "spaceship-titanic",
+      "format": "task",
+      "panel": "B_novel",
+      "seeds": [
+        0,
+        1,
+        2
+      ],
+      "n_seeds": 3,
+      "accuracy_mean_over_seeds": 0.5943,
+      "accuracy_seed0": 0.593,
+      "accuracy_per_seed": [
+        0.593,
+        0.6,
+        0.59
+      ],
+      "n_evaluated_seed0": 1000,
+      "n_missing_ground_truth_seed0": 0,
+      "n_prompt_mismatch_vs_csv_seed0": null,
+      "published_table4": null,
+      "delta_vs_published": null
+    },
+    {
+      "model": "gpt-3.5-0125",
+      "dataset": "spaceship-titanic",
+      "format": "statistical",
+      "panel": "B_novel",
+      "seeds": [
+        0,
+        1,
+        2
+      ],
+      "n_seeds": 3,
+      "accuracy_mean_over_seeds": 0.627,
+      "accuracy_seed0": 0.607,
+      "accuracy_per_seed": [
+        0.607,
+        0.612,
+        0.662
+      ],
+      "n_evaluated_seed0": 1000,
+      "n_missing_ground_truth_seed0": 0,
+      "n_prompt_mismatch_vs_csv_seed0": null,
+      "published_table4": 0.63,
+      "delta_vs_published": -0.003
+    },
+    {
+      "model": "gpt-3.5-0125",
+      "dataset": "acs-income",
+      "format": "original",
+      "panel": "B_novel",
+      "seeds": [
+        0,
+        1,
+        2
+      ],
+      "n_seeds": 3,
+      "accuracy_mean_over_seeds": 0.7757,
+      "accuracy_seed0": 0.767,
+      "accuracy_per_seed": [
+        0.767,
+        0.783,
+        0.777
+      ],
+      "n_evaluated_seed0": 1000,
+      "n_missing_ground_truth_seed0": 0,
+      "n_prompt_mismatch_vs_csv_seed0": 0,
+      "published_table4": 0.78,
+      "delta_vs_published": -0.0043
+    },
+    {
+      "model": "gpt-3.5-0125",
+      "dataset": "acs-income",
+      "format": "perturbed",
+      "panel": "B_novel",
+      "seeds": [
+        0,
+        1,
+        2
+      ],
+      "n_seeds": 3,
+      "accuracy_mean_over_seeds": 0.7707,
+      "accuracy_seed0": 0.76,
+      "accuracy_per_seed": [
+        0.76,
+        0.771,
+        0.781
+      ],
+      "n_evaluated_seed0": 1000,
+      "n_missing_ground_truth_seed0": 0,
+      "n_prompt_mismatch_vs_csv_seed0": 0,
+      "published_table4": null,
+      "delta_vs_published": null
+    },
+    {
+      "model": "gpt-3.5-0125",
+      "dataset": "acs-income",
+      "format": "task",
+      "panel": "B_novel",
+      "seeds": [
+        0,
+        1,
+        2
+      ],
+      "n_seeds": 3,
+      "accuracy_mean_over_seeds": 0.7717,
+      "accuracy_seed0": 0.767,
+      "accuracy_per_seed": [
+        0.767,
+        0.764,
+        0.784
+      ],
+      "n_evaluated_seed0": 1000,
+      "n_missing_ground_truth_seed0": 0,
+      "n_prompt_mismatch_vs_csv_seed0": 0,
+      "published_table4": 0.77,
+      "delta_vs_published": 0.0017
+    },
+    {
+      "model": "gpt-3.5-0125",
+      "dataset": "acs-income",
+      "format": "statistical",
+      "panel": "B_novel",
+      "seeds": [
+        0,
+        1,
+        2
+      ],
+      "n_seeds": 3,
+      "accuracy_mean_over_seeds": 0.5857,
+      "accuracy_seed0": 0.579,
+      "accuracy_per_seed": [
+        0.579,
+        0.594,
+        0.584
+      ],
+      "n_evaluated_seed0": 1000,
+      "n_missing_ground_truth_seed0": 0,
+      "n_prompt_mismatch_vs_csv_seed0": 1000,
+      "published_table4": 0.59,
+      "delta_vs_published": -0.0043
+    },
+    {
+      "model": "gpt-3.5-0125",
+      "dataset": "icu",
+      "format": "original",
+      "panel": "B_novel",
+      "seeds": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6
+      ],
+      "n_seeds": 7,
+      "accuracy_mean_over_seeds": 0.6947,
+      "accuracy_seed0": 0.7059,
+      "accuracy_per_seed": [
+        0.7059,
+        0.7451,
+        0.6863,
+        0.7157,
+        0.6569,
+        0.6569,
+        0.6961
+      ],
+      "n_evaluated_seed0": 102,
+      "n_missing_ground_truth_seed0": 0,
+      "n_prompt_mismatch_vs_csv_seed0": 0,
+      "published_table4": 0.69,
+      "delta_vs_published": 0.0047
+    },
+    {
+      "model": "gpt-3.5-0125",
+      "dataset": "icu",
+      "format": "perturbed",
+      "panel": "B_novel",
+      "seeds": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6
+      ],
+      "n_seeds": 7,
+      "accuracy_mean_over_seeds": 0.6877,
+      "accuracy_seed0": 0.7549,
+      "accuracy_per_seed": [
+        0.7549,
+        0.7059,
+        0.6863,
+        0.6961,
+        0.6373,
+        0.6569,
+        0.6765
+      ],
+      "n_evaluated_seed0": 102,
+      "n_missing_ground_truth_seed0": 0,
+      "n_prompt_mismatch_vs_csv_seed0": 0,
+      "published_table4": null,
+      "delta_vs_published": null
+    },
+    {
+      "model": "gpt-3.5-0125",
+      "dataset": "icu",
+      "format": "task",
+      "panel": "B_novel",
+      "seeds": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6
+      ],
+      "n_seeds": 7,
+      "accuracy_mean_over_seeds": 0.6667,
+      "accuracy_seed0": 0.7157,
+      "accuracy_per_seed": [
+        0.7157,
+        0.6373,
+        0.6471,
+        0.6765,
+        0.6471,
+        0.6667,
+        0.6765
+      ],
+      "n_evaluated_seed0": 102,
+      "n_missing_ground_truth_seed0": 0,
+      "n_prompt_mismatch_vs_csv_seed0": 0,
+      "published_table4": null,
+      "delta_vs_published": null
+    },
+    {
+      "model": "gpt-3.5-0125",
+      "dataset": "icu",
+      "format": "statistical",
+      "panel": "B_novel",
+      "seeds": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6
+      ],
+      "n_seeds": 7,
+      "accuracy_mean_over_seeds": 0.57,
+      "accuracy_seed0": 0.5588,
+      "accuracy_per_seed": [
+        0.5588,
+        0.5686,
+        0.5882,
+        0.549,
+        0.5588,
+        0.5588,
+        0.6078
+      ],
+      "n_evaluated_seed0": 102,
+      "n_missing_ground_truth_seed0": 0,
+      "n_prompt_mismatch_vs_csv_seed0": 0,
+      "published_table4": null,
+      "delta_vs_published": null
+    },
+    {
+      "model": "gpt-3.5-0125",
+      "dataset": "fico",
+      "format": "original",
+      "panel": "B_novel",
+      "seeds": [
+        0,
+        1,
+        2
+      ],
+      "n_seeds": 3,
+      "accuracy_mean_over_seeds": 0.5896,
+      "accuracy_seed0": 0.5778,
+      "accuracy_per_seed": [
+        0.5778,
+        0.581,
+        0.6098
+      ],
+      "n_evaluated_seed0": 938,
+      "n_missing_ground_truth_seed0": 62,
+      "n_prompt_mismatch_vs_csv_seed0": null,
+      "published_table4": 0.58,
+      "delta_vs_published": 0.0096
+    },
+    {
+      "model": "gpt-3.5-0125",
+      "dataset": "fico",
+      "format": "perturbed",
+      "panel": "B_novel",
+      "seeds": [
+        0,
+        1,
+        2
+      ],
+      "n_seeds": 3,
+      "accuracy_mean_over_seeds": 0.5792,
+      "accuracy_seed0": 0.565,
+      "accuracy_per_seed": [
+        0.565,
+        0.5704,
+        0.6023
+      ],
+      "n_evaluated_seed0": 938,
+      "n_missing_ground_truth_seed0": 62,
+      "n_prompt_mismatch_vs_csv_seed0": null,
+      "published_table4": null,
+      "delta_vs_published": null
+    },
+    {
+      "model": "gpt-3.5-0125",
+      "dataset": "fico",
+      "format": "task",
+      "panel": "B_novel",
+      "seeds": [
+        0,
+        1,
+        2
+      ],
+      "n_seeds": 3,
+      "accuracy_mean_over_seeds": 0.6222,
+      "accuracy_seed0": 0.6109,
+      "accuracy_per_seed": [
+        0.6109,
+        0.6269,
+        0.629
+      ],
+      "n_evaluated_seed0": 938,
+      "n_missing_ground_truth_seed0": 62,
+      "n_prompt_mismatch_vs_csv_seed0": null,
+      "published_table4": null,
+      "delta_vs_published": null
+    },
+    {
+      "model": "gpt-3.5-0125",
+      "dataset": "fico",
+      "format": "statistical",
+      "panel": "B_novel",
+      "seeds": [
+        0,
+        1,
+        2
+      ],
+      "n_seeds": 3,
+      "accuracy_mean_over_seeds": 0.5958,
+      "accuracy_seed0": 0.608,
+      "accuracy_per_seed": [
+        0.608,
+        0.5936,
+        0.5859
+      ],
+      "n_evaluated_seed0": 995,
+      "n_missing_ground_truth_seed0": 5,
+      "n_prompt_mismatch_vs_csv_seed0": null,
+      "published_table4": null,
+      "delta_vs_published": null
+    },
+    {
+      "model": "gpt-3.5-0125",
+      "dataset": "acs-travel",
+      "format": "original",
+      "panel": "B_novel",
+      "seeds": [
+        0,
+        1,
+        2
+      ],
+      "n_seeds": 3,
+      "accuracy_mean_over_seeds": 0.5427,
+      "accuracy_seed0": 0.547,
+      "accuracy_per_seed": [
+        0.547,
+        0.534,
+        0.547
+      ],
+      "n_evaluated_seed0": 1000,
+      "n_missing_ground_truth_seed0": 0,
+      "n_prompt_mismatch_vs_csv_seed0": 0,
+      "published_table4": 0.54,
+      "delta_vs_published": 0.0027
+    },
+    {
+      "model": "gpt-3.5-0125",
+      "dataset": "acs-travel",
+      "format": "perturbed",
+      "panel": "B_novel",
+      "seeds": [
+        0,
+        1,
+        2
+      ],
+      "n_seeds": 3,
+      "accuracy_mean_over_seeds": 0.538,
+      "accuracy_seed0": 0.545,
+      "accuracy_per_seed": [
+        0.545,
+        0.525,
+        0.544
+      ],
+      "n_evaluated_seed0": 1000,
+      "n_missing_ground_truth_seed0": 0,
+      "n_prompt_mismatch_vs_csv_seed0": 0,
+      "published_table4": null,
+      "delta_vs_published": null
+    },
+    {
+      "model": "gpt-3.5-0125",
+      "dataset": "acs-travel",
+      "format": "task",
+      "panel": "B_novel",
+      "seeds": [
+        0,
+        1,
+        2
+      ],
+      "n_seeds": 3,
+      "accuracy_mean_over_seeds": 0.5443,
+      "accuracy_seed0": 0.532,
+      "accuracy_per_seed": [
+        0.532,
+        0.541,
+        0.56
+      ],
+      "n_evaluated_seed0": 1000,
+      "n_missing_ground_truth_seed0": 0,
+      "n_prompt_mismatch_vs_csv_seed0": 0,
+      "published_table4": null,
+      "delta_vs_published": null
+    },
+    {
+      "model": "gpt-3.5-0125",
+      "dataset": "acs-travel",
+      "format": "statistical",
+      "panel": "B_novel",
+      "seeds": [
+        0,
+        1,
+        2
+      ],
+      "n_seeds": 3,
+      "accuracy_mean_over_seeds": 0.5167,
+      "accuracy_seed0": 0.505,
+      "accuracy_per_seed": [
+        0.505,
+        0.537,
+        0.508
+      ],
+      "n_evaluated_seed0": 1000,
+      "n_missing_ground_truth_seed0": 0,
+      "n_prompt_mismatch_vs_csv_seed0": 0,
+      "published_table4": null,
+      "delta_vs_published": null
+    },
+    {
+      "model": "gpt4",
+      "dataset": "titanic",
+      "format": "original",
+      "panel": "A_memorized",
+      "seeds": [
+        0
+      ],
+      "n_seeds": 1,
+      "accuracy_mean_over_seeds": 0.9574,
+      "accuracy_seed0": 0.9574,
+      "accuracy_per_seed": [
+        0.9574
+      ],
+      "n_evaluated_seed0": 891,
+      "n_missing_ground_truth_seed0": 0,
+      "n_prompt_mismatch_vs_csv_seed0": null,
+      "published_table4": 0.96,
+      "delta_vs_published": -0.0026
+    },
+    {
+      "model": "gpt4",
+      "dataset": "titanic",
+      "format": "perturbed",
+      "panel": "A_memorized",
+      "seeds": [
+        0
+      ],
+      "n_seeds": 1,
+      "accuracy_mean_over_seeds": 0.8227,
+      "accuracy_seed0": 0.8227,
+      "accuracy_per_seed": [
+        0.8227
+      ],
+      "n_evaluated_seed0": 891,
+      "n_missing_ground_truth_seed0": 0,
+      "n_prompt_mismatch_vs_csv_seed0": null,
+      "published_table4": 0.82,
+      "delta_vs_published": 0.0027
+    },
+    {
+      "model": "gpt4",
+      "dataset": "titanic",
+      "format": "task",
+      "panel": "A_memorized",
+      "seeds": [
+        0
+      ],
+      "n_seeds": 1,
+      "accuracy_mean_over_seeds": 0.8047,
+      "accuracy_seed0": 0.8047,
+      "accuracy_per_seed": [
+        0.8047
+      ],
+      "n_evaluated_seed0": 891,
+      "n_missing_ground_truth_seed0": 0,
+      "n_prompt_mismatch_vs_csv_seed0": null,
+      "published_table4": 0.8,
+      "delta_vs_published": 0.0047
+    },
+    {
+      "model": "gpt4",
+      "dataset": "titanic",
+      "format": "statistical",
+      "panel": "A_memorized",
+      "seeds": [
+        0
+      ],
+      "n_seeds": 1,
+      "accuracy_mean_over_seeds": 0.6543,
+      "accuracy_seed0": 0.6543,
+      "accuracy_per_seed": [
+        0.6543
+      ],
+      "n_evaluated_seed0": 891,
+      "n_missing_ground_truth_seed0": 0,
+      "n_prompt_mismatch_vs_csv_seed0": null,
+      "published_table4": 0.65,
+      "delta_vs_published": 0.0043
+    },
+    {
+      "model": "gpt4",
+      "dataset": "adult",
+      "format": "original",
+      "panel": "A_memorized",
+      "seeds": [
+        0
+      ],
+      "n_seeds": 1,
+      "accuracy_mean_over_seeds": 0.814,
+      "accuracy_seed0": 0.814,
+      "accuracy_per_seed": [
+        0.814
+      ],
+      "n_evaluated_seed0": 1000,
+      "n_missing_ground_truth_seed0": 0,
+      "n_prompt_mismatch_vs_csv_seed0": 0,
+      "published_table4": 0.81,
+      "delta_vs_published": 0.004
+    },
+    {
+      "model": "gpt4",
+      "dataset": "adult",
+      "format": "perturbed",
+      "panel": "A_memorized",
+      "seeds": [
+        0
+      ],
+      "n_seeds": 1,
+      "accuracy_mean_over_seeds": 0.813,
+      "accuracy_seed0": 0.813,
+      "accuracy_per_seed": [
+        0.813
+      ],
+      "n_evaluated_seed0": 1000,
+      "n_missing_ground_truth_seed0": 0,
+      "n_prompt_mismatch_vs_csv_seed0": 0,
+      "published_table4": null,
+      "delta_vs_published": null
+    },
+    {
+      "model": "gpt4",
+      "dataset": "adult",
+      "format": "task",
+      "panel": "A_memorized",
+      "seeds": [
+        0
+      ],
+      "n_seeds": 1,
+      "accuracy_mean_over_seeds": 0.793,
+      "accuracy_seed0": 0.793,
+      "accuracy_per_seed": [
+        0.793
+      ],
+      "n_evaluated_seed0": 1000,
+      "n_missing_ground_truth_seed0": 0,
+      "n_prompt_mismatch_vs_csv_seed0": 0,
+      "published_table4": 0.79,
+      "delta_vs_published": 0.003
+    },
+    {
+      "model": "gpt4",
+      "dataset": "adult",
+      "format": "statistical",
+      "panel": "A_memorized",
+      "seeds": [
+        0
+      ],
+      "n_seeds": 1,
+      "accuracy_mean_over_seeds": 0.631,
+      "accuracy_seed0": 0.631,
+      "accuracy_per_seed": [
+        0.631
+      ],
+      "n_evaluated_seed0": 1000,
+      "n_missing_ground_truth_seed0": 0,
+      "n_prompt_mismatch_vs_csv_seed0": 0,
+      "published_table4": 0.63,
+      "delta_vs_published": 0.001
+    },
+    {
+      "model": "gpt4",
+      "dataset": "openml-diabetes",
+      "format": "original",
+      "panel": "A_memorized",
+      "seeds": [
+        0
+      ],
+      "n_seeds": 1,
+      "accuracy_mean_over_seeds": 0.7383,
+      "accuracy_seed0": 0.7383,
+      "accuracy_per_seed": [
+        0.7383
+      ],
+      "n_evaluated_seed0": 768,
+      "n_missing_ground_truth_seed0": 0,
+      "n_prompt_mismatch_vs_csv_seed0": 0,
+      "published_table4": 0.74,
+      "delta_vs_published": -0.0017
+    },
+    {
+      "model": "gpt4",
+      "dataset": "openml-diabetes",
+      "format": "perturbed",
+      "panel": "A_memorized",
+      "seeds": [
+        0
+      ],
+      "n_seeds": 1,
+      "accuracy_mean_over_seeds": 0.7318,
+      "accuracy_seed0": 0.7318,
+      "accuracy_per_seed": [
+        0.7318
+      ],
+      "n_evaluated_seed0": 768,
+      "n_missing_ground_truth_seed0": 0,
+      "n_prompt_mismatch_vs_csv_seed0": 0,
+      "published_table4": null,
+      "delta_vs_published": null
+    },
+    {
+      "model": "gpt4",
+      "dataset": "openml-diabetes",
+      "format": "task",
+      "panel": "A_memorized",
+      "seeds": [
+        0
+      ],
+      "n_seeds": 1,
+      "accuracy_mean_over_seeds": 0.7266,
+      "accuracy_seed0": 0.7266,
+      "accuracy_per_seed": [
+        0.7266
+      ],
+      "n_evaluated_seed0": 768,
+      "n_missing_ground_truth_seed0": 0,
+      "n_prompt_mismatch_vs_csv_seed0": 0,
+      "published_table4": null,
+      "delta_vs_published": null
+    },
+    {
+      "model": "gpt4",
+      "dataset": "openml-diabetes",
+      "format": "statistical",
+      "panel": "A_memorized",
+      "seeds": [
+        0
+      ],
+      "n_seeds": 1,
+      "accuracy_mean_over_seeds": 0.6198,
+      "accuracy_seed0": 0.6198,
+      "accuracy_per_seed": [
+        0.6198
+      ],
+      "n_evaluated_seed0": 768,
+      "n_missing_ground_truth_seed0": 0,
+      "n_prompt_mismatch_vs_csv_seed0": 0,
+      "published_table4": 0.62,
+      "delta_vs_published": -0.0002
+    },
+    {
+      "model": "gpt4",
+      "dataset": "uci-wine",
+      "format": "original",
+      "panel": "A_memorized",
+      "seeds": [
+        0
+      ],
+      "n_seeds": 1,
+      "accuracy_mean_over_seeds": 0.9607,
+      "accuracy_seed0": 0.9607,
+      "accuracy_per_seed": [
+        0.9607
+      ],
+      "n_evaluated_seed0": 178,
+      "n_missing_ground_truth_seed0": 0,
+      "n_prompt_mismatch_vs_csv_seed0": 0,
+      "published_table4": 0.96,
+      "delta_vs_published": 0.0007
+    },
+    {
+      "model": "gpt4",
+      "dataset": "uci-wine",
+      "format": "perturbed",
+      "panel": "A_memorized",
+      "seeds": [
+        0
+      ],
+      "n_seeds": 1,
+      "accuracy_mean_over_seeds": 0.9494,
+      "accuracy_seed0": 0.9494,
+      "accuracy_per_seed": [
+        0.9494
+      ],
+      "n_evaluated_seed0": 178,
+      "n_missing_ground_truth_seed0": 0,
+      "n_prompt_mismatch_vs_csv_seed0": 0,
+      "published_table4": null,
+      "delta_vs_published": null
+    },
+    {
+      "model": "gpt4",
+      "dataset": "uci-wine",
+      "format": "task",
+      "panel": "A_memorized",
+      "seeds": [
+        0
+      ],
+      "n_seeds": 1,
+      "accuracy_mean_over_seeds": 0.8652,
+      "accuracy_seed0": 0.8652,
+      "accuracy_per_seed": [
+        0.8652
+      ],
+      "n_evaluated_seed0": 178,
+      "n_missing_ground_truth_seed0": 0,
+      "n_prompt_mismatch_vs_csv_seed0": 0,
+      "published_table4": 0.87,
+      "delta_vs_published": -0.0048
+    },
+    {
+      "model": "gpt4",
+      "dataset": "uci-wine",
+      "format": "statistical",
+      "panel": "A_memorized",
+      "seeds": [
+        0
+      ],
+      "n_seeds": 1,
+      "accuracy_mean_over_seeds": 0.9045,
+      "accuracy_seed0": 0.9045,
+      "accuracy_per_seed": [
+        0.9045
+      ],
+      "n_evaluated_seed0": 178,
+      "n_missing_ground_truth_seed0": 0,
+      "n_prompt_mismatch_vs_csv_seed0": 0,
+      "published_table4": null,
+      "delta_vs_published": null
+    },
+    {
+      "model": "gpt4",
+      "dataset": "iris",
+      "format": "original",
+      "panel": "A_memorized",
+      "seeds": [
+        0
+      ],
+      "n_seeds": 1,
+      "accuracy_mean_over_seeds": 0.9867,
+      "accuracy_seed0": 0.9867,
+      "accuracy_per_seed": [
+        0.9867
+      ],
+      "n_evaluated_seed0": 150,
+      "n_missing_ground_truth_seed0": 0,
+      "n_prompt_mismatch_vs_csv_seed0": 0,
+      "published_table4": 0.99,
+      "delta_vs_published": -0.0033
+    },
+    {
+      "model": "gpt4",
+      "dataset": "iris",
+      "format": "perturbed",
+      "panel": "A_memorized",
+      "seeds": [
+        0
+      ],
+      "n_seeds": 1,
+      "accuracy_mean_over_seeds": 0.9533,
+      "accuracy_seed0": 0.9533,
+      "accuracy_per_seed": [
+        0.9533
+      ],
+      "n_evaluated_seed0": 150,
+      "n_missing_ground_truth_seed0": 0,
+      "n_prompt_mismatch_vs_csv_seed0": 0,
+      "published_table4": 0.95,
+      "delta_vs_published": 0.0033
+    },
+    {
+      "model": "gpt4",
+      "dataset": "iris",
+      "format": "task",
+      "panel": "A_memorized",
+      "seeds": [
+        0
+      ],
+      "n_seeds": 1,
+      "accuracy_mean_over_seeds": 0.9467,
+      "accuracy_seed0": 0.9467,
+      "accuracy_per_seed": [
+        0.9467
+      ],
+      "n_evaluated_seed0": 150,
+      "n_missing_ground_truth_seed0": 0,
+      "n_prompt_mismatch_vs_csv_seed0": 0,
+      "published_table4": null,
+      "delta_vs_published": null
+    },
+    {
+      "model": "gpt4",
+      "dataset": "iris",
+      "format": "statistical",
+      "panel": "A_memorized",
+      "seeds": [
+        0
+      ],
+      "n_seeds": 1,
+      "accuracy_mean_over_seeds": 0.92,
+      "accuracy_seed0": 0.92,
+      "accuracy_per_seed": [
+        0.92
+      ],
+      "n_evaluated_seed0": 150,
+      "n_missing_ground_truth_seed0": 0,
+      "n_prompt_mismatch_vs_csv_seed0": 0,
+      "published_table4": 0.92,
+      "delta_vs_published": 0.0
+    },
+    {
+      "model": "gpt4",
+      "dataset": "spaceship-titanic",
+      "format": "original",
+      "panel": "B_novel",
+      "seeds": [
+        0
+      ],
+      "n_seeds": 1,
+      "accuracy_mean_over_seeds": 0.667,
+      "accuracy_seed0": 0.667,
+      "accuracy_per_seed": [
+        0.667
+      ],
+      "n_evaluated_seed0": 1000,
+      "n_missing_ground_truth_seed0": 0,
+      "n_prompt_mismatch_vs_csv_seed0": null,
+      "published_table4": 0.67,
+      "delta_vs_published": -0.003
+    },
+    {
+      "model": "gpt4",
+      "dataset": "spaceship-titanic",
+      "format": "perturbed",
+      "panel": "B_novel",
+      "seeds": [
+        0
+      ],
+      "n_seeds": 1,
+      "accuracy_mean_over_seeds": 0.674,
+      "accuracy_seed0": 0.674,
+      "accuracy_per_seed": [
+        0.674
+      ],
+      "n_evaluated_seed0": 1000,
+      "n_missing_ground_truth_seed0": 0,
+      "n_prompt_mismatch_vs_csv_seed0": null,
+      "published_table4": null,
+      "delta_vs_published": null
+    },
+    {
+      "model": "gpt4",
+      "dataset": "spaceship-titanic",
+      "format": "task",
+      "panel": "B_novel",
+      "seeds": [
+        0
+      ],
+      "n_seeds": 1,
+      "accuracy_mean_over_seeds": 0.654,
+      "accuracy_seed0": 0.654,
+      "accuracy_per_seed": [
+        0.654
+      ],
+      "n_evaluated_seed0": 1000,
+      "n_missing_ground_truth_seed0": 0,
+      "n_prompt_mismatch_vs_csv_seed0": null,
+      "published_table4": null,
+      "delta_vs_published": null
+    },
+    {
+      "model": "gpt4",
+      "dataset": "spaceship-titanic",
+      "format": "statistical",
+      "panel": "B_novel",
+      "seeds": [
+        0
+      ],
+      "n_seeds": 1,
+      "accuracy_mean_over_seeds": 0.655,
+      "accuracy_seed0": 0.655,
+      "accuracy_per_seed": [
+        0.655
+      ],
+      "n_evaluated_seed0": 1000,
+      "n_missing_ground_truth_seed0": 0,
+      "n_prompt_mismatch_vs_csv_seed0": null,
+      "published_table4": 0.66,
+      "delta_vs_published": -0.005
+    },
+    {
+      "model": "gpt4",
+      "dataset": "acs-income",
+      "format": "original",
+      "panel": "B_novel",
+      "seeds": [
+        0
+      ],
+      "n_seeds": 1,
+      "accuracy_mean_over_seeds": 0.784,
+      "accuracy_seed0": 0.784,
+      "accuracy_per_seed": [
+        0.784
+      ],
+      "n_evaluated_seed0": 1000,
+      "n_missing_ground_truth_seed0": 0,
+      "n_prompt_mismatch_vs_csv_seed0": 0,
+      "published_table4": 0.78,
+      "delta_vs_published": 0.004
+    },
+    {
+      "model": "gpt4",
+      "dataset": "acs-income",
+      "format": "perturbed",
+      "panel": "B_novel",
+      "seeds": [
+        0
+      ],
+      "n_seeds": 1,
+      "accuracy_mean_over_seeds": 0.776,
+      "accuracy_seed0": 0.776,
+      "accuracy_per_seed": [
+        0.776
+      ],
+      "n_evaluated_seed0": 1000,
+      "n_missing_ground_truth_seed0": 0,
+      "n_prompt_mismatch_vs_csv_seed0": 0,
+      "published_table4": null,
+      "delta_vs_published": null
+    },
+    {
+      "model": "gpt4",
+      "dataset": "acs-income",
+      "format": "task",
+      "panel": "B_novel",
+      "seeds": [
+        0
+      ],
+      "n_seeds": 1,
+      "accuracy_mean_over_seeds": 0.766,
+      "accuracy_seed0": 0.766,
+      "accuracy_per_seed": [
+        0.766
+      ],
+      "n_evaluated_seed0": 1000,
+      "n_missing_ground_truth_seed0": 0,
+      "n_prompt_mismatch_vs_csv_seed0": 0,
+      "published_table4": 0.77,
+      "delta_vs_published": -0.004
+    },
+    {
+      "model": "gpt4",
+      "dataset": "acs-income",
+      "format": "statistical",
+      "panel": "B_novel",
+      "seeds": [
+        0
+      ],
+      "n_seeds": 1,
+      "accuracy_mean_over_seeds": 0.573,
+      "accuracy_seed0": 0.573,
+      "accuracy_per_seed": [
+        0.573
+      ],
+      "n_evaluated_seed0": 1000,
+      "n_missing_ground_truth_seed0": 0,
+      "n_prompt_mismatch_vs_csv_seed0": 0,
+      "published_table4": 0.57,
+      "delta_vs_published": 0.003
+    },
+    {
+      "model": "gpt4",
+      "dataset": "icu",
+      "format": "original",
+      "panel": "B_novel",
+      "seeds": [
+        0
+      ],
+      "n_seeds": 1,
+      "accuracy_mean_over_seeds": 0.6863,
+      "accuracy_seed0": 0.6863,
+      "accuracy_per_seed": [
+        0.6863
+      ],
+      "n_evaluated_seed0": 102,
+      "n_missing_ground_truth_seed0": 0,
+      "n_prompt_mismatch_vs_csv_seed0": 0,
+      "published_table4": 0.69,
+      "delta_vs_published": -0.0037
+    },
+    {
+      "model": "gpt4",
+      "dataset": "icu",
+      "format": "perturbed",
+      "panel": "B_novel",
+      "seeds": [
+        0
+      ],
+      "n_seeds": 1,
+      "accuracy_mean_over_seeds": 0.7059,
+      "accuracy_seed0": 0.7059,
+      "accuracy_per_seed": [
+        0.7059
+      ],
+      "n_evaluated_seed0": 102,
+      "n_missing_ground_truth_seed0": 0,
+      "n_prompt_mismatch_vs_csv_seed0": 0,
+      "published_table4": null,
+      "delta_vs_published": null
+    },
+    {
+      "model": "gpt4",
+      "dataset": "icu",
+      "format": "task",
+      "panel": "B_novel",
+      "seeds": [
+        0
+      ],
+      "n_seeds": 1,
+      "accuracy_mean_over_seeds": 0.7059,
+      "accuracy_seed0": 0.7059,
+      "accuracy_per_seed": [
+        0.7059
+      ],
+      "n_evaluated_seed0": 102,
+      "n_missing_ground_truth_seed0": 0,
+      "n_prompt_mismatch_vs_csv_seed0": 0,
+      "published_table4": null,
+      "delta_vs_published": null
+    },
+    {
+      "model": "gpt4",
+      "dataset": "icu",
+      "format": "statistical",
+      "panel": "B_novel",
+      "seeds": [
+        0
+      ],
+      "n_seeds": 1,
+      "accuracy_mean_over_seeds": 0.549,
+      "accuracy_seed0": 0.549,
+      "accuracy_per_seed": [
+        0.549
+      ],
+      "n_evaluated_seed0": 102,
+      "n_missing_ground_truth_seed0": 0,
+      "n_prompt_mismatch_vs_csv_seed0": 0,
+      "published_table4": null,
+      "delta_vs_published": null
+    },
+    {
+      "model": "gpt4",
+      "dataset": "fico",
+      "format": "original",
+      "panel": "B_novel",
+      "seeds": [
+        0
+      ],
+      "n_seeds": 1,
+      "accuracy_mean_over_seeds": 0.6802,
+      "accuracy_seed0": 0.6802,
+      "accuracy_per_seed": [
+        0.6802
+      ],
+      "n_evaluated_seed0": 938,
+      "n_missing_ground_truth_seed0": 62,
+      "n_prompt_mismatch_vs_csv_seed0": null,
+      "published_table4": 0.67,
+      "delta_vs_published": 0.0102
+    },
+    {
+      "model": "gpt4",
+      "dataset": "fico",
+      "format": "perturbed",
+      "panel": "B_novel",
+      "seeds": [
+        0
+      ],
+      "n_seeds": 1,
+      "accuracy_mean_over_seeds": 0.678,
+      "accuracy_seed0": 0.678,
+      "accuracy_per_seed": [
+        0.678
+      ],
+      "n_evaluated_seed0": 938,
+      "n_missing_ground_truth_seed0": 62,
+      "n_prompt_mismatch_vs_csv_seed0": null,
+      "published_table4": null,
+      "delta_vs_published": null
+    },
+    {
+      "model": "gpt4",
+      "dataset": "fico",
+      "format": "task",
+      "panel": "B_novel",
+      "seeds": [
+        0
+      ],
+      "n_seeds": 1,
+      "accuracy_mean_over_seeds": 0.6908,
+      "accuracy_seed0": 0.6908,
+      "accuracy_per_seed": [
+        0.6908
+      ],
+      "n_evaluated_seed0": 938,
+      "n_missing_ground_truth_seed0": 62,
+      "n_prompt_mismatch_vs_csv_seed0": null,
+      "published_table4": null,
+      "delta_vs_published": null
+    },
+    {
+      "model": "gpt4",
+      "dataset": "fico",
+      "format": "statistical",
+      "panel": "B_novel",
+      "seeds": [
+        0
+      ],
+      "n_seeds": 1,
+      "accuracy_mean_over_seeds": 0.595,
+      "accuracy_seed0": 0.595,
+      "accuracy_per_seed": [
+        0.595
+      ],
+      "n_evaluated_seed0": 995,
+      "n_missing_ground_truth_seed0": 5,
+      "n_prompt_mismatch_vs_csv_seed0": null,
+      "published_table4": null,
+      "delta_vs_published": null
+    },
+    {
+      "model": "gpt4",
+      "dataset": "acs-travel",
+      "format": "original",
+      "panel": "B_novel",
+      "seeds": [
+        0
+      ],
+      "n_seeds": 1,
+      "accuracy_mean_over_seeds": 0.616,
+      "accuracy_seed0": 0.616,
+      "accuracy_per_seed": [
+        0.616
+      ],
+      "n_evaluated_seed0": 1000,
+      "n_missing_ground_truth_seed0": 0,
+      "n_prompt_mismatch_vs_csv_seed0": 0,
+      "published_table4": 0.62,
+      "delta_vs_published": -0.004
+    },
+    {
+      "model": "gpt4",
+      "dataset": "acs-travel",
+      "format": "perturbed",
+      "panel": "B_novel",
+      "seeds": [
+        0
+      ],
+      "n_seeds": 1,
+      "accuracy_mean_over_seeds": 0.616,
+      "accuracy_seed0": 0.616,
+      "accuracy_per_seed": [
+        0.616
+      ],
+      "n_evaluated_seed0": 1000,
+      "n_missing_ground_truth_seed0": 0,
+      "n_prompt_mismatch_vs_csv_seed0": 0,
+      "published_table4": null,
+      "delta_vs_published": null
+    },
+    {
+      "model": "gpt4",
+      "dataset": "acs-travel",
+      "format": "task",
+      "panel": "B_novel",
+      "seeds": [
+        0
+      ],
+      "n_seeds": 1,
+      "accuracy_mean_over_seeds": 0.653,
+      "accuracy_seed0": 0.653,
+      "accuracy_per_seed": [
+        0.653
+      ],
+      "n_evaluated_seed0": 1000,
+      "n_missing_ground_truth_seed0": 0,
+      "n_prompt_mismatch_vs_csv_seed0": 0,
+      "published_table4": null,
+      "delta_vs_published": null
+    },
+    {
+      "model": "gpt4",
+      "dataset": "acs-travel",
+      "format": "statistical",
+      "panel": "B_novel",
+      "seeds": [
+        0
+      ],
+      "n_seeds": 1,
+      "accuracy_mean_over_seeds": 0.479,
+      "accuracy_seed0": 0.479,
+      "accuracy_per_seed": [
+        0.479
+      ],
+      "n_evaluated_seed0": 1000,
+      "n_missing_ground_truth_seed0": 0,
+      "n_prompt_mismatch_vs_csv_seed0": 0,
+      "published_table4": null,
+      "delta_vs_published": null
+    }
+  ],
+  "per_seed": [
+    {
+      "model": "gpt4",
+      "dataset": "titanic",
+      "format": "original",
+      "seed": 0,
+      "n_queries": 891,
+      "n_evaluated": 891,
+      "n_missing_ground_truth": 0,
+      "n_unparsed_responses": 0,
+      "accuracy": 0.957351290684624,
+      "n_prompt_mismatch_vs_csv": null
+    },
+    {
+      "model": "gpt4",
+      "dataset": "titanic",
+      "format": "perturbed",
+      "seed": 0,
+      "n_queries": 891,
+      "n_evaluated": 891,
+      "n_missing_ground_truth": 0,
+      "n_unparsed_responses": 0,
+      "accuracy": 0.8226711560044894,
+      "n_prompt_mismatch_vs_csv": null
+    },
+    {
+      "model": "gpt4",
+      "dataset": "titanic",
+      "format": "task",
+      "seed": 0,
+      "n_queries": 891,
+      "n_evaluated": 891,
+      "n_missing_ground_truth": 0,
+      "n_unparsed_responses": 0,
+      "accuracy": 0.8047138047138047,
+      "n_prompt_mismatch_vs_csv": null
+    },
+    {
+      "model": "gpt4",
+      "dataset": "titanic",
+      "format": "statistical",
+      "seed": 0,
+      "n_queries": 891,
+      "n_evaluated": 891,
+      "n_missing_ground_truth": 0,
+      "n_unparsed_responses": 0,
+      "accuracy": 0.654320987654321,
+      "n_prompt_mismatch_vs_csv": null
+    },
+    {
+      "model": "gpt4",
+      "dataset": "adult",
+      "format": "original",
+      "seed": 0,
+      "n_queries": 1000,
+      "n_evaluated": 1000,
+      "n_missing_ground_truth": 0,
+      "n_unparsed_responses": 0,
+      "accuracy": 0.814,
+      "n_prompt_mismatch_vs_csv": 0
+    },
+    {
+      "model": "gpt4",
+      "dataset": "adult",
+      "format": "perturbed",
+      "seed": 0,
+      "n_queries": 1000,
+      "n_evaluated": 1000,
+      "n_missing_ground_truth": 0,
+      "n_unparsed_responses": 0,
+      "accuracy": 0.813,
+      "n_prompt_mismatch_vs_csv": 0
+    },
+    {
+      "model": "gpt4",
+      "dataset": "adult",
+      "format": "task",
+      "seed": 0,
+      "n_queries": 1000,
+      "n_evaluated": 1000,
+      "n_missing_ground_truth": 0,
+      "n_unparsed_responses": 0,
+      "accuracy": 0.793,
+      "n_prompt_mismatch_vs_csv": 0
+    },
+    {
+      "model": "gpt4",
+      "dataset": "adult",
+      "format": "statistical",
+      "seed": 0,
+      "n_queries": 1000,
+      "n_evaluated": 1000,
+      "n_missing_ground_truth": 0,
+      "n_unparsed_responses": 0,
+      "accuracy": 0.631,
+      "n_prompt_mismatch_vs_csv": 0
+    },
+    {
+      "model": "gpt4",
+      "dataset": "openml-diabetes",
+      "format": "original",
+      "seed": 0,
+      "n_queries": 768,
+      "n_evaluated": 768,
+      "n_missing_ground_truth": 0,
+      "n_unparsed_responses": 0,
+      "accuracy": 0.73828125,
+      "n_prompt_mismatch_vs_csv": 0
+    },
+    {
+      "model": "gpt4",
+      "dataset": "openml-diabetes",
+      "format": "perturbed",
+      "seed": 0,
+      "n_queries": 768,
+      "n_evaluated": 768,
+      "n_missing_ground_truth": 0,
+      "n_unparsed_responses": 0,
+      "accuracy": 0.7317708333333334,
+      "n_prompt_mismatch_vs_csv": 0
+    },
+    {
+      "model": "gpt4",
+      "dataset": "openml-diabetes",
+      "format": "task",
+      "seed": 0,
+      "n_queries": 768,
+      "n_evaluated": 768,
+      "n_missing_ground_truth": 0,
+      "n_unparsed_responses": 0,
+      "accuracy": 0.7265625,
+      "n_prompt_mismatch_vs_csv": 0
+    },
+    {
+      "model": "gpt4",
+      "dataset": "openml-diabetes",
+      "format": "statistical",
+      "seed": 0,
+      "n_queries": 768,
+      "n_evaluated": 768,
+      "n_missing_ground_truth": 0,
+      "n_unparsed_responses": 0,
+      "accuracy": 0.6197916666666666,
+      "n_prompt_mismatch_vs_csv": 0
+    },
+    {
+      "model": "gpt4",
+      "dataset": "uci-wine",
+      "format": "original",
+      "seed": 0,
+      "n_queries": 178,
+      "n_evaluated": 178,
+      "n_missing_ground_truth": 0,
+      "n_unparsed_responses": 0,
+      "accuracy": 0.9606741573033708,
+      "n_prompt_mismatch_vs_csv": 0
+    },
+    {
+      "model": "gpt4",
+      "dataset": "uci-wine",
+      "format": "perturbed",
+      "seed": 0,
+      "n_queries": 178,
+      "n_evaluated": 178,
+      "n_missing_ground_truth": 0,
+      "n_unparsed_responses": 0,
+      "accuracy": 0.949438202247191,
+      "n_prompt_mismatch_vs_csv": 0
+    },
+    {
+      "model": "gpt4",
+      "dataset": "uci-wine",
+      "format": "task",
+      "seed": 0,
+      "n_queries": 178,
+      "n_evaluated": 178,
+      "n_missing_ground_truth": 0,
+      "n_unparsed_responses": 0,
+      "accuracy": 0.8651685393258427,
+      "n_prompt_mismatch_vs_csv": 0
+    },
+    {
+      "model": "gpt4",
+      "dataset": "uci-wine",
+      "format": "statistical",
+      "seed": 0,
+      "n_queries": 178,
+      "n_evaluated": 178,
+      "n_missing_ground_truth": 0,
+      "n_unparsed_responses": 0,
+      "accuracy": 0.9044943820224719,
+      "n_prompt_mismatch_vs_csv": 0
+    },
+    {
+      "model": "gpt4",
+      "dataset": "iris",
+      "format": "original",
+      "seed": 0,
+      "n_queries": 150,
+      "n_evaluated": 150,
+      "n_missing_ground_truth": 0,
+      "n_unparsed_responses": 0,
+      "accuracy": 0.9866666666666667,
+      "n_prompt_mismatch_vs_csv": 0
+    },
+    {
+      "model": "gpt4",
+      "dataset": "iris",
+      "format": "perturbed",
+      "seed": 0,
+      "n_queries": 150,
+      "n_evaluated": 150,
+      "n_missing_ground_truth": 0,
+      "n_unparsed_responses": 0,
+      "accuracy": 0.9533333333333334,
+      "n_prompt_mismatch_vs_csv": 0
+    },
+    {
+      "model": "gpt4",
+      "dataset": "iris",
+      "format": "task",
+      "seed": 0,
+      "n_queries": 150,
+      "n_evaluated": 150,
+      "n_missing_ground_truth": 0,
+      "n_unparsed_responses": 0,
+      "accuracy": 0.9466666666666667,
+      "n_prompt_mismatch_vs_csv": 0
+    },
+    {
+      "model": "gpt4",
+      "dataset": "iris",
+      "format": "statistical",
+      "seed": 0,
+      "n_queries": 150,
+      "n_evaluated": 150,
+      "n_missing_ground_truth": 0,
+      "n_unparsed_responses": 0,
+      "accuracy": 0.92,
+      "n_prompt_mismatch_vs_csv": 0
+    },
+    {
+      "model": "gpt4",
+      "dataset": "spaceship-titanic",
+      "format": "original",
+      "seed": 0,
+      "n_queries": 1000,
+      "n_evaluated": 1000,
+      "n_missing_ground_truth": 0,
+      "n_unparsed_responses": 0,
+      "accuracy": 0.667,
+      "n_prompt_mismatch_vs_csv": null
+    },
+    {
+      "model": "gpt4",
+      "dataset": "spaceship-titanic",
+      "format": "perturbed",
+      "seed": 0,
+      "n_queries": 1000,
+      "n_evaluated": 1000,
+      "n_missing_ground_truth": 0,
+      "n_unparsed_responses": 0,
+      "accuracy": 0.674,
+      "n_prompt_mismatch_vs_csv": null
+    },
+    {
+      "model": "gpt4",
+      "dataset": "spaceship-titanic",
+      "format": "task",
+      "seed": 0,
+      "n_queries": 1000,
+      "n_evaluated": 1000,
+      "n_missing_ground_truth": 0,
+      "n_unparsed_responses": 0,
+      "accuracy": 0.654,
+      "n_prompt_mismatch_vs_csv": null
+    },
+    {
+      "model": "gpt4",
+      "dataset": "spaceship-titanic",
+      "format": "statistical",
+      "seed": 0,
+      "n_queries": 1000,
+      "n_evaluated": 1000,
+      "n_missing_ground_truth": 0,
+      "n_unparsed_responses": 1,
+      "accuracy": 0.655,
+      "n_prompt_mismatch_vs_csv": null
+    },
+    {
+      "model": "gpt4",
+      "dataset": "acs-income",
+      "format": "original",
+      "seed": 0,
+      "n_queries": 1000,
+      "n_evaluated": 1000,
+      "n_missing_ground_truth": 0,
+      "n_unparsed_responses": 0,
+      "accuracy": 0.784,
+      "n_prompt_mismatch_vs_csv": 0
+    },
+    {
+      "model": "gpt4",
+      "dataset": "acs-income",
+      "format": "perturbed",
+      "seed": 0,
+      "n_queries": 1000,
+      "n_evaluated": 1000,
+      "n_missing_ground_truth": 0,
+      "n_unparsed_responses": 0,
+      "accuracy": 0.776,
+      "n_prompt_mismatch_vs_csv": 0
+    },
+    {
+      "model": "gpt4",
+      "dataset": "acs-income",
+      "format": "task",
+      "seed": 0,
+      "n_queries": 1000,
+      "n_evaluated": 1000,
+      "n_missing_ground_truth": 0,
+      "n_unparsed_responses": 0,
+      "accuracy": 0.766,
+      "n_prompt_mismatch_vs_csv": 0
+    },
+    {
+      "model": "gpt4",
+      "dataset": "acs-income",
+      "format": "statistical",
+      "seed": 0,
+      "n_queries": 1000,
+      "n_evaluated": 1000,
+      "n_missing_ground_truth": 0,
+      "n_unparsed_responses": 0,
+      "accuracy": 0.573,
+      "n_prompt_mismatch_vs_csv": 0
+    },
+    {
+      "model": "gpt4",
+      "dataset": "icu",
+      "format": "original",
+      "seed": 0,
+      "n_queries": 102,
+      "n_evaluated": 102,
+      "n_missing_ground_truth": 0,
+      "n_unparsed_responses": 0,
+      "accuracy": 0.6862745098039216,
+      "n_prompt_mismatch_vs_csv": 0
+    },
+    {
+      "model": "gpt4",
+      "dataset": "icu",
+      "format": "perturbed",
+      "seed": 0,
+      "n_queries": 102,
+      "n_evaluated": 102,
+      "n_missing_ground_truth": 0,
+      "n_unparsed_responses": 0,
+      "accuracy": 0.7058823529411765,
+      "n_prompt_mismatch_vs_csv": 0
+    },
+    {
+      "model": "gpt4",
+      "dataset": "icu",
+      "format": "task",
+      "seed": 0,
+      "n_queries": 102,
+      "n_evaluated": 102,
+      "n_missing_ground_truth": 0,
+      "n_unparsed_responses": 0,
+      "accuracy": 0.7058823529411765,
+      "n_prompt_mismatch_vs_csv": 0
+    },
+    {
+      "model": "gpt4",
+      "dataset": "icu",
+      "format": "statistical",
+      "seed": 0,
+      "n_queries": 102,
+      "n_evaluated": 102,
+      "n_missing_ground_truth": 0,
+      "n_unparsed_responses": 0,
+      "accuracy": 0.5490196078431373,
+      "n_prompt_mismatch_vs_csv": 0
+    },
+    {
+      "model": "gpt4",
+      "dataset": "fico",
+      "format": "original",
+      "seed": 0,
+      "n_queries": 1000,
+      "n_evaluated": 938,
+      "n_missing_ground_truth": 62,
+      "n_unparsed_responses": 0,
+      "accuracy": 0.6801705756929638,
+      "n_prompt_mismatch_vs_csv": null
+    },
+    {
+      "model": "gpt4",
+      "dataset": "fico",
+      "format": "perturbed",
+      "seed": 0,
+      "n_queries": 1000,
+      "n_evaluated": 938,
+      "n_missing_ground_truth": 62,
+      "n_unparsed_responses": 0,
+      "accuracy": 0.6780383795309168,
+      "n_prompt_mismatch_vs_csv": null
+    },
+    {
+      "model": "gpt4",
+      "dataset": "fico",
+      "format": "task",
+      "seed": 0,
+      "n_queries": 1000,
+      "n_evaluated": 938,
+      "n_missing_ground_truth": 62,
+      "n_unparsed_responses": 0,
+      "accuracy": 0.6908315565031983,
+      "n_prompt_mismatch_vs_csv": null
+    },
+    {
+      "model": "gpt4",
+      "dataset": "fico",
+      "format": "statistical",
+      "seed": 0,
+      "n_queries": 1000,
+      "n_evaluated": 995,
+      "n_missing_ground_truth": 5,
+      "n_unparsed_responses": 0,
+      "accuracy": 0.5949748743718593,
+      "n_prompt_mismatch_vs_csv": null
+    },
+    {
+      "model": "gpt4",
+      "dataset": "acs-travel",
+      "format": "original",
+      "seed": 0,
+      "n_queries": 1000,
+      "n_evaluated": 1000,
+      "n_missing_ground_truth": 0,
+      "n_unparsed_responses": 0,
+      "accuracy": 0.616,
+      "n_prompt_mismatch_vs_csv": 0
+    },
+    {
+      "model": "gpt4",
+      "dataset": "acs-travel",
+      "format": "perturbed",
+      "seed": 0,
+      "n_queries": 1000,
+      "n_evaluated": 1000,
+      "n_missing_ground_truth": 0,
+      "n_unparsed_responses": 0,
+      "accuracy": 0.616,
+      "n_prompt_mismatch_vs_csv": 0
+    },
+    {
+      "model": "gpt4",
+      "dataset": "acs-travel",
+      "format": "task",
+      "seed": 0,
+      "n_queries": 1000,
+      "n_evaluated": 1000,
+      "n_missing_ground_truth": 0,
+      "n_unparsed_responses": 0,
+      "accuracy": 0.653,
+      "n_prompt_mismatch_vs_csv": 0
+    },
+    {
+      "model": "gpt4",
+      "dataset": "acs-travel",
+      "format": "statistical",
+      "seed": 0,
+      "n_queries": 1000,
+      "n_evaluated": 1000,
+      "n_missing_ground_truth": 0,
+      "n_unparsed_responses": 0,
+      "accuracy": 0.479,
+      "n_prompt_mismatch_vs_csv": 0
+    },
+    {
+      "model": "gpt-3.5-0125",
+      "dataset": "titanic",
+      "format": "original",
+      "seed": 0,
+      "n_queries": 891,
+      "n_evaluated": 891,
+      "n_missing_ground_truth": 0,
+      "n_unparsed_responses": 0,
+      "accuracy": 0.8148148148148148,
+      "n_prompt_mismatch_vs_csv": null
+    },
+    {
+      "model": "gpt-3.5-0125",
+      "dataset": "titanic",
+      "format": "original",
+      "seed": 1,
+      "n_queries": 891,
+      "n_evaluated": 891,
+      "n_missing_ground_truth": 0,
+      "n_unparsed_responses": 0,
+      "accuracy": 0.8114478114478114,
+      "n_prompt_mismatch_vs_csv": null
+    },
+    {
+      "model": "gpt-3.5-0125",
+      "dataset": "titanic",
+      "format": "original",
+      "seed": 2,
+      "n_queries": 891,
+      "n_evaluated": 891,
+      "n_missing_ground_truth": 0,
+      "n_unparsed_responses": 0,
+      "accuracy": 0.8103254769921436,
+      "n_prompt_mismatch_vs_csv": null
+    },
+    {
+      "model": "gpt-3.5-0125",
+      "dataset": "titanic",
+      "format": "perturbed",
+      "seed": 0,
+      "n_queries": 891,
+      "n_evaluated": 891,
+      "n_missing_ground_truth": 0,
+      "n_unparsed_responses": 0,
+      "accuracy": 0.7890011223344556,
+      "n_prompt_mismatch_vs_csv": null
+    },
+    {
+      "model": "gpt-3.5-0125",
+      "dataset": "titanic",
+      "format": "perturbed",
+      "seed": 1,
+      "n_queries": 891,
+      "n_evaluated": 891,
+      "n_missing_ground_truth": 0,
+      "n_unparsed_responses": 0,
+      "accuracy": 0.7732884399551067,
+      "n_prompt_mismatch_vs_csv": null
+    },
+    {
+      "model": "gpt-3.5-0125",
+      "dataset": "titanic",
+      "format": "perturbed",
+      "seed": 2,
+      "n_queries": 891,
+      "n_evaluated": 891,
+      "n_missing_ground_truth": 0,
+      "n_unparsed_responses": 0,
+      "accuracy": 0.7811447811447811,
+      "n_prompt_mismatch_vs_csv": null
+    },
+    {
+      "model": "gpt-3.5-0125",
+      "dataset": "titanic",
+      "format": "task",
+      "seed": 0,
+      "n_queries": 891,
+      "n_evaluated": 891,
+      "n_missing_ground_truth": 0,
+      "n_unparsed_responses": 0,
+      "accuracy": 0.7732884399551067,
+      "n_prompt_mismatch_vs_csv": null
+    },
+    {
+      "model": "gpt-3.5-0125",
+      "dataset": "titanic",
+      "format": "task",
+      "seed": 1,
+      "n_queries": 891,
+      "n_evaluated": 891,
+      "n_missing_ground_truth": 0,
+      "n_unparsed_responses": 0,
+      "accuracy": 0.7665544332210998,
+      "n_prompt_mismatch_vs_csv": null
+    },
+    {
+      "model": "gpt-3.5-0125",
+      "dataset": "titanic",
+      "format": "task",
+      "seed": 2,
+      "n_queries": 891,
+      "n_evaluated": 891,
+      "n_missing_ground_truth": 0,
+      "n_unparsed_responses": 0,
+      "accuracy": 0.7822671156004489,
+      "n_prompt_mismatch_vs_csv": null
+    },
+    {
+      "model": "gpt-3.5-0125",
+      "dataset": "titanic",
+      "format": "statistical",
+      "seed": 0,
+      "n_queries": 891,
+      "n_evaluated": 891,
+      "n_missing_ground_truth": 0,
+      "n_unparsed_responses": 0,
+      "accuracy": 0.6083052749719416,
+      "n_prompt_mismatch_vs_csv": null
+    },
+    {
+      "model": "gpt-3.5-0125",
+      "dataset": "titanic",
+      "format": "statistical",
+      "seed": 1,
+      "n_queries": 891,
+      "n_evaluated": 891,
+      "n_missing_ground_truth": 0,
+      "n_unparsed_responses": 0,
+      "accuracy": 0.6206509539842873,
+      "n_prompt_mismatch_vs_csv": null
+    },
+    {
+      "model": "gpt-3.5-0125",
+      "dataset": "titanic",
+      "format": "statistical",
+      "seed": 2,
+      "n_queries": 891,
+      "n_evaluated": 891,
+      "n_missing_ground_truth": 0,
+      "n_unparsed_responses": 0,
+      "accuracy": 0.6150392817059483,
+      "n_prompt_mismatch_vs_csv": null
+    },
+    {
+      "model": "gpt-3.5-0125",
+      "dataset": "adult",
+      "format": "original",
+      "seed": 0,
+      "n_queries": 1000,
+      "n_evaluated": 1000,
+      "n_missing_ground_truth": 0,
+      "n_unparsed_responses": 0,
+      "accuracy": 0.771,
+      "n_prompt_mismatch_vs_csv": 0
+    },
+    {
+      "model": "gpt-3.5-0125",
+      "dataset": "adult",
+      "format": "original",
+      "seed": 1,
+      "n_queries": 1000,
+      "n_evaluated": 1000,
+      "n_missing_ground_truth": 0,
+      "n_unparsed_responses": 0,
+      "accuracy": 0.783,
+      "n_prompt_mismatch_vs_csv": 0
+    },
+    {
+      "model": "gpt-3.5-0125",
+      "dataset": "adult",
+      "format": "original",
+      "seed": 2,
+      "n_queries": 1000,
+      "n_evaluated": 1000,
+      "n_missing_ground_truth": 0,
+      "n_unparsed_responses": 0,
+      "accuracy": 0.778,
+      "n_prompt_mismatch_vs_csv": 0
+    },
+    {
+      "model": "gpt-3.5-0125",
+      "dataset": "adult",
+      "format": "perturbed",
+      "seed": 0,
+      "n_queries": 1000,
+      "n_evaluated": 1000,
+      "n_missing_ground_truth": 0,
+      "n_unparsed_responses": 0,
+      "accuracy": 0.774,
+      "n_prompt_mismatch_vs_csv": 0
+    },
+    {
+      "model": "gpt-3.5-0125",
+      "dataset": "adult",
+      "format": "perturbed",
+      "seed": 1,
+      "n_queries": 1000,
+      "n_evaluated": 1000,
+      "n_missing_ground_truth": 0,
+      "n_unparsed_responses": 0,
+      "accuracy": 0.786,
+      "n_prompt_mismatch_vs_csv": 0
+    },
+    {
+      "model": "gpt-3.5-0125",
+      "dataset": "adult",
+      "format": "perturbed",
+      "seed": 2,
+      "n_queries": 1000,
+      "n_evaluated": 1000,
+      "n_missing_ground_truth": 0,
+      "n_unparsed_responses": 0,
+      "accuracy": 0.785,
+      "n_prompt_mismatch_vs_csv": 0
+    },
+    {
+      "model": "gpt-3.5-0125",
+      "dataset": "adult",
+      "format": "task",
+      "seed": 0,
+      "n_queries": 1000,
+      "n_evaluated": 1000,
+      "n_missing_ground_truth": 0,
+      "n_unparsed_responses": 0,
+      "accuracy": 0.743,
+      "n_prompt_mismatch_vs_csv": 0
+    },
+    {
+      "model": "gpt-3.5-0125",
+      "dataset": "adult",
+      "format": "task",
+      "seed": 1,
+      "n_queries": 1000,
+      "n_evaluated": 1000,
+      "n_missing_ground_truth": 0,
+      "n_unparsed_responses": 0,
+      "accuracy": 0.742,
+      "n_prompt_mismatch_vs_csv": 0
+    },
+    {
+      "model": "gpt-3.5-0125",
+      "dataset": "adult",
+      "format": "task",
+      "seed": 2,
+      "n_queries": 1000,
+      "n_evaluated": 1000,
+      "n_missing_ground_truth": 0,
+      "n_unparsed_responses": 0,
+      "accuracy": 0.761,
+      "n_prompt_mismatch_vs_csv": 0
+    },
+    {
+      "model": "gpt-3.5-0125",
+      "dataset": "adult",
+      "format": "statistical",
+      "seed": 0,
+      "n_queries": 1000,
+      "n_evaluated": 1000,
+      "n_missing_ground_truth": 0,
+      "n_unparsed_responses": 0,
+      "accuracy": 0.7,
+      "n_prompt_mismatch_vs_csv": 1000
+    },
+    {
+      "model": "gpt-3.5-0125",
+      "dataset": "adult",
+      "format": "statistical",
+      "seed": 1,
+      "n_queries": 1000,
+      "n_evaluated": 1000,
+      "n_missing_ground_truth": 0,
+      "n_unparsed_responses": 0,
+      "accuracy": 0.725,
+      "n_prompt_mismatch_vs_csv": 0
+    },
+    {
+      "model": "gpt-3.5-0125",
+      "dataset": "adult",
+      "format": "statistical",
+      "seed": 2,
+      "n_queries": 1000,
+      "n_evaluated": 1000,
+      "n_missing_ground_truth": 0,
+      "n_unparsed_responses": 0,
+      "accuracy": 0.675,
+      "n_prompt_mismatch_vs_csv": 0
+    },
+    {
+      "model": "gpt-3.5-0125",
+      "dataset": "openml-diabetes",
+      "format": "original",
+      "seed": 0,
+      "n_queries": 768,
+      "n_evaluated": 768,
+      "n_missing_ground_truth": 0,
+      "n_unparsed_responses": 0,
+      "accuracy": 0.7395833333333334,
+      "n_prompt_mismatch_vs_csv": 768
+    },
+    {
+      "model": "gpt-3.5-0125",
+      "dataset": "openml-diabetes",
+      "format": "original",
+      "seed": 1,
+      "n_queries": 768,
+      "n_evaluated": 768,
+      "n_missing_ground_truth": 0,
+      "n_unparsed_responses": 0,
+      "accuracy": 0.734375,
+      "n_prompt_mismatch_vs_csv": 768
+    },
+    {
+      "model": "gpt-3.5-0125",
+      "dataset": "openml-diabetes",
+      "format": "original",
+      "seed": 2,
+      "n_queries": 768,
+      "n_evaluated": 768,
+      "n_missing_ground_truth": 0,
+      "n_unparsed_responses": 0,
+      "accuracy": 0.73828125,
+      "n_prompt_mismatch_vs_csv": 768
+    },
+    {
+      "model": "gpt-3.5-0125",
+      "dataset": "openml-diabetes",
+      "format": "perturbed",
+      "seed": 0,
+      "n_queries": 768,
+      "n_evaluated": 768,
+      "n_missing_ground_truth": 0,
+      "n_unparsed_responses": 0,
+      "accuracy": 0.7291666666666666,
+      "n_prompt_mismatch_vs_csv": 768
+    },
+    {
+      "model": "gpt-3.5-0125",
+      "dataset": "openml-diabetes",
+      "format": "perturbed",
+      "seed": 1,
+      "n_queries": 768,
+      "n_evaluated": 768,
+      "n_missing_ground_truth": 0,
+      "n_unparsed_responses": 0,
+      "accuracy": 0.7200520833333334,
+      "n_prompt_mismatch_vs_csv": 768
+    },
+    {
+      "model": "gpt-3.5-0125",
+      "dataset": "openml-diabetes",
+      "format": "perturbed",
+      "seed": 2,
+      "n_queries": 768,
+      "n_evaluated": 768,
+      "n_missing_ground_truth": 0,
+      "n_unparsed_responses": 0,
+      "accuracy": 0.7369791666666666,
+      "n_prompt_mismatch_vs_csv": 768
+    },
+    {
+      "model": "gpt-3.5-0125",
+      "dataset": "openml-diabetes",
+      "format": "task",
+      "seed": 0,
+      "n_queries": 768,
+      "n_evaluated": 768,
+      "n_missing_ground_truth": 0,
+      "n_unparsed_responses": 0,
+      "accuracy": 0.7057291666666666,
+      "n_prompt_mismatch_vs_csv": 768
+    },
+    {
+      "model": "gpt-3.5-0125",
+      "dataset": "openml-diabetes",
+      "format": "task",
+      "seed": 1,
+      "n_queries": 768,
+      "n_evaluated": 768,
+      "n_missing_ground_truth": 0,
+      "n_unparsed_responses": 0,
+      "accuracy": 0.6861979166666666,
+      "n_prompt_mismatch_vs_csv": 768
+    },
+    {
+      "model": "gpt-3.5-0125",
+      "dataset": "openml-diabetes",
+      "format": "task",
+      "seed": 2,
+      "n_queries": 768,
+      "n_evaluated": 768,
+      "n_missing_ground_truth": 0,
+      "n_unparsed_responses": 0,
+      "accuracy": 0.7018229166666666,
+      "n_prompt_mismatch_vs_csv": 768
+    },
+    {
+      "model": "gpt-3.5-0125",
+      "dataset": "openml-diabetes",
+      "format": "statistical",
+      "seed": 0,
+      "n_queries": 768,
+      "n_evaluated": 768,
+      "n_missing_ground_truth": 0,
+      "n_unparsed_responses": 0,
+      "accuracy": 0.6848958333333334,
+      "n_prompt_mismatch_vs_csv": 0
+    },
+    {
+      "model": "gpt-3.5-0125",
+      "dataset": "openml-diabetes",
+      "format": "statistical",
+      "seed": 1,
+      "n_queries": 768,
+      "n_evaluated": 768,
+      "n_missing_ground_truth": 0,
+      "n_unparsed_responses": 0,
+      "accuracy": 0.6627604166666666,
+      "n_prompt_mismatch_vs_csv": 0
+    },
+    {
+      "model": "gpt-3.5-0125",
+      "dataset": "openml-diabetes",
+      "format": "statistical",
+      "seed": 2,
+      "n_queries": 768,
+      "n_evaluated": 768,
+      "n_missing_ground_truth": 0,
+      "n_unparsed_responses": 0,
+      "accuracy": 0.6822916666666666,
+      "n_prompt_mismatch_vs_csv": 0
+    },
+    {
+      "model": "gpt-3.5-0125",
+      "dataset": "uci-wine",
+      "format": "original",
+      "seed": 0,
+      "n_queries": 178,
+      "n_evaluated": 178,
+      "n_missing_ground_truth": 0,
+      "n_unparsed_responses": 0,
+      "accuracy": 0.898876404494382,
+      "n_prompt_mismatch_vs_csv": 178
+    },
+    {
+      "model": "gpt-3.5-0125",
+      "dataset": "uci-wine",
+      "format": "original",
+      "seed": 1,
+      "n_queries": 178,
+      "n_evaluated": 178,
+      "n_missing_ground_truth": 0,
+      "n_unparsed_responses": 0,
+      "accuracy": 0.8539325842696629,
+      "n_prompt_mismatch_vs_csv": 178
+    },
+    {
+      "model": "gpt-3.5-0125",
+      "dataset": "uci-wine",
+      "format": "original",
+      "seed": 2,
+      "n_queries": 178,
+      "n_evaluated": 178,
+      "n_missing_ground_truth": 0,
+      "n_unparsed_responses": 0,
+      "accuracy": 0.8820224719101124,
+      "n_prompt_mismatch_vs_csv": 178
+    },
+    {
+      "model": "gpt-3.5-0125",
+      "dataset": "uci-wine",
+      "format": "perturbed",
+      "seed": 0,
+      "n_queries": 178,
+      "n_evaluated": 178,
+      "n_missing_ground_truth": 0,
+      "n_unparsed_responses": 0,
+      "accuracy": 0.8764044943820225,
+      "n_prompt_mismatch_vs_csv": 178
+    },
+    {
+      "model": "gpt-3.5-0125",
+      "dataset": "uci-wine",
+      "format": "perturbed",
+      "seed": 1,
+      "n_queries": 178,
+      "n_evaluated": 178,
+      "n_missing_ground_truth": 0,
+      "n_unparsed_responses": 0,
+      "accuracy": 0.848314606741573,
+      "n_prompt_mismatch_vs_csv": 178
+    },
+    {
+      "model": "gpt-3.5-0125",
+      "dataset": "uci-wine",
+      "format": "perturbed",
+      "seed": 2,
+      "n_queries": 178,
+      "n_evaluated": 178,
+      "n_missing_ground_truth": 0,
+      "n_unparsed_responses": 0,
+      "accuracy": 0.9044943820224719,
+      "n_prompt_mismatch_vs_csv": 178
+    },
+    {
+      "model": "gpt-3.5-0125",
+      "dataset": "uci-wine",
+      "format": "task",
+      "seed": 0,
+      "n_queries": 178,
+      "n_evaluated": 178,
+      "n_missing_ground_truth": 0,
+      "n_unparsed_responses": 0,
+      "accuracy": 0.8651685393258427,
+      "n_prompt_mismatch_vs_csv": 0
+    },
+    {
+      "model": "gpt-3.5-0125",
+      "dataset": "uci-wine",
+      "format": "task",
+      "seed": 1,
+      "n_queries": 178,
+      "n_evaluated": 178,
+      "n_missing_ground_truth": 0,
+      "n_unparsed_responses": 0,
+      "accuracy": 0.8707865168539326,
+      "n_prompt_mismatch_vs_csv": 0
+    },
+    {
+      "model": "gpt-3.5-0125",
+      "dataset": "uci-wine",
+      "format": "task",
+      "seed": 2,
+      "n_queries": 178,
+      "n_evaluated": 178,
+      "n_missing_ground_truth": 0,
+      "n_unparsed_responses": 0,
+      "accuracy": 0.8595505617977528,
+      "n_prompt_mismatch_vs_csv": 0
+    },
+    {
+      "model": "gpt-3.5-0125",
+      "dataset": "uci-wine",
+      "format": "statistical",
+      "seed": 0,
+      "n_queries": 178,
+      "n_evaluated": 178,
+      "n_missing_ground_truth": 0,
+      "n_unparsed_responses": 0,
+      "accuracy": 0.8820224719101124,
+      "n_prompt_mismatch_vs_csv": 0
+    },
+    {
+      "model": "gpt-3.5-0125",
+      "dataset": "uci-wine",
+      "format": "statistical",
+      "seed": 1,
+      "n_queries": 178,
+      "n_evaluated": 178,
+      "n_missing_ground_truth": 0,
+      "n_unparsed_responses": 0,
+      "accuracy": 0.8595505617977528,
+      "n_prompt_mismatch_vs_csv": 0
+    },
+    {
+      "model": "gpt-3.5-0125",
+      "dataset": "uci-wine",
+      "format": "statistical",
+      "seed": 2,
+      "n_queries": 178,
+      "n_evaluated": 178,
+      "n_missing_ground_truth": 0,
+      "n_unparsed_responses": 0,
+      "accuracy": 0.8426966292134831,
+      "n_prompt_mismatch_vs_csv": 0
+    },
+    {
+      "model": "gpt-3.5-0125",
+      "dataset": "iris",
+      "format": "original",
+      "seed": 0,
+      "n_queries": 150,
+      "n_evaluated": 150,
+      "n_missing_ground_truth": 0,
+      "n_unparsed_responses": 0,
+      "accuracy": 0.9866666666666667,
+      "n_prompt_mismatch_vs_csv": 0
+    },
+    {
+      "model": "gpt-3.5-0125",
+      "dataset": "iris",
+      "format": "original",
+      "seed": 1,
+      "n_queries": 150,
+      "n_evaluated": 150,
+      "n_missing_ground_truth": 0,
+      "n_unparsed_responses": 0,
+      "accuracy": 0.98,
+      "n_prompt_mismatch_vs_csv": 0
+    },
+    {
+      "model": "gpt-3.5-0125",
+      "dataset": "iris",
+      "format": "original",
+      "seed": 2,
+      "n_queries": 150,
+      "n_evaluated": 150,
+      "n_missing_ground_truth": 0,
+      "n_unparsed_responses": 0,
+      "accuracy": 0.9866666666666667,
+      "n_prompt_mismatch_vs_csv": 0
+    },
+    {
+      "model": "gpt-3.5-0125",
+      "dataset": "iris",
+      "format": "perturbed",
+      "seed": 0,
+      "n_queries": 150,
+      "n_evaluated": 150,
+      "n_missing_ground_truth": 0,
+      "n_unparsed_responses": 0,
+      "accuracy": 0.9333333333333333,
+      "n_prompt_mismatch_vs_csv": 0
+    },
+    {
+      "model": "gpt-3.5-0125",
+      "dataset": "iris",
+      "format": "perturbed",
+      "seed": 1,
+      "n_queries": 150,
+      "n_evaluated": 150,
+      "n_missing_ground_truth": 0,
+      "n_unparsed_responses": 0,
+      "accuracy": 0.9666666666666667,
+      "n_prompt_mismatch_vs_csv": 0
+    },
+    {
+      "model": "gpt-3.5-0125",
+      "dataset": "iris",
+      "format": "perturbed",
+      "seed": 2,
+      "n_queries": 150,
+      "n_evaluated": 150,
+      "n_missing_ground_truth": 0,
+      "n_unparsed_responses": 0,
+      "accuracy": 0.9533333333333334,
+      "n_prompt_mismatch_vs_csv": 0
+    },
+    {
+      "model": "gpt-3.5-0125",
+      "dataset": "iris",
+      "format": "task",
+      "seed": 0,
+      "n_queries": 150,
+      "n_evaluated": 150,
+      "n_missing_ground_truth": 0,
+      "n_unparsed_responses": 0,
+      "accuracy": 0.94,
+      "n_prompt_mismatch_vs_csv": 0
+    },
+    {
+      "model": "gpt-3.5-0125",
+      "dataset": "iris",
+      "format": "task",
+      "seed": 1,
+      "n_queries": 150,
+      "n_evaluated": 150,
+      "n_missing_ground_truth": 0,
+      "n_unparsed_responses": 0,
+      "accuracy": 0.9533333333333334,
+      "n_prompt_mismatch_vs_csv": 0
+    },
+    {
+      "model": "gpt-3.5-0125",
+      "dataset": "iris",
+      "format": "task",
+      "seed": 2,
+      "n_queries": 150,
+      "n_evaluated": 150,
+      "n_missing_ground_truth": 0,
+      "n_unparsed_responses": 0,
+      "accuracy": 0.9666666666666667,
+      "n_prompt_mismatch_vs_csv": 0
+    },
+    {
+      "model": "gpt-3.5-0125",
+      "dataset": "iris",
+      "format": "statistical",
+      "seed": 0,
+      "n_queries": 150,
+      "n_evaluated": 150,
+      "n_missing_ground_truth": 0,
+      "n_unparsed_responses": 0,
+      "accuracy": 0.8666666666666667,
+      "n_prompt_mismatch_vs_csv": 0
+    },
+    {
+      "model": "gpt-3.5-0125",
+      "dataset": "iris",
+      "format": "statistical",
+      "seed": 1,
+      "n_queries": 150,
+      "n_evaluated": 150,
+      "n_missing_ground_truth": 0,
+      "n_unparsed_responses": 0,
+      "accuracy": 0.8733333333333333,
+      "n_prompt_mismatch_vs_csv": 0
+    },
+    {
+      "model": "gpt-3.5-0125",
+      "dataset": "iris",
+      "format": "statistical",
+      "seed": 2,
+      "n_queries": 150,
+      "n_evaluated": 150,
+      "n_missing_ground_truth": 0,
+      "n_unparsed_responses": 0,
+      "accuracy": 0.8733333333333333,
+      "n_prompt_mismatch_vs_csv": 0
+    },
+    {
+      "model": "gpt-3.5-0125",
+      "dataset": "spaceship-titanic",
+      "format": "original",
+      "seed": 0,
+      "n_queries": 1000,
+      "n_evaluated": 1000,
+      "n_missing_ground_truth": 0,
+      "n_unparsed_responses": 0,
+      "accuracy": 0.567,
+      "n_prompt_mismatch_vs_csv": null
+    },
+    {
+      "model": "gpt-3.5-0125",
+      "dataset": "spaceship-titanic",
+      "format": "original",
+      "seed": 1,
+      "n_queries": 1000,
+      "n_evaluated": 1000,
+      "n_missing_ground_truth": 0,
+      "n_unparsed_responses": 0,
+      "accuracy": 0.569,
+      "n_prompt_mismatch_vs_csv": null
+    },
+    {
+      "model": "gpt-3.5-0125",
+      "dataset": "spaceship-titanic",
+      "format": "original",
+      "seed": 2,
+      "n_queries": 1000,
+      "n_evaluated": 1000,
+      "n_missing_ground_truth": 0,
+      "n_unparsed_responses": 0,
+      "accuracy": 0.593,
+      "n_prompt_mismatch_vs_csv": null
+    },
+    {
+      "model": "gpt-3.5-0125",
+      "dataset": "spaceship-titanic",
+      "format": "perturbed",
+      "seed": 0,
+      "n_queries": 1000,
+      "n_evaluated": 1000,
+      "n_missing_ground_truth": 0,
+      "n_unparsed_responses": 0,
+      "accuracy": 0.576,
+      "n_prompt_mismatch_vs_csv": null
+    },
+    {
+      "model": "gpt-3.5-0125",
+      "dataset": "spaceship-titanic",
+      "format": "perturbed",
+      "seed": 1,
+      "n_queries": 1000,
+      "n_evaluated": 1000,
+      "n_missing_ground_truth": 0,
+      "n_unparsed_responses": 0,
+      "accuracy": 0.565,
+      "n_prompt_mismatch_vs_csv": null
+    },
+    {
+      "model": "gpt-3.5-0125",
+      "dataset": "spaceship-titanic",
+      "format": "perturbed",
+      "seed": 2,
+      "n_queries": 1000,
+      "n_evaluated": 1000,
+      "n_missing_ground_truth": 0,
+      "n_unparsed_responses": 0,
+      "accuracy": 0.581,
+      "n_prompt_mismatch_vs_csv": null
+    },
+    {
+      "model": "gpt-3.5-0125",
+      "dataset": "spaceship-titanic",
+      "format": "task",
+      "seed": 0,
+      "n_queries": 1000,
+      "n_evaluated": 1000,
+      "n_missing_ground_truth": 0,
+      "n_unparsed_responses": 0,
+      "accuracy": 0.593,
+      "n_prompt_mismatch_vs_csv": null
+    },
+    {
+      "model": "gpt-3.5-0125",
+      "dataset": "spaceship-titanic",
+      "format": "task",
+      "seed": 1,
+      "n_queries": 1000,
+      "n_evaluated": 1000,
+      "n_missing_ground_truth": 0,
+      "n_unparsed_responses": 0,
+      "accuracy": 0.6,
+      "n_prompt_mismatch_vs_csv": null
+    },
+    {
+      "model": "gpt-3.5-0125",
+      "dataset": "spaceship-titanic",
+      "format": "task",
+      "seed": 2,
+      "n_queries": 1000,
+      "n_evaluated": 1000,
+      "n_missing_ground_truth": 0,
+      "n_unparsed_responses": 0,
+      "accuracy": 0.59,
+      "n_prompt_mismatch_vs_csv": null
+    },
+    {
+      "model": "gpt-3.5-0125",
+      "dataset": "spaceship-titanic",
+      "format": "statistical",
+      "seed": 0,
+      "n_queries": 1000,
+      "n_evaluated": 1000,
+      "n_missing_ground_truth": 0,
+      "n_unparsed_responses": 0,
+      "accuracy": 0.607,
+      "n_prompt_mismatch_vs_csv": null
+    },
+    {
+      "model": "gpt-3.5-0125",
+      "dataset": "spaceship-titanic",
+      "format": "statistical",
+      "seed": 1,
+      "n_queries": 1000,
+      "n_evaluated": 1000,
+      "n_missing_ground_truth": 0,
+      "n_unparsed_responses": 0,
+      "accuracy": 0.612,
+      "n_prompt_mismatch_vs_csv": null
+    },
+    {
+      "model": "gpt-3.5-0125",
+      "dataset": "spaceship-titanic",
+      "format": "statistical",
+      "seed": 2,
+      "n_queries": 1000,
+      "n_evaluated": 1000,
+      "n_missing_ground_truth": 0,
+      "n_unparsed_responses": 0,
+      "accuracy": 0.662,
+      "n_prompt_mismatch_vs_csv": null
+    },
+    {
+      "model": "gpt-3.5-0125",
+      "dataset": "acs-income",
+      "format": "original",
+      "seed": 0,
+      "n_queries": 1000,
+      "n_evaluated": 1000,
+      "n_missing_ground_truth": 0,
+      "n_unparsed_responses": 0,
+      "accuracy": 0.767,
+      "n_prompt_mismatch_vs_csv": 0
+    },
+    {
+      "model": "gpt-3.5-0125",
+      "dataset": "acs-income",
+      "format": "original",
+      "seed": 1,
+      "n_queries": 1000,
+      "n_evaluated": 1000,
+      "n_missing_ground_truth": 0,
+      "n_unparsed_responses": 0,
+      "accuracy": 0.783,
+      "n_prompt_mismatch_vs_csv": 0
+    },
+    {
+      "model": "gpt-3.5-0125",
+      "dataset": "acs-income",
+      "format": "original",
+      "seed": 2,
+      "n_queries": 1000,
+      "n_evaluated": 1000,
+      "n_missing_ground_truth": 0,
+      "n_unparsed_responses": 0,
+      "accuracy": 0.777,
+      "n_prompt_mismatch_vs_csv": 0
+    },
+    {
+      "model": "gpt-3.5-0125",
+      "dataset": "acs-income",
+      "format": "perturbed",
+      "seed": 0,
+      "n_queries": 1000,
+      "n_evaluated": 1000,
+      "n_missing_ground_truth": 0,
+      "n_unparsed_responses": 0,
+      "accuracy": 0.76,
+      "n_prompt_mismatch_vs_csv": 0
+    },
+    {
+      "model": "gpt-3.5-0125",
+      "dataset": "acs-income",
+      "format": "perturbed",
+      "seed": 1,
+      "n_queries": 1000,
+      "n_evaluated": 1000,
+      "n_missing_ground_truth": 0,
+      "n_unparsed_responses": 0,
+      "accuracy": 0.771,
+      "n_prompt_mismatch_vs_csv": 0
+    },
+    {
+      "model": "gpt-3.5-0125",
+      "dataset": "acs-income",
+      "format": "perturbed",
+      "seed": 2,
+      "n_queries": 1000,
+      "n_evaluated": 1000,
+      "n_missing_ground_truth": 0,
+      "n_unparsed_responses": 0,
+      "accuracy": 0.781,
+      "n_prompt_mismatch_vs_csv": 0
+    },
+    {
+      "model": "gpt-3.5-0125",
+      "dataset": "acs-income",
+      "format": "task",
+      "seed": 0,
+      "n_queries": 1000,
+      "n_evaluated": 1000,
+      "n_missing_ground_truth": 0,
+      "n_unparsed_responses": 0,
+      "accuracy": 0.767,
+      "n_prompt_mismatch_vs_csv": 0
+    },
+    {
+      "model": "gpt-3.5-0125",
+      "dataset": "acs-income",
+      "format": "task",
+      "seed": 1,
+      "n_queries": 1000,
+      "n_evaluated": 1000,
+      "n_missing_ground_truth": 0,
+      "n_unparsed_responses": 0,
+      "accuracy": 0.764,
+      "n_prompt_mismatch_vs_csv": 0
+    },
+    {
+      "model": "gpt-3.5-0125",
+      "dataset": "acs-income",
+      "format": "task",
+      "seed": 2,
+      "n_queries": 1000,
+      "n_evaluated": 1000,
+      "n_missing_ground_truth": 0,
+      "n_unparsed_responses": 0,
+      "accuracy": 0.784,
+      "n_prompt_mismatch_vs_csv": 0
+    },
+    {
+      "model": "gpt-3.5-0125",
+      "dataset": "acs-income",
+      "format": "statistical",
+      "seed": 0,
+      "n_queries": 1000,
+      "n_evaluated": 1000,
+      "n_missing_ground_truth": 0,
+      "n_unparsed_responses": 0,
+      "accuracy": 0.579,
+      "n_prompt_mismatch_vs_csv": 1000
+    },
+    {
+      "model": "gpt-3.5-0125",
+      "dataset": "acs-income",
+      "format": "statistical",
+      "seed": 1,
+      "n_queries": 1000,
+      "n_evaluated": 1000,
+      "n_missing_ground_truth": 0,
+      "n_unparsed_responses": 0,
+      "accuracy": 0.594,
+      "n_prompt_mismatch_vs_csv": 0
+    },
+    {
+      "model": "gpt-3.5-0125",
+      "dataset": "acs-income",
+      "format": "statistical",
+      "seed": 2,
+      "n_queries": 1000,
+      "n_evaluated": 1000,
+      "n_missing_ground_truth": 0,
+      "n_unparsed_responses": 0,
+      "accuracy": 0.584,
+      "n_prompt_mismatch_vs_csv": 0
+    },
+    {
+      "model": "gpt-3.5-0125",
+      "dataset": "icu",
+      "format": "original",
+      "seed": 0,
+      "n_queries": 102,
+      "n_evaluated": 102,
+      "n_missing_ground_truth": 0,
+      "n_unparsed_responses": 0,
+      "accuracy": 0.7058823529411765,
+      "n_prompt_mismatch_vs_csv": 0
+    },
+    {
+      "model": "gpt-3.5-0125",
+      "dataset": "icu",
+      "format": "original",
+      "seed": 1,
+      "n_queries": 102,
+      "n_evaluated": 102,
+      "n_missing_ground_truth": 0,
+      "n_unparsed_responses": 0,
+      "accuracy": 0.7450980392156863,
+      "n_prompt_mismatch_vs_csv": 0
+    },
+    {
+      "model": "gpt-3.5-0125",
+      "dataset": "icu",
+      "format": "original",
+      "seed": 2,
+      "n_queries": 102,
+      "n_evaluated": 102,
+      "n_missing_ground_truth": 0,
+      "n_unparsed_responses": 0,
+      "accuracy": 0.6862745098039216,
+      "n_prompt_mismatch_vs_csv": 0
+    },
+    {
+      "model": "gpt-3.5-0125",
+      "dataset": "icu",
+      "format": "original",
+      "seed": 3,
+      "n_queries": 102,
+      "n_evaluated": 102,
+      "n_missing_ground_truth": 0,
+      "n_unparsed_responses": 0,
+      "accuracy": 0.7156862745098039,
+      "n_prompt_mismatch_vs_csv": 0
+    },
+    {
+      "model": "gpt-3.5-0125",
+      "dataset": "icu",
+      "format": "original",
+      "seed": 4,
+      "n_queries": 102,
+      "n_evaluated": 102,
+      "n_missing_ground_truth": 0,
+      "n_unparsed_responses": 0,
+      "accuracy": 0.6568627450980392,
+      "n_prompt_mismatch_vs_csv": 0
+    },
+    {
+      "model": "gpt-3.5-0125",
+      "dataset": "icu",
+      "format": "original",
+      "seed": 5,
+      "n_queries": 102,
+      "n_evaluated": 102,
+      "n_missing_ground_truth": 0,
+      "n_unparsed_responses": 0,
+      "accuracy": 0.6568627450980392,
+      "n_prompt_mismatch_vs_csv": 0
+    },
+    {
+      "model": "gpt-3.5-0125",
+      "dataset": "icu",
+      "format": "original",
+      "seed": 6,
+      "n_queries": 102,
+      "n_evaluated": 102,
+      "n_missing_ground_truth": 0,
+      "n_unparsed_responses": 0,
+      "accuracy": 0.696078431372549,
+      "n_prompt_mismatch_vs_csv": 0
+    },
+    {
+      "model": "gpt-3.5-0125",
+      "dataset": "icu",
+      "format": "perturbed",
+      "seed": 0,
+      "n_queries": 102,
+      "n_evaluated": 102,
+      "n_missing_ground_truth": 0,
+      "n_unparsed_responses": 0,
+      "accuracy": 0.7549019607843137,
+      "n_prompt_mismatch_vs_csv": 0
+    },
+    {
+      "model": "gpt-3.5-0125",
+      "dataset": "icu",
+      "format": "perturbed",
+      "seed": 1,
+      "n_queries": 102,
+      "n_evaluated": 102,
+      "n_missing_ground_truth": 0,
+      "n_unparsed_responses": 0,
+      "accuracy": 0.7058823529411765,
+      "n_prompt_mismatch_vs_csv": 0
+    },
+    {
+      "model": "gpt-3.5-0125",
+      "dataset": "icu",
+      "format": "perturbed",
+      "seed": 2,
+      "n_queries": 102,
+      "n_evaluated": 102,
+      "n_missing_ground_truth": 0,
+      "n_unparsed_responses": 0,
+      "accuracy": 0.6862745098039216,
+      "n_prompt_mismatch_vs_csv": 0
+    },
+    {
+      "model": "gpt-3.5-0125",
+      "dataset": "icu",
+      "format": "perturbed",
+      "seed": 3,
+      "n_queries": 102,
+      "n_evaluated": 102,
+      "n_missing_ground_truth": 0,
+      "n_unparsed_responses": 0,
+      "accuracy": 0.696078431372549,
+      "n_prompt_mismatch_vs_csv": 0
+    },
+    {
+      "model": "gpt-3.5-0125",
+      "dataset": "icu",
+      "format": "perturbed",
+      "seed": 4,
+      "n_queries": 102,
+      "n_evaluated": 102,
+      "n_missing_ground_truth": 0,
+      "n_unparsed_responses": 0,
+      "accuracy": 0.6372549019607843,
+      "n_prompt_mismatch_vs_csv": 0
+    },
+    {
+      "model": "gpt-3.5-0125",
+      "dataset": "icu",
+      "format": "perturbed",
+      "seed": 5,
+      "n_queries": 102,
+      "n_evaluated": 102,
+      "n_missing_ground_truth": 0,
+      "n_unparsed_responses": 0,
+      "accuracy": 0.6568627450980392,
+      "n_prompt_mismatch_vs_csv": 0
+    },
+    {
+      "model": "gpt-3.5-0125",
+      "dataset": "icu",
+      "format": "perturbed",
+      "seed": 6,
+      "n_queries": 102,
+      "n_evaluated": 102,
+      "n_missing_ground_truth": 0,
+      "n_unparsed_responses": 0,
+      "accuracy": 0.6764705882352942,
+      "n_prompt_mismatch_vs_csv": 0
+    },
+    {
+      "model": "gpt-3.5-0125",
+      "dataset": "icu",
+      "format": "task",
+      "seed": 0,
+      "n_queries": 102,
+      "n_evaluated": 102,
+      "n_missing_ground_truth": 0,
+      "n_unparsed_responses": 0,
+      "accuracy": 0.7156862745098039,
+      "n_prompt_mismatch_vs_csv": 0
+    },
+    {
+      "model": "gpt-3.5-0125",
+      "dataset": "icu",
+      "format": "task",
+      "seed": 1,
+      "n_queries": 102,
+      "n_evaluated": 102,
+      "n_missing_ground_truth": 0,
+      "n_unparsed_responses": 0,
+      "accuracy": 0.6372549019607843,
+      "n_prompt_mismatch_vs_csv": 0
+    },
+    {
+      "model": "gpt-3.5-0125",
+      "dataset": "icu",
+      "format": "task",
+      "seed": 2,
+      "n_queries": 102,
+      "n_evaluated": 102,
+      "n_missing_ground_truth": 0,
+      "n_unparsed_responses": 0,
+      "accuracy": 0.6470588235294118,
+      "n_prompt_mismatch_vs_csv": 0
+    },
+    {
+      "model": "gpt-3.5-0125",
+      "dataset": "icu",
+      "format": "task",
+      "seed": 3,
+      "n_queries": 102,
+      "n_evaluated": 102,
+      "n_missing_ground_truth": 0,
+      "n_unparsed_responses": 0,
+      "accuracy": 0.6764705882352942,
+      "n_prompt_mismatch_vs_csv": 0
+    },
+    {
+      "model": "gpt-3.5-0125",
+      "dataset": "icu",
+      "format": "task",
+      "seed": 4,
+      "n_queries": 102,
+      "n_evaluated": 102,
+      "n_missing_ground_truth": 0,
+      "n_unparsed_responses": 0,
+      "accuracy": 0.6470588235294118,
+      "n_prompt_mismatch_vs_csv": 0
+    },
+    {
+      "model": "gpt-3.5-0125",
+      "dataset": "icu",
+      "format": "task",
+      "seed": 5,
+      "n_queries": 102,
+      "n_evaluated": 102,
+      "n_missing_ground_truth": 0,
+      "n_unparsed_responses": 0,
+      "accuracy": 0.6666666666666666,
+      "n_prompt_mismatch_vs_csv": 0
+    },
+    {
+      "model": "gpt-3.5-0125",
+      "dataset": "icu",
+      "format": "task",
+      "seed": 6,
+      "n_queries": 102,
+      "n_evaluated": 102,
+      "n_missing_ground_truth": 0,
+      "n_unparsed_responses": 0,
+      "accuracy": 0.6764705882352942,
+      "n_prompt_mismatch_vs_csv": 0
+    },
+    {
+      "model": "gpt-3.5-0125",
+      "dataset": "icu",
+      "format": "statistical",
+      "seed": 0,
+      "n_queries": 102,
+      "n_evaluated": 102,
+      "n_missing_ground_truth": 0,
+      "n_unparsed_responses": 0,
+      "accuracy": 0.5588235294117647,
+      "n_prompt_mismatch_vs_csv": 0
+    },
+    {
+      "model": "gpt-3.5-0125",
+      "dataset": "icu",
+      "format": "statistical",
+      "seed": 1,
+      "n_queries": 102,
+      "n_evaluated": 102,
+      "n_missing_ground_truth": 0,
+      "n_unparsed_responses": 0,
+      "accuracy": 0.5686274509803921,
+      "n_prompt_mismatch_vs_csv": 0
+    },
+    {
+      "model": "gpt-3.5-0125",
+      "dataset": "icu",
+      "format": "statistical",
+      "seed": 2,
+      "n_queries": 102,
+      "n_evaluated": 102,
+      "n_missing_ground_truth": 0,
+      "n_unparsed_responses": 0,
+      "accuracy": 0.5882352941176471,
+      "n_prompt_mismatch_vs_csv": 0
+    },
+    {
+      "model": "gpt-3.5-0125",
+      "dataset": "icu",
+      "format": "statistical",
+      "seed": 3,
+      "n_queries": 102,
+      "n_evaluated": 102,
+      "n_missing_ground_truth": 0,
+      "n_unparsed_responses": 0,
+      "accuracy": 0.5490196078431373,
+      "n_prompt_mismatch_vs_csv": 0
+    },
+    {
+      "model": "gpt-3.5-0125",
+      "dataset": "icu",
+      "format": "statistical",
+      "seed": 4,
+      "n_queries": 102,
+      "n_evaluated": 102,
+      "n_missing_ground_truth": 0,
+      "n_unparsed_responses": 0,
+      "accuracy": 0.5588235294117647,
+      "n_prompt_mismatch_vs_csv": 0
+    },
+    {
+      "model": "gpt-3.5-0125",
+      "dataset": "icu",
+      "format": "statistical",
+      "seed": 5,
+      "n_queries": 102,
+      "n_evaluated": 102,
+      "n_missing_ground_truth": 0,
+      "n_unparsed_responses": 0,
+      "accuracy": 0.5588235294117647,
+      "n_prompt_mismatch_vs_csv": 0
+    },
+    {
+      "model": "gpt-3.5-0125",
+      "dataset": "icu",
+      "format": "statistical",
+      "seed": 6,
+      "n_queries": 102,
+      "n_evaluated": 102,
+      "n_missing_ground_truth": 0,
+      "n_unparsed_responses": 0,
+      "accuracy": 0.6078431372549019,
+      "n_prompt_mismatch_vs_csv": 0
+    },
+    {
+      "model": "gpt-3.5-0125",
+      "dataset": "fico",
+      "format": "original",
+      "seed": 0,
+      "n_queries": 1000,
+      "n_evaluated": 938,
+      "n_missing_ground_truth": 62,
+      "n_unparsed_responses": 0,
+      "accuracy": 0.5778251599147122,
+      "n_prompt_mismatch_vs_csv": null
+    },
+    {
+      "model": "gpt-3.5-0125",
+      "dataset": "fico",
+      "format": "original",
+      "seed": 1,
+      "n_queries": 1000,
+      "n_evaluated": 938,
+      "n_missing_ground_truth": 62,
+      "n_unparsed_responses": 0,
+      "accuracy": 0.5810234541577826,
+      "n_prompt_mismatch_vs_csv": null
+    },
+    {
+      "model": "gpt-3.5-0125",
+      "dataset": "fico",
+      "format": "original",
+      "seed": 2,
+      "n_queries": 1000,
+      "n_evaluated": 938,
+      "n_missing_ground_truth": 62,
+      "n_unparsed_responses": 0,
+      "accuracy": 0.6098081023454158,
+      "n_prompt_mismatch_vs_csv": null
+    },
+    {
+      "model": "gpt-3.5-0125",
+      "dataset": "fico",
+      "format": "perturbed",
+      "seed": 0,
+      "n_queries": 1000,
+      "n_evaluated": 938,
+      "n_missing_ground_truth": 62,
+      "n_unparsed_responses": 0,
+      "accuracy": 0.5650319829424307,
+      "n_prompt_mismatch_vs_csv": null
+    },
+    {
+      "model": "gpt-3.5-0125",
+      "dataset": "fico",
+      "format": "perturbed",
+      "seed": 1,
+      "n_queries": 1000,
+      "n_evaluated": 938,
+      "n_missing_ground_truth": 62,
+      "n_unparsed_responses": 0,
+      "accuracy": 0.570362473347548,
+      "n_prompt_mismatch_vs_csv": null
+    },
+    {
+      "model": "gpt-3.5-0125",
+      "dataset": "fico",
+      "format": "perturbed",
+      "seed": 2,
+      "n_queries": 1000,
+      "n_evaluated": 938,
+      "n_missing_ground_truth": 62,
+      "n_unparsed_responses": 0,
+      "accuracy": 0.6023454157782516,
+      "n_prompt_mismatch_vs_csv": null
+    },
+    {
+      "model": "gpt-3.5-0125",
+      "dataset": "fico",
+      "format": "task",
+      "seed": 0,
+      "n_queries": 1000,
+      "n_evaluated": 938,
+      "n_missing_ground_truth": 62,
+      "n_unparsed_responses": 0,
+      "accuracy": 0.6108742004264393,
+      "n_prompt_mismatch_vs_csv": null
+    },
+    {
+      "model": "gpt-3.5-0125",
+      "dataset": "fico",
+      "format": "task",
+      "seed": 1,
+      "n_queries": 1000,
+      "n_evaluated": 938,
+      "n_missing_ground_truth": 62,
+      "n_unparsed_responses": 0,
+      "accuracy": 0.6268656716417911,
+      "n_prompt_mismatch_vs_csv": null
+    },
+    {
+      "model": "gpt-3.5-0125",
+      "dataset": "fico",
+      "format": "task",
+      "seed": 2,
+      "n_queries": 1000,
+      "n_evaluated": 938,
+      "n_missing_ground_truth": 62,
+      "n_unparsed_responses": 0,
+      "accuracy": 0.6289978678038379,
+      "n_prompt_mismatch_vs_csv": null
+    },
+    {
+      "model": "gpt-3.5-0125",
+      "dataset": "fico",
+      "format": "statistical",
+      "seed": 0,
+      "n_queries": 1000,
+      "n_evaluated": 995,
+      "n_missing_ground_truth": 5,
+      "n_unparsed_responses": 0,
+      "accuracy": 0.6080402010050251,
+      "n_prompt_mismatch_vs_csv": null
+    },
+    {
+      "model": "gpt-3.5-0125",
+      "dataset": "fico",
+      "format": "statistical",
+      "seed": 1,
+      "n_queries": 1000,
+      "n_evaluated": 994,
+      "n_missing_ground_truth": 6,
+      "n_unparsed_responses": 0,
+      "accuracy": 0.5935613682092555,
+      "n_prompt_mismatch_vs_csv": null
+    },
+    {
+      "model": "gpt-3.5-0125",
+      "dataset": "fico",
+      "format": "statistical",
+      "seed": 2,
+      "n_queries": 1000,
+      "n_evaluated": 995,
+      "n_missing_ground_truth": 5,
+      "n_unparsed_responses": 0,
+      "accuracy": 0.5859296482412061,
+      "n_prompt_mismatch_vs_csv": null
+    },
+    {
+      "model": "gpt-3.5-0125",
+      "dataset": "acs-travel",
+      "format": "original",
+      "seed": 0,
+      "n_queries": 1000,
+      "n_evaluated": 1000,
+      "n_missing_ground_truth": 0,
+      "n_unparsed_responses": 0,
+      "accuracy": 0.547,
+      "n_prompt_mismatch_vs_csv": 0
+    },
+    {
+      "model": "gpt-3.5-0125",
+      "dataset": "acs-travel",
+      "format": "original",
+      "seed": 1,
+      "n_queries": 1000,
+      "n_evaluated": 1000,
+      "n_missing_ground_truth": 0,
+      "n_unparsed_responses": 0,
+      "accuracy": 0.534,
+      "n_prompt_mismatch_vs_csv": 0
+    },
+    {
+      "model": "gpt-3.5-0125",
+      "dataset": "acs-travel",
+      "format": "original",
+      "seed": 2,
+      "n_queries": 1000,
+      "n_evaluated": 1000,
+      "n_missing_ground_truth": 0,
+      "n_unparsed_responses": 0,
+      "accuracy": 0.547,
+      "n_prompt_mismatch_vs_csv": 0
+    },
+    {
+      "model": "gpt-3.5-0125",
+      "dataset": "acs-travel",
+      "format": "perturbed",
+      "seed": 0,
+      "n_queries": 1000,
+      "n_evaluated": 1000,
+      "n_missing_ground_truth": 0,
+      "n_unparsed_responses": 0,
+      "accuracy": 0.545,
+      "n_prompt_mismatch_vs_csv": 0
+    },
+    {
+      "model": "gpt-3.5-0125",
+      "dataset": "acs-travel",
+      "format": "perturbed",
+      "seed": 1,
+      "n_queries": 1000,
+      "n_evaluated": 1000,
+      "n_missing_ground_truth": 0,
+      "n_unparsed_responses": 0,
+      "accuracy": 0.525,
+      "n_prompt_mismatch_vs_csv": 0
+    },
+    {
+      "model": "gpt-3.5-0125",
+      "dataset": "acs-travel",
+      "format": "perturbed",
+      "seed": 2,
+      "n_queries": 1000,
+      "n_evaluated": 1000,
+      "n_missing_ground_truth": 0,
+      "n_unparsed_responses": 0,
+      "accuracy": 0.544,
+      "n_prompt_mismatch_vs_csv": 0
+    },
+    {
+      "model": "gpt-3.5-0125",
+      "dataset": "acs-travel",
+      "format": "task",
+      "seed": 0,
+      "n_queries": 1000,
+      "n_evaluated": 1000,
+      "n_missing_ground_truth": 0,
+      "n_unparsed_responses": 0,
+      "accuracy": 0.532,
+      "n_prompt_mismatch_vs_csv": 0
+    },
+    {
+      "model": "gpt-3.5-0125",
+      "dataset": "acs-travel",
+      "format": "task",
+      "seed": 1,
+      "n_queries": 1000,
+      "n_evaluated": 1000,
+      "n_missing_ground_truth": 0,
+      "n_unparsed_responses": 0,
+      "accuracy": 0.541,
+      "n_prompt_mismatch_vs_csv": 0
+    },
+    {
+      "model": "gpt-3.5-0125",
+      "dataset": "acs-travel",
+      "format": "task",
+      "seed": 2,
+      "n_queries": 1000,
+      "n_evaluated": 1000,
+      "n_missing_ground_truth": 0,
+      "n_unparsed_responses": 0,
+      "accuracy": 0.56,
+      "n_prompt_mismatch_vs_csv": 0
+    },
+    {
+      "model": "gpt-3.5-0125",
+      "dataset": "acs-travel",
+      "format": "statistical",
+      "seed": 0,
+      "n_queries": 1000,
+      "n_evaluated": 1000,
+      "n_missing_ground_truth": 0,
+      "n_unparsed_responses": 0,
+      "accuracy": 0.505,
+      "n_prompt_mismatch_vs_csv": 0
+    },
+    {
+      "model": "gpt-3.5-0125",
+      "dataset": "acs-travel",
+      "format": "statistical",
+      "seed": 1,
+      "n_queries": 1000,
+      "n_evaluated": 1000,
+      "n_missing_ground_truth": 0,
+      "n_unparsed_responses": 0,
+      "accuracy": 0.537,
+      "n_prompt_mismatch_vs_csv": 0
+    },
+    {
+      "model": "gpt-3.5-0125",
+      "dataset": "acs-travel",
+      "format": "statistical",
+      "seed": 2,
+      "n_queries": 1000,
+      "n_evaluated": 1000,
+      "n_missing_ground_truth": 0,
+      "n_unparsed_responses": 0,
+      "accuracy": 0.508,
+      "n_prompt_mismatch_vs_csv": 0
+    }
+  ],
+  "headline_effect": {
+    "gpt4|A_memorized": {
+      "mean_original": 0.8914,
+      "mean_delta_perturbed_minus_original": -0.0374,
+      "mean_delta_task_minus_original": -0.0642,
+      "mean_delta_statistical_minus_original": -0.1455,
+      "mean_delta_perturbed_and_task": -0.0508
+    },
+    "gpt4|B_novel": {
+      "mean_original": 0.6867,
+      "mean_delta_perturbed_minus_original": 0.0033,
+      "mean_delta_task_minus_original": 0.0072,
+      "mean_delta_statistical_minus_original": -0.1165,
+      "mean_delta_perturbed_and_task": 0.0053
+    },
+    "gpt-3.5-0125|A_memorized": {
+      "mean_original": 0.8379,
+      "mean_delta_perturbed_minus_original": -0.0141,
+      "mean_delta_task_minus_original": -0.0301,
+      "mean_delta_statistical_minus_original": -0.0932,
+      "mean_delta_perturbed_and_task": -0.0221
+    },
+    "gpt-3.5-0125|B_novel": {
+      "mean_original": 0.6358,
+      "mean_delta_perturbed_minus_original": -0.0059,
+      "mean_delta_task_minus_original": 0.004,
+      "mean_delta_statistical_minus_original": -0.0568,
+      "mean_delta_perturbed_and_task": -0.0009
+    }
+  }
+}

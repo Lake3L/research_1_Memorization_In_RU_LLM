@@ -1,0 +1,199 @@
+{
+  "run": "gate4_gpt-4-0613_live_20260731T121625Z",
+  "timestamp_utc": "20260731T121625Z",
+  "model_requested": "gpt-4-0613",
+  "plan": "gate4",
+  "seed": 42,
+  "tabmemcheck_version": "0.1.6",
+  "budget_usd": 2.0,
+  "llm_summary": {
+    "model": "gpt-4-0613",
+    "served_models": {
+      "gpt-4-0613": 63
+    },
+    "calls": 63,
+    "input_tokens": 64500,
+    "output_tokens": 841,
+    "cost_usd": 1.9855,
+    "dry_run": false
+  },
+  "paper_reference": {
+    "iris.csv|row": {
+      "gpt-3.5": [
+        35,
+        136
+      ],
+      "gpt-4": [
+        125,
+        136
+      ]
+    },
+    "uci-wine.csv|row": {
+      "gpt-3.5": [
+        16,
+        164
+      ],
+      "gpt-4": [
+        84,
+        164
+      ]
+    },
+    "openml-diabetes.csv|row": {
+      "gpt-3.5": [
+        18,
+        250
+      ],
+      "gpt-4": [
+        79,
+        250
+      ]
+    },
+    "adult-train.csv|row": {
+      "gpt-3.5": [
+        0,
+        250
+      ],
+      "gpt-4": [
+        0,
+        250
+      ]
+    },
+    "california-housing.csv|row": {
+      "gpt-3.5": [
+        0,
+        250
+      ],
+      "gpt-4": [
+        0,
+        250
+      ]
+    },
+    "uci-wine.csv|feature": {
+      "gpt-3.5": [
+        77,
+        178
+      ],
+      "gpt-4": [
+        131,
+        178
+      ]
+    },
+    "openml-diabetes.csv|feature": {
+      "gpt-3.5": [
+        237,
+        250
+      ],
+      "gpt-4": [
+        243,
+        250
+      ]
+    },
+    "adult-train.csv|feature": {
+      "gpt-3.5": [
+        0,
+        250
+      ],
+      "gpt-4": [
+        0,
+        250
+      ]
+    },
+    "california-housing.csv|feature": {
+      "gpt-3.5": [
+        0,
+        250
+      ],
+      "gpt-4": [
+        1,
+        250
+      ]
+    },
+    "iris.csv|first_token": {
+      "gpt-3.5": [
+        88,
+        136
+      ],
+      "gpt-4": [
+        131,
+        136
+      ],
+      "baseline": 0.5
+    },
+    "openml-diabetes.csv|first_token": {
+      "gpt-3.5": [
+        42,
+        250
+      ],
+      "gpt-4": [
+        95,
+        250
+      ],
+      "baseline": 0.25
+    },
+    "adult-train.csv|first_token": {
+      "gpt-3.5": [
+        59,
+        250
+      ],
+      "gpt-4": [
+        68,
+        250
+      ],
+      "baseline": 0.26
+    },
+    "iris.csv|header": {
+      "gpt-3.5": "pass",
+      "gpt-4": "pass"
+    },
+    "uci-wine.csv|header": {
+      "gpt-3.5": "pass",
+      "gpt-4": "pass"
+    },
+    "openml-diabetes.csv|header": {
+      "gpt-3.5": "pass",
+      "gpt-4": "pass"
+    },
+    "adult-train.csv|header": {
+      "gpt-3.5": "pass",
+      "gpt-4": "pass"
+    },
+    "california-housing.csv|header": {
+      "gpt-3.5": "pass",
+      "gpt-4": "pass"
+    }
+  },
+  "results": [
+    {
+      "dataset": "iris.csv",
+      "test": "row",
+      "requested_queries": 25,
+      "matches": 24,
+      "n": 25,
+      "rate": 0.96,
+      "baseline_rate": 0.019867549668874163,
+      "p_value": 3.507842963780155e-40,
+      "stdout": "Dataset: iris.csv\nInfo: 1.99% of the rows in this dataset are duplicates.\nRow Completion Test: 24/25 exact matches.\n",
+      "cost_usd": 1.3865,
+      "calls": 25
+    },
+    {
+      "dataset": "openml-diabetes.csv",
+      "test": "feature",
+      "requested_queries": 25,
+      "feature": "DiabetesPedigreeFunction",
+      "matches": 22,
+      "n": 25,
+      "rate": 0.88,
+      "mode_baseline": 0.0078125,
+      "p_value": 9.84772384699597e-44,
+      "stdout": "Feature Completion Test (\"DiabetesPedigreeFunction\"): 22/25 exact matches.\n",
+      "cost_usd": 0.348,
+      "calls": 50
+    },
+    {
+      "dataset": "adult-train.csv",
+      "test": "feature",
+      "error": "budget_exceeded"
+    }
+  ]
+}

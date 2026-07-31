@@ -1,0 +1,253 @@
+{
+  "run": "gate_gpt-3.5-turbo-16k_dry_20260731T114902Z",
+  "timestamp_utc": "20260731T114902Z",
+  "model_requested": "gpt-3.5-turbo-16k",
+  "plan": "gate",
+  "seed": 42,
+  "tabmemcheck_version": "0.1.6",
+  "budget_usd": 999.0,
+  "llm_summary": {
+    "model": "gpt-3.5-turbo-16k",
+    "calls": 270,
+    "input_tokens": 377349,
+    "output_tokens": 270000,
+    "cost_usd": 2.212,
+    "dry_run": true
+  },
+  "paper_reference": {
+    "iris.csv|row": {
+      "gpt-3.5": [
+        35,
+        136
+      ],
+      "gpt-4": [
+        125,
+        136
+      ]
+    },
+    "uci-wine.csv|row": {
+      "gpt-3.5": [
+        16,
+        164
+      ],
+      "gpt-4": [
+        84,
+        164
+      ]
+    },
+    "openml-diabetes.csv|row": {
+      "gpt-3.5": [
+        18,
+        250
+      ],
+      "gpt-4": [
+        79,
+        250
+      ]
+    },
+    "adult-train.csv|row": {
+      "gpt-3.5": [
+        0,
+        250
+      ],
+      "gpt-4": [
+        0,
+        250
+      ]
+    },
+    "california-housing.csv|row": {
+      "gpt-3.5": [
+        0,
+        250
+      ],
+      "gpt-4": [
+        0,
+        250
+      ]
+    },
+    "uci-wine.csv|feature": {
+      "gpt-3.5": [
+        77,
+        178
+      ],
+      "gpt-4": [
+        131,
+        178
+      ]
+    },
+    "openml-diabetes.csv|feature": {
+      "gpt-3.5": [
+        237,
+        250
+      ],
+      "gpt-4": [
+        243,
+        250
+      ]
+    },
+    "adult-train.csv|feature": {
+      "gpt-3.5": [
+        0,
+        250
+      ],
+      "gpt-4": [
+        0,
+        250
+      ]
+    },
+    "california-housing.csv|feature": {
+      "gpt-3.5": [
+        0,
+        250
+      ],
+      "gpt-4": [
+        1,
+        250
+      ]
+    },
+    "iris.csv|first_token": {
+      "gpt-3.5": [
+        88,
+        136
+      ],
+      "gpt-4": [
+        131,
+        136
+      ],
+      "baseline": 0.5
+    },
+    "openml-diabetes.csv|first_token": {
+      "gpt-3.5": [
+        42,
+        250
+      ],
+      "gpt-4": [
+        95,
+        250
+      ],
+      "baseline": 0.25
+    },
+    "adult-train.csv|first_token": {
+      "gpt-3.5": [
+        59,
+        250
+      ],
+      "gpt-4": [
+        68,
+        250
+      ],
+      "baseline": 0.26
+    },
+    "iris.csv|header": {
+      "gpt-3.5": "pass",
+      "gpt-4": "pass"
+    },
+    "uci-wine.csv|header": {
+      "gpt-3.5": "pass",
+      "gpt-4": "pass"
+    },
+    "openml-diabetes.csv|header": {
+      "gpt-3.5": "pass",
+      "gpt-4": "pass"
+    },
+    "adult-train.csv|header": {
+      "gpt-3.5": "pass",
+      "gpt-4": "pass"
+    },
+    "california-housing.csv|header": {
+      "gpt-3.5": "pass",
+      "gpt-4": "pass"
+    }
+  },
+  "results": [
+    {
+      "dataset": "iris.csv",
+      "test": "header",
+      "error": "UnboundLocalError: cannot access local variable 'header_completion' where it is not associated with a value"
+    },
+    {
+      "dataset": "uci-wine.csv",
+      "test": "header",
+      "error": "UnboundLocalError: cannot access local variable 'header_completion' where it is not associated with a value"
+    },
+    {
+      "dataset": "openml-diabetes.csv",
+      "test": "header",
+      "error": "UnboundLocalError: cannot access local variable 'header_completion' where it is not associated with a value"
+    },
+    {
+      "dataset": "adult-train.csv",
+      "test": "header",
+      "error": "UnboundLocalError: cannot access local variable 'header_completion' where it is not associated with a value"
+    },
+    {
+      "dataset": "california-housing.csv",
+      "test": "header",
+      "error": "UnboundLocalError: cannot access local variable 'header_completion' where it is not associated with a value"
+    },
+    {
+      "dataset": "openml-diabetes.csv",
+      "test": "feature",
+      "error": "KeyError: 'DiabetesPedigreeFunction'"
+    },
+    {
+      "dataset": "uci-wine.csv",
+      "test": "feature",
+      "error": "KeyError: 'malic_acid'"
+    },
+    {
+      "dataset": "adult-train.csv",
+      "test": "feature",
+      "error": "KeyError: 'fnlwgt'"
+    },
+    {
+      "dataset": "california-housing.csv",
+      "test": "feature",
+      "error": "AttributeError: 'float' object has no attribute 'strip'"
+    },
+    {
+      "dataset": "iris.csv",
+      "test": "row",
+      "requested_queries": 50,
+      "matches": 0,
+      "n": 50,
+      "rate": 0.0,
+      "baseline_rate": 0.019867549668874163,
+      "p_value": 1.0,
+      "stdout": "\u001b[1mDataset: \u001b[0miris.csv\n\u001b[1mInfo: \u001b[0m1.99% of the rows in this dataset are duplicates.\n\u001b[1mRow Completion Test: \u001b[0m0/50 exact matches.\n",
+      "cost_usd": 1.5726,
+      "calls": 220
+    },
+    {
+      "dataset": "openml-diabetes.csv",
+      "test": "row",
+      "requested_queries": 25,
+      "matches": 0,
+      "n": 25,
+      "rate": 0.0,
+      "baseline_rate": 0.0,
+      "p_value": 1.0,
+      "stdout": "\u001b[1mDataset: \u001b[0mopenml-diabetes.csv\n\u001b[1mInfo: \u001b[0mAll the rows in the dataset are unique.\n\u001b[1mRow Completion Test: \u001b[0m0/25 exact matches.\n",
+      "cost_usd": 0.2496,
+      "calls": 245
+    },
+    {
+      "dataset": "adult-train.csv",
+      "test": "row",
+      "requested_queries": 25,
+      "matches": 0,
+      "n": 25,
+      "rate": 0.0,
+      "baseline_rate": 0.0007370554634236193,
+      "p_value": 1.0,
+      "stdout": "\u001b[1mDataset: \u001b[0madult-train.csv\n\u001b[1mInfo: \u001b[0m0.07% of the rows in this dataset are duplicates.\n\u001b[1mRow Completion Test: \u001b[0m0/25 exact matches.\n",
+      "cost_usd": 0.3899,
+      "calls": 270
+    },
+    {
+      "dataset": "iris.csv",
+      "test": "first_token",
+      "error": "RetryError: RetryError[<Future at 0x1bb05bd0a50 state=finished raised TypeError>]"
+    }
+  ]
+}

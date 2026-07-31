@@ -1,0 +1,112 @@
+[
+  {
+    "model": "gpt-3.5-0125",
+    "dataset": "iris",
+    "n_queries": 150,
+    "n_matched": 150,
+    "n_unmatched": 0,
+    "n_ambiguous": 0,
+    "n_undecodable_response": 0,
+    "accuracy_on_matched": 0.9867,
+    "published": 0.98
+  },
+  {
+    "model": "gpt-3.5-0125",
+    "dataset": "openml-diabetes",
+    "n_queries": 768,
+    "n_matched": 768,
+    "n_unmatched": 0,
+    "n_ambiguous": 0,
+    "n_undecodable_response": 0,
+    "accuracy_on_matched": 0.7396,
+    "published": 0.74
+  },
+  {
+    "model": "gpt-3.5-0125",
+    "dataset": "uci-wine",
+    "n_queries": 178,
+    "n_matched": 178,
+    "n_unmatched": 0,
+    "n_ambiguous": 0,
+    "n_undecodable_response": 0,
+    "accuracy_on_matched": 0.8989,
+    "published": 0.88
+  },
+  {
+    "model": "gpt-3.5-0125",
+    "dataset": "adult",
+    "n_queries": 1000,
+    "n_matched": 1000,
+    "n_unmatched": 0,
+    "n_ambiguous": 0,
+    "n_undecodable_response": 0,
+    "accuracy_on_matched": 0.771,
+    "published": 0.78
+  },
+  {
+    "model": "gpt-3.5-0125",
+    "dataset": "icu",
+    "n_queries": 102,
+    "n_matched": 102,
+    "n_unmatched": 0,
+    "n_ambiguous": 0,
+    "n_undecodable_response": 0,
+    "accuracy_on_matched": 0.7059,
+    "published": 0.69
+  },
+  {
+    "model": "gpt4",
+    "dataset": "iris",
+    "n_queries": 150,
+    "n_matched": 150,
+    "n_unmatched": 0,
+    "n_ambiguous": 0,
+    "n_undecodable_response": 0,
+    "accuracy_on_matched": 0.9867,
+    "published": 0.99
+  },
+  {
+    "model": "gpt4",
+    "dataset": "openml-diabetes",
+    "n_queries": 768,
+    "n_matched": 768,
+    "n_unmatched": 0,
+    "n_ambiguous": 0,
+    "n_undecodable_response": 0,
+    "accuracy_on_matched": 0.7383,
+    "published": 0.74
+  },
+  {
+    "model": "gpt4",
+    "dataset": "uci-wine",
+    "n_queries": 178,
+    "n_matched": 178,
+    "n_unmatched": 0,
+    "n_ambiguous": 0,
+    "n_undecodable_response": 0,
+    "accuracy_on_matched": 0.9607,
+    "published": 0.96
+  },
+  {
+    "model": "gpt4",
+    "dataset": "adult",
+    "n_queries": 1000,
+    "n_matched": 1000,
+    "n_unmatched": 0,
+    "n_ambiguous": 0,
+    "n_undecodable_response": 0,
+    "accuracy_on_matched": 0.814,
+    "published": 0.81
+  },
+  {
+    "model": "gpt4",
+    "dataset": "icu",
+    "n_queries": 102,
+    "n_matched": 102,
+    "n_unmatched": 0,
+    "n_ambiguous": 0,
+    "n_undecodable_response": 0,
+    "accuracy_on_matched": 0.6863,
+    "published": 0.69
+  }
+]

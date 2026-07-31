@@ -290,6 +290,21 @@ def read_experiment(zf, model, exp, n, want_shots=False):
 # --------------------------------------------------------------------------- #
 
 
+_TRAILING_ZERO = re.compile(r"(?<=\d)\.0(?=[,\s]|$)")
+
+
+def normalize_prompt(s: str) -> str:
+    """Make prompt comparison robust to pandas int/float rendering differences.
+
+    The authors ran GPT-3.5 and GPT-4 with different pandas versions: in the
+    GPT-3.5 logs integer-valued columns of float dtype render as ``6.0`` where
+    today's pandas renders ``6``.  That is a pure formatting difference; row
+    order, values and labels are unaffected.  We normalise it away so that the
+    row-alignment check stays meaningful.
+    """
+    return _TRAILING_ZERO.sub("", s).replace("NaN", "nan")
+
+
 def csv_ground_truth(dataset, fmt, seed, n):
     """Re-create ``y_train[:n]`` and the corresponding prompt strings."""
     csv_file, yaml_file = DATASETS[dataset]
@@ -455,10 +470,16 @@ def main():
                     pred_rule = PRED_RULES[(dataset, fmt)]
 
                     n_prompt_mismatch = None
+                    n_prompt_mismatch_strict = None
                     if DATASETS[dataset] is not None:
                         y_str, ref_prompts = csv_ground_truth(dataset, fmt, seed, n)
-                        n_prompt_mismatch = sum(
+                        n_prompt_mismatch_strict = sum(
                             1 for a, b in zip(prompts, ref_prompts) if a != b
+                        )
+                        n_prompt_mismatch = sum(
+                            1
+                            for a, b in zip(prompts, ref_prompts)
+                            if normalize_prompt(a) != normalize_prompt(b)
                         )
                         gt = {}
                         for i, s in enumerate(y_str):
@@ -492,6 +513,7 @@ def main():
                             "n_unparsed_responses": n_unparsed,
                             "accuracy": n_correct / n_eval if n_eval else None,
                             "n_prompt_mismatch_vs_csv": n_prompt_mismatch,
+                            "n_prompt_mismatch_vs_csv_strict": n_prompt_mismatch_strict,
                         }
                     )
                     print(

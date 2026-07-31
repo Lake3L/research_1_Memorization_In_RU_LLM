@@ -1,0 +1,277 @@
+[
+  {
+    "model": "gpt4",
+    "dataset": "titanic",
+    "format": "original",
+    "seed": 0,
+    "n_queries": 891,
+    "n_matched": 891,
+    "n_missing_label": 0,
+    "n_conflicting_label": 0,
+    "n_undecodable_response": 0,
+    "label_vocabulary": [
+      "0",
+      "1"
+    ],
+    "accuracy": 0.9574
+  },
+  {
+    "model": "gpt4",
+    "dataset": "titanic",
+    "format": "perturbed",
+    "seed": 0,
+    "n_queries": 891,
+    "n_matched": 891,
+    "n_missing_label": 0,
+    "n_conflicting_label": 0,
+    "n_undecodable_response": 0,
+    "label_vocabulary": [
+      "0",
+      "1"
+    ],
+    "accuracy": 0.8227
+  },
+  {
+    "model": "gpt4",
+    "dataset": "titanic",
+    "format": "task",
+    "seed": 0,
+    "n_queries": 891,
+    "n_matched": 891,
+    "n_missing_label": 0,
+    "n_conflicting_label": 0,
+    "n_undecodable_response": 0,
+    "label_vocabulary": [
+      "Not Survived",
+      "Survived"
+    ],
+    "accuracy": 0.8047
+  },
+  {
+    "model": "gpt4",
+    "dataset": "titanic",
+    "format": "statistical",
+    "seed": 0,
+    "n_queries": 891,
+    "n_matched": 891,
+    "n_missing_label": 0,
+    "n_conflicting_label": 0,
+    "n_undecodable_response": 0,
+    "label_vocabulary": [
+      "0",
+      "1"
+    ],
+    "accuracy": 0.6543
+  },
+  {
+    "model": "gpt4",
+    "dataset": "iris",
+    "format": "original",
+    "seed": 0,
+    "n_queries": 150,
+    "n_matched": 150,
+    "n_missing_label": 0,
+    "n_conflicting_label": 0,
+    "n_undecodable_response": 0,
+    "label_vocabulary": [
+      "Iris-setosa",
+      "Iris-versicolor",
+      "Iris-virginica"
+    ],
+    "accuracy": 0.9867
+  },
+  {
+    "model": "gpt4",
+    "dataset": "iris",
+    "format": "perturbed",
+    "seed": 0,
+    "n_queries": 150,
+    "n_matched": 150,
+    "n_missing_label": 0,
+    "n_conflicting_label": 0,
+    "n_undecodable_response": 1,
+    "label_vocabulary": [
+      "Iris-setosa",
+      "Iris-versicolor",
+      "Iris-virginica"
+    ],
+    "accuracy": 0.9533
+  },
+  {
+    "model": "gpt4",
+    "dataset": "iris",
+    "format": "statistical",
+    "seed": 0,
+    "n_queries": 150,
+    "n_matched": 150,
+    "n_missing_label": 0,
+    "n_conflicting_label": 0,
+    "n_undecodable_response": 0,
+    "label_vocabulary": [
+      "0",
+      "1",
+      "2"
+    ],
+    "accuracy": 0.92
+  },
+  {
+    "model": "gpt4",
+    "dataset": "adult",
+    "format": "original",
+    "seed": 0,
+    "n_queries": 1000,
+    "n_matched": 556,
+    "n_missing_label": 444,
+    "n_conflicting_label": 0,
+    "n_undecodable_response": 0,
+    "label_vocabulary": [
+      "<=50K",
+      ">50K"
+    ],
+    "accuracy": 0.8309
+  },
+  {
+    "model": "gpt4",
+    "dataset": "adult",
+    "format": "task",
+    "seed": 0,
+    "n_queries": 1000,
+    "n_matched": 556,
+    "n_missing_label": 444,
+    "n_conflicting_label": 0,
+    "n_undecodable_response": 0,
+    "label_vocabulary": [
+      "Less than 50K",
+      "More than 50K"
+    ],
+    "accuracy": 0.7896
+  },
+  {
+    "model": "gpt4",
+    "dataset": "adult",
+    "format": "statistical",
+    "seed": 0,
+    "n_queries": 1000,
+    "n_matched": 556,
+    "n_missing_label": 444,
+    "n_conflicting_label": 0,
+    "n_undecodable_response": 0,
+    "label_vocabulary": [
+      "0",
+      "1"
+    ],
+    "accuracy": 0.6493
+  },
+  {
+    "model": "gpt4",
+    "dataset": "acs-income",
+    "format": "original",
+    "seed": 0,
+    "n_queries": 1000,
+    "n_matched": 129,
+    "n_missing_label": 870,
+    "n_conflicting_label": 1,
+    "n_undecodable_response": 0,
+    "label_vocabulary": [
+      "Less than $50,000 per year.",
+      "More than $50,000 per year."
+    ],
+    "accuracy": 0.8217
+  },
+  {
+    "model": "gpt4",
+    "dataset": "acs-income",
+    "format": "task",
+    "seed": 0,
+    "n_queries": 1000,
+    "n_matched": 117,
+    "n_missing_label": 883,
+    "n_conflicting_label": 0,
+    "n_undecodable_response": 0,
+    "label_vocabulary": [
+      "Less than 50K",
+      "More than 50K"
+    ],
+    "accuracy": 0.812
+  },
+  {
+    "model": "gpt4",
+    "dataset": "acs-income",
+    "format": "statistical",
+    "seed": 0,
+    "n_queries": 1000,
+    "n_matched": 115,
+    "n_missing_label": 885,
+    "n_conflicting_label": 0,
+    "n_undecodable_response": 0,
+    "label_vocabulary": [
+      "0",
+      "1"
+    ],
+    "accuracy": 0.5217
+  },
+  {
+    "model": "gpt-3.5-0125",
+    "dataset": "titanic",
+    "format": "original",
+    "seed": 0,
+    "n_queries": 891,
+    "n_matched": 891,
+    "n_missing_label": 0,
+    "n_conflicting_label": 0,
+    "n_undecodable_response": 0,
+    "label_vocabulary": [
+      "0",
+      "1"
+    ],
+    "accuracy": 0.8148
+  },
+  {
+    "model": "gpt-3.5-0125",
+    "dataset": "titanic",
+    "format": "perturbed",
+    "seed": 0,
+    "n_queries": 891,
+    "n_matched": 891,
+    "n_missing_label": 0,
+    "n_conflicting_label": 0,
+    "n_undecodable_response": 0,
+    "label_vocabulary": [
+      "0",
+      "1"
+    ],
+    "accuracy": 0.789
+  },
+  {
+    "model": "gpt-3.5-0125",
+    "dataset": "titanic",
+    "format": "task",
+    "seed": 0,
+    "n_queries": 891,
+    "n_matched": 891,
+    "n_missing_label": 0,
+    "n_conflicting_label": 0,
+    "n_undecodable_response": 0,
+    "label_vocabulary": [
+      "Not Survived",
+      "Survived"
+    ],
+    "accuracy": 0.7733
+  },
+  {
+    "model": "gpt-3.5-0125",
+    "dataset": "titanic",
+    "format": "statistical",
+    "seed": 0,
+    "n_queries": 891,
+    "n_matched": 891,
+    "n_missing_label": 0,
+    "n_conflicting_label": 0,
+    "n_undecodable_response": 0,
+    "label_vocabulary": [
+      "0",
+      "1"
+    ],
+    "accuracy": 0.6083
+  }
+]

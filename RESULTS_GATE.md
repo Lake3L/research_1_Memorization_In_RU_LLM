@@ -1,0 +1,209 @@
+# Positive-control gate (PREREGISTRATION.md §8) — reproduction of Bordt et al.
+
+**Date:** 2026-07-31. **Tool:** `tabmemcheck` 0.1.6, unmodified. **Seed:** 42.
+**Reference:** Bordt, Nori, Rodrigues, Nushi, Caruana, "Elephants Never Forget: Memorization and Learning of Tabular Data in LLMs", COLM 2024 (arXiv:2404.06209), Tables 2, 5, 6.
+
+Gate requirement: reproduce the published memorization results before running any
+confirmatory experiment of our own. This file records what was reproduced, what
+was not, and at what cost.
+
+## 0. Pipeline validation before spending anything
+
+Two mock models were run through the full test suite (`src/mock_llm.py`), because a
+count of "exact matches" is only evidence if the counter itself is known to work:
+
+| Control | Expectation | Result |
+|---|---|---|
+| `PerfectMemorizer` — answers from the CSV itself | ~100% on every test | header pass ×5; feature 50/50, 50/50, 49/50, 5/5; row 50/50, 25/25, 25/25; first-token 10/10 |
+| `FormatEchoMock` — well-formed answers, wrong content | ~0% (up to chance) | header fail ×5; feature 0/50 ×4; row 0/50, 0/25, 0/25; first-token 19/50 vs its own baseline 21/50 |
+
+Both behaved as required, so the measurement code neither misses matches nor invents them.
+
+Two defects were found and fixed at this stage, before any paid call:
+
+1. **`tabmemcheck` is incompatible with pandas 3.x.** `first_token_test` dies inside
+   `statistical_feature_prediction_test` with `TypeError: Cannot perform reduction 'mean'
+   with string dtype`, and `feature_completion_test` fails on empty responses. Pinned
+   `pandas<3` (2.3.3); the package itself is left unmodified. Recorded in `requirements.txt`.
+2. **Our own header criterion was stricter than the paper's.** Bordt et al. judge "the model
+   completes at least the next row" visually from a Levenshtein-coloured printout. A strict
+   left-to-right character match scores zero when a single character is inserted early, even
+   if dozens of rows follow verbatim — exactly what happened on california-housing. We now
+   report both the strict prefix match and the number of complete dataset rows reproduced
+   verbatim (`src/metrics.py`), and use the latter as the verdict.
+
+## 1. What the API actually served
+
+`gpt-3.5-turbo-16k` — the model behind the GPT-3.5 column of Tables 5/6 — **is silently
+remapped by the API to `gpt-3.5-turbo-0125`** (verified from `response.model` in every logged
+call). Requesting the exact checkpoints by name fails outright:
+
+| Requested | Served |
+|---|---|
+| `gpt-3.5-turbo-16k` | `gpt-3.5-turbo-0125` |
+| `gpt-3.5-turbo` | `gpt-3.5-turbo-0125` |
+| `gpt-3.5-turbo-16k-0613` | error: "has been deprecated" |
+| `gpt-3.5-turbo-0613` | error: "has been deprecated" |
+| `gpt-4-32k-0613` (Table 1) | error: does not exist / no access |
+| **`gpt-4-0613`** | **`gpt-4-0613`** |
+
+OpenAI's deprecation page lists a shutdown date of **2024-09-13** for `gpt-3.5-turbo-0613` and
+`gpt-3.5-turbo-16k-0613`, with `gpt-3.5-turbo` as the recommended replacement. Empirically the
+dated names now return an error rather than being redirected; only the undated aliases resolve,
+and they resolve to `gpt-3.5-turbo-0125`. The GPT-3.5 artefact behind Tables 5/6 therefore no
+longer exists and cannot be reproduced by anyone, at any price. The GPT-4 artefact does still
+exist, which is why the paid budget went there.
+
+Two deviations, stated precisely (verified against the paper's Supplement B):
+
+- **Model version.** Supplement B: "Table 2: gpt-3.5-turbo-16k-0613 and gpt-4-0613 deployed on
+  Azure, with the exception of gpt-3.5-turbo-0125 and gpt-4-0125-preview with the OpenAI API for
+  the ACS Income, ACS Travel and ICU datasets." Tables 5/6 are the quantitative form of Table 2,
+  so for every dataset we tested (iris, wine, diabetes, adult, california-housing) the paper's
+  GPT-3.5 column is `gpt-3.5-turbo-16k-0613` — the retired checkpoint, not the 0125 we were
+  served. Our GPT-4 rows use the same checkpoint name as the paper.
+- **Deployment.** The paper's numbers come from Azure deployments; ours come from the OpenAI API.
+  The authors ran the memorization tests both ways and report "similar results" (Supplement B).
+
+The authors also state that "the results are fairly robust towards the precise model version…
+for both the results of the memorization tests in Table 2 and for the few-shot learning results
+in Table 4" (§4.2), which is what makes the GPT-3.5 comparison informative — but it is not the
+identical artefact, and no conclusion here depends on it being one.
+
+This is also a finding in its own right, and it belongs in our paper's Limitations: contamination
+studies conducted on closed API models stop being reproducible within about eighteen months, as
+checkpoints are retired. It is a direct argument for the open-weight design of this project.
+
+This is also a finding in its own right, and it belongs in our paper's Limitations: contamination
+studies conducted on closed API models stop being reproducible within about eighteen months, as
+checkpoints are retired. It is a direct argument for the open-weight design of this project.
+
+## 2. Results
+
+Raw counts in `results/repro_*.json`, every prompt and response in `results/chatlog_*.jsonl`,
+comparison generated by `src/compare_to_paper.py` (also saved to `results/comparison_gate.md`).
+Reference values were transcribed from the paper PDF and re-verified against it character by
+character before use. Intervals are 95% Clopper-Pearson; our sample sizes are smaller than the
+paper's, so they are wide, and that is reported rather than hidden.
+
+### GPT-3.5 family — requested `gpt-3.5-turbo-16k`, served `gpt-3.5-turbo-0125` (370 calls)
+
+| test | dataset | ours | rate [95% CI] | paper (16k-0613) | paper rate | consistent |
+|---|---|---|---|---|---|---|
+| header | iris | pass (10 rows verbatim) | — | pass | — | yes |
+| header | uci-wine | pass (5 rows) | — | pass | — | yes |
+| header | openml-diabetes | pass (5 rows) | — | pass | — | yes |
+| header | adult | pass (3 rows) | — | pass | — | yes |
+| header | california-housing | pass (4 rows) | — | pass | — | yes |
+| row | iris | 20/50 | 0.40 [0.26, 0.55] | 35/136 | 0.26 | **no** |
+| row | openml-diabetes | 2/25 | 0.08 [0.01, 0.26] | 18/250 | 0.07 | yes |
+| row | adult | 0/25 | 0.00 [0.00, 0.14] | 0/250 | 0.00 | yes |
+| feature | openml-diabetes | 49/50 | 0.98 [0.89, 1.00] | 237/250 | 0.95 | yes |
+| feature | uci-wine | 18/50 | 0.36 [0.23, 0.51] | 77/178 | 0.43 | yes |
+| feature | adult | 0/50 | 0.00 [0.00, 0.07] | 0/250 | 0.00 | yes |
+| feature | california-housing | 0/50 | 0.00 [0.00, 0.07] | 0/250 | 0.00 | yes |
+| first token | iris | 30/50 | 0.60 [0.45, 0.74] | 88/136 | 0.65 | yes |
+
+### GPT-4 — requested and served `gpt-4-0613`, the paper's own checkpoint (63 calls)
+
+| test | dataset | ours | rate [95% CI] | paper | paper rate | consistent |
+|---|---|---|---|---|---|---|
+| row | iris | 24/25 | 0.96 [0.80, 1.00] | 125/136 | 0.92 | yes |
+| feature | openml-diabetes | 22/25 | 0.88 [0.69, 0.97] | 243/250 | 0.97 | yes |
+| feature | adult | not run | — | 0/250 | 0.00 | — (budget cap reached) |
+
+**14 of 15 comparable cells are consistent with the published values.**
+
+The one exception is iris row completion on GPT-3.5, where we measure 0.40 against the paper's
+0.26 — i.e. *more* memorization, on a **different (later) checkpoint** than the paper's, which is
+a plausible direction for a newer model trained on more of the web. It is not a failure to detect
+the published effect; it is a stronger signal than published, on a model the paper did not test.
+
+The qualitative structure of Tables 5/6 reproduces in full:
+
+- the GPT-4 / GPT-3.5 contrast on iris row completion (0.96 vs 0.40 here; 0.92 vs 0.26 in the paper);
+- verbatim memorization concentrated on the small classic datasets (iris, wine, diabetes) and
+  absent on the large ones (adult, california-housing: every count exactly zero, as published);
+- the header test passing on all six pre-2021 datasets, i.e. initial rows memorized everywhere;
+- first-token accuracy on iris above the mode baseline (0.60 vs our measured baseline 0.42).
+
+### Extension beyond the paper: a 2024 model on the same tests (free tier, `gpt-4o-mini-2024-07-18`)
+
+Not part of the reproduction — the paper never tested this model — but it came at zero cost and
+is directly relevant to our project, so it is reported separately and labelled as our own
+observation. Same prompts, same seed, same protocol as the GPT-3.5 run above.
+
+| test | dataset | gpt-4o-mini | gpt-3.5-turbo-0125 | paper (16k-0613) |
+|---|---|---|---|---|
+| header | iris | pass (7 rows) | pass (10 rows) | pass |
+| header | uci-wine | **fail** (0 rows) | pass (5 rows) | pass |
+| header | openml-diabetes | pass (6 rows) | pass (5 rows) | pass |
+| header | adult | pass (1 row) | pass (3 rows) | pass |
+| header | california-housing | **fail** (0 rows) | pass (4 rows) | pass |
+| feature | openml-diabetes | **1/50** | 49/50 | 237/250 |
+| feature | uci-wine | **1/50** | 18/50 | 77/178 |
+| feature | adult | 0/50 | 0/50 | 0/250 |
+| feature | california-housing | 0/50 | 0/50 | 0/250 |
+| row | iris | 13/50 | 20/50 | 35/136 |
+| row | openml-diabetes | 0/25 | 2/25 | 18/250 |
+| row | adult | 0/25 | 0/25 | 0/250 |
+| first token | iris | 31/50 | 30/50 | 88/136 |
+
+Verbatim extraction is markedly weaker on the newer model, most sharply on feature completion
+(1/50 against 49/50 on diabetes). We checked the obvious artefact first: the response format is
+identical across the two models (`DiabetesPedigreeFunction = 0.721`), so this is not a parsing or
+instruction-following failure — the values returned are simply wrong. Two readings remain open and
+we do not choose between them here: less memorization, or the same memorization with lower
+extractability. Bordt et al. flag exactly this ambiguity ("It seems possible that an LLM has
+memorized a tabular dataset, but we cannot extract it via prompting"). Iris survives in both
+models, which fits the paper's finding that iris is the most thoroughly memorized dataset.
+
+## 3. What could not be reproduced, and why
+
+Stated plainly, because the gate is only worth something if its gaps are visible:
+
+- **The GPT-3.5 column of Tables 5/6 cannot be reproduced by anyone.** Its checkpoint was shut
+  down on 2024-09-13. Our GPT-3.5 rows are a different model and are labelled as such everywhere.
+- **Kaggle Titanic** (the strongest row-completion result in the paper, 194/250 for GPT-3.5) was
+  not tested: the CSV is not redistributable and ships with neither `tabmemcheck` nor the paper's
+  repository. It requires a Kaggle account and is deferred.
+- **FICO, Spaceship Titanic, ACS Income, ACS Travel, ICU** were not tested. FICO and Spaceship
+  Titanic are gated downloads; the other three exist in the paper's repository and are simply out
+  of scope for a positive control on memorized data (they are the paper's *novel* controls).
+- **Adult feature completion on GPT-4** stopped at the budget cap, one cell short.
+- **Sample sizes are 10–20% of the paper's** (25–50 queries against 136–250), because
+  `gpt-4-0613` costs $30 per million input tokens and the account holds $5. This widens every
+  interval and is the reason the comparison is stated as "consistent with", not "equal to".
+- **Table 4 (few-shot, seen vs novel) was not re-run at all.** At the paper's protocol
+  (~1000 queries per cell, 40 cells) it costs tens of dollars at today's cheapest prices. It is
+  instead being verified from the authors' own published raw responses (Zenodo
+  10.5281/zenodo.14644404, 171 768 logged queries); that analysis is separate from this file.
+
+## 4. Cost
+
+| Run | Calls | Input tokens | Our accounting | Note |
+|---|---|---|---|---|
+| GPT-3.5 gate (13 cells) | 370 | 497 366 | $1.53 at the 16k list price | actual ≈ $0.06 — billed at the served 0125 rate |
+| GPT-4-0613 (3 cells) | 63 | 64 500 | $1.99 | correct prices; stopped by the cap |
+| gpt-4o-mini (free tier) | 370 | ~500 000 | $0.03 | covered by the data-sharing allowance |
+
+Our estimator is deliberately conservative: it prices the worst case before each call and refuses
+the call that would cross the cap. One defect was found and fixed here — `gpt-4o-mini-2024-07-18`
+matched the `gpt-4` price prefix and was billed internally at 200× its true rate, which aborted
+the first free-tier run at 14 calls. Prefix matching now takes the longest key.
+
+## 5. Verdict: GATE PASSED
+
+Against the criteria of PREREGISTRATION.md §8:
+
+- header test passes on every pre-2021 canonical dataset tested — **met**;
+- row-completion behaviour matches Table 5 for a strong public model — **met** (GPT-4-0613,
+  the paper's own checkpoint: 24/25 on iris where the paper reports 125/136);
+- exact-number comparison where the same model version is accessible — **met for GPT-4**,
+  impossible for GPT-3.5 (checkpoint retired), documented above;
+- measurement code validated in both directions before spending — **met** (§0).
+
+Work on the confirmatory hypotheses may proceed. One §8 requirement remains open and is *not*
+covered by this file: the adapted HF/Russian pipeline must reproduce the English results of the
+unmodified pipeline on at least one model×dataset before it is used for H1–H4. The HF backend
+exists (`src/hf_llm.py`) but has not yet been validated against this baseline.

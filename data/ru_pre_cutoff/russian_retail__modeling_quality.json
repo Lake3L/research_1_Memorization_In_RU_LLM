@@ -1,0 +1,52 @@
+{
+  "file": "data\\ru_pre_cutoff\\russian_retail__modeling.csv",
+  "target": "Средний ценовой сегмент",
+  "profile": {
+    "n_rows": 2737,
+    "n_cols": 10,
+    "duplicate_row_share": 0.0026,
+    "missing_by_column": {
+      "name": 0.003,
+      "contry_origin": 0.01,
+      "domain": 0.003,
+      "founded": 0.075,
+      "presence_world": 0.576,
+      "presence_russia": 0.016,
+      "presence_regions": 0.023,
+      "plans": 0.722,
+      "total_rented_area": 0.957
+    },
+    "cardinality": {
+      "name": 2711,
+      "contry_origin": 51,
+      "domain": 39,
+      "founded": 136,
+      "presence_world": 247,
+      "presence_russia": 893,
+      "presence_regions": 1945,
+      "plans": 38,
+      "total_rented_area": 82,
+      "Средний ценовой сегмент": 2
+    },
+    "class_balance": 0.6595
+  },
+  "baselines": {
+    "logistic_regression": {
+      "accuracy": 0.6777,
+      "cohen_kappa": 0.1165
+    },
+    "gradient_boosting": {
+      "accuracy": 0.6767,
+      "cohen_kappa": 0.1764
+    },
+    "majority_baseline": 0.6595,
+    "best_lift_over_majority": 0.0182
+  },
+  "checks": {
+    "at_least_300_rows": true,
+    "task_is_learnable": false,
+    "not_dominated_by_duplicates": true,
+    "has_high_entropy_feature": true
+  },
+  "admitted": false
+}

@@ -1,0 +1,63 @@
+{
+  "file": "data\\ru_pre_cutoff\\govdomains__modeling.csv",
+  "target": "Поддержка HTTPS",
+  "profile": {
+    "n_rows": 7528,
+    "n_cols": 17,
+    "duplicate_row_share": 0.0009,
+    "missing_by_column": {
+      "Primary domain": 0.923,
+      "Name": 0.447,
+      "Domain type": 0.135,
+      "Organization": 0.001,
+      "Status": 0.858,
+      "Region": 0.356,
+      "GovSystem": 0.662,
+      "Statuscode": 0.117,
+      "Archive priority": 0.601,
+      "Archive Strategy": 0.679,
+      "ASN": 0.031,
+      "ASN Country code": 0.031,
+      "IPs": 0.03
+    },
+    "cardinality": {
+      "Domain": 7508,
+      "Primary domain": 522,
+      "Name": 3788,
+      "Domain type": 25,
+      "Organization": 105,
+      "Status": 6,
+      "Region": 116,
+      "GovSystem": 38,
+      "HTTP Support": 2,
+      "Statuscode": 11,
+      "Archive priority": 6,
+      "Archive Strategy": 12,
+      "ASN": 165,
+      "ASN Country code": 6,
+      "IPs": 961,
+      "GovType": 6,
+      "Поддержка HTTPS": 2
+    },
+    "class_balance": 0.3483
+  },
+  "baselines": {
+    "logistic_regression": {
+      "accuracy": 0.9305,
+      "cohen_kappa": 0.8507
+    },
+    "gradient_boosting": {
+      "accuracy": 0.9313,
+      "cohen_kappa": 0.8528
+    },
+    "majority_baseline": 0.6517,
+    "best_lift_over_majority": 0.2796
+  },
+  "checks": {
+    "at_least_300_rows": true,
+    "task_is_learnable": true,
+    "not_dominated_by_duplicates": true,
+    "has_high_entropy_feature": true
+  },
+  "admitted": true
+}

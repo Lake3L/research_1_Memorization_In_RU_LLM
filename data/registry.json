@@ -106,5 +106,295 @@
       "cyrillic_in_values": true
     },
     "notes": "Fresh control / modern twin of Adult: predict salary above median from job attributes. Salary-bearing fields (salary, salary_min, salary_max, duty) dropped; automated leakage guard passed. LR 0.839 / GBT 0.810 vs majority 0.536."
+  },
+  "hflabs_city": {
+    "name": "hflabs_city",
+    "group": "ru_pre_cutoff",
+    "source_url": "https://raw.githubusercontent.com/hflabs/city/ae661bffe572880472249097c9b29c42b09650ea/city.csv",
+    "published": "2021-10-11",
+    "published_evidence": "last commit touching this file: ae661bffe572880472249097c9b29c42b09650ea dated 2021-10-11T16:23:34Z (GitHub API, repo hflabs/city); pinned by SHA so the artefact cannot change under us",
+    "license": "CC BY-SA 4.0 (stated in repository README)",
+    "downloaded_utc": "2026-08-01T20:30:51Z",
+    "raw_path": "data\\ru_pre_cutoff\\hflabs_city.csv",
+    "raw_sha256": "aefd11fd133881c348e0138b273a300ec6b3909c8f61d8d1d5ffc5e85021ec0d",
+    "n_rows": 1117,
+    "n_cols": 24,
+    "columns": [
+      "address",
+      "postal_code",
+      "country",
+      "federal_district",
+      "region_type",
+      "region",
+      "area_type",
+      "area",
+      "city_type",
+      "city",
+      "settlement_type",
+      "settlement",
+      "kladr_id",
+      "fias_id",
+      "fias_level",
+      "capital_marker",
+      "okato",
+      "oktmo",
+      "tax_office",
+      "timezone",
+      "geo_lat",
+      "geo_lon",
+      "population",
+      "foundation_year"
+    ],
+    "language": "ru",
+    "variants": {
+      "utf8_comma": {
+        "path": "data\\ru_pre_cutoff\\variants\\hflabs_city__utf8_comma.csv",
+        "sha256": "f61808c0772a99b31a8f432de5ff8a8e8c11be2a8659f09d660ebe9fc0730f26"
+      },
+      "utf8_semicolon": {
+        "path": "data\\ru_pre_cutoff\\variants\\hflabs_city__utf8_semicolon.csv",
+        "sha256": "bbec2ce4b990db334d416c270ff74213593beb1d036f7b99d4550f0f171cf8dc"
+      },
+      "cp1251_semicolon": {
+        "path": "data\\ru_pre_cutoff\\variants\\hflabs_city__cp1251_semicolon.csv",
+        "sha256": "d8fbd250eadba778fc8290839622696b1f9188343bbcdf32c574135fe50cc721"
+      },
+      "utf8_semicolon_decimal_comma": {
+        "path": "data\\ru_pre_cutoff\\variants\\hflabs_city__utf8_semicolon_decimal_comma.csv",
+        "sha256": "e5db952f865728d1498ad311b0e0f0e86509b42a8fb03842a2f889f90fe815d0"
+      }
+    },
+    "diagnostics": {
+      "duplicate_row_share": 0.0,
+      "mean_digits_per_row": 95.6,
+      "mean_chars_per_row": 226.7,
+      "most_unique_feature": "address",
+      "most_unique_share": 1.0,
+      "high_entropy_feature_available": true,
+      "cyrillic_in_headers": false,
+      "cyrillic_in_values": true
+    },
+    "notes": "1117 Russian cities, DaData/HFLabs reference. 206 stars, 121 forks — the most widely reused of the candidates, so the strongest prior for having entered pretraining corpora. Modeling view: target 'Население выше медианы', dropped ['population'], constant columns ['country']"
+  },
+  "govdomains": {
+    "name": "govdomains",
+    "group": "ru_pre_cutoff",
+    "source_url": "https://raw.githubusercontent.com/infoculture/govdomains/f0cf2aa1360cdf121ca40dec8316fc069c6a570f/refined/feddomains.csv",
+    "published": "2020-08-07",
+    "published_evidence": "last commit touching this file: f0cf2aa1360cdf121ca40dec8316fc069c6a570f dated 2020-08-07T15:41:39Z (GitHub API, repo infoculture/govdomains); pinned by SHA so the artefact cannot change under us",
+    "license": "Other (LICENSE.txt in repository)",
+    "downloaded_utc": "2026-08-01T20:31:01Z",
+    "raw_path": "data\\ru_pre_cutoff\\govdomains.csv",
+    "raw_sha256": "565ee379b774ae88c42056a442ef64fb45c45aae1cd3e5bae609ee9d1d1b6817",
+    "n_rows": 7528,
+    "n_cols": 19,
+    "columns": [
+      "Domain",
+      "Primary domain",
+      "Name",
+      "Domain type",
+      "Organization",
+      "Status",
+      "Region",
+      "GovSystem",
+      "HTTP Support",
+      "HTTPS Support",
+      "Statuscode",
+      "Is archived",
+      "Archives",
+      "Archive priority",
+      "Archive Strategy",
+      "ASN",
+      "ASN Country code",
+      "IPs",
+      "GovType"
+    ],
+    "language": "ru",
+    "variants": {
+      "utf8_comma": {
+        "path": "data\\ru_pre_cutoff\\variants\\govdomains__utf8_comma.csv",
+        "sha256": "7c12e7a0d5faf0ae85bbae6b8c8241b47fb3d19dda969adde0e6a9ee0caa3869"
+      },
+      "utf8_semicolon": {
+        "path": "data\\ru_pre_cutoff\\variants\\govdomains__utf8_semicolon.csv",
+        "sha256": "6c68a6407237cc6a85544a7dc1c3269bdf37e107355cc7cfab236920c095f7c3"
+      },
+      "utf8_semicolon_decimal_comma": {
+        "path": "data\\ru_pre_cutoff\\variants\\govdomains__utf8_semicolon_decimal_comma.csv",
+        "sha256": "ad3bb8afc8a24b5a9df29cee2b4f32fe49aa907ad03260eb4d3b78cf90b77d82"
+      }
+    },
+    "diagnostics": {
+      "duplicate_row_share": 0.0009,
+      "mean_digits_per_row": 22.3,
+      "mean_chars_per_row": 220.9,
+      "most_unique_feature": "Domain",
+      "most_unique_share": 0.9973,
+      "high_entropy_feature_available": true,
+      "cyrillic_in_headers": false,
+      "cyrillic_in_values": true
+    },
+    "notes": "Russian federal government domains, Infoculture. Modeling view: target 'Поддержка HTTPS', dropped ['HTTPS Support'], constant columns ['Is archived', 'Archives']"
+  },
+  "mos_zemelnye_uchastki": {
+    "name": "mos_zemelnye_uchastki",
+    "group": "ru_pre_cutoff",
+    "source_url": "https://raw.githubusercontent.com/infoculture/mosopendata/ed80f2d28156f663cc337fb8935f8de91623a221/old/thedata/483_zemelnye_uchastki_v_sobstvennosti_goroda_moskvy.csv",
+    "published": "2013-07-24",
+    "published_evidence": "last commit touching this file: ed80f2d28156f663cc337fb8935f8de91623a221 dated 2013-07-24T15:16:04Z (GitHub API, repo infoculture/mosopendata); pinned by SHA so the artefact cannot change under us",
+    "license": "not stated; mirror of data.mos.ru publications",
+    "downloaded_utc": "2026-08-01T20:31:25Z",
+    "raw_path": "data\\ru_pre_cutoff\\mos_zemelnye_uchastki.csv",
+    "raw_sha256": "4a8a2953762831b07407a05897085f397d79a6942b8d9260e851cc32c8cd54d9",
+    "n_rows": 5881,
+    "n_cols": 8,
+    "columns": [
+      "№ строки",
+      "Идентификатор",
+      "Кадастровый номер",
+      "Адрес",
+      "Площадь (кв.м)",
+      "Тип собственника",
+      "Аренда",
+      "Разрешение на использование"
+    ],
+    "language": "ru",
+    "variants": {
+      "utf8_comma": {
+        "path": "data\\ru_pre_cutoff\\variants\\mos_zemelnye_uchastki__utf8_comma.csv",
+        "sha256": "11b8ddce2d591dd64661a0bd5d3cb984e1ee806060b2287e94b7008219f6bdac"
+      },
+      "utf8_semicolon": {
+        "path": "data\\ru_pre_cutoff\\variants\\mos_zemelnye_uchastki__utf8_semicolon.csv",
+        "sha256": "652f5a5c5d8e0578554ed939cdc9f9c4754208ba8f0bf839ed414d28d2d4b6b1"
+      },
+      "cp1251_semicolon": {
+        "path": "data\\ru_pre_cutoff\\variants\\mos_zemelnye_uchastki__cp1251_semicolon.csv",
+        "sha256": "471e29957277ec39ee0087425eb5dc0c374bdd1b41bae358861aba73f99a3b57"
+      },
+      "utf8_semicolon_decimal_comma": {
+        "path": "data\\ru_pre_cutoff\\variants\\mos_zemelnye_uchastki__utf8_semicolon_decimal_comma.csv",
+        "sha256": "f1cb14dae5fe60bef659bee7e67ef9b49269ef60150d28960a3d2d083837f047"
+      }
+    },
+    "diagnostics": {
+      "duplicate_row_share": 0.0,
+      "mean_digits_per_row": 33.5,
+      "mean_chars_per_row": 192.4,
+      "most_unique_feature": "№ строки",
+      "most_unique_share": 1.0,
+      "high_entropy_feature_available": true,
+      "cyrillic_in_headers": true,
+      "cyrillic_in_values": true
+    },
+    "notes": "Moscow city land plots. The only verified source with Cyrillic column names as well as values. Tab-separated despite the .csv extension. Repository frozen since 2014. Modeling view: target 'Аренда', dropped ['№ строки', 'Идентификатор', 'Тип собственника']"
+  },
+  "mos_torgovye_obekty": {
+    "name": "mos_torgovye_obekty",
+    "group": "ru_pre_cutoff",
+    "source_url": "https://raw.githubusercontent.com/infoculture/mosopendata/ed80f2d28156f663cc337fb8935f8de91623a221/old/thedata/486_nestatsionarnye_torgovye_obekty.csv",
+    "published": "2013-07-24",
+    "published_evidence": "last commit touching this file: ed80f2d28156f663cc337fb8935f8de91623a221 dated 2013-07-24T15:16:04Z (GitHub API, repo infoculture/mosopendata); pinned by SHA so the artefact cannot change under us",
+    "license": "not stated; mirror of data.mos.ru publications",
+    "downloaded_utc": "2026-08-01T20:31:37Z",
+    "raw_path": "data\\ru_pre_cutoff\\mos_torgovye_obekty.csv",
+    "raw_sha256": "4c3335ed3a604df1f9a935668c7c178fa573848a98972055d7aa3d789f2a68b0",
+    "n_rows": 10212,
+    "n_cols": 11,
+    "columns": [
+      "№ строки",
+      "Название объекта",
+      "Адрес",
+      "Округ",
+      "Район",
+      "Вид нестационарного объекта",
+      "Период размещения",
+      "Дата начала договора",
+      "Дата окончания договора",
+      "Номер свидетельства",
+      "Дата свидетельства"
+    ],
+    "language": "ru",
+    "variants": {
+      "utf8_comma": {
+        "path": "data\\ru_pre_cutoff\\variants\\mos_torgovye_obekty__utf8_comma.csv",
+        "sha256": "f5109a6046ba4e8dce2b83a3414829862584373e79e4ef1d8c1412aa0712d187"
+      },
+      "utf8_semicolon": {
+        "path": "data\\ru_pre_cutoff\\variants\\mos_torgovye_obekty__utf8_semicolon.csv",
+        "sha256": "48befb1c8bfbda119518429c608e2fc3fa7563025ff09017962d604450f096ce"
+      },
+      "cp1251_semicolon": {
+        "path": "data\\ru_pre_cutoff\\variants\\mos_torgovye_obekty__cp1251_semicolon.csv",
+        "sha256": "5f8c4285bb0a599c70e7208577a9c5c96f732dfaf8446e4c6519465bda715747"
+      },
+      "utf8_semicolon_decimal_comma": {
+        "path": "data\\ru_pre_cutoff\\variants\\mos_torgovye_obekty__utf8_semicolon_decimal_comma.csv",
+        "sha256": "48befb1c8bfbda119518429c608e2fc3fa7563025ff09017962d604450f096ce"
+      }
+    },
+    "diagnostics": {
+      "duplicate_row_share": 0.0,
+      "mean_digits_per_row": 53.7,
+      "mean_chars_per_row": 179.5,
+      "most_unique_feature": "№ строки",
+      "most_unique_share": 1.0,
+      "high_entropy_feature_available": true,
+      "cyrillic_in_headers": true,
+      "cyrillic_in_values": true
+    },
+    "notes": "Moscow non-stationary retail objects, 10212 rows. Cyrillic column names and values; tab-separated despite the .csv extension. Modeling view: target 'Модульный объект', dropped ['№ строки', 'Номер свидетельства', 'Дата свидетельства', 'Вид нестационарного объекта']"
+  },
+  "russian_retail": {
+    "name": "russian_retail",
+    "group": "ru_pre_cutoff",
+    "source_url": "https://www.kaggle.com/datasets/pavelkunitsyn/russian-retail",
+    "published": "2021-08-11",
+    "published_evidence": "Kaggle API lastUpdated=2021-08-11T18:49:36Z; file mtime inside the downloaded archive 2021-08-11 18:49:38",
+    "license": "Other (specified in description); unclear — flagged in the amendment",
+    "downloaded_utc": "2026-08-01T20:32:36Z",
+    "raw_path": "data\\ru_pre_cutoff\\russian_retail.csv",
+    "raw_sha256": "da0d2a22751739a59542cc278b2c5aeb821b3e41f24602ac2a633fb7e211f745",
+    "n_rows": 2737,
+    "n_cols": 11,
+    "columns": [
+      "name",
+      "contry_origin",
+      "domain",
+      "price_category",
+      "founded",
+      "presence_world",
+      "presence_russia",
+      "presence_regions",
+      "description",
+      "plans",
+      "total_rented_area"
+    ],
+    "language": "ru",
+    "variants": {
+      "utf8_comma": {
+        "path": "data\\ru_pre_cutoff\\variants\\russian_retail__utf8_comma.csv",
+        "sha256": "b2a969a321697e98bb464fdde4d02266fa11c7818185e113834a41476c5bff2f"
+      },
+      "utf8_semicolon": {
+        "path": "data\\ru_pre_cutoff\\variants\\russian_retail__utf8_semicolon.csv",
+        "sha256": "90069e0992e958306146fce082ccc96e23b2a452950e67cf76f7af2137a99df2"
+      },
+      "utf8_semicolon_decimal_comma": {
+        "path": "data\\ru_pre_cutoff\\variants\\russian_retail__utf8_semicolon_decimal_comma.csv",
+        "sha256": "871c441c48e04ed0ebdac7348cdf43447da94f459ba8d97b3be9fc7d5e6341fa"
+      }
+    },
+    "diagnostics": {
+      "duplicate_row_share": 0.0026,
+      "mean_digits_per_row": 20.4,
+      "mean_chars_per_row": 1335.0,
+      "most_unique_feature": "description",
+      "most_unique_share": 0.996,
+      "high_entropy_feature_available": true,
+      "cyrillic_in_headers": false,
+      "cyrillic_in_values": true
+    },
+    "notes": "Russian retail brands from Kaggle, 2737 rows. English headers, Cyrillic values. The free-text 'description' column is dropped from the modeling view (it is prose, not a tabular feature) but stays in the published file, where it is the highest-entropy field for the completion tests."
   }
 }

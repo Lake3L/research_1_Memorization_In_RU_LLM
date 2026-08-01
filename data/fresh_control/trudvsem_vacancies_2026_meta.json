@@ -1,0 +1,41 @@
+{
+  "source": "trudvsem.ru open API (Работа России)",
+  "endpoint": "http://opendata.trudvsem.ru/api/v1/vacancies/region/{region}",
+  "collected_utc": "2026-08-01T19:52:36Z",
+  "filter_created_since": "2026-06-01",
+  "creation_date_span": [
+    "2026-06-01",
+    "2026-08-01"
+  ],
+  "regions": [
+    "Москва",
+    "Санкт-Петербург",
+    "Московская область",
+    "Свердловская область",
+    "Новосибирская область",
+    "Республика Татарстан",
+    "Краснодарский край",
+    "—"
+  ],
+  "dropped_sparse_columns": [
+    "social_protected"
+  ],
+  "n_rows": 1196,
+  "n_cols": 13,
+  "target": "Зарплата выше медианы",
+  "target_threshold_rub": 56232.0,
+  "class_balance": 0.464,
+  "dropped_leaking_fields": [
+    "contact_list",
+    "contact_person",
+    "date_modify",
+    "duty",
+    "id",
+    "salary",
+    "salary_max",
+    "salary_min",
+    "source",
+    "vac_url"
+  ],
+  "leakage_guard": "passed: no retained cell contains the row's salary figure"
+}

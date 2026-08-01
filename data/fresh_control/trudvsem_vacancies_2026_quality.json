@@ -1,0 +1,45 @@
+{
+  "file": "data\\fresh_control\\trudvsem_vacancies_2026.csv",
+  "target": "Зарплата выше медианы",
+  "profile": {
+    "n_rows": 1196,
+    "n_cols": 13,
+    "duplicate_row_share": 0.0,
+    "missing_by_column": {},
+    "cardinality": {
+      "Регион": 8,
+      "Специализация": 34,
+      "Должность": 840,
+      "Образование": 7,
+      "Опыт работы (лет)": 9,
+      "График работы": 6,
+      "Количество мест": 23,
+      "Кадровое агентство": 2,
+      "Квотируемое место": 2,
+      "Специальное рабочее место": 2,
+      "Дни обучения": 4,
+      "Работодатель": 373,
+      "Зарплата выше медианы": 2
+    },
+    "class_balance": 0.464
+  },
+  "baselines": {
+    "logistic_regression": {
+      "accuracy": 0.8386,
+      "cohen_kappa": 0.6765
+    },
+    "gradient_boosting": {
+      "accuracy": 0.8102,
+      "cohen_kappa": 0.618
+    },
+    "majority_baseline": 0.536,
+    "best_lift_over_majority": 0.3026
+  },
+  "checks": {
+    "at_least_300_rows": true,
+    "task_is_learnable": true,
+    "not_dominated_by_duplicates": true,
+    "has_high_entropy_feature": true
+  },
+  "admitted": true
+}

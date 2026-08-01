@@ -48,5 +48,63 @@
       "cyrillic_in_values": false
     },
     "notes": "Western canon control; reproduced in RESULTS_GATE.md"
+  },
+  "trudvsem_vacancies_2026": {
+    "name": "trudvsem_vacancies_2026",
+    "group": "fresh_control",
+    "source_url": "http://opendata.trudvsem.ru/api/v1/vacancies",
+    "published": "2026-06-01/2026-08-01",
+    "published_evidence": "constructed by us from vacancy records whose creation-date field is on or after 2026-06-01; API queried 2026-08-01T19:52:36Z; span ['2026-06-01', '2026-08-01']",
+    "license": "Russian federal open data (Работа России), Методрекомендации Минцифры v3.0; open API without key",
+    "downloaded_utc": "2026-08-01T19:53:35Z",
+    "raw_path": "data\\fresh_control\\trudvsem_vacancies_2026.csv",
+    "raw_sha256": "5f98ebfad75923382c48660e9137e5da50c1911429c52f65e90ec5866e2d6911",
+    "n_rows": 1196,
+    "n_cols": 13,
+    "columns": [
+      "Регион",
+      "Специализация",
+      "Должность",
+      "Образование",
+      "Опыт работы (лет)",
+      "График работы",
+      "Количество мест",
+      "Кадровое агентство",
+      "Квотируемое место",
+      "Специальное рабочее место",
+      "Дни обучения",
+      "Работодатель",
+      "Зарплата выше медианы"
+    ],
+    "language": "ru",
+    "variants": {
+      "utf8_comma": {
+        "path": "data\\fresh_control\\variants\\trudvsem_vacancies_2026__utf8_comma.csv",
+        "sha256": "5f98ebfad75923382c48660e9137e5da50c1911429c52f65e90ec5866e2d6911"
+      },
+      "utf8_semicolon": {
+        "path": "data\\fresh_control\\variants\\trudvsem_vacancies_2026__utf8_semicolon.csv",
+        "sha256": "ca5829e3843883d44fe5f8a93d0ac1f683f7fa2a44a6161f6c6dc5de334a2c93"
+      },
+      "cp1251_semicolon": {
+        "path": "data\\fresh_control\\variants\\trudvsem_vacancies_2026__cp1251_semicolon.csv",
+        "sha256": "6d3735cbe520f2f68136cbbc4c769288003fbb931f12831400f39a5f3625b476"
+      },
+      "utf8_semicolon_decimal_comma": {
+        "path": "data\\fresh_control\\variants\\trudvsem_vacancies_2026__utf8_semicolon_decimal_comma.csv",
+        "sha256": "ca5829e3843883d44fe5f8a93d0ac1f683f7fa2a44a6161f6c6dc5de334a2c93"
+      }
+    },
+    "diagnostics": {
+      "duplicate_row_share": 0.0,
+      "mean_digits_per_row": 4.8,
+      "mean_chars_per_row": 185.0,
+      "most_unique_feature": "Должность",
+      "most_unique_share": 0.7023,
+      "high_entropy_feature_available": true,
+      "cyrillic_in_headers": true,
+      "cyrillic_in_values": true
+    },
+    "notes": "Fresh control / modern twin of Adult: predict salary above median from job attributes. Salary-bearing fields (salary, salary_min, salary_max, duty) dropped; automated leakage guard passed. LR 0.839 / GBT 0.810 vs majority 0.536."
   }
 }

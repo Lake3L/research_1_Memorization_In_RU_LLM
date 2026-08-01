@@ -1,0 +1,42 @@
+{
+  "file": "data\\ru_pre_cutoff\\mos_torgovye_obekty__modeling.csv",
+  "target": "Модульный объект",
+  "profile": {
+    "n_rows": 10212,
+    "n_cols": 8,
+    "duplicate_row_share": 0.033,
+    "missing_by_column": {
+      "Название объекта": 0.0
+    },
+    "cardinality": {
+      "Название объекта": 8170,
+      "Адрес": 5630,
+      "Округ": 10,
+      "Район": 125,
+      "Период размещения": 4,
+      "Дата начала договора": 371,
+      "Дата окончания договора": 445,
+      "Модульный объект": 2
+    },
+    "class_balance": 0.6419
+  },
+  "baselines": {
+    "logistic_regression": {
+      "accuracy": 0.8176,
+      "cohen_kappa": 0.5621
+    },
+    "gradient_boosting": {
+      "accuracy": 0.8163,
+      "cohen_kappa": 0.5605
+    },
+    "majority_baseline": 0.6419,
+    "best_lift_over_majority": 0.1757
+  },
+  "checks": {
+    "at_least_300_rows": true,
+    "task_is_learnable": true,
+    "not_dominated_by_duplicates": true,
+    "has_high_entropy_feature": true
+  },
+  "admitted": true
+}

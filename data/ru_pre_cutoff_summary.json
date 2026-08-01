@@ -1,0 +1,48 @@
+{
+  "hflabs_city": {
+    "rows": 1117,
+    "cols": 24,
+    "sha": "ae661bffe572880472249097c9b29c42b09650ea",
+    "commit_date": "2021-10-11T16:23:34Z",
+    "modeling_view": "data\\ru_pre_cutoff\\hflabs_city__modeling.csv",
+    "target": "Население выше медианы",
+    "cyrillic_headers": false,
+    "entropy_feature": "address"
+  },
+  "govdomains": {
+    "rows": 7528,
+    "cols": 19,
+    "sha": "f0cf2aa1360cdf121ca40dec8316fc069c6a570f",
+    "commit_date": "2020-08-07T15:41:39Z",
+    "modeling_view": "data\\ru_pre_cutoff\\govdomains__modeling.csv",
+    "target": "Поддержка HTTPS",
+    "cyrillic_headers": false,
+    "entropy_feature": "Domain"
+  },
+  "mos_zemelnye_uchastki": {
+    "rows": 5881,
+    "cols": 8,
+    "sha": "ed80f2d28156f663cc337fb8935f8de91623a221",
+    "commit_date": "2013-07-24T15:16:04Z",
+    "modeling_view": "data\\ru_pre_cutoff\\mos_zemelnye_uchastki__modeling.csv",
+    "target": "Аренда",
+    "cyrillic_headers": true,
+    "entropy_feature": "№ строки",
+    "baselines": {
+      "logistic_regression": {
+        "accuracy": 0.7994,
+        "cohen_kappa": 0.1692
+      },
+      "gradient_boosting": {
+        "accuracy": 0.7917,
+        "cohen_kappa": 0.2433
+      },
+      "majority_baseline": 0.775,
+      "best_lift_over_majority": 0.0244
+    },
+    "admitted": false,
+    "failed_checks": [
+      "task_is_learnable"
+    ]
+  }
+}

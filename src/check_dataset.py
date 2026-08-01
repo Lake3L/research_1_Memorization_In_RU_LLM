@@ -26,6 +26,7 @@ import pandas as pd
 from sklearn.compose import ColumnTransformer
 from sklearn.ensemble import HistGradientBoostingClassifier
 from sklearn.linear_model import LogisticRegression
+from sklearn.impute import SimpleImputer
 from sklearn.metrics import cohen_kappa_score
 from sklearn.model_selection import StratifiedKFold, cross_val_predict
 from sklearn.pipeline import make_pipeline
@@ -44,10 +45,14 @@ def baselines(df: pd.DataFrame, target: str, seed: int = 42) -> dict:
     for c in categorical:
         X[c] = X[c].fillna("__na__").astype(str)
 
+    # Numeric gaps are common in these sources (a city with no founding year on
+    # record). Median imputation keeps the row instead of discarding it, which
+    # matters when the gaps are not random across classes.
     pre = ColumnTransformer([
         ("cat", OneHotEncoder(handle_unknown="ignore", max_categories=100,
                               sparse_output=False), categorical),
-        ("num", StandardScaler(), numeric),
+        ("num", make_pipeline(SimpleImputer(strategy="median"), StandardScaler()),
+         numeric),
     ])
     cv = StratifiedKFold(n_splits=5, shuffle=True, random_state=seed)
 

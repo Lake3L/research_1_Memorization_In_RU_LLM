@@ -1,0 +1,63 @@
+{
+  "file": "data\\ru_pre_cutoff\\hflabs_city__modeling.csv",
+  "target": "Население выше медианы",
+  "profile": {
+    "n_rows": 1117,
+    "n_cols": 23,
+    "duplicate_row_share": 0.0,
+    "missing_by_column": {
+      "postal_code": 0.001,
+      "area_type": 0.452,
+      "area": 0.452,
+      "city_type": 0.013,
+      "city": 0.013,
+      "settlement_type": 0.998,
+      "settlement": 0.998
+    },
+    "cardinality": {
+      "address": 1117,
+      "postal_code": 1115,
+      "federal_district": 8,
+      "region_type": 7,
+      "region": 85,
+      "area_type": 3,
+      "area": 525,
+      "city_type": 1,
+      "city": 1082,
+      "settlement_type": 1,
+      "settlement": 2,
+      "kladr_id": 1117,
+      "fias_id": 1117,
+      "fias_level": 4,
+      "capital_marker": 3,
+      "okato": 1117,
+      "oktmo": 1116,
+      "tax_office": 514,
+      "timezone": 11,
+      "geo_lat": 1117,
+      "geo_lon": 1117,
+      "foundation_year": 479,
+      "Население выше медианы": 2
+    },
+    "class_balance": 0.4996
+  },
+  "baselines": {
+    "logistic_regression": {
+      "accuracy": 0.7404,
+      "cohen_kappa": 0.4808
+    },
+    "gradient_boosting": {
+      "accuracy": 0.7502,
+      "cohen_kappa": 0.5005
+    },
+    "majority_baseline": 0.5004,
+    "best_lift_over_majority": 0.2498
+  },
+  "checks": {
+    "at_least_300_rows": true,
+    "task_is_learnable": true,
+    "not_dominated_by_duplicates": true,
+    "has_high_entropy_feature": true
+  },
+  "admitted": true
+}

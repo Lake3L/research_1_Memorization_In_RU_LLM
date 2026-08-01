@@ -1,0 +1,37 @@
+{
+  "file": "data\\ru_pre_cutoff\\mos_zemelnye_uchastki__modeling.csv",
+  "target": "Аренда",
+  "profile": {
+    "n_rows": 5881,
+    "n_cols": 5,
+    "duplicate_row_share": 0.0041,
+    "missing_by_column": {},
+    "cardinality": {
+      "Кадастровый номер": 5839,
+      "Адрес": 5749,
+      "Площадь (кв.м)": 4731,
+      "Аренда": 2,
+      "Разрешение на использование": 2595
+    },
+    "class_balance": 0.225
+  },
+  "baselines": {
+    "logistic_regression": {
+      "accuracy": 0.7994,
+      "cohen_kappa": 0.1692
+    },
+    "gradient_boosting": {
+      "accuracy": 0.7917,
+      "cohen_kappa": 0.2433
+    },
+    "majority_baseline": 0.775,
+    "best_lift_over_majority": 0.0244
+  },
+  "checks": {
+    "at_least_300_rows": true,
+    "task_is_learnable": false,
+    "not_dominated_by_duplicates": true,
+    "has_high_entropy_feature": true
+  },
+  "admitted": false
+}

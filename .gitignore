@@ -19,3 +19,7 @@ api-secretkey-openai.txt
 # experiment outputs (committed selectively via results/)
 outputs/
 wandb/
+
+# dataset payloads: registry.json carries provenance and hashes, files are refetched by scripts
+data/*/variants/
+data/*/*.csv

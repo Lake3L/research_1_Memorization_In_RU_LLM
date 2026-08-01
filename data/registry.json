@@ -1,0 +1,52 @@
+{
+  "iris": {
+    "name": "iris",
+    "group": "canon",
+    "source_url": "https://archive.ics.uci.edu/dataset/53/iris",
+    "published": "1988-07-01",
+    "published_evidence": "UCI ML Repository donation date; file byte-identical to the copy shipped with tabmemcheck and with the COLM paper code (md5 bab8c78b)",
+    "license": "CC BY 4.0 (UCI)",
+    "downloaded_utc": "2026-08-01T19:18:07Z",
+    "raw_path": "data\\canon\\iris.csv",
+    "raw_sha256": "9194e2b71f7144e7d192a1c38f9a54f26b0e8f705c0929b8225b0cd10275efd1",
+    "n_rows": 150,
+    "n_cols": 5,
+    "columns": [
+      "sepal_length",
+      "sepal_width",
+      "petal_length",
+      "petal_width",
+      "species"
+    ],
+    "language": "en",
+    "variants": {
+      "utf8_comma": {
+        "path": "data\\canon\\variants\\iris__utf8_comma.csv",
+        "sha256": "20f7ef9ad6e85c0752a0cda4c9d1edfcad39c04114a822496a15c20eb1df2cda"
+      },
+      "utf8_semicolon": {
+        "path": "data\\canon\\variants\\iris__utf8_semicolon.csv",
+        "sha256": "469156299c5b5c6cff0090a3a9239cbc2a2f71b422f37d83cb10294fd0267786"
+      },
+      "cp1251_semicolon": {
+        "path": "data\\canon\\variants\\iris__cp1251_semicolon.csv",
+        "sha256": "bf5b4d457da721e72495f3889f3ded4528f4c2d03ccd1f8392bc93621ca3ad40"
+      },
+      "utf8_semicolon_decimal_comma": {
+        "path": "data\\canon\\variants\\iris__utf8_semicolon_decimal_comma.csv",
+        "sha256": "bf5b4d457da721e72495f3889f3ded4528f4c2d03ccd1f8392bc93621ca3ad40"
+      }
+    },
+    "diagnostics": {
+      "duplicate_row_share": 0.02,
+      "mean_digits_per_row": 8.0,
+      "mean_chars_per_row": 29.3,
+      "most_unique_feature": "petal_length",
+      "most_unique_share": 0.2867,
+      "high_entropy_feature_available": false,
+      "cyrillic_in_headers": false,
+      "cyrillic_in_values": false
+    },
+    "notes": "Western canon control; reproduced in RESULTS_GATE.md"
+  }
+}

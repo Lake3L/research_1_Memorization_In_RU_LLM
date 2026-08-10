@@ -27,6 +27,7 @@ class HFLLM(tabmemcheck.LLM_Interface):
     device: str = "cpu"
     dtype: Optional[torch.dtype] = None
     chat_mode: bool = True
+    quantization_config: object = None
 
     model: object = field(default=None, repr=False)
     tokenizer: object = field(default=None, repr=False)
@@ -35,15 +36,20 @@ class HFLLM(tabmemcheck.LLM_Interface):
         self.tokenizer = AutoTokenizer.from_pretrained(
             self.model_name, revision=self.revision
         )
-        self.model = AutoModelForCausalLM.from_pretrained(
-            self.model_name,
-            revision=self.revision,
-            torch_dtype=self.dtype if self.dtype is not None else "auto",
-        ).to(self.device)
+        kwargs = {"revision": self.revision,
+                  "torch_dtype": self.dtype if self.dtype is not None else "auto"}
+        if self.quantization_config is not None:
+            # accelerate places a quantized model itself; moving it afterwards fails
+            kwargs.update(quantization_config=self.quantization_config,
+                          device_map="auto")
+        self.model = AutoModelForCausalLM.from_pretrained(self.model_name, **kwargs)
+        if self.quantization_config is None:
+            self.model = self.model.to(self.device)
         self.model.eval()
 
     def _generate(self, input_ids, temperature: float, max_tokens: int) -> str:
         do_sample = temperature > 0
+        input_ids = input_ids.to(self.model.device)
         with torch.no_grad():
             out = self.model.generate(
                 input_ids,

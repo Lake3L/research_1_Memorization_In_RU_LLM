@@ -7,7 +7,7 @@
     "published_evidence": "UCI ML Repository donation date; file byte-identical to the copy shipped with tabmemcheck and with the COLM paper code (md5 bab8c78b)",
     "license": "CC BY 4.0 (UCI)",
     "downloaded_utc": "2026-08-01T19:18:07Z",
-    "raw_path": "data\\canon\\iris.csv",
+    "raw_path": "data/canon/iris.csv",
     "raw_sha256": "9194e2b71f7144e7d192a1c38f9a54f26b0e8f705c0929b8225b0cd10275efd1",
     "n_rows": 150,
     "n_cols": 5,
@@ -20,20 +20,24 @@
     ],
     "language": "en",
     "variants": {
+      "raw": {
+        "path": "data/canon/iris.csv",
+        "sha256": "9194e2b71f7144e7d192a1c38f9a54f26b0e8f705c0929b8225b0cd10275efd1"
+      },
       "utf8_comma": {
-        "path": "data\\canon\\variants\\iris__utf8_comma.csv",
+        "path": "data/canon/variants/iris__utf8_comma.csv",
         "sha256": "20f7ef9ad6e85c0752a0cda4c9d1edfcad39c04114a822496a15c20eb1df2cda"
       },
       "utf8_semicolon": {
-        "path": "data\\canon\\variants\\iris__utf8_semicolon.csv",
+        "path": "data/canon/variants/iris__utf8_semicolon.csv",
         "sha256": "469156299c5b5c6cff0090a3a9239cbc2a2f71b422f37d83cb10294fd0267786"
       },
       "cp1251_semicolon": {
-        "path": "data\\canon\\variants\\iris__cp1251_semicolon.csv",
+        "path": "data/canon/variants/iris__cp1251_semicolon.csv",
         "sha256": "bf5b4d457da721e72495f3889f3ded4528f4c2d03ccd1f8392bc93621ca3ad40"
       },
       "utf8_semicolon_decimal_comma": {
-        "path": "data\\canon\\variants\\iris__utf8_semicolon_decimal_comma.csv",
+        "path": "data/canon/variants/iris__utf8_semicolon_decimal_comma.csv",
         "sha256": "bf5b4d457da721e72495f3889f3ded4528f4c2d03ccd1f8392bc93621ca3ad40"
       }
     },
@@ -57,7 +61,7 @@
     "published_evidence": "constructed by us from vacancy records whose creation-date field is on or after 2026-06-01; API queried 2026-08-01T19:52:36Z; span ['2026-06-01', '2026-08-01']",
     "license": "Russian federal open data (Работа России), Методрекомендации Минцифры v3.0; open API without key",
     "downloaded_utc": "2026-08-01T19:53:35Z",
-    "raw_path": "data\\fresh_control\\trudvsem_vacancies_2026.csv",
+    "raw_path": "data/fresh_control/trudvsem_vacancies_2026.csv",
     "raw_sha256": "5f98ebfad75923382c48660e9137e5da50c1911429c52f65e90ec5866e2d6911",
     "n_rows": 1196,
     "n_cols": 13,
@@ -78,20 +82,24 @@
     ],
     "language": "ru",
     "variants": {
+      "raw": {
+        "path": "data/fresh_control/trudvsem_vacancies_2026.csv",
+        "sha256": "5f98ebfad75923382c48660e9137e5da50c1911429c52f65e90ec5866e2d6911"
+      },
       "utf8_comma": {
-        "path": "data\\fresh_control\\variants\\trudvsem_vacancies_2026__utf8_comma.csv",
+        "path": "data/fresh_control/variants/trudvsem_vacancies_2026__utf8_comma.csv",
         "sha256": "5f98ebfad75923382c48660e9137e5da50c1911429c52f65e90ec5866e2d6911"
       },
       "utf8_semicolon": {
-        "path": "data\\fresh_control\\variants\\trudvsem_vacancies_2026__utf8_semicolon.csv",
+        "path": "data/fresh_control/variants/trudvsem_vacancies_2026__utf8_semicolon.csv",
         "sha256": "ca5829e3843883d44fe5f8a93d0ac1f683f7fa2a44a6161f6c6dc5de334a2c93"
       },
       "cp1251_semicolon": {
-        "path": "data\\fresh_control\\variants\\trudvsem_vacancies_2026__cp1251_semicolon.csv",
+        "path": "data/fresh_control/variants/trudvsem_vacancies_2026__cp1251_semicolon.csv",
         "sha256": "6d3735cbe520f2f68136cbbc4c769288003fbb931f12831400f39a5f3625b476"
       },
       "utf8_semicolon_decimal_comma": {
-        "path": "data\\fresh_control\\variants\\trudvsem_vacancies_2026__utf8_semicolon_decimal_comma.csv",
+        "path": "data/fresh_control/variants/trudvsem_vacancies_2026__utf8_semicolon_decimal_comma.csv",
         "sha256": "ca5829e3843883d44fe5f8a93d0ac1f683f7fa2a44a6161f6c6dc5de334a2c93"
       }
     },
@@ -115,7 +123,7 @@
     "published_evidence": "last commit touching this file: ae661bffe572880472249097c9b29c42b09650ea dated 2021-10-11T16:23:34Z (GitHub API, repo hflabs/city); pinned by SHA so the artefact cannot change under us",
     "license": "CC BY-SA 4.0 (stated in repository README)",
     "downloaded_utc": "2026-08-01T20:30:51Z",
-    "raw_path": "data\\ru_pre_cutoff\\hflabs_city.csv",
+    "raw_path": "data/ru_pre_cutoff/hflabs_city.csv",
     "raw_sha256": "aefd11fd133881c348e0138b273a300ec6b3909c8f61d8d1d5ffc5e85021ec0d",
     "n_rows": 1117,
     "n_cols": 24,
@@ -147,20 +155,24 @@
     ],
     "language": "ru",
     "variants": {
+      "raw": {
+        "path": "data/ru_pre_cutoff/hflabs_city.csv",
+        "sha256": "aefd11fd133881c348e0138b273a300ec6b3909c8f61d8d1d5ffc5e85021ec0d"
+      },
       "utf8_comma": {
-        "path": "data\\ru_pre_cutoff\\variants\\hflabs_city__utf8_comma.csv",
+        "path": "data/ru_pre_cutoff/variants/hflabs_city__utf8_comma.csv",
         "sha256": "f61808c0772a99b31a8f432de5ff8a8e8c11be2a8659f09d660ebe9fc0730f26"
       },
       "utf8_semicolon": {
-        "path": "data\\ru_pre_cutoff\\variants\\hflabs_city__utf8_semicolon.csv",
+        "path": "data/ru_pre_cutoff/variants/hflabs_city__utf8_semicolon.csv",
         "sha256": "bbec2ce4b990db334d416c270ff74213593beb1d036f7b99d4550f0f171cf8dc"
       },
       "cp1251_semicolon": {
-        "path": "data\\ru_pre_cutoff\\variants\\hflabs_city__cp1251_semicolon.csv",
+        "path": "data/ru_pre_cutoff/variants/hflabs_city__cp1251_semicolon.csv",
         "sha256": "d8fbd250eadba778fc8290839622696b1f9188343bbcdf32c574135fe50cc721"
       },
       "utf8_semicolon_decimal_comma": {
-        "path": "data\\ru_pre_cutoff\\variants\\hflabs_city__utf8_semicolon_decimal_comma.csv",
+        "path": "data/ru_pre_cutoff/variants/hflabs_city__utf8_semicolon_decimal_comma.csv",
         "sha256": "e5db952f865728d1498ad311b0e0f0e86509b42a8fb03842a2f889f90fe815d0"
       }
     },
@@ -184,7 +196,7 @@
     "published_evidence": "last commit touching this file: f0cf2aa1360cdf121ca40dec8316fc069c6a570f dated 2020-08-07T15:41:39Z (GitHub API, repo infoculture/govdomains); pinned by SHA so the artefact cannot change under us",
     "license": "Other (LICENSE.txt in repository)",
     "downloaded_utc": "2026-08-01T20:31:01Z",
-    "raw_path": "data\\ru_pre_cutoff\\govdomains.csv",
+    "raw_path": "data/ru_pre_cutoff/govdomains.csv",
     "raw_sha256": "565ee379b774ae88c42056a442ef64fb45c45aae1cd3e5bae609ee9d1d1b6817",
     "n_rows": 7528,
     "n_cols": 19,
@@ -211,16 +223,20 @@
     ],
     "language": "ru",
     "variants": {
+      "raw": {
+        "path": "data/ru_pre_cutoff/govdomains.csv",
+        "sha256": "565ee379b774ae88c42056a442ef64fb45c45aae1cd3e5bae609ee9d1d1b6817"
+      },
       "utf8_comma": {
-        "path": "data\\ru_pre_cutoff\\variants\\govdomains__utf8_comma.csv",
+        "path": "data/ru_pre_cutoff/variants/govdomains__utf8_comma.csv",
         "sha256": "7c12e7a0d5faf0ae85bbae6b8c8241b47fb3d19dda969adde0e6a9ee0caa3869"
       },
       "utf8_semicolon": {
-        "path": "data\\ru_pre_cutoff\\variants\\govdomains__utf8_semicolon.csv",
+        "path": "data/ru_pre_cutoff/variants/govdomains__utf8_semicolon.csv",
         "sha256": "6c68a6407237cc6a85544a7dc1c3269bdf37e107355cc7cfab236920c095f7c3"
       },
       "utf8_semicolon_decimal_comma": {
-        "path": "data\\ru_pre_cutoff\\variants\\govdomains__utf8_semicolon_decimal_comma.csv",
+        "path": "data/ru_pre_cutoff/variants/govdomains__utf8_semicolon_decimal_comma.csv",
         "sha256": "ad3bb8afc8a24b5a9df29cee2b4f32fe49aa907ad03260eb4d3b78cf90b77d82"
       }
     },
@@ -244,7 +260,7 @@
     "published_evidence": "last commit touching this file: ed80f2d28156f663cc337fb8935f8de91623a221 dated 2013-07-24T15:16:04Z (GitHub API, repo infoculture/mosopendata); pinned by SHA so the artefact cannot change under us",
     "license": "not stated; mirror of data.mos.ru publications",
     "downloaded_utc": "2026-08-01T20:31:25Z",
-    "raw_path": "data\\ru_pre_cutoff\\mos_zemelnye_uchastki.csv",
+    "raw_path": "data/ru_pre_cutoff/mos_zemelnye_uchastki.csv",
     "raw_sha256": "4a8a2953762831b07407a05897085f397d79a6942b8d9260e851cc32c8cd54d9",
     "n_rows": 5881,
     "n_cols": 8,
@@ -260,20 +276,24 @@
     ],
     "language": "ru",
     "variants": {
+      "raw": {
+        "path": "data/ru_pre_cutoff/mos_zemelnye_uchastki.csv",
+        "sha256": "4a8a2953762831b07407a05897085f397d79a6942b8d9260e851cc32c8cd54d9"
+      },
       "utf8_comma": {
-        "path": "data\\ru_pre_cutoff\\variants\\mos_zemelnye_uchastki__utf8_comma.csv",
+        "path": "data/ru_pre_cutoff/variants/mos_zemelnye_uchastki__utf8_comma.csv",
         "sha256": "11b8ddce2d591dd64661a0bd5d3cb984e1ee806060b2287e94b7008219f6bdac"
       },
       "utf8_semicolon": {
-        "path": "data\\ru_pre_cutoff\\variants\\mos_zemelnye_uchastki__utf8_semicolon.csv",
+        "path": "data/ru_pre_cutoff/variants/mos_zemelnye_uchastki__utf8_semicolon.csv",
         "sha256": "652f5a5c5d8e0578554ed939cdc9f9c4754208ba8f0bf839ed414d28d2d4b6b1"
       },
       "cp1251_semicolon": {
-        "path": "data\\ru_pre_cutoff\\variants\\mos_zemelnye_uchastki__cp1251_semicolon.csv",
+        "path": "data/ru_pre_cutoff/variants/mos_zemelnye_uchastki__cp1251_semicolon.csv",
         "sha256": "471e29957277ec39ee0087425eb5dc0c374bdd1b41bae358861aba73f99a3b57"
       },
       "utf8_semicolon_decimal_comma": {
-        "path": "data\\ru_pre_cutoff\\variants\\mos_zemelnye_uchastki__utf8_semicolon_decimal_comma.csv",
+        "path": "data/ru_pre_cutoff/variants/mos_zemelnye_uchastki__utf8_semicolon_decimal_comma.csv",
         "sha256": "f1cb14dae5fe60bef659bee7e67ef9b49269ef60150d28960a3d2d083837f047"
       }
     },
@@ -297,7 +317,7 @@
     "published_evidence": "last commit touching this file: ed80f2d28156f663cc337fb8935f8de91623a221 dated 2013-07-24T15:16:04Z (GitHub API, repo infoculture/mosopendata); pinned by SHA so the artefact cannot change under us",
     "license": "not stated; mirror of data.mos.ru publications",
     "downloaded_utc": "2026-08-01T20:31:37Z",
-    "raw_path": "data\\ru_pre_cutoff\\mos_torgovye_obekty.csv",
+    "raw_path": "data/ru_pre_cutoff/mos_torgovye_obekty.csv",
     "raw_sha256": "4c3335ed3a604df1f9a935668c7c178fa573848a98972055d7aa3d789f2a68b0",
     "n_rows": 10212,
     "n_cols": 11,
@@ -316,20 +336,24 @@
     ],
     "language": "ru",
     "variants": {
+      "raw": {
+        "path": "data/ru_pre_cutoff/mos_torgovye_obekty.csv",
+        "sha256": "4c3335ed3a604df1f9a935668c7c178fa573848a98972055d7aa3d789f2a68b0"
+      },
       "utf8_comma": {
-        "path": "data\\ru_pre_cutoff\\variants\\mos_torgovye_obekty__utf8_comma.csv",
+        "path": "data/ru_pre_cutoff/variants/mos_torgovye_obekty__utf8_comma.csv",
         "sha256": "f5109a6046ba4e8dce2b83a3414829862584373e79e4ef1d8c1412aa0712d187"
       },
       "utf8_semicolon": {
-        "path": "data\\ru_pre_cutoff\\variants\\mos_torgovye_obekty__utf8_semicolon.csv",
+        "path": "data/ru_pre_cutoff/variants/mos_torgovye_obekty__utf8_semicolon.csv",
         "sha256": "48befb1c8bfbda119518429c608e2fc3fa7563025ff09017962d604450f096ce"
       },
       "cp1251_semicolon": {
-        "path": "data\\ru_pre_cutoff\\variants\\mos_torgovye_obekty__cp1251_semicolon.csv",
+        "path": "data/ru_pre_cutoff/variants/mos_torgovye_obekty__cp1251_semicolon.csv",
         "sha256": "5f8c4285bb0a599c70e7208577a9c5c96f732dfaf8446e4c6519465bda715747"
       },
       "utf8_semicolon_decimal_comma": {
-        "path": "data\\ru_pre_cutoff\\variants\\mos_torgovye_obekty__utf8_semicolon_decimal_comma.csv",
+        "path": "data/ru_pre_cutoff/variants/mos_torgovye_obekty__utf8_semicolon_decimal_comma.csv",
         "sha256": "48befb1c8bfbda119518429c608e2fc3fa7563025ff09017962d604450f096ce"
       }
     },
@@ -353,7 +377,7 @@
     "published_evidence": "Kaggle API lastUpdated=2021-08-11T18:49:36Z; file mtime inside the downloaded archive 2021-08-11 18:49:38",
     "license": "Other (specified in description); unclear — flagged in the amendment",
     "downloaded_utc": "2026-08-01T20:32:36Z",
-    "raw_path": "data\\ru_pre_cutoff\\russian_retail.csv",
+    "raw_path": "data/ru_pre_cutoff/russian_retail.csv",
     "raw_sha256": "da0d2a22751739a59542cc278b2c5aeb821b3e41f24602ac2a633fb7e211f745",
     "n_rows": 2737,
     "n_cols": 11,
@@ -372,16 +396,20 @@
     ],
     "language": "ru",
     "variants": {
+      "raw": {
+        "path": "data/ru_pre_cutoff/russian_retail.csv",
+        "sha256": "da0d2a22751739a59542cc278b2c5aeb821b3e41f24602ac2a633fb7e211f745"
+      },
       "utf8_comma": {
-        "path": "data\\ru_pre_cutoff\\variants\\russian_retail__utf8_comma.csv",
+        "path": "data/ru_pre_cutoff/variants/russian_retail__utf8_comma.csv",
         "sha256": "b2a969a321697e98bb464fdde4d02266fa11c7818185e113834a41476c5bff2f"
       },
       "utf8_semicolon": {
-        "path": "data\\ru_pre_cutoff\\variants\\russian_retail__utf8_semicolon.csv",
+        "path": "data/ru_pre_cutoff/variants/russian_retail__utf8_semicolon.csv",
         "sha256": "90069e0992e958306146fce082ccc96e23b2a452950e67cf76f7af2137a99df2"
       },
       "utf8_semicolon_decimal_comma": {
-        "path": "data\\ru_pre_cutoff\\variants\\russian_retail__utf8_semicolon_decimal_comma.csv",
+        "path": "data/ru_pre_cutoff/variants/russian_retail__utf8_semicolon_decimal_comma.csv",
         "sha256": "871c441c48e04ed0ebdac7348cdf43447da94f459ba8d97b3be9fc7d5e6341fa"
       }
     },
@@ -405,7 +433,7 @@
     "published_evidence": "UCI ML Repository donation date 1996-05-01; file byte-identical (md5 82247b7d) to the copy shipped with tabmemcheck and with the COLM paper code",
     "license": "CC BY 4.0 (UCI)",
     "downloaded_utc": "2026-08-10T14:16:58Z",
-    "raw_path": "data\\canon\\adult-train.csv",
+    "raw_path": "data/canon/adult-train.csv",
     "raw_sha256": "c18b1aa5bb34303b571604b31da3313b44b5494cf7c103c21e5f90a25193478d",
     "n_rows": 32561,
     "n_cols": 15,
@@ -428,20 +456,24 @@
     ],
     "language": "en",
     "variants": {
+      "raw": {
+        "path": "data/canon/adult-train.csv",
+        "sha256": "c18b1aa5bb34303b571604b31da3313b44b5494cf7c103c21e5f90a25193478d"
+      },
       "utf8_comma": {
-        "path": "data\\canon\\variants\\adult-train__utf8_comma.csv",
+        "path": "data/canon/variants/adult-train__utf8_comma.csv",
         "sha256": "b40dc2181c59d7921a0fd739b4aec1a0f56075003125ba23cb42b6c1795bce59"
       },
       "utf8_semicolon": {
-        "path": "data\\canon\\variants\\adult-train__utf8_semicolon.csv",
+        "path": "data/canon/variants/adult-train__utf8_semicolon.csv",
         "sha256": "5a74f768be20b8e0fdbf31aa29c849bef3f2679e369154275103f58346083689"
       },
       "cp1251_semicolon": {
-        "path": "data\\canon\\variants\\adult-train__cp1251_semicolon.csv",
+        "path": "data/canon/variants/adult-train__cp1251_semicolon.csv",
         "sha256": "5a74f768be20b8e0fdbf31aa29c849bef3f2679e369154275103f58346083689"
       },
       "utf8_semicolon_decimal_comma": {
-        "path": "data\\canon\\variants\\adult-train__utf8_semicolon_decimal_comma.csv",
+        "path": "data/canon/variants/adult-train__utf8_semicolon_decimal_comma.csv",
         "sha256": "5a74f768be20b8e0fdbf31aa29c849bef3f2679e369154275103f58346083689"
       }
     },
@@ -465,7 +497,7 @@
     "published_evidence": "derived from Pace & Barry (1997); file byte-identical (md5 e2727d25) to the tabmemcheck and COLM paper copies",
     "license": "CC0 (Kaggle listing)",
     "downloaded_utc": "2026-08-10T14:17:39Z",
-    "raw_path": "data\\canon\\california-housing.csv",
+    "raw_path": "data/canon/california-housing.csv",
     "raw_sha256": "b214a65099c1dcc2ea7797935aff103fa0445220a366fb74beacb59486e548ff",
     "n_rows": 20640,
     "n_cols": 10,
@@ -483,20 +515,24 @@
     ],
     "language": "en",
     "variants": {
+      "raw": {
+        "path": "data/canon/california-housing.csv",
+        "sha256": "b214a65099c1dcc2ea7797935aff103fa0445220a366fb74beacb59486e548ff"
+      },
       "utf8_comma": {
-        "path": "data\\canon\\variants\\california-housing__utf8_comma.csv",
+        "path": "data/canon/variants/california-housing__utf8_comma.csv",
         "sha256": "8a3727f4cf54ac1a327f69b1d5b4db54c5834ea81c6e4efc0d163300022a685e"
       },
       "utf8_semicolon": {
-        "path": "data\\canon\\variants\\california-housing__utf8_semicolon.csv",
+        "path": "data/canon/variants/california-housing__utf8_semicolon.csv",
         "sha256": "b0ce0bec60ce51ce36811ba8b8a709eec4748ef5ba54e4410296f82e75902c68"
       },
       "cp1251_semicolon": {
-        "path": "data\\canon\\variants\\california-housing__cp1251_semicolon.csv",
+        "path": "data/canon/variants/california-housing__cp1251_semicolon.csv",
         "sha256": "4c1b0e86100b7cf79b8ac67acc9cc8a920f73555f67241b51c43b4cc7aa5aa02"
       },
       "utf8_semicolon_decimal_comma": {
-        "path": "data\\canon\\variants\\california-housing__utf8_semicolon_decimal_comma.csv",
+        "path": "data/canon/variants/california-housing__utf8_semicolon_decimal_comma.csv",
         "sha256": "4c1b0e86100b7cf79b8ac67acc9cc8a920f73555f67241b51c43b4cc7aa5aa02"
       }
     },
@@ -520,7 +556,7 @@
     "published_evidence": "Pima Indians Diabetes, National Institute of Diabetes and Digestive and Kidney Diseases, 1990; file byte-identical (md5 f2906818) to the tabmemcheck and COLM paper copies",
     "license": "public domain (OpenML listing)",
     "downloaded_utc": "2026-08-10T14:18:05Z",
-    "raw_path": "data\\canon\\openml-diabetes.csv",
+    "raw_path": "data/canon/openml-diabetes.csv",
     "raw_sha256": "698c203a14aa31941d2251175330c9199f3ccdb31597abbba2a3e35416257a72",
     "n_rows": 768,
     "n_cols": 9,
@@ -537,20 +573,24 @@
     ],
     "language": "en",
     "variants": {
+      "raw": {
+        "path": "data/canon/openml-diabetes.csv",
+        "sha256": "698c203a14aa31941d2251175330c9199f3ccdb31597abbba2a3e35416257a72"
+      },
       "utf8_comma": {
-        "path": "data\\canon\\variants\\openml-diabetes__utf8_comma.csv",
+        "path": "data/canon/variants/openml-diabetes__utf8_comma.csv",
         "sha256": "c980e5e01dc1c554a358102b773f34b29599d0051ec5cf5b56ad1c6fcb3a23b0"
       },
       "utf8_semicolon": {
-        "path": "data\\canon\\variants\\openml-diabetes__utf8_semicolon.csv",
+        "path": "data/canon/variants/openml-diabetes__utf8_semicolon.csv",
         "sha256": "d9ab120b8921ee28c4aa9fa7a6fb59ab39d08e5fb198934335031fd1e9ce6253"
       },
       "cp1251_semicolon": {
-        "path": "data\\canon\\variants\\openml-diabetes__cp1251_semicolon.csv",
+        "path": "data/canon/variants/openml-diabetes__cp1251_semicolon.csv",
         "sha256": "2f84230664912608da8a1481ab2bdf053bf5644a3f61cca759f7f5b3a9c47fbc"
       },
       "utf8_semicolon_decimal_comma": {
-        "path": "data\\canon\\variants\\openml-diabetes__utf8_semicolon_decimal_comma.csv",
+        "path": "data/canon/variants/openml-diabetes__utf8_semicolon_decimal_comma.csv",
         "sha256": "2f84230664912608da8a1481ab2bdf053bf5644a3f61cca759f7f5b3a9c47fbc"
       }
     },
@@ -574,7 +614,7 @@
     "published_evidence": "UCI ML Repository donation date 1991-07-01; file byte-identical (md5 de2633a7) to the tabmemcheck and COLM paper copies",
     "license": "CC BY 4.0 (UCI)",
     "downloaded_utc": "2026-08-10T14:18:19Z",
-    "raw_path": "data\\canon\\uci-wine.csv",
+    "raw_path": "data/canon/uci-wine.csv",
     "raw_sha256": "6cb704889e69841f942880fd684915665b309dcbc2b18dd12afa5f4e4f8c043f",
     "n_rows": 178,
     "n_cols": 14,
@@ -596,20 +636,24 @@
     ],
     "language": "en",
     "variants": {
+      "raw": {
+        "path": "data/canon/uci-wine.csv",
+        "sha256": "6cb704889e69841f942880fd684915665b309dcbc2b18dd12afa5f4e4f8c043f"
+      },
       "utf8_comma": {
-        "path": "data\\canon\\variants\\uci-wine__utf8_comma.csv",
+        "path": "data/canon/variants/uci-wine__utf8_comma.csv",
         "sha256": "4015999f2c54686113cdc43c35210ce3d3fa2060c8a5422752bb41beccce8ff9"
       },
       "utf8_semicolon": {
-        "path": "data\\canon\\variants\\uci-wine__utf8_semicolon.csv",
+        "path": "data/canon/variants/uci-wine__utf8_semicolon.csv",
         "sha256": "9d6e22cb194c926f59ee54e36c852d918165b1de7555b135cb239acb72b1eab1"
       },
       "cp1251_semicolon": {
-        "path": "data\\canon\\variants\\uci-wine__cp1251_semicolon.csv",
+        "path": "data/canon/variants/uci-wine__cp1251_semicolon.csv",
         "sha256": "f0b177af22b9d5a1cfb20f248aa75818aab4288949f34f2fa838a43b3de79b97"
       },
       "utf8_semicolon_decimal_comma": {
-        "path": "data\\canon\\variants\\uci-wine__utf8_semicolon_decimal_comma.csv",
+        "path": "data/canon/variants/uci-wine__utf8_semicolon_decimal_comma.csv",
         "sha256": "f0b177af22b9d5a1cfb20f248aa75818aab4288949f34f2fa838a43b3de79b97"
       }
     },
@@ -633,7 +677,7 @@
     "published_evidence": "Kaggle 'Titanic: Machine Learning from Disaster' training split, competition launched 2012-09-28. Kaggle requires authentication, so the file here is a public mirror carrying the same 891 rows and the same column order as the Kaggle original. CAVEAT: byte-level identity with Kaggle's file is unverified, and the memorization tests are byte-sensitive — a negative result on this file is weaker evidence than on the other canon members.",
     "license": "public mirror of a Kaggle competition file; used for testing only",
     "downloaded_utc": "2026-08-10T14:18:32Z",
-    "raw_path": "data\\canon\\titanic-train.csv",
+    "raw_path": "data/canon/titanic-train.csv",
     "raw_sha256": "4a437fde05fe5264e1701a7387ac6fb75393772ba38bb2c9c566405af5af4bd7",
     "n_rows": 891,
     "n_cols": 12,
@@ -653,20 +697,24 @@
     ],
     "language": "en",
     "variants": {
+      "raw": {
+        "path": "data/canon/titanic-train.csv",
+        "sha256": "4a437fde05fe5264e1701a7387ac6fb75393772ba38bb2c9c566405af5af4bd7"
+      },
       "utf8_comma": {
-        "path": "data\\canon\\variants\\titanic-train__utf8_comma.csv",
+        "path": "data/canon/variants/titanic-train__utf8_comma.csv",
         "sha256": "8331e5a2532f5fdb66153a8fc053df08a7dc9d2584f246c7fb1752f0a7139ca5"
       },
       "utf8_semicolon": {
-        "path": "data\\canon\\variants\\titanic-train__utf8_semicolon.csv",
+        "path": "data/canon/variants/titanic-train__utf8_semicolon.csv",
         "sha256": "7bda93c088762ba10d928b18ba5dcc420e0d13c71609686409efd145eacedf6a"
       },
       "cp1251_semicolon": {
-        "path": "data\\canon\\variants\\titanic-train__cp1251_semicolon.csv",
+        "path": "data/canon/variants/titanic-train__cp1251_semicolon.csv",
         "sha256": "9da760cc6fb21783af52e00720ec4b4920ce982d5269b7988c491c716ba3cf77"
       },
       "utf8_semicolon_decimal_comma": {
-        "path": "data\\canon\\variants\\titanic-train__utf8_semicolon_decimal_comma.csv",
+        "path": "data/canon/variants/titanic-train__utf8_semicolon_decimal_comma.csv",
         "sha256": "9da760cc6fb21783af52e00720ec4b4920ce982d5269b7988c491c716ba3cf77"
       }
     },

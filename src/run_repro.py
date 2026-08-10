@@ -27,6 +27,7 @@ from tabmemcheck import utils
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 from budget_llm import BudgetedOpenAILLM, BudgetExceeded  # noqa: E402
+from metrics import header_verdict  # noqa: E402
 from mock_llm import PerfectMemorizer, format_echo_mock  # noqa: E402
 
 # max_tokens per test: the tests need one row (or one feature value) at most,
@@ -41,10 +42,12 @@ PAPER = {
     ("iris.csv", "row"): {"gpt-3.5": (35, 136), "gpt-4": (125, 136)},
     ("uci-wine.csv", "row"): {"gpt-3.5": (16, 164), "gpt-4": (84, 164)},
     ("openml-diabetes.csv", "row"): {"gpt-3.5": (18, 250), "gpt-4": (79, 250)},
+    ("titanic-train.csv", "row"): {"gpt-3.5": (194, 250), "gpt-4": (222, 250)},
     ("adult-train.csv", "row"): {"gpt-3.5": (0, 250), "gpt-4": (0, 250)},
     ("california-housing.csv", "row"): {"gpt-3.5": (0, 250), "gpt-4": (0, 250)},
     ("uci-wine.csv", "feature"): {"gpt-3.5": (77, 178), "gpt-4": (131, 178)},
     ("openml-diabetes.csv", "feature"): {"gpt-3.5": (237, 250), "gpt-4": (243, 250)},
+    ("titanic-train.csv", "feature"): {"gpt-3.5": (238, 250), "gpt-4": (236, 250)},
     ("adult-train.csv", "feature"): {"gpt-3.5": (0, 250), "gpt-4": (0, 250)},
     ("california-housing.csv", "feature"): {"gpt-3.5": (0, 250), "gpt-4": (1, 250)},
     ("iris.csv", "first_token"): {"gpt-3.5": (88, 136), "gpt-4": (131, 136), "baseline": 0.50},
@@ -53,14 +56,18 @@ PAPER = {
     ("iris.csv", "header"): {"gpt-3.5": "pass", "gpt-4": "pass"},
     ("uci-wine.csv", "header"): {"gpt-3.5": "pass", "gpt-4": "pass"},
     ("openml-diabetes.csv", "header"): {"gpt-3.5": "pass", "gpt-4": "pass"},
+    ("titanic-train.csv", "header"): {"gpt-3.5": "pass", "gpt-4": "pass"},
     ("adult-train.csv", "header"): {"gpt-3.5": "pass", "gpt-4": "pass"},
     ("california-housing.csv", "header"): {"gpt-3.5": "pass", "gpt-4": "pass"},
 }
 
-# The paper's feature choices (Table 5 caption).
+# The paper's feature choices (Table 5 caption). Iris is deliberately absent:
+# it has no high-entropy feature, which is why the paper runs no feature
+# completion test on it.
 FEATURES = {
     "uci-wine.csv": "malic_acid",
     "openml-diabetes.csv": "DiabetesPedigreeFunction",
+    "titanic-train.csv": "Name",
     "adult-train.csv": "fnlwgt",
     "california-housing.csv": "median_income",
 }
@@ -85,6 +92,29 @@ PLANS = {
         ("iris.csv", "first_token", 50),
     ],
     "header_only": [(d, "header", 4) for d in CANON],
+    # PREREGISTRATION.md §8, second half: the adapted HF pipeline has to
+    # reproduce the English result of the unmodified one. Every cell of the
+    # OpenAI gate above is repeated so the two runs are directly comparable,
+    # with three additions the paid gate could not afford: Kaggle Titanic (the
+    # paper's strongest row-completion signal, 194/250) and row completion on
+    # wine and california-housing, which round out the contrast between the
+    # memorized small classics and the large datasets nobody memorizes.
+    # Open 7-8B models are expected to be weaker than GPT-4 at extraction, so
+    # the first-token test — the most sensitive of the four — runs everywhere
+    # the paper reports a baseline for it.
+    "gate_hf": [
+        ("iris.csv", "header", 4), ("uci-wine.csv", "header", 4),
+        ("openml-diabetes.csv", "header", 4), ("titanic-train.csv", "header", 4),
+        ("adult-train.csv", "header", 4), ("california-housing.csv", "header", 4),
+        ("iris.csv", "row", 50), ("titanic-train.csv", "row", 25),
+        ("uci-wine.csv", "row", 25), ("openml-diabetes.csv", "row", 25),
+        ("adult-train.csv", "row", 25), ("california-housing.csv", "row", 25),
+        ("titanic-train.csv", "feature", 50), ("openml-diabetes.csv", "feature", 50),
+        ("uci-wine.csv", "feature", 50), ("adult-train.csv", "feature", 50),
+        ("california-housing.csv", "feature", 50),
+        ("iris.csv", "first_token", 50), ("openml-diabetes.csv", "first_token", 50),
+        ("adult-train.csv", "first_token", 50),
+    ],
     # gpt-4-0613 costs 60x gpt-3.5-turbo-0125 per token, so buy only the
     # sharpest contrasts: iris row completion (paper: 92% vs GPT-3.5's 26%),
     # diabetes feature completion (97%), and one negative control
@@ -104,31 +134,106 @@ def duplicate_rate(csv_file):
     return 1 - len(set(rows)) / len(rows)
 
 
+def response_diagnostics(suffixes, responses):
+    """Is the model even trying to produce CSV rows?
+
+    A count of zero exact matches has two very different causes: the model never
+    saw the data, or our adapter never got a well-formed answer out of it (wrong
+    chat template, a refusal, a chatty preamble, truncation). Nothing in the
+    count distinguishes them, so we measure the shape of the answers separately
+    from their content.
+
+    `well_formed_rate` compares field counts, not content. `mean_normalized_
+    levenshtein` and `near_match_rate` are the approximate-memorization metric of
+    Ward et al. (PREREGISTRATION.md §2, secondary instrument): a model that
+    reproduces a row up to one digit has not "failed to memorize" in any useful
+    sense, and an exact-match count alone would record that as a zero.
+    """
+    import jellyfish
+
+    def first_line(text):
+        for line in str(text).strip().split("\n"):
+            if line.strip():
+                return line.strip()
+        return ""
+
+    well_formed, distances = 0, []
+    for suffix, response in zip(suffixes, responses):
+        truth, got = str(suffix).strip(), first_line(response)
+        sep = max(",;\t", key=lambda c: truth.count(c))
+        if truth.count(sep) > 0 and got.count(sep) == truth.count(sep):
+            well_formed += 1
+        if truth or got:
+            distances.append(jellyfish.levenshtein_distance(truth, got)
+                             / max(len(truth), len(got), 1))
+    n = len(distances)
+    return {
+        "well_formed_rate": round(well_formed / len(responses), 4) if responses else 0.0,
+        "mean_normalized_levenshtein": round(sum(distances) / n, 4) if n else None,
+        "near_match_rate": round(sum(1 for d in distances if d <= 0.1) / n, 4) if n else None,
+    }
+
+
+def dataset_key(csv_file):
+    """The dataset a file belongs to, whatever serialisation it is.
+
+    `data/canon/variants/uci-wine__cp1251_semicolon.csv` and a bare `uci-wine.csv`
+    are the same dataset, and the paper's reference numbers and designated
+    features are keyed by dataset, not by path. Getting this wrong is silent: a
+    lookup miss makes tabmemcheck pick its own feature, and the result is then
+    not comparable with the published table it is printed next to.
+    """
+    stem = os.path.splitext(os.path.basename(csv_file))[0]
+    return stem.split("__")[0] + ".csv"
+
+
+def designated_feature(csv_file):
+    """The feature the paper tested, or the most unique one if it named none."""
+    feature = FEATURES.get(dataset_key(csv_file))
+    if feature is not None:
+        return feature, "paper"
+    from tabmemcheck import analysis
+    feature, _ = analysis.find_most_unique_feature(csv_file)
+    return feature, "most_unique"
+
+
 def run_one(llm, csv_file, test, num_queries, seed):
-    """Run one test, returning a result dict. Output of tabmemcheck is captured."""
+    """Run one test, returning a result dict. Output of tabmemcheck is captured.
+
+    Counts only. The preregistered decision rules (§5) — binomial tests against
+    the best of mode/LR/GBT baselines, Holm correction within a hypothesis
+    family — are applied offline, over these counts and the JSONL call logs, so
+    that a scoring rule can be revised without re-running rented compute.
+    """
     rng = np.random.default_rng(seed)
     buf = io.StringIO()
-    result = {"dataset": csv_file, "test": test, "requested_queries": num_queries}
+    result = {"dataset": csv_file, "dataset_key": dataset_key(csv_file),
+              "test": test, "requested_queries": num_queries}
     tabmem.config.max_tokens = MAX_TOKENS.get(test, 300)
 
     with redirect_stdout(buf):
         if test == "header":
-            prompt, completion, response = tabmem.header_test(csv_file, llm, rng=rng)
-            match = 0
-            for a, b in zip(completion, response):
-                if a != b:
-                    break
-                match += 1
-            # Bordt's criterion: the model completes at least the next full row.
-            # The split falls mid-row, so that means matching the remainder of
-            # the current row, the newline, and the whole row after it.
-            result["completion_prefix_match_chars"] = match
-            segments = completion.split("\n")
-            needed = len(segments[0]) + 1 + (len(segments[1]) if len(segments) > 1 else 10**9)
-            result["chars_needed_for_next_row"] = needed
-            result["verdict"] = "pass" if match >= needed else "fail"
-            result["response_head"] = response[:200]
-            result["true_head"] = completion[:200]
+            try:
+                prompt, completion, response = tabmem.header_test(csv_file, llm, rng=rng)
+            except (UnboundLocalError, NameError):
+                # tabmemcheck's header_test tracks the best of four splits with a
+                # sentinel it only overwrites when a response is non-empty, so a
+                # model that returns nothing on all four splits leaves the result
+                # variable unbound (functions.py, header_test). That is a failing
+                # header test, not a crash — but the distinction between "wrote
+                # nothing" and "wrote the wrong thing" matters, so it is recorded
+                # rather than folded into an ordinary fail. The four prompts and
+                # their empty responses are in the JSONL call log.
+                result.update(verdict="fail", rows_recovered=0, prefix_match_chars=0,
+                              note="model returned no text on any of the four splits")
+            else:
+                # Bordt's criterion is "the model completes at least the next
+                # row", judged by eye from a Levenshtein-coloured printout.
+                # metrics.py reports both its strict and its automatable form;
+                # the verdict is the latter (RESULTS_GATE.md §0).
+                result.update(header_verdict(completion, response))
+                result["response_head"] = response[:200]
+                result["true_head"] = completion[:200]
 
         elif test == "row":
             suffixes, responses = tabmem.row_completion_test(
@@ -140,19 +245,35 @@ def run_one(llm, csv_file, test, num_queries, seed):
             result.update(matches=k, n=n, rate=k / n if n else 0.0,
                           baseline_rate=base,
                           p_value=float(stats.binomtest(k, n, max(base, 1e-9),
-                                                        alternative="greater").pvalue) if n else None)
+                                                        alternative="greater").pvalue) if n else None,
+                          **response_diagnostics(suffixes, responses))
 
         elif test == "feature":
-            feature = FEATURES.get(csv_file)
-            values, responses = tabmem.feature_completion_test(
-                csv_file, llm, feature_name=feature, num_queries=num_queries, rng=rng
-            )
+            feature, chosen_by = designated_feature(csv_file)
+            try:
+                values, responses = tabmem.feature_completion_test(
+                    csv_file, llm, feature_name=feature, num_queries=num_queries, rng=rng
+                )
+            except KeyError:
+                # tabmemcheck parses the answers as "Feature = Value" and indexes
+                # the resulting frame by feature name; when not one answer parses,
+                # the column is absent. That is zero matches with an important
+                # caveat attached — the zero may be a formatting failure rather
+                # than absence of memorization — so it is recorded as a count with
+                # the caveat, not discarded as an error.
+                result.update(feature=feature, feature_chosen_by=chosen_by,
+                              matches=0, n=num_queries, rate=0.0,
+                              note="no response parsed as 'Feature = Value'; "
+                                   "a zero here may be a format failure, see the call log")
+                result["stdout"] = ANSI.sub("", buf.getvalue())[-2000:]
+                return result
             n = len(responses)
             k = sum(1 for v, r in zip(values, responses)
                     if str(v).strip() == str(r).strip())
             df = utils.load_csv_df(csv_file)
             mode_rate = float(df[feature].astype(str).value_counts(normalize=True).iloc[0])
-            result.update(feature=feature, matches=k, n=n, rate=k / n if n else 0.0,
+            result.update(feature=feature, feature_chosen_by=chosen_by,
+                          matches=k, n=n, rate=k / n if n else 0.0,
                           mode_baseline=mode_rate,
                           p_value=float(stats.binomtest(k, n, max(mode_rate, 1e-9),
                                                         alternative="greater").pvalue) if n else None)
@@ -238,7 +359,7 @@ def main():
         r["calls"] = llm.n_calls
         prev_cost = llm.cost_usd
         results.append(r)
-        ref = PAPER.get((csv_file, test), {})
+        ref = PAPER.get((dataset_key(csv_file), test), {})
         summary = (f"{r.get('matches')}/{r.get('n')}" if "matches" in r
                    else r.get("verdict", "?"))
         print(f"{csv_file:26s} {test:12s} -> {str(summary):10s} "

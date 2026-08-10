@@ -16,7 +16,29 @@ reflects real token usage instead of the max_tokens worst case.
 
 from typing import List, Dict
 
+import tabmemcheck
 from tabmemcheck import utils
+
+
+class MockAdapter(tabmemcheck.LLM_Interface):
+    """Presents a mock function to tabmemcheck as if it were a chat model.
+
+    The mocks are plain callables so that they can be reasoned about; the tests
+    want an LLM_Interface. This is the whole of the difference.
+    """
+
+    def __init__(self, fn):
+        super().__init__()
+        self.fn = fn
+        self.chat_mode = True
+        self.n_calls = 0
+
+    def chat_completion(self, messages, temperature, max_tokens):
+        self.n_calls += 1
+        return self.fn(messages)
+
+    def completion(self, prompt, temperature, max_tokens):
+        raise NotImplementedError("mocks are chat-mode only")
 
 
 def format_echo_mock(messages: List[Dict]) -> str:

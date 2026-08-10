@@ -1,0 +1,63 @@
+{
+  "_what": "Pinned HF revisions required by PREREGISTRATION.md §3 and §9. A model name is not an artefact: repositories are updated in place, and a memorization result is a statement about specific weights. Every run asserts that the commit it loaded is the commit named here.",
+  "_how": "revision = the 'sha' field of https://huggingface.co/api/models/<id>, read on pinned_utc. Substitution is allowed only before the first run of that model and must be logged in LOG.md.",
+  "generated_utc": "2026-08-10",
+  "models": {
+    "Qwen/Qwen2.5-7B-Instruct": {
+      "revision": "a09a35458c702b33eeacc393d103063234e8bc28",
+      "role": "multilingual control; the base of both Russian-adapted Qwen pairs",
+      "pairs_with": ["t-tech/T-lite-it-1.0", "RefalMachine/ruadapt_qwen2.5_7B_ext_u48_instruct"],
+      "license": "apache-2.0",
+      "gated": false,
+      "pinned_utc": "2026-08-10",
+      "used_for": "block A gate, H1, H1b, H4"
+    },
+    "t-tech/T-lite-it-1.0": {
+      "revision": "fbabc76f32140416dc5b0ceef392c7778eec1312",
+      "role": "Russian-centric (confirmatory), continued pretraining of Qwen2.5-7B",
+      "pairs_with": ["Qwen/Qwen2.5-7B-Instruct"],
+      "license": "see model card (T-Bank licence, not an SPDX identifier)",
+      "gated": false,
+      "pinned_utc": "2026-08-10",
+      "used_for": "H1, H1b, H2, H4"
+    },
+    "RefalMachine/ruadapt_qwen2.5_7B_ext_u48_instruct": {
+      "revision": "845d58fc59997f82e7fd7909713b73c2605081ba",
+      "role": "Russian-adapted (confirmatory), vocabulary-extended Qwen2.5-7B",
+      "pairs_with": ["Qwen/Qwen2.5-7B-Instruct"],
+      "license": "see model card",
+      "gated": false,
+      "pinned_utc": "2026-08-10",
+      "used_for": "H1, H1b, H2, H4",
+      "note": "the 7B member of the ruadapt family; §3 says '7B-class', and this is the only 7B instruct checkpoint the author released with meaningful download volume"
+    },
+    "Vikhrmodels/Vikhr-Nemo-12B-Instruct-R-21-09-24": {
+      "revision": "7499757d9f41a2965b0e9db94c976e0982e292b8",
+      "role": "Russian-centric (confirmatory), adapted from Mistral-Nemo-12B",
+      "pairs_with": ["mistralai/Mistral-Nemo-Instruct-2407"],
+      "license": "apache-2.0",
+      "gated": false,
+      "pinned_utc": "2026-08-10",
+      "used_for": "H1, H1b, H2, H4"
+    },
+    "mistralai/Mistral-Nemo-Instruct-2407": {
+      "revision": "04d8a90549d23fc6bd7f642064003592df51e9b3",
+      "role": "multilingual control; the base of Vikhr-Nemo",
+      "pairs_with": ["Vikhrmodels/Vikhr-Nemo-12B-Instruct-R-21-09-24"],
+      "license": "apache-2.0",
+      "gated": false,
+      "pinned_utc": "2026-08-10",
+      "used_for": "H1, H1b, H4"
+    },
+    "meta-llama/Llama-3.1-8B-Instruct": {
+      "revision": "0e9e39f249a16976918f6564b8830bc894c89659",
+      "role": "off-family multilingual control",
+      "pairs_with": [],
+      "license": "llama3.1",
+      "gated": "manual",
+      "pinned_utc": "2026-08-10",
+      "used_for": "H1, H2",
+      "note": "gated: the licence must be accepted on the model page and an HF_TOKEN supplied to the run, otherwise the download fails with 401. Arrange this before the confirmatory session, not during it."
+    }
+  }
+}

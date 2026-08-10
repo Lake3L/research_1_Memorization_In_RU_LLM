@@ -16,6 +16,18 @@ testing a single guessed form risks reporting "no memorization" when we simply
 guessed the wrong one. We therefore materialise the plausible forms, hash each,
 and let the tests run over all of them; the paper reports per-variant results
 and treats the maximum as the extraction estimate.
+
+The `raw` variant is the published file itself and is never regenerated. It has
+to be listed explicitly, because the derived variants are pandas round-trips and
+a round-trip is *not* byte-preserving: iris ships `4.9,3,1.4,0.2` and pandas
+writes `4.9,3.0,1.4,0.2`; on uci-wine 99.4% of rows differ from the published
+bytes this way. Running a verbatim test only against derived variants would
+therefore score a perfectly memorized canon dataset near zero. `raw` is the form
+Bordt et al. tested and the only one comparable to their published counts.
+
+Paths are stored POSIX-style relative to the project root: the registry is
+written on Windows and read on Linux (Kaggle/Colab), and a backslash path is not
+a path there.
 """
 
 import csv
@@ -40,6 +52,11 @@ def sha256(path: str) -> str:
         for chunk in iter(lambda: f.read(1 << 20), b""):
             h.update(chunk)
     return h.hexdigest()
+
+
+def rel(path: str) -> str:
+    """Path relative to the project root, POSIX-style, so Linux can read it."""
+    return os.path.relpath(path, ROOT).replace(os.sep, "/")
 
 
 @dataclass
@@ -106,16 +123,24 @@ def _has_cyrillic(s: str) -> bool:
     return any("Ѐ" <= ch <= "ӿ" for ch in s)
 
 
-def write_variants(df: pd.DataFrame, name: str, out_dir: str) -> dict:
-    """Materialise the serialisations a Russian table plausibly circulates in."""
+def write_variants(df: pd.DataFrame, name: str, out_dir: str,
+                   raw_path: Optional[str] = None) -> dict:
+    """Materialise the serialisations a Russian table plausibly circulates in.
+
+    `raw_path`, when given, is listed first and untouched: it is the published
+    file, and the derived variants below are pandas round-trips of it, which is
+    a different byte string (see the module docstring).
+    """
     os.makedirs(out_dir, exist_ok=True)
+    variants = {}
+    if raw_path is not None:
+        variants["raw"] = {"path": rel(raw_path), "sha256": sha256(raw_path)}
     specs = {
         "utf8_comma": dict(encoding="utf-8", sep=",", decimal="."),
         "utf8_semicolon": dict(encoding="utf-8", sep=";", decimal="."),
         "cp1251_semicolon": dict(encoding="cp1251", sep=";", decimal=","),
         "utf8_semicolon_decimal_comma": dict(encoding="utf-8", sep=";", decimal=","),
     }
-    variants = {}
     for variant, spec in specs.items():
         path = os.path.join(out_dir, f"{name}__{variant}.csv")
         buf = io.StringIO()
@@ -126,8 +151,7 @@ def write_variants(df: pd.DataFrame, name: str, out_dir: str) -> dict:
                 f.write(buf.getvalue())
         except UnicodeEncodeError:
             continue  # cp1251 cannot hold every character; skip rather than mangle
-        variants[variant] = {"path": os.path.relpath(path, ROOT),
-                             "sha256": sha256(path)}
+        variants[variant] = {"path": rel(path), "sha256": sha256(path)}
     return variants
 
 
@@ -138,10 +162,11 @@ def register(name, group, source_url, published, published_evidence, license,
         name=name, group=group, source_url=source_url, published=published,
         published_evidence=published_evidence, license=license,
         downloaded_utc=datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ"),
-        raw_path=os.path.relpath(raw_path, ROOT), raw_sha256=sha256(raw_path),
+        raw_path=rel(raw_path), raw_sha256=sha256(raw_path),
         n_rows=len(df), n_cols=df.shape[1], columns=list(map(str, df.columns)),
         language=language,
-        variants=write_variants(df, name, os.path.join(DATA, group, "variants")),
+        variants=write_variants(df, name, os.path.join(DATA, group, "variants"),
+                                raw_path=raw_path),
         diagnostics=diagnostics(df), notes=notes,
     )
     registry = load_registry()
@@ -156,6 +181,37 @@ def load_registry() -> dict:
     if os.path.exists(REGISTRY_PATH):
         return json.load(open(REGISTRY_PATH, encoding="utf-8"))
     return {}
+
+
+def normalise() -> list:
+    """Bring an already-frozen registry to the current conventions, in place.
+
+    Idempotent and hash-preserving: it rewrites Windows paths as POSIX and adds
+    the `raw` variant entry, whose hash is the already-frozen `raw_sha256`. No
+    dataset is added, removed or re-downloaded, and no existing hash changes —
+    otherwise this would be a new freeze rather than a migration of the old one.
+    """
+    registry = load_registry()
+    changes = []
+    for name, rec in registry.items():
+        posix_raw = rec["raw_path"].replace("\\", "/")
+        if posix_raw != rec["raw_path"]:
+            changes.append(f"{name}: raw_path -> {posix_raw}")
+            rec["raw_path"] = posix_raw
+        variants = rec.get("variants", {})
+        for variant, info in variants.items():
+            posix = info["path"].replace("\\", "/")
+            if posix != info["path"]:
+                changes.append(f"{name}/{variant}: path -> {posix}")
+                info["path"] = posix
+        if "raw" not in variants:
+            changes.append(f"{name}: + variant 'raw' (the published bytes)")
+            rec["variants"] = {"raw": {"path": posix_raw,
+                                       "sha256": rec["raw_sha256"]}, **variants}
+    if changes:
+        with open(REGISTRY_PATH, "w", encoding="utf-8") as f:
+            json.dump(registry, f, ensure_ascii=False, indent=2)
+    return changes
 
 
 def verify() -> list:
@@ -177,6 +233,11 @@ def verify() -> list:
 
 
 if __name__ == "__main__":
+    import sys
+
+    if "--normalise" in sys.argv:
+        for change in normalise() or ["nothing to change"]:
+            print(" ", change)
     problems = verify()
     registry = load_registry()
     print(f"registered datasets: {len(registry)}")

@@ -26,6 +26,7 @@ Datasets that fail this remain in H1/H2. The memorization tests ask whether the 
 - baselines: LR 0.740 (κ=0.48), GBT 0.750, majority 0.500 → lift +0.250
 - **H3: admitted**
 - serialisation variants and hashes:
+  - `raw`: `aefd11fd133881c348e0138b273a300e…`
   - `utf8_comma`: `f61808c0772a99b31a8f432de5ff8a8e…`
   - `utf8_semicolon`: `bbec2ce4b990db334d416c270ff74213…`
   - `cp1251_semicolon`: `d8fbd250eadba778fc8290839622696b…`
@@ -44,6 +45,7 @@ Datasets that fail this remain in H1/H2. The memorization tests ask whether the 
 - baselines: LR 0.930 (κ=0.85), GBT 0.931, majority 0.652 → lift +0.280
 - **H3: admitted**
 - serialisation variants and hashes:
+  - `raw`: `565ee379b774ae88c42056a442ef64fb…`
   - `utf8_comma`: `7c12e7a0d5faf0ae85bbae6b8c8241b4…`
   - `utf8_semicolon`: `6c68a6407237cc6a85544a7dc1c3269b…`
   - `utf8_semicolon_decimal_comma`: `ad3bb8afc8a24b5a9df29cee2b4f32fe…`
@@ -61,6 +63,7 @@ Datasets that fail this remain in H1/H2. The memorization tests ask whether the 
 - baselines: LR 0.799 (κ=0.17), GBT 0.792, majority 0.775 → lift +0.024
 - **H3: excluded — task not learnable; used for H1/H2 only**
 - serialisation variants and hashes:
+  - `raw`: `4a8a2953762831b07407a05897085f39…`
   - `utf8_comma`: `11b8ddce2d591dd64661a0bd5d3cb984…`
   - `utf8_semicolon`: `652f5a5c5d8e0578554ed939cdc9f9c4…`
   - `cp1251_semicolon`: `471e29957277ec39ee0087425eb5dc0c…`
@@ -79,6 +82,7 @@ Datasets that fail this remain in H1/H2. The memorization tests ask whether the 
 - baselines: LR 0.818 (κ=0.56), GBT 0.816, majority 0.642 → lift +0.176
 - **H3: admitted**
 - serialisation variants and hashes:
+  - `raw`: `4c3335ed3a604df1f9a935668c7c178f…`
   - `utf8_comma`: `f5109a6046ba4e8dce2b83a341482986…`
   - `utf8_semicolon`: `48befb1c8bfbda119518429c608e2fc3…`
   - `cp1251_semicolon`: `5f8c4285bb0a599c70e7208577a9c5c9…`
@@ -97,6 +101,7 @@ Datasets that fail this remain in H1/H2. The memorization tests ask whether the 
 - baselines: LR 0.678 (κ=0.12), GBT 0.677, majority 0.659 → lift +0.018
 - **H3: excluded — task not learnable; used for H1/H2 only**
 - serialisation variants and hashes:
+  - `raw`: `da0d2a22751739a59542cc278b2c5aeb…`
   - `utf8_comma`: `b2a969a321697e98bb464fdde4d02266…`
   - `utf8_semicolon`: `90069e0992e958306146fce082ccc96e…`
   - `utf8_semicolon_decimal_comma`: `871c441c48e04ed0ebdac7348cdf4344…`
@@ -116,6 +121,7 @@ Datasets that fail this remain in H1/H2. The memorization tests ask whether the 
 - baselines: LR 0.839 (κ=0.68), GBT 0.810, majority 0.536 → lift +0.303
 - **H3: admitted**
 - serialisation variants and hashes:
+  - `raw`: `5f98ebfad75923382c48660e9137e5da…`
   - `utf8_comma`: `5f98ebfad75923382c48660e9137e5da…`
   - `utf8_semicolon`: `ca5829e3843883d44fe5f8a93d0ac1f6…`
   - `cp1251_semicolon`: `6d3735cbe520f2f68136cbbc4c769288…`
@@ -134,6 +140,7 @@ Datasets that fail this remain in H1/H2. The memorization tests ask whether the 
 - Cyrillic headers: False; Cyrillic values: False
 - duplicate rows: 0.0200; digits per row: 8.0; highest-entropy feature: `petal_length` (29% unique)
 - serialisation variants and hashes:
+  - `raw`: `9194e2b71f7144e7d192a1c38f9a54f2…`
   - `utf8_comma`: `20f7ef9ad6e85c0752a0cda4c9d1edfc…`
   - `utf8_semicolon`: `469156299c5b5c6cff0090a3a9239cbc…`
   - `cp1251_semicolon`: `bf5b4d457da721e72495f3889f3ded45…`
@@ -150,6 +157,7 @@ Datasets that fail this remain in H1/H2. The memorization tests ask whether the 
 - Cyrillic headers: False; Cyrillic values: False
 - duplicate rows: 0.0007; digits per row: 16.0; highest-entropy feature: `fnlwgt` (66% unique)
 - serialisation variants and hashes:
+  - `raw`: `c18b1aa5bb34303b571604b31da3313b…`
   - `utf8_comma`: `b40dc2181c59d7921a0fd739b4aec1a0…`
   - `utf8_semicolon`: `5a74f768be20b8e0fdbf31aa29c849be…`
   - `cp1251_semicolon`: `5a74f768be20b8e0fdbf31aa29c849be…`
@@ -166,6 +174,7 @@ Datasets that fail this remain in H1/H2. The memorization tests ask whether the 
 - Cyrillic headers: False; Cyrillic values: False
 - duplicate rows: 0.0000; digits per row: 41.4; highest-entropy feature: `median_income` (63% unique)
 - serialisation variants and hashes:
+  - `raw`: `b214a65099c1dcc2ea7797935aff103f…`
   - `utf8_comma`: `8a3727f4cf54ac1a327f69b1d5b4db54…`
   - `utf8_semicolon`: `b0ce0bec60ce51ce36811ba8b8a709ee…`
   - `cp1251_semicolon`: `4c1b0e86100b7cf79b8ac67acc9cc8a9…`
@@ -182,6 +191,7 @@ Datasets that fail this remain in H1/H2. The memorization tests ask whether the 
 - Cyrillic headers: False; Cyrillic values: False
 - duplicate rows: 0.0000; digits per row: 19.2; highest-entropy feature: `DiabetesPedigreeFunction` (67% unique)
 - serialisation variants and hashes:
+  - `raw`: `698c203a14aa31941d2251175330c919…`
   - `utf8_comma`: `c980e5e01dc1c554a358102b773f34b2…`
   - `utf8_semicolon`: `d9ab120b8921ee28c4aa9fa7a6fb59ab…`
   - `cp1251_semicolon`: `2f84230664912608da8a1481ab2bdf05…`
@@ -198,6 +208,7 @@ Datasets that fail this remain in H1/H2. The memorization tests ask whether the 
 - Cyrillic headers: False; Cyrillic values: False
 - duplicate rows: 0.0000; digits per row: 38.9; highest-entropy feature: `malic_acid` (75% unique)
 - serialisation variants and hashes:
+  - `raw`: `6cb704889e69841f942880fd68491566…`
   - `utf8_comma`: `4015999f2c54686113cdc43c35210ce3…`
   - `utf8_semicolon`: `9d6e22cb194c926f59ee54e36c852d91…`
   - `cp1251_semicolon`: `f0b177af22b9d5a1cfb20f248aa75818…`
@@ -214,6 +225,7 @@ Datasets that fail this remain in H1/H2. The memorization tests ask whether the 
 - Cyrillic headers: False; Cyrillic values: False
 - duplicate rows: 0.0000; digits per row: 19.2; highest-entropy feature: `PassengerId` (100% unique)
 - serialisation variants and hashes:
+  - `raw`: `4a437fde05fe5264e1701a7387ac6fb7…`
   - `utf8_comma`: `8331e5a2532f5fdb66153a8fc053df08…`
   - `utf8_semicolon`: `7bda93c088762ba10d928b18ba5dcc42…`
   - `cp1251_semicolon`: `9da760cc6fb21783af52e00720ec4b49…`
@@ -223,6 +235,8 @@ Datasets that fail this remain in H1/H2. The memorization tests ask whether the 
 ## Canonicalisation
 
 Verbatim memorization is a property of the exact bytes a model saw, and these files have no single canonical form: the same table circulates as cp1251 and UTF-8, comma- and semicolon-separated, with `.` or `,` as the decimal mark. Testing one guessed form risks reporting absence of memorization when we merely guessed wrong. Every dataset is therefore materialised in each serialisation listed above, all of them are tested, results are reported per variant, and the maximum across variants is the extraction estimate. This has no counterpart in Bordt et al., whose canon has one unambiguous form per dataset.
+
+The `raw` variant is the published file itself, listed separately because the other variants are pandas round-trips and a round-trip does not preserve bytes: iris ships `4.9,3,1.4,0.2` and pandas writes `4.9,3.0,1.4,0.2`; on `uci-wine` 99.4% of rows and on `titanic-train` 79.6% differ from the published bytes for reasons of float formatting alone. A verbatim test run only against derived variants would therefore score a perfectly memorized dataset near zero. `raw` is the form Bordt et al. tested and the only one whose counts are comparable with their published tables; it is what the §8 gate and all canon results use.
 
 ## Deviations from §4 as written
 

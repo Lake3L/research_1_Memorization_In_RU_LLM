@@ -4,8 +4,9 @@ Coarse-grained task list. Each block is meant to be picked up in its own session
 read the linked artefacts, do the block, tick the boxes, commit. Detailed decisions
 live in the documents referenced from each block, not here.
 
-Status: **week 3-4 of the plan** (dataset collection done, adapted pipeline not yet
-validated).
+Status: **week 3-4 of the plan** — dataset collection done; the adapted pipeline is
+built, instrument-validated against mocks over the whole block A plan, and waiting
+on one GPU session to be validated against a real model.
 
 ---
 
@@ -34,21 +35,37 @@ The HF/Russian pipeline must reproduce the English result of the unmodified
 pipeline before it may be used for any hypothesis. Until this is ticked, no H1-H4
 number counts.
 
-- [ ] Run the notebook on Kaggle with `Qwen/Qwen2.5-7B-Instruct`, group `canon`,
-      English prompts only.
-- [ ] Confirm the mock controls inside the notebook behave (10/10 and 0/10).
-- [ ] Compare the iris/wine/diabetes row-completion counts against `RESULTS_GATE.md`
-      and against Bordt's Table 3 expectation for open models: header test passes
-      widely, row completion fires mainly on iris.
-- [ ] If the signal is absent everywhere: stop and diagnose the adapter, not the
-      models (chat template, `apply_chat_template` fallback, truncation).
-- [ ] Record the outcome in `RESULTS_GATE.md` §5 and pin the model revision in
-      `models.lock`.
+Preparation is done and the decision rule is written down in `RESULTS_GATE.md` §6
+before the run. What is left is the run itself.
+
+- [x] Pin the model revisions. → `models.lock`
+- [x] Make the datasets rebuildable on a clean machine and hash-verified there.
+      → `src/fetch_data.py` (12/12 restored byte-exact after deletion)
+- [x] Test the canon on the *published* bytes, not on pandas round-trips of them
+      (the `raw` variant; wine differs in 99.4% of rows otherwise).
+- [x] Validate the instrument over the whole block A plan, both directions:
+      perfect memorizer 20/20 cells at 100%, echo mock zero everywhere.
+      → `results/validation/gateA_gate_hf_*`
+- [x] Run the HF backend end to end (Qwen2.5-0.5B on CPU) — chat template, greedy
+      decoding, per-call JSONL log. → `src/smoke_hf_header.py`
+- [x] State the gate rule before seeing any number: PASS / FAIL_ADAPTER /
+      FAIL_NO_SIGNAL, with the adapter case separated from the model case by the
+      share of answers that even have the shape of a CSV row.
+- [ ] **Run the notebook on Kaggle with `Qwen/Qwen2.5-7B-Instruct`, group `canon`,
+      variant `raw`, English prompts only.** Expect 1.5-3 h on a T4 in 4-bit.
+- [ ] Bring back both artefacts: `results/gateA_*.json` and `results/calls_*.jsonl`.
+      The call log matters more than the counts — it is what lets a scoring rule be
+      revised without paying for the session again.
+- [ ] Fill `RESULTS_GATE.md` §6 from the run. If FAIL_ADAPTER: diagnose the chat
+      template and truncation, not the model. If FAIL_NO_SIGNAL: that is a result
+      about a 7B model's extractability and it is reported, not tuned away (§10).
 
 ## Block B — H1 and H1b: does the Western canon survive Russian adaptation
 
-- [ ] Pin revisions for the base↔adapted pairs: Qwen2.5-7B ↔ T-lite,
+- [x] Pin revisions for the base↔adapted pairs: Qwen2.5-7B ↔ T-lite,
       Mistral-Nemo ↔ Vikhr-Nemo, Qwen2.5-7B ↔ ruadapt-Qwen, plus Llama-3.1-8B.
+      → `models.lock`. Note: Llama-3.1-8B is gated (manual approval) and needs an
+      accepted licence plus `HF_TOKEN` in the session — arrange before, not during.
 - [ ] Run all four memorization tests × 6 canon datasets × 4 serialisation variants,
       English prompts, 3 seeds.
 - [ ] Apply the preregistered decision rules (binomial tests against the stated

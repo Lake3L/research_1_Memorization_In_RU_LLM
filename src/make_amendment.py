@@ -117,6 +117,15 @@ def main():
         "maximum across variants is the extraction estimate. This has no counterpart in "
         "Bordt et al., whose canon has one unambiguous form per dataset.",
         "",
+        "The `raw` variant is the published file itself, listed separately because the "
+        "other variants are pandas round-trips and a round-trip does not preserve bytes: "
+        "iris ships `4.9,3,1.4,0.2` and pandas writes `4.9,3.0,1.4,0.2`; on `uci-wine` "
+        "99.4% of rows and on `titanic-train` 79.6% differ from the published bytes for "
+        "reasons of float formatting alone. A verbatim test run only against derived "
+        "variants would therefore score a perfectly memorized dataset near zero. `raw` is "
+        "the form Bordt et al. tested and the only one whose counts are comparable with "
+        "their published tables; it is what the §8 gate and all canon results use.",
+        "",
         "## Deviations from §4 as written",
         "",
         "- §4 set a target of at least four Russian pre-cutoff datasets with a minimum of "

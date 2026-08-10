@@ -74,10 +74,6 @@ This is also a finding in its own right, and it belongs in our paper's Limitatio
 studies conducted on closed API models stop being reproducible within about eighteen months, as
 checkpoints are retired. It is a direct argument for the open-weight design of this project.
 
-This is also a finding in its own right, and it belongs in our paper's Limitations: contamination
-studies conducted on closed API models stop being reproducible within about eighteen months, as
-checkpoints are retired. It is a direct argument for the open-weight design of this project.
-
 ## 2. Results
 
 Raw counts in `results/repro_*.json`, every prompt and response in `results/chatlog_*.jsonl`,
@@ -203,7 +199,76 @@ Against the criteria of PREREGISTRATION.md §8:
   impossible for GPT-3.5 (checkpoint retired), documented above;
 - measurement code validated in both directions before spending — **met** (§0).
 
-Work on the confirmatory hypotheses may proceed. One §8 requirement remains open and is *not*
-covered by this file: the adapted HF/Russian pipeline must reproduce the English results of the
-unmodified pipeline on at least one model×dataset before it is used for H1–H4. The HF backend
-exists (`src/hf_llm.py`) but has not yet been validated against this baseline.
+Work on the confirmatory hypotheses may proceed **through the unmodified pipeline**. One §8
+requirement remains open and is the subject of §6 below: the adapted HF/Russian pipeline must
+reproduce the English results of the unmodified pipeline before it is used for H1–H4.
+
+## 6. The adapted pipeline (block A) — decision rule and instrument check
+
+**Status: instrument validated 2026-08-10; the model run has not been made.** No H1–H4 number may
+be quoted until this section carries a verdict.
+
+### 6.1 The rule, written before the run
+
+Executable form in `src/run_hf_gate.py`, which prints the verdict itself so that it cannot be
+decided after seeing the numbers:
+
+| Verdict | Condition | What it means |
+|---|---|---|
+| **PASS** | the mock controls behave **and** (header test passes on ≥2 of 6 canon datasets **or** iris row completion beats the duplicate base rate at p<0.05) | the adapted pipeline reproduces the English result; blocks B–E open |
+| **FAIL_ADAPTER** | mocks behave, but <50% of row-completion answers even have the shape of a CSV row | our adapter, not the model: chat template, system prompt, truncation |
+| **FAIL_NO_SIGNAL** | answers well-formed, nothing fires | a result about the model. Per §10 it is reported, not tuned away |
+
+The threshold comes from the reference the run is checked against: Bordt et al. report (Table 3,
+p. 5) that for open models "there is evidence for the memorization of the most popular tabular
+datasets in almost all LLMs. However, with the exception of the Iris dataset, there is usually
+only evidence for the memorization of the initial rows and not of the entire dataset." Header
+passes are therefore the expected signal and iris row completion the expected exception.
+
+The plan (`PLANS["gate_hf"]`) repeats every cell of the paid gate above, so the two runs are
+directly comparable, and adds Kaggle Titanic and row completion on wine and california-housing,
+which the $5 budget could not afford. First token — the most sensitive of the four tests, and the
+one that matters most for 7-8B models whose extractability is lower than GPT-4's — runs on all
+three datasets for which the paper reports a baseline.
+
+### 6.2 What has been validated without a GPU
+
+The instrument was re-validated against the **full block A plan** on the byte-exact canon files,
+in both directions, on a laptop:
+
+| Control | Command | Result |
+|---|---|---|
+| perfect memorizer | `python src/run_hf_gate.py --mock perfect` | 20/20 cells at 100%; 6/6 header passes; verdict PASS |
+| format echo | `python src/run_hf_gate.py --mock echo` | 0 matches on every header, row and feature cell; first token at chance against its own baseline; verdict FAIL_NO_SIGNAL |
+
+Artefacts: `results/validation/gateA_gate_hf_{perfect,echo}_raw_en_*.json`.
+
+The HF backend itself was run end to end against `Qwen/Qwen2.5-0.5B-Instruct` on CPU
+(`python src/smoke_hf_header.py`, log in `results/validation/smoke_hf_calls_qwen0.5b_cpu.jsonl`):
+chat templating, greedy decoding and the JSONL call log all work, and the 0.5B model answers with
+well-formed CSV rows of the wrong content — the expected behaviour for a model that size, and the
+demonstration that a zero from this pipeline is a zero about the model.
+
+### 6.3 Five defects found before the run, not during it
+
+Each of these would have consumed a GPU session and produced a number that looked like a result:
+
+1. **Derived variants are not the published bytes.** `data/*/variants/*__utf8_comma.csv` is a
+   pandas round-trip of the raw file, and round-trips reformat floats: 99.4% of `uci-wine` rows,
+   79.6% of `titanic-train` rows and 39.7% of `iris` rows differ from the published bytes. Running
+   the canon tests against those variants would have scored a perfectly memorized dataset near
+   zero. The registry now carries the published file as the `raw` variant and the gate uses it.
+2. **`apply_chat_template` returns a `BatchEncoding` under transformers 5**, not a tensor, and
+   `BatchEncoding` is a `UserDict` rather than a `dict` — so both the original code and the first
+   fix for it failed. Caught by the CPU smoke test.
+3. **The registry stored Windows paths.** `data\canon\iris.csv` is not a path on Kaggle; the run
+   would have failed to find, and then tried to re-download, every dataset.
+4. **The canon is not downloadable from its `source_url`.** UCI, OpenML and Kaggle serve landing
+   pages there. Five of the six files are byte-identical to the copies inside `tabmemcheck`
+   itself, which is now the primary source (`src/fetch_data.py`), with a pinned GitHub commit as
+   fallback; titanic comes from a pinned mirror commit, verified byte-exact against the freeze.
+5. **`header_test` raises `UnboundLocalError` when a model returns nothing on all four splits** —
+   tabmemcheck tracks the best split with a sentinel it only overwrites for non-empty responses.
+   A silent 7B model would have crashed the cell instead of failing the test. The test logic is
+   left untouched (§2 forbids changing it); the caller records a failed header test with a note
+   distinguishing "wrote nothing" from "wrote the wrong thing".

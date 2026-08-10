@@ -65,8 +65,9 @@ def baselines(df: pd.DataFrame, target: str, seed: int = 42) -> dict:
             "accuracy": round(acc, 4),
             "cohen_kappa": round(float(cohen_kappa_score(y, pred)), 4),
         }
-    majority = float(max(y.mean(), 1 - y.mean())) if y.nunique() == 2 else \
-        float(y.value_counts(normalize=True).max())
+    # Targets arrive both as 0/1 and as strings (' <=50K' / ' >50K' in Adult),
+    # so the majority share is taken from the value counts either way.
+    majority = float(y.value_counts(normalize=True).max())
     out["majority_baseline"] = round(majority, 4)
     out["best_lift_over_majority"] = round(
         max(out["logistic_regression"]["accuracy"],
@@ -83,8 +84,8 @@ def profile(df: pd.DataFrame, target: str) -> dict:
         "missing_by_column": {c: round(float(df[c].isna().mean()), 3)
                               for c in df.columns if df[c].isna().any()},
         "cardinality": {c: int(df[c].nunique()) for c in df.columns},
-        "class_balance": round(float(df[target].mean()), 4)
-        if df[target].nunique() == 2 else None,
+        "class_balance": {str(k): round(float(v), 4) for k, v in
+                          df[target].value_counts(normalize=True).head(5).items()},
     }
 
 

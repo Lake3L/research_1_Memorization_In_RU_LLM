@@ -1,0 +1,47 @@
+{
+  "file": "data\\canon\\california-housing__modeling.csv",
+  "target": "median_house_value_above_median",
+  "profile": {
+    "n_rows": 20640,
+    "n_cols": 10,
+    "duplicate_row_share": 0.0,
+    "missing_by_column": {
+      "total_bedrooms": 0.01
+    },
+    "cardinality": {
+      "longitude": 844,
+      "latitude": 862,
+      "housing_median_age": 52,
+      "total_rooms": 5926,
+      "total_bedrooms": 1923,
+      "population": 3888,
+      "households": 1815,
+      "median_income": 12928,
+      "ocean_proximity": 5,
+      "median_house_value_above_median": 2
+    },
+    "class_balance": {
+      "0": 0.5001,
+      "1": 0.4999
+    }
+  },
+  "baselines": {
+    "logistic_regression": {
+      "accuracy": 0.8387,
+      "cohen_kappa": 0.6774
+    },
+    "gradient_boosting": {
+      "accuracy": 0.9002,
+      "cohen_kappa": 0.8004
+    },
+    "majority_baseline": 0.5001,
+    "best_lift_over_majority": 0.4001
+  },
+  "checks": {
+    "at_least_300_rows": true,
+    "task_is_learnable": true,
+    "not_dominated_by_duplicates": true,
+    "has_high_entropy_feature": true
+  },
+  "admitted": true
+}

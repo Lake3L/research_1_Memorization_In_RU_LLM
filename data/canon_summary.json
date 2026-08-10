@@ -1,0 +1,104 @@
+{
+  "adult-train": {
+    "rows": 32561,
+    "cols": 15,
+    "target": "Income",
+    "baselines": {
+      "logistic_regression": {
+        "accuracy": 0.8522,
+        "cohen_kappa": 0.5695
+      },
+      "gradient_boosting": {
+        "accuracy": 0.8732,
+        "cohen_kappa": 0.634
+      },
+      "majority_baseline": 0.7592,
+      "best_lift_over_majority": 0.114
+    },
+    "admitted": true,
+    "admission_basis": "canon member; size rule does not apply",
+    "failed_checks": []
+  },
+  "california-housing": {
+    "rows": 20640,
+    "cols": 10,
+    "target": "median_house_value_above_median",
+    "baselines": {
+      "logistic_regression": {
+        "accuracy": 0.8387,
+        "cohen_kappa": 0.6774
+      },
+      "gradient_boosting": {
+        "accuracy": 0.9002,
+        "cohen_kappa": 0.8004
+      },
+      "majority_baseline": 0.5001,
+      "best_lift_over_majority": 0.4001
+    },
+    "admitted": true,
+    "admission_basis": "canon member; size rule does not apply",
+    "failed_checks": []
+  },
+  "openml-diabetes": {
+    "rows": 768,
+    "cols": 9,
+    "target": "Outcome",
+    "baselines": {
+      "logistic_regression": {
+        "accuracy": 0.7747,
+        "cohen_kappa": 0.4785
+      },
+      "gradient_boosting": {
+        "accuracy": 0.7422,
+        "cohen_kappa": 0.4206
+      },
+      "majority_baseline": 0.651,
+      "best_lift_over_majority": 0.1237
+    },
+    "admitted": true,
+    "admission_basis": "canon member; size rule does not apply",
+    "failed_checks": []
+  },
+  "uci-wine": {
+    "rows": 178,
+    "cols": 14,
+    "target": "target",
+    "baselines": {
+      "logistic_regression": {
+        "accuracy": 0.9831,
+        "cohen_kappa": 0.9744
+      },
+      "gradient_boosting": {
+        "accuracy": 0.9663,
+        "cohen_kappa": 0.9489
+      },
+      "majority_baseline": 0.3989,
+      "best_lift_over_majority": 0.5842
+    },
+    "admitted": true,
+    "admission_basis": "canon member; size rule does not apply",
+    "failed_checks": [
+      "at_least_300_rows"
+    ]
+  },
+  "titanic-train": {
+    "rows": 891,
+    "cols": 12,
+    "target": "Survived",
+    "baselines": {
+      "logistic_regression": {
+        "accuracy": 0.8081,
+        "cohen_kappa": 0.5895
+      },
+      "gradient_boosting": {
+        "accuracy": 0.8182,
+        "cohen_kappa": 0.6047
+      },
+      "majority_baseline": 0.6162,
+      "best_lift_over_majority": 0.202
+    },
+    "admitted": true,
+    "admission_basis": "canon member; size rule does not apply",
+    "failed_checks": []
+  }
+}

@@ -1,0 +1,50 @@
+{
+  "file": "data\\canon\\adult-train__modeling.csv",
+  "target": "Income",
+  "profile": {
+    "n_rows": 32561,
+    "n_cols": 15,
+    "duplicate_row_share": 0.0007,
+    "missing_by_column": {},
+    "cardinality": {
+      "Age": 73,
+      "WorkClass": 9,
+      "fnlwgt": 21648,
+      "Education": 16,
+      "EducationNum": 16,
+      "MaritalStatus": 7,
+      "Occupation": 15,
+      "Relationship": 6,
+      "Race": 5,
+      "Gender": 2,
+      "CapitalGain": 119,
+      "CapitalLoss": 92,
+      "HoursPerWeek": 94,
+      "NativeCountry": 42,
+      "Income": 2
+    },
+    "class_balance": {
+      " <=50K": 0.7592,
+      " >50K": 0.2408
+    }
+  },
+  "baselines": {
+    "logistic_regression": {
+      "accuracy": 0.8522,
+      "cohen_kappa": 0.5695
+    },
+    "gradient_boosting": {
+      "accuracy": 0.8732,
+      "cohen_kappa": 0.634
+    },
+    "majority_baseline": 0.7592,
+    "best_lift_over_majority": 0.114
+  },
+  "checks": {
+    "at_least_300_rows": true,
+    "task_is_learnable": true,
+    "not_dominated_by_duplicates": true,
+    "has_high_entropy_feature": true
+  },
+  "admitted": true
+}

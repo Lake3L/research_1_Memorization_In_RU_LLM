@@ -1,0 +1,50 @@
+{
+  "file": "data\\canon\\uci-wine__modeling.csv",
+  "target": "target",
+  "profile": {
+    "n_rows": 178,
+    "n_cols": 14,
+    "duplicate_row_share": 0.0,
+    "missing_by_column": {},
+    "cardinality": {
+      "target": 3,
+      "alcohol": 126,
+      "malic_acid": 133,
+      "ash": 79,
+      "alcalinity_of_ash": 63,
+      "magnesium": 53,
+      "total_phenols": 97,
+      "flavanoids": 132,
+      "nonflavanoid_phenols": 39,
+      "proanthocyanins": 101,
+      "color_intensity": 132,
+      "hue": 78,
+      "od280_od315_of_diluted_wines": 122,
+      "proline": 121
+    },
+    "class_balance": {
+      "2": 0.3989,
+      "1": 0.3315,
+      "3": 0.2697
+    }
+  },
+  "baselines": {
+    "logistic_regression": {
+      "accuracy": 0.9831,
+      "cohen_kappa": 0.9744
+    },
+    "gradient_boosting": {
+      "accuracy": 0.9663,
+      "cohen_kappa": 0.9489
+    },
+    "majority_baseline": 0.3989,
+    "best_lift_over_majority": 0.5842
+  },
+  "checks": {
+    "at_least_300_rows": false,
+    "task_is_learnable": true,
+    "not_dominated_by_duplicates": true,
+    "has_high_entropy_feature": true
+  },
+  "admitted": false
+}

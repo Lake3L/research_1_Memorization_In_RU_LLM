@@ -1,0 +1,41 @@
+{
+  "file": "data\\canon\\iris__modeling.csv",
+  "target": "species",
+  "profile": {
+    "n_rows": 150,
+    "n_cols": 5,
+    "duplicate_row_share": 0.02,
+    "missing_by_column": {},
+    "cardinality": {
+      "sepal_length": 35,
+      "sepal_width": 23,
+      "petal_length": 43,
+      "petal_width": 22,
+      "species": 3
+    },
+    "class_balance": {
+      "Iris-setosa": 0.3333,
+      "Iris-versicolor": 0.3333,
+      "Iris-virginica": 0.3333
+    }
+  },
+  "baselines": {
+    "logistic_regression": {
+      "accuracy": 0.9533,
+      "cohen_kappa": 0.93
+    },
+    "gradient_boosting": {
+      "accuracy": 0.94,
+      "cohen_kappa": 0.91
+    },
+    "majority_baseline": 0.3333,
+    "best_lift_over_majority": 0.62
+  },
+  "checks": {
+    "at_least_300_rows": false,
+    "task_is_learnable": true,
+    "not_dominated_by_duplicates": true,
+    "has_high_entropy_feature": false
+  },
+  "admitted": false
+}

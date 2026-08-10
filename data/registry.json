@@ -396,5 +396,290 @@
       "cyrillic_in_values": true
     },
     "notes": "Russian retail brands from Kaggle, 2737 rows. English headers, Cyrillic values. The free-text 'description' column is dropped from the modeling view (it is prose, not a tabular feature) but stays in the published file, where it is the highest-entropy field for the completion tests."
+  },
+  "adult-train": {
+    "name": "adult-train",
+    "group": "canon",
+    "source_url": "https://archive.ics.uci.edu/dataset/2/adult",
+    "published": "1996-05-01",
+    "published_evidence": "UCI ML Repository donation date 1996-05-01; file byte-identical (md5 82247b7d) to the copy shipped with tabmemcheck and with the COLM paper code",
+    "license": "CC BY 4.0 (UCI)",
+    "downloaded_utc": "2026-08-10T14:16:58Z",
+    "raw_path": "data\\canon\\adult-train.csv",
+    "raw_sha256": "c18b1aa5bb34303b571604b31da3313b44b5494cf7c103c21e5f90a25193478d",
+    "n_rows": 32561,
+    "n_cols": 15,
+    "columns": [
+      "Age",
+      "WorkClass",
+      "fnlwgt",
+      "Education",
+      "EducationNum",
+      "MaritalStatus",
+      "Occupation",
+      "Relationship",
+      "Race",
+      "Gender",
+      "CapitalGain",
+      "CapitalLoss",
+      "HoursPerWeek",
+      "NativeCountry",
+      "Income"
+    ],
+    "language": "en",
+    "variants": {
+      "utf8_comma": {
+        "path": "data\\canon\\variants\\adult-train__utf8_comma.csv",
+        "sha256": "b40dc2181c59d7921a0fd739b4aec1a0f56075003125ba23cb42b6c1795bce59"
+      },
+      "utf8_semicolon": {
+        "path": "data\\canon\\variants\\adult-train__utf8_semicolon.csv",
+        "sha256": "5a74f768be20b8e0fdbf31aa29c849bef3f2679e369154275103f58346083689"
+      },
+      "cp1251_semicolon": {
+        "path": "data\\canon\\variants\\adult-train__cp1251_semicolon.csv",
+        "sha256": "5a74f768be20b8e0fdbf31aa29c849bef3f2679e369154275103f58346083689"
+      },
+      "utf8_semicolon_decimal_comma": {
+        "path": "data\\canon\\variants\\adult-train__utf8_semicolon_decimal_comma.csv",
+        "sha256": "5a74f768be20b8e0fdbf31aa29c849bef3f2679e369154275103f58346083689"
+      }
+    },
+    "diagnostics": {
+      "duplicate_row_share": 0.0007,
+      "mean_digits_per_row": 16.0,
+      "mean_chars_per_row": 116.1,
+      "most_unique_feature": "fnlwgt",
+      "most_unique_share": 0.6648,
+      "high_entropy_feature_available": true,
+      "cyrillic_in_headers": false,
+      "cyrillic_in_values": false
+    },
+    "notes": "Western canon, tested by Bordt et al. Target 'Income' follows their transform config."
+  },
+  "california-housing": {
+    "name": "california-housing",
+    "group": "canon",
+    "source_url": "https://www.kaggle.com/datasets/camnugent/california-housing-prices",
+    "published": "1997-01-01",
+    "published_evidence": "derived from Pace & Barry (1997); file byte-identical (md5 e2727d25) to the tabmemcheck and COLM paper copies",
+    "license": "CC0 (Kaggle listing)",
+    "downloaded_utc": "2026-08-10T14:17:39Z",
+    "raw_path": "data\\canon\\california-housing.csv",
+    "raw_sha256": "b214a65099c1dcc2ea7797935aff103fa0445220a366fb74beacb59486e548ff",
+    "n_rows": 20640,
+    "n_cols": 10,
+    "columns": [
+      "longitude",
+      "latitude",
+      "housing_median_age",
+      "total_rooms",
+      "total_bedrooms",
+      "population",
+      "households",
+      "median_income",
+      "median_house_value",
+      "ocean_proximity"
+    ],
+    "language": "en",
+    "variants": {
+      "utf8_comma": {
+        "path": "data\\canon\\variants\\california-housing__utf8_comma.csv",
+        "sha256": "8a3727f4cf54ac1a327f69b1d5b4db54c5834ea81c6e4efc0d163300022a685e"
+      },
+      "utf8_semicolon": {
+        "path": "data\\canon\\variants\\california-housing__utf8_semicolon.csv",
+        "sha256": "b0ce0bec60ce51ce36811ba8b8a709eec4748ef5ba54e4410296f82e75902c68"
+      },
+      "cp1251_semicolon": {
+        "path": "data\\canon\\variants\\california-housing__cp1251_semicolon.csv",
+        "sha256": "4c1b0e86100b7cf79b8ac67acc9cc8a920f73555f67241b51c43b4cc7aa5aa02"
+      },
+      "utf8_semicolon_decimal_comma": {
+        "path": "data\\canon\\variants\\california-housing__utf8_semicolon_decimal_comma.csv",
+        "sha256": "4c1b0e86100b7cf79b8ac67acc9cc8a920f73555f67241b51c43b4cc7aa5aa02"
+      }
+    },
+    "diagnostics": {
+      "duplicate_row_share": 0.0,
+      "mean_digits_per_row": 41.4,
+      "mean_chars_per_row": 68.0,
+      "most_unique_feature": "median_income",
+      "most_unique_share": 0.6264,
+      "high_entropy_feature_available": true,
+      "cyrillic_in_headers": false,
+      "cyrillic_in_values": false
+    },
+    "notes": "Western canon, tested by Bordt et al. Target 'median_house_value_above_median' follows their transform config (binarised at the median: their config treats it as continuous)."
+  },
+  "openml-diabetes": {
+    "name": "openml-diabetes",
+    "group": "canon",
+    "source_url": "https://www.openml.org/d/37",
+    "published": "1990-01-01",
+    "published_evidence": "Pima Indians Diabetes, National Institute of Diabetes and Digestive and Kidney Diseases, 1990; file byte-identical (md5 f2906818) to the tabmemcheck and COLM paper copies",
+    "license": "public domain (OpenML listing)",
+    "downloaded_utc": "2026-08-10T14:18:05Z",
+    "raw_path": "data\\canon\\openml-diabetes.csv",
+    "raw_sha256": "698c203a14aa31941d2251175330c9199f3ccdb31597abbba2a3e35416257a72",
+    "n_rows": 768,
+    "n_cols": 9,
+    "columns": [
+      "Pregnancies",
+      "Glucose",
+      "BloodPressure",
+      "SkinThickness",
+      "Insulin",
+      "BMI",
+      "DiabetesPedigreeFunction",
+      "Age",
+      "Outcome"
+    ],
+    "language": "en",
+    "variants": {
+      "utf8_comma": {
+        "path": "data\\canon\\variants\\openml-diabetes__utf8_comma.csv",
+        "sha256": "c980e5e01dc1c554a358102b773f34b29599d0051ec5cf5b56ad1c6fcb3a23b0"
+      },
+      "utf8_semicolon": {
+        "path": "data\\canon\\variants\\openml-diabetes__utf8_semicolon.csv",
+        "sha256": "d9ab120b8921ee28c4aa9fa7a6fb59ab39d08e5fb198934335031fd1e9ce6253"
+      },
+      "cp1251_semicolon": {
+        "path": "data\\canon\\variants\\openml-diabetes__cp1251_semicolon.csv",
+        "sha256": "2f84230664912608da8a1481ab2bdf053bf5644a3f61cca759f7f5b3a9c47fbc"
+      },
+      "utf8_semicolon_decimal_comma": {
+        "path": "data\\canon\\variants\\openml-diabetes__utf8_semicolon_decimal_comma.csv",
+        "sha256": "2f84230664912608da8a1481ab2bdf053bf5644a3f61cca759f7f5b3a9c47fbc"
+      }
+    },
+    "diagnostics": {
+      "duplicate_row_share": 0.0,
+      "mean_digits_per_row": 19.2,
+      "mean_chars_per_row": 29.2,
+      "most_unique_feature": "DiabetesPedigreeFunction",
+      "most_unique_share": 0.6732,
+      "high_entropy_feature_available": true,
+      "cyrillic_in_headers": false,
+      "cyrillic_in_values": false
+    },
+    "notes": "Western canon, tested by Bordt et al. Target 'Outcome' follows their transform config."
+  },
+  "uci-wine": {
+    "name": "uci-wine",
+    "group": "canon",
+    "source_url": "https://archive.ics.uci.edu/dataset/109/wine",
+    "published": "1991-07-01",
+    "published_evidence": "UCI ML Repository donation date 1991-07-01; file byte-identical (md5 de2633a7) to the tabmemcheck and COLM paper copies",
+    "license": "CC BY 4.0 (UCI)",
+    "downloaded_utc": "2026-08-10T14:18:19Z",
+    "raw_path": "data\\canon\\uci-wine.csv",
+    "raw_sha256": "6cb704889e69841f942880fd684915665b309dcbc2b18dd12afa5f4e4f8c043f",
+    "n_rows": 178,
+    "n_cols": 14,
+    "columns": [
+      "target",
+      "alcohol",
+      "malic_acid",
+      "ash",
+      "alcalinity_of_ash",
+      "magnesium",
+      "total_phenols",
+      "flavanoids",
+      "nonflavanoid_phenols",
+      "proanthocyanins",
+      "color_intensity",
+      "hue",
+      "od280_od315_of_diluted_wines",
+      "proline"
+    ],
+    "language": "en",
+    "variants": {
+      "utf8_comma": {
+        "path": "data\\canon\\variants\\uci-wine__utf8_comma.csv",
+        "sha256": "4015999f2c54686113cdc43c35210ce3d3fa2060c8a5422752bb41beccce8ff9"
+      },
+      "utf8_semicolon": {
+        "path": "data\\canon\\variants\\uci-wine__utf8_semicolon.csv",
+        "sha256": "9d6e22cb194c926f59ee54e36c852d918165b1de7555b135cb239acb72b1eab1"
+      },
+      "cp1251_semicolon": {
+        "path": "data\\canon\\variants\\uci-wine__cp1251_semicolon.csv",
+        "sha256": "f0b177af22b9d5a1cfb20f248aa75818aab4288949f34f2fa838a43b3de79b97"
+      },
+      "utf8_semicolon_decimal_comma": {
+        "path": "data\\canon\\variants\\uci-wine__utf8_semicolon_decimal_comma.csv",
+        "sha256": "f0b177af22b9d5a1cfb20f248aa75818aab4288949f34f2fa838a43b3de79b97"
+      }
+    },
+    "diagnostics": {
+      "duplicate_row_share": 0.0,
+      "mean_digits_per_row": 38.9,
+      "mean_chars_per_row": 62.9,
+      "most_unique_feature": "malic_acid",
+      "most_unique_share": 0.7472,
+      "high_entropy_feature_available": true,
+      "cyrillic_in_headers": false,
+      "cyrillic_in_values": false
+    },
+    "notes": "Western canon, tested by Bordt et al. Target 'target' follows their transform config."
+  },
+  "titanic-train": {
+    "name": "titanic-train",
+    "group": "canon",
+    "source_url": "https://raw.githubusercontent.com/datasciencedojo/datasets/master/titanic.csv",
+    "published": "2012-09-28",
+    "published_evidence": "Kaggle 'Titanic: Machine Learning from Disaster' training split, competition launched 2012-09-28. Kaggle requires authentication, so the file here is a public mirror carrying the same 891 rows and the same column order as the Kaggle original. CAVEAT: byte-level identity with Kaggle's file is unverified, and the memorization tests are byte-sensitive — a negative result on this file is weaker evidence than on the other canon members.",
+    "license": "public mirror of a Kaggle competition file; used for testing only",
+    "downloaded_utc": "2026-08-10T14:18:32Z",
+    "raw_path": "data\\canon\\titanic-train.csv",
+    "raw_sha256": "4a437fde05fe5264e1701a7387ac6fb75393772ba38bb2c9c566405af5af4bd7",
+    "n_rows": 891,
+    "n_cols": 12,
+    "columns": [
+      "PassengerId",
+      "Survived",
+      "Pclass",
+      "Name",
+      "Sex",
+      "Age",
+      "SibSp",
+      "Parch",
+      "Ticket",
+      "Fare",
+      "Cabin",
+      "Embarked"
+    ],
+    "language": "en",
+    "variants": {
+      "utf8_comma": {
+        "path": "data\\canon\\variants\\titanic-train__utf8_comma.csv",
+        "sha256": "8331e5a2532f5fdb66153a8fc053df08a7dc9d2584f246c7fb1752f0a7139ca5"
+      },
+      "utf8_semicolon": {
+        "path": "data\\canon\\variants\\titanic-train__utf8_semicolon.csv",
+        "sha256": "7bda93c088762ba10d928b18ba5dcc420e0d13c71609686409efd145eacedf6a"
+      },
+      "cp1251_semicolon": {
+        "path": "data\\canon\\variants\\titanic-train__cp1251_semicolon.csv",
+        "sha256": "9da760cc6fb21783af52e00720ec4b4920ce982d5269b7988c491c716ba3cf77"
+      },
+      "utf8_semicolon_decimal_comma": {
+        "path": "data\\canon\\variants\\titanic-train__utf8_semicolon_decimal_comma.csv",
+        "sha256": "9da760cc6fb21783af52e00720ec4b4920ce982d5269b7988c491c716ba3cf77"
+      }
+    },
+    "diagnostics": {
+      "duplicate_row_share": 0.0,
+      "mean_digits_per_row": 19.2,
+      "mean_chars_per_row": 69.3,
+      "most_unique_feature": "PassengerId",
+      "most_unique_share": 1.0,
+      "high_entropy_feature_available": true,
+      "cyrillic_in_headers": false,
+      "cyrillic_in_values": false
+    },
+    "notes": "Western canon, tested by Bordt et al. Target 'Survived' follows their transform config."
   }
 }

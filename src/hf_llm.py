@@ -72,6 +72,40 @@ class HFLLM(tabmemcheck.LLM_Interface):
         if self.log_path:
             os.makedirs(os.path.dirname(os.path.abspath(self.log_path)), exist_ok=True)
 
+    def chat_template_report(self) -> dict:
+        """Where this model's template actually puts the system prompt.
+
+        Not a formality. Mistral-Nemo's template moves the system message to
+        immediately before the *final* user turn, while Qwen and Vikhr-Nemo put it
+        first — and it does so silently, without raising, so the merge fallback
+        below never fires and nothing in the counts would reveal it. Since H1b
+        compares a base model against its Russian adaptation, and an adaptation
+        can ship a different template than its base, a difference in where the
+        instruction sits is a difference between the two arms that is not the
+        thing under study. We do not force a common template — querying a model
+        through the interface it was built for is the more faithful measurement —
+        but the choice has to be visible in the record, so it is probed once at
+        load and written into every results file.
+        """
+        probe = [{"role": "system", "content": "SYSTEM_MARKER"},
+                 {"role": "user", "content": "USER_ONE"},
+                 {"role": "assistant", "content": "ASSISTANT_ONE"},
+                 {"role": "user", "content": "USER_TWO"}]
+        report = {"accepts_system_role": None, "system_position": None}
+        try:
+            text = self.tokenizer.apply_chat_template(
+                probe, add_generation_prompt=True, tokenize=False)
+            report["accepts_system_role"] = True
+        except Exception as e:
+            report.update(accepts_system_role=False, error=f"{type(e).__name__}: {e}")
+            return report
+        where, first_user = text.find("SYSTEM_MARKER"), text.find("USER_ONE")
+        report["system_position"] = ("before_first_user" if 0 <= where < first_user
+                                     else "moved_to_last_user_turn" if where >= 0
+                                     else "dropped")
+        report["rendered"] = text
+        return report
+
     # ------------------------------------------------------------------ logging
 
     def _log(self, kind, payload, response, temperature, max_tokens, n_input, seconds):

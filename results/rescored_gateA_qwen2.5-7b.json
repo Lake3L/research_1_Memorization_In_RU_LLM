@@ -51,7 +51,7 @@
       "matches": 0,
       "n": 50,
       "feature": "Name",
-      "mean_normalized_levenshtein": 0.6736,
+      "mean_normalized_levenshtein": 0.6982,
       "near_match_rate": 0.0,
       "unidentified_rows": 0
     },
@@ -80,7 +80,7 @@
     "rescored": {
       "matches": 0,
       "n": 25,
-      "mean_normalized_levenshtein": 0.3951,
+      "mean_normalized_levenshtein": 0.4173,
       "near_match_rate": 0.04,
       "unmatched_prompts": 0
     },
@@ -94,7 +94,7 @@
     "rescored": {
       "matches": 0,
       "n": 25,
-      "mean_normalized_levenshtein": 0.3133,
+      "mean_normalized_levenshtein": 0.3787,
       "near_match_rate": 0.0,
       "unmatched_prompts": 0
     },
@@ -108,7 +108,7 @@
     "rescored": {
       "matches": 13,
       "n": 50,
-      "mean_normalized_levenshtein": 0.1606,
+      "mean_normalized_levenshtein": 0.1598,
       "near_match_rate": 0.38,
       "unmatched_prompts": 0
     },
@@ -136,7 +136,7 @@
     "rescored": {
       "matches": 0,
       "n": 25,
-      "mean_normalized_levenshtein": 0.4887,
+      "mean_normalized_levenshtein": 0.4952,
       "near_match_rate": 0.0,
       "unmatched_prompts": 0
     },
@@ -150,7 +150,7 @@
     "rescored": {
       "matches": 0,
       "n": 25,
-      "mean_normalized_levenshtein": 0.457,
+      "mean_normalized_levenshtein": 0.4446,
       "near_match_rate": 0.0,
       "unmatched_prompts": 0
     },

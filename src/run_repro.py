@@ -27,7 +27,7 @@ from tabmemcheck import utils
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 from budget_llm import BudgetedOpenAILLM, BudgetExceeded  # noqa: E402
-from metrics import header_verdict  # noqa: E402
+from metrics import header_verdict, infer_separator, normalise_numbers  # noqa: E402
 from mock_llm import PerfectMemorizer, format_echo_mock  # noqa: E402
 
 # max_tokens per test: the tests need one row (or one feature value) at most,
@@ -145,9 +145,14 @@ def response_diagnostics(suffixes, responses):
 
     `well_formed_rate` compares field counts, not content. `mean_normalized_
     levenshtein` and `near_match_rate` are the approximate-memorization metric of
-    Ward et al. (PREREGISTRATION.md §2, secondary instrument): a model that
-    reproduces a row up to one digit has not "failed to memorize" in any useful
-    sense, and an exact-match count alone would record that as a zero.
+    Ward et al. (PREREGISTRATION.md §2, and AMENDMENT_3_H1B_OUTCOMES.md, where it
+    becomes a secondary outcome of H1b): a model that reproduces a row up to one
+    digit has not "failed to memorize" in any useful sense, and an exact-match
+    count alone would record that as a zero.
+
+    Number formats are canonicalised before the distance is taken, so that
+    `17.500` against `17.5` is a distance of zero. The exact-match count above is
+    deliberately *not* normalised: it is the verbatim measure.
     """
     import jellyfish
 
@@ -160,12 +165,13 @@ def response_diagnostics(suffixes, responses):
     well_formed, distances = 0, []
     for suffix, response in zip(suffixes, responses):
         truth, got = str(suffix).strip(), first_line(response)
-        sep = max(",;\t", key=lambda c: truth.count(c))
+        sep = infer_separator(truth)
         if truth.count(sep) > 0 and got.count(sep) == truth.count(sep):
             well_formed += 1
         if truth or got:
-            distances.append(jellyfish.levenshtein_distance(truth, got)
-                             / max(len(truth), len(got), 1))
+            a, b = normalise_numbers(truth, sep), normalise_numbers(got, sep)
+            distances.append(jellyfish.levenshtein_distance(a, b)
+                             / max(len(a), len(b), 1))
     n = len(distances)
     return {
         "well_formed_rate": round(well_formed / len(responses), 4) if responses else 0.0,

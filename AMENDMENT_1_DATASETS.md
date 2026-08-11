@@ -1,6 +1,6 @@
 # Amendment 1 to PREREGISTRATION.md — dataset list frozen
 
-**Date:** 2026-08-10. **Status:** frozen before any model was queried on any of these files.
+**Date:** 2026-08-11. **Status:** frozen before any model was queried on any of these files.
 
 PREREGISTRATION.md §4 committed to freezing the Russian dataset list, its canonicalisation and SHA-256 hashes in a dated amendment before any model saw them. This is that amendment. It is generated from `data/registry.json` by `src/make_amendment.py`, so the hashes below are the hashes of the files on disk, not transcribed by hand.
 
@@ -133,31 +133,31 @@ Datasets that fail this remain in H1/H2. The memorization tests ask whether the 
 **`iris`** — 150 rows × 5 columns
 
 - source: https://archive.ics.uci.edu/dataset/53/iris
-- published: 1988-07-01 — UCI ML Repository donation date; file byte-identical to the copy shipped with tabmemcheck and with the COLM paper code (md5 bab8c78b)
+- published: 1988-07-01 — UCI ML Repository donation date 1988-07-01; the bytes are those served by tabmemcheck commit 7dbeaac5 and by the tabmemcheck 0.1.6 wheel on PyPI, which agree with each other (md5 9f44d5c5)
 - license: CC BY 4.0 (UCI)
-- downloaded: 2026-08-01T19:18:07Z
-- SHA-256 (published file): `9194e2b71f7144e7d192a1c38f9a54f26b0e8f705c0929b8225b0cd10275efd1`
+- downloaded: 2026-08-11T10:23:19Z
+- SHA-256 (published file): `abd4f9391ef31795ab7e6170851630db477d5c449d47e09e84f721fe892341a1`
 - Cyrillic headers: False; Cyrillic values: False
 - duplicate rows: 0.0200; digits per row: 8.0; highest-entropy feature: `petal_length` (29% unique)
 - serialisation variants and hashes:
-  - `raw`: `9194e2b71f7144e7d192a1c38f9a54f2…`
+  - `raw`: `abd4f9391ef31795ab7e6170851630db…`
   - `utf8_comma`: `20f7ef9ad6e85c0752a0cda4c9d1edfc…`
   - `utf8_semicolon`: `469156299c5b5c6cff0090a3a9239cbc…`
   - `cp1251_semicolon`: `bf5b4d457da721e72495f3889f3ded45…`
   - `utf8_semicolon_decimal_comma`: `bf5b4d457da721e72495f3889f3ded45…`
-- notes: Western canon control; reproduced in RESULTS_GATE.md
+- notes: Western canon, tested by Bordt et al. Target 'species' follows their transform config.
 
 **`adult-train`** — 32561 rows × 15 columns
 
 - source: https://archive.ics.uci.edu/dataset/2/adult
-- published: 1996-05-01 — UCI ML Repository donation date 1996-05-01; file byte-identical (md5 82247b7d) to the copy shipped with tabmemcheck and with the COLM paper code
+- published: 1996-05-01 — UCI ML Repository donation date 1996-05-01; the bytes are those served by tabmemcheck commit 7dbeaac5 and by the tabmemcheck 0.1.6 wheel on PyPI, which agree with each other (md5 12a09c3e)
 - license: CC BY 4.0 (UCI)
-- downloaded: 2026-08-10T14:16:58Z
-- SHA-256 (published file): `c18b1aa5bb34303b571604b31da3313b44b5494cf7c103c21e5f90a25193478d`
+- downloaded: 2026-08-11T10:23:28Z
+- SHA-256 (published file): `b40dc2181c59d7921a0fd739b4aec1a0f56075003125ba23cb42b6c1795bce59`
 - Cyrillic headers: False; Cyrillic values: False
 - duplicate rows: 0.0007; digits per row: 16.0; highest-entropy feature: `fnlwgt` (66% unique)
 - serialisation variants and hashes:
-  - `raw`: `c18b1aa5bb34303b571604b31da3313b…`
+  - `raw`: `b40dc2181c59d7921a0fd739b4aec1a0…`
   - `utf8_comma`: `b40dc2181c59d7921a0fd739b4aec1a0…`
   - `utf8_semicolon`: `5a74f768be20b8e0fdbf31aa29c849be…`
   - `cp1251_semicolon`: `5a74f768be20b8e0fdbf31aa29c849be…`
@@ -167,14 +167,14 @@ Datasets that fail this remain in H1/H2. The memorization tests ask whether the 
 **`california-housing`** — 20640 rows × 10 columns
 
 - source: https://www.kaggle.com/datasets/camnugent/california-housing-prices
-- published: 1997-01-01 — derived from Pace & Barry (1997); file byte-identical (md5 e2727d25) to the tabmemcheck and COLM paper copies
+- published: 1997-01-01 — derived from Pace & Barry (1997); the bytes are those served by tabmemcheck commit 7dbeaac5 and by the tabmemcheck 0.1.6 wheel on PyPI, which agree with each other (md5 d1c47305)
 - license: CC0 (Kaggle listing)
-- downloaded: 2026-08-10T14:17:39Z
-- SHA-256 (published file): `b214a65099c1dcc2ea7797935aff103fa0445220a366fb74beacb59486e548ff`
+- downloaded: 2026-08-11T10:24:00Z
+- SHA-256 (published file): `8a3727f4cf54ac1a327f69b1d5b4db54c5834ea81c6e4efc0d163300022a685e`
 - Cyrillic headers: False; Cyrillic values: False
 - duplicate rows: 0.0000; digits per row: 41.4; highest-entropy feature: `median_income` (63% unique)
 - serialisation variants and hashes:
-  - `raw`: `b214a65099c1dcc2ea7797935aff103f…`
+  - `raw`: `8a3727f4cf54ac1a327f69b1d5b4db54…`
   - `utf8_comma`: `8a3727f4cf54ac1a327f69b1d5b4db54…`
   - `utf8_semicolon`: `b0ce0bec60ce51ce36811ba8b8a709ee…`
   - `cp1251_semicolon`: `4c1b0e86100b7cf79b8ac67acc9cc8a9…`
@@ -184,14 +184,14 @@ Datasets that fail this remain in H1/H2. The memorization tests ask whether the 
 **`openml-diabetes`** — 768 rows × 9 columns
 
 - source: https://www.openml.org/d/37
-- published: 1990-01-01 — Pima Indians Diabetes, National Institute of Diabetes and Digestive and Kidney Diseases, 1990; file byte-identical (md5 f2906818) to the tabmemcheck and COLM paper copies
+- published: 1990-01-01 — Pima Indians Diabetes, National Institute of Diabetes and Digestive and Kidney Diseases, 1990; the bytes are those served by tabmemcheck commit 7dbeaac5 and by the tabmemcheck 0.1.6 wheel on PyPI, which agree with each other (md5 b43dd020)
 - license: public domain (OpenML listing)
-- downloaded: 2026-08-10T14:18:05Z
-- SHA-256 (published file): `698c203a14aa31941d2251175330c9199f3ccdb31597abbba2a3e35416257a72`
+- downloaded: 2026-08-11T10:24:24Z
+- SHA-256 (published file): `b78029447fae2743b3218bb2b76ef0d04afe8d7e55ce2faf4d1ec82d8f8ae8ac`
 - Cyrillic headers: False; Cyrillic values: False
 - duplicate rows: 0.0000; digits per row: 19.2; highest-entropy feature: `DiabetesPedigreeFunction` (67% unique)
 - serialisation variants and hashes:
-  - `raw`: `698c203a14aa31941d2251175330c919…`
+  - `raw`: `b78029447fae2743b3218bb2b76ef0d0…`
   - `utf8_comma`: `c980e5e01dc1c554a358102b773f34b2…`
   - `utf8_semicolon`: `d9ab120b8921ee28c4aa9fa7a6fb59ab…`
   - `cp1251_semicolon`: `2f84230664912608da8a1481ab2bdf05…`
@@ -201,14 +201,14 @@ Datasets that fail this remain in H1/H2. The memorization tests ask whether the 
 **`uci-wine`** — 178 rows × 14 columns
 
 - source: https://archive.ics.uci.edu/dataset/109/wine
-- published: 1991-07-01 — UCI ML Repository donation date 1991-07-01; file byte-identical (md5 de2633a7) to the tabmemcheck and COLM paper copies
+- published: 1991-07-01 — UCI ML Repository donation date 1991-07-01; the bytes are those served by tabmemcheck commit 7dbeaac5 and by the tabmemcheck 0.1.6 wheel on PyPI, which agree with each other (md5 bf10dd49)
 - license: CC BY 4.0 (UCI)
-- downloaded: 2026-08-10T14:18:19Z
-- SHA-256 (published file): `6cb704889e69841f942880fd684915665b309dcbc2b18dd12afa5f4e4f8c043f`
+- downloaded: 2026-08-11T10:24:38Z
+- SHA-256 (published file): `21a3bb1b675594a2674e6bdf1764d6008a1bf50350043741b093a3097ce99527`
 - Cyrillic headers: False; Cyrillic values: False
 - duplicate rows: 0.0000; digits per row: 38.9; highest-entropy feature: `malic_acid` (75% unique)
 - serialisation variants and hashes:
-  - `raw`: `6cb704889e69841f942880fd68491566…`
+  - `raw`: `21a3bb1b675594a2674e6bdf1764d600…`
   - `utf8_comma`: `4015999f2c54686113cdc43c35210ce3…`
   - `utf8_semicolon`: `9d6e22cb194c926f59ee54e36c852d91…`
   - `cp1251_semicolon`: `f0b177af22b9d5a1cfb20f248aa75818…`
@@ -220,7 +220,7 @@ Datasets that fail this remain in H1/H2. The memorization tests ask whether the 
 - source: https://raw.githubusercontent.com/datasciencedojo/datasets/master/titanic.csv
 - published: 2012-09-28 — Kaggle 'Titanic: Machine Learning from Disaster' training split, competition launched 2012-09-28. Kaggle requires authentication, so the file here is a public mirror carrying the same 891 rows and the same column order as the Kaggle original. CAVEAT: byte-level identity with Kaggle's file is unverified, and the memorization tests are byte-sensitive — a negative result on this file is weaker evidence than on the other canon members.
 - license: public mirror of a Kaggle competition file; used for testing only
-- downloaded: 2026-08-10T14:18:32Z
+- downloaded: 2026-08-11T10:24:51Z
 - SHA-256 (published file): `4a437fde05fe5264e1701a7387ac6fb75393772ba38bb2c9c566405af5af4bd7`
 - Cyrillic headers: False; Cyrillic values: False
 - duplicate rows: 0.0000; digits per row: 19.2; highest-entropy feature: `PassengerId` (100% unique)

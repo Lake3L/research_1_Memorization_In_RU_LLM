@@ -272,3 +272,21 @@ Each of these would have consumed a GPU session and produced a number that looke
    A silent 7B model would have crashed the cell instead of failing the test. The test logic is
    left untouched (§2 forbids changing it); the caller records a failed header test with a note
    distinguishing "wrote nothing" from "wrote the wrong thing".
+6. **The canon freeze held Windows line endings** (found on 2026-08-11, by the first real Kaggle
+   run stopping at the data step). `core.autocrlf=true` had rewritten `\n` to `\r\n` when the
+   tabmemcheck repository was cloned, and the canon was frozen from that clone. Re-frozen on the
+   published bytes; details, corrected hashes and the code changes are in
+   `AMENDMENT_2_LINE_ENDINGS.md`. **No measurement is affected** — verified, not assumed:
+   tabmemcheck loads CSVs in text mode, so the two forms produce identical prompts and identical
+   comparisons. What was broken was the provenance: the frozen hashes described files that
+   existed on one Windows machine only.
+
+### 6.4 What the first Kaggle attempt established
+
+The run of 2026-08-11 never reached the model: `src/fetch_data.py` reported five hash mismatches
+and the notebook stopped. That is the intended behaviour and it is worth recording as a result of
+the gate rather than as a false start — the alternative design, in which the data step warns and
+continues, would have produced a complete set of numbers on files whose published form we could
+no longer identify. Two defects were found by it (the line endings above, and a fetcher that
+accepted the first source that did not raise instead of the first source with the right bytes),
+and both are fixed.

@@ -26,21 +26,31 @@ ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 CANON = os.path.join(ROOT, "data", "canon")
 
 SOURCES = {
+    "iris": {
+        "target": "species", "binarise": None,
+        "url": "https://archive.ics.uci.edu/dataset/53/iris",
+        "published": "1988-07-01",
+        "evidence": "UCI ML Repository donation date 1988-07-01; the bytes are those "
+                    "served by tabmemcheck commit 7dbeaac5 and by the tabmemcheck 0.1.6 "
+                    "wheel on PyPI, which agree with each other (md5 9f44d5c5)",
+        "license": "CC BY 4.0 (UCI)",
+    },
     "adult-train": {
         "target": "Income", "binarise": None,
         "url": "https://archive.ics.uci.edu/dataset/2/adult",
         "published": "1996-05-01",
-        "evidence": "UCI ML Repository donation date 1996-05-01; file byte-identical "
-                    "(md5 82247b7d) to the copy shipped with tabmemcheck and with the "
-                    "COLM paper code",
+        "evidence": "UCI ML Repository donation date 1996-05-01; the bytes are those "
+                    "served by tabmemcheck commit 7dbeaac5 and by the tabmemcheck 0.1.6 "
+                    "wheel on PyPI, which agree with each other (md5 12a09c3e)",
         "license": "CC BY 4.0 (UCI)",
     },
     "california-housing": {
         "target": "median_house_value", "binarise": "median",
         "url": "https://www.kaggle.com/datasets/camnugent/california-housing-prices",
         "published": "1997-01-01",
-        "evidence": "derived from Pace & Barry (1997); file byte-identical (md5 e2727d25) "
-                    "to the tabmemcheck and COLM paper copies",
+        "evidence": "derived from Pace & Barry (1997); the bytes are those served by "
+                    "tabmemcheck commit 7dbeaac5 and by the tabmemcheck 0.1.6 wheel on "
+                    "PyPI, which agree with each other (md5 d1c47305)",
         "license": "CC0 (Kaggle listing)",
     },
     "openml-diabetes": {
@@ -48,16 +58,18 @@ SOURCES = {
         "url": "https://www.openml.org/d/37",
         "published": "1990-01-01",
         "evidence": "Pima Indians Diabetes, National Institute of Diabetes and Digestive "
-                    "and Kidney Diseases, 1990; file byte-identical (md5 f2906818) to the "
-                    "tabmemcheck and COLM paper copies",
+                    "and Kidney Diseases, 1990; the bytes are those served by tabmemcheck "
+                    "commit 7dbeaac5 and by the tabmemcheck 0.1.6 wheel on PyPI, which "
+                    "agree with each other (md5 b43dd020)",
         "license": "public domain (OpenML listing)",
     },
     "uci-wine": {
         "target": "target", "binarise": None,
         "url": "https://archive.ics.uci.edu/dataset/109/wine",
         "published": "1991-07-01",
-        "evidence": "UCI ML Repository donation date 1991-07-01; file byte-identical "
-                    "(md5 de2633a7) to the tabmemcheck and COLM paper copies",
+        "evidence": "UCI ML Repository donation date 1991-07-01; the bytes are those "
+                    "served by tabmemcheck commit 7dbeaac5 and by the tabmemcheck 0.1.6 "
+                    "wheel on PyPI, which agree with each other (md5 bf10dd49)",
         "license": "CC BY 4.0 (UCI)",
     },
     "titanic-train": {

@@ -51,6 +51,9 @@ before the run. What is left is the run itself.
 - [x] State the gate rule before seeing any number: PASS / FAIL_ADAPTER /
       FAIL_NO_SIGNAL, with the adapter case separated from the model case by the
       share of answers that even have the shape of a CSV row.
+- [x] First Kaggle attempt (2026-08-11) stopped at the data step: five canon hashes
+      did not match. Root cause was a Windows line-ending conversion of the freeze
+      itself, not the run. Fixed and re-frozen. → `AMENDMENT_2_LINE_ENDINGS.md`
 - [ ] **Run the notebook on Kaggle with `Qwen/Qwen2.5-7B-Instruct`, group `canon`,
       variant `raw`, English prompts only.** Expect 1.5-3 h on a T4 in 4-bit.
 - [ ] Bring back both artefacts: `results/gateA_*.json` and `results/calls_*.jsonl`.

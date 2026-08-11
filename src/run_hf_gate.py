@@ -193,6 +193,12 @@ def main():
     ap.add_argument("--language", default="en", choices=["en", "ru"])
     ap.add_argument("--load-in-4bit", action="store_true")
     ap.add_argument("--device", default=None)
+    ap.add_argument("--device-map", default="single",
+                    choices=["single", "auto", "balanced", "none"],
+                    help="where the loader may place modules. 'single' keeps the "
+                         "whole model on GPU 0, which is what bitsandbytes itself "
+                         "defaults to and what makes a failed quantization fail "
+                         "loudly instead of quietly spilling onto a second card")
     ap.add_argument("--seed", type=int, default=42)
     ap.add_argument("--scale", type=float, default=1.0,
                     help="multiply every query count in the plan (for quick checks)")
@@ -224,6 +230,7 @@ def main():
         lock = json.load(open(lock_path, encoding="utf-8"))["models"]
 
     revision, loaded_revision, llm, template = args.revision, None, None, {}
+    load_report = {}
     if args.mock != "none":
         # the perfect memorizer answers out of one specific CSV, so it is rebuilt
         # per dataset inside the run loop; one built on iris would score zero
@@ -245,16 +252,26 @@ def main():
                 load_in_4bit=True, bnb_4bit_compute_dtype=torch.float16,
                 bnb_4bit_quant_type="nf4", bnb_4bit_use_double_quant=True)
         device = args.device or ("cuda" if torch.cuda.is_available() else "cpu")
+        device_map = ({"": 0} if args.device_map == "single"
+                      else None if args.device_map == "none" else args.device_map)
+        if torch.cuda.is_available():
+            for i in range(torch.cuda.device_count()):
+                total = torch.cuda.get_device_properties(i).total_memory / 1e9
+                print(f"[gpu {i}] {torch.cuda.get_device_name(i)} — {total:.1f} GB")
         print(f"[model] loading {args.model} rev={revision} on {device} "
-              f"{'in 4-bit' if args.load_in_4bit else ''}")
+              f"{'in 4-bit' if args.load_in_4bit else 'unquantized'}, "
+              f"device_map={device_map}")
         llm = HFLLM(model_name=args.model, revision=revision, device=device,
-                    quantization_config=quantization, log_path=call_log)
+                    quantization_config=quantization, device_map=device_map,
+                    log_path=call_log)
+        print(f"[model] loaded: {json.dumps(llm.load_report, ensure_ascii=False)}")
         loaded_revision = llm.loaded_revision
         model_label = args.model
         if revision and loaded_revision and loaded_revision != revision:
             sys.exit(f"[model] loaded {loaded_revision}, models.lock says {revision} — "
                      "refusing to measure weights we did not pin")
         print(f"[model] loaded revision {loaded_revision}")
+        load_report = llm.load_report
         template = llm.chat_template_report()
         print(f"[model] chat template: system role "
               f"{'accepted' if template.get('accepts_system_role') else 'REJECTED (merged into the first user turn)'}"
@@ -321,6 +338,7 @@ def main():
                      for k, v in paths.items()},
         "versions": versions(),
         "chat_template": template,
+        "load": load_report,
         "instrument_check": instrument,
         "gate": verdict,
         "results": results,

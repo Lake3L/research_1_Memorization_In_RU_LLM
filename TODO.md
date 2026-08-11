@@ -71,6 +71,12 @@ models already set in it. ~2 h each on a T4x2.
       format canonicalisation implemented, not just described. → `src/metrics.py`
 - [x] Probe and record where each model's chat template puts the system prompt.
       Mistral-Nemo moves it to the last user turn; Qwen and Vikhr do not.
+- [x] First 12B attempt (2026-08-12) died of CUDA OOM on load: `device_map="auto"`
+      planned a two-card placement that the transformers 5 loader materialised in
+      bfloat16, so 9 GB of nf4 weights tried to occupy 29 GB. Fixed — single-device
+      placement, explicit float16, and the run now aborts if quantization was
+      requested and not applied. A 1 GB preflight settles it before any large
+      download. → `src/check_quantization.py`
 - [ ] **Run `mistralai/Mistral-Nemo-Instruct-2407` and
       `Vikhrmodels/Vikhr-Nemo-12B-Instruct-R-21-09-24`** on canon/raw/EN.
 - [ ] Apply the branch of `AMENDMENT_3_H1B_OUTCOMES.md` §4 to the outcome.

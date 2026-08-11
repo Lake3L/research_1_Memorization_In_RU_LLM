@@ -41,11 +41,13 @@ class HFLLM(tabmemcheck.LLM_Interface):
     dtype: Optional[torch.dtype] = None
     chat_mode: bool = True
     quantization_config: object = None
+    device_map: object = None
     log_path: Optional[str] = None
 
     model: object = field(default=None, repr=False)
     tokenizer: object = field(default=None, repr=False)
     loaded_revision: Optional[str] = None
+    load_report: dict = field(default_factory=dict)
     n_calls: int = 0
     context: dict = field(default_factory=dict)  # tags written into every log line
 
@@ -56,21 +58,64 @@ class HFLLM(tabmemcheck.LLM_Interface):
         kwargs = {"revision": self.revision}
         requested_dtype = self.dtype if self.dtype is not None else "auto"
         if self.quantization_config is not None:
-            # accelerate places a quantized model itself; moving it afterwards fails
+            # `device_map` decides where the loader *plans* to put each module,
+            # and planning across two GPUs is how a 12B model that occupies 9 GB
+            # in nf4 came to fill 29 GB and die: the plan was made in one dtype
+            # and the tensors materialised in another. bitsandbytes itself
+            # defaults to a single device (`quantizer_bnb_4bit.update_device_map`),
+            # and a single device is also the honest test of whether quantization
+            # happened at all — a quantized 12B fits on one 16 GB card and an
+            # unquantized one cannot, so a wrong configuration fails loudly here
+            # instead of silently measuring a model in a precision we did not choose.
             kwargs.update(quantization_config=self.quantization_config,
-                          device_map="auto")
+                          device_map=self.device_map or {"": 0})
+            # T4s are Turing and have no bfloat16. "auto" reads the checkpoint's
+            # own dtype, which for these models is bfloat16, and that is both
+            # slower and twice the memory of what we asked for.
+            if requested_dtype == "auto":
+                requested_dtype = torch.float16
+        elif self.device_map:
+            kwargs.update(device_map=self.device_map)
         try:  # transformers >= 5
             self.model = AutoModelForCausalLM.from_pretrained(
                 self.model_name, dtype=requested_dtype, **kwargs)
         except TypeError:  # transformers 4
             self.model = AutoModelForCausalLM.from_pretrained(
                 self.model_name, torch_dtype=requested_dtype, **kwargs)
-        if self.quantization_config is None:
+        if self.quantization_config is None and not self.device_map:
             self.model = self.model.to(self.device)
         self.model.eval()
         self.loaded_revision = getattr(self.model.config, "_commit_hash", None)
+        self.load_report = self._describe_load()
+        if self.quantization_config is not None and not self.load_report["quantized"]:
+            raise RuntimeError(
+                "quantization was requested but the loaded model is not quantized "
+                f"({self.load_report}). Refusing to continue: the run would silently "
+                "measure a different precision than the one recorded.")
         if self.log_path:
             os.makedirs(os.path.dirname(os.path.abspath(self.log_path)), exist_ok=True)
+
+    def _describe_load(self) -> dict:
+        """What actually got loaded, in what precision, and how big it is.
+
+        Recorded because the alternative is inferring it from a crash. The block A
+        run claimed 4-bit in its filename and its arguments, and nothing in its
+        output could confirm or deny that the weights were ever quantized.
+        """
+        report = {"quantized": bool(getattr(self.model, "hf_quantizer", None)),
+                  "requested_quantization": self.quantization_config is not None}
+        try:
+            report["memory_footprint_gb"] = round(
+                self.model.get_memory_footprint() / 1e9, 2)
+        except Exception:
+            report["memory_footprint_gb"] = None
+        dtypes, devices = {}, set()
+        for name, parameter in self.model.named_parameters():
+            dtypes[str(parameter.dtype)] = dtypes.get(str(parameter.dtype), 0) + 1
+            devices.add(str(parameter.device))
+        report["parameter_dtypes"] = dtypes
+        report["devices"] = sorted(devices)
+        return report
 
     def chat_template_report(self) -> dict:
         """Where this model's template actually puts the system prompt.

@@ -203,10 +203,14 @@ Work on the confirmatory hypotheses may proceed **through the unmodified pipelin
 requirement remains open and is the subject of §6 below: the adapted HF/Russian pipeline must
 reproduce the English results of the unmodified pipeline before it is used for H1–H4.
 
-## 6. The adapted pipeline (block A) — decision rule and instrument check
+## 6. The adapted pipeline (block A) — GATE PASSED
 
-**Status: instrument validated 2026-08-10; the model run has not been made.** No H1–H4 number may
-be quoted until this section carries a verdict.
+**Status: passed 2026-08-11** on `Qwen/Qwen2.5-7B-Instruct` at the pinned revision
+`a09a3545`, canon in its published bytes, English prompts, 4-bit on a Kaggle T4×2.
+599 calls, 20/20 cells, no errors. Raw counts in
+`results/gateA_gate_hf_Qwen_Qwen2.5-7B-Instruct_raw_en_20260811T115541Z.json`, every
+prompt and response in the paired `calls_*.jsonl`. Blocks B–E are open — with the
+qualification in §6.6, which is the more consequential half of this result.
 
 ### 6.1 The rule, written before the run
 
@@ -290,3 +294,101 @@ continues, would have produced a complete set of numbers on files whose publishe
 no longer identify. Two defects were found by it (the line endings above, and a fetcher that
 accepted the first source that did not raise instead of the first source with the right bytes),
 and both are fixed.
+
+### 6.5 The run
+
+Mock controls inside the session: perfect memorizer 10/10, format echo 0/10.
+
+| test | dataset | ours (Qwen2.5-7B) | rate | baseline | p | paper GPT-3.5 | paper GPT-4 |
+|---|---|---|---|---|---|---|---|
+| header | iris | **pass** (8 rows verbatim, 216-char prefix) | — | — | — | pass | pass |
+| header | uci-wine | fail (0 rows, 1 char) | — | — | — | pass | pass |
+| header | openml-diabetes | fail (0 rows, 18 chars) | — | — | — | pass | pass |
+| header | titanic-train | fail (0 rows, 4 chars) | — | — | — | pass | pass |
+| header | adult-train | fail (0 rows, 51 chars) | — | — | — | pass | pass |
+| header | california-housing | fail (0 rows, 3 chars) | — | — | — | pass | pass |
+| row | iris | **13/50** | 0.26 | 0.02 dup | 1.3e-11 | 35/136 (0.26) | 125/136 (0.92) |
+| row | uci-wine | 0/25 | 0.00 | 0.00 | 1.00 | 16/164 | 84/164 |
+| row | openml-diabetes | 0/25 | 0.00 | 0.00 | 1.00 | 18/250 | 79/250 |
+| row | titanic-train | 0/25 | 0.00 | 0.00 | 1.00 | 194/250 | 222/250 |
+| row | adult-train | 0/25 | 0.00 | 0.00 | 1.00 | 0/250 | 0/250 |
+| row | california-housing | 0/25 | 0.00 | 0.00 | 1.00 | 0/250 | 0/250 |
+| feature | titanic-train | 0/50 | 0.00 | — | — | 238/250 | 236/250 |
+| feature | openml-diabetes | 0/50 | 0.00 | — | — | 237/250 | 243/250 |
+| feature | uci-wine | 0/50 | 0.00 | — | — | 77/178 | 131/178 |
+| feature | adult-train | 0/50 | 0.00 | — | — | 0/250 | 0/250 |
+| feature | california-housing | 0/50 | 0.00 | — | — | 0/250 | 1/250 |
+| first token | iris | **39/50** | 0.78 | 0.36 mode | 1.6e-09 | 88/136 (0.65) | 131/136 (0.96) |
+| first token | openml-diabetes | 6/50 | 0.12 | 0.42 mode | 1.00 | 42/250 (0.17) | 95/250 (0.38) |
+| first token | adult-train | 10/50 | 0.20 | 0.62 mode | 1.00 | 59/250 (0.24) | 68/250 (0.27) |
+
+Three of the four tests fire on iris, at magnitudes that sit exactly where the reference puts
+them: the row-completion rate of 0.26 is the rate Bordt et al. publish for GPT-3.5 (35/136 =
+0.257) — a coincidence of value, not a validation of anything, but the order of magnitude is the
+point. First-token accuracy is 0.78 against a measured mode baseline of 0.36. Nothing fires
+anywhere else.
+
+**Every countable cell was recomputed from the raw call log by `src/rescore_calls.py`**, which
+reconstructs the ground truth from the prompts and the frozen CSVs without reading the run's own
+result file. 11/11 cells reproduce exactly.
+
+The run itself was healthy: 1 h 12 min from the first call to the last, 27 seconds total spent
+outside generation, no gap over 60 s, 2 min 16 s to download and quantize the weights.
+
+### 6.6 What passed, and the finding that matters more
+
+Against §6.1 the gate **passes**: the mock controls behaved, iris row completion beats the
+duplicate base rate at p = 1.3e-11, and the iris header test passes. The adapted pipeline
+reproduces, in English, the qualitative result of the unmodified one.
+
+But the reference expectation is only half met. Bordt et al. report the header test passing on
+all six pre-2021 canon datasets for GPT-3.5 and GPT-4, and describe open models as showing
+"evidence for the memorization of the initial rows" almost everywhere. We see initial-row
+memorization on iris alone.
+
+That is a statement about the model, not about our instrument, and the evidence for the
+distinction is specific:
+
+- the mock controls ran **in the same session** and behaved (10/10, 0/10);
+- `well_formed_rate` is 100% on every row-completion cell: the answers are CSV rows with the
+  right field count, not prose or refusals;
+- the model continues from a split **in the middle of a token** and gets the format right —
+  prompted with `…,2.8,3.` on wine it answers `25,.27,1.98,…`, reproducing even the
+  leading-zero-less `.27` convention of the published file;
+- iris passes three tests, so the machinery can detect a signal when one is there;
+- the counts reproduce from the raw logs by an independent path.
+
+What Qwen2.5-7B produces on the other five datasets is a fluent imitation: right columns, right
+value ranges, right formatting conventions, wrong values. That is textual and statistical
+knowledge of the dataset, which PREREGISTRATION.md §7 commits us to never reporting as
+memorization. The near-match diagnostics quantify the gap rather than leaving it as a bare zero:
+
+| dataset | row completion | mean normalized Levenshtein | near-match (≤0.1) |
+|---|---|---|---|
+| iris | 13/50 | 0.16 | 38% |
+| adult-train | 0/25 | 0.40 | 4% |
+| california-housing | 0/25 | 0.31 | 0% |
+| uci-wine | 0/25 | 0.46 | 0% |
+| openml-diabetes | 0/25 | 0.47 | 0% |
+| titanic-train | 0/25 | 0.49 | 0% |
+
+**The consequence for H1b.** `Qwen/Qwen2.5-7B-Instruct` is the *base* member of two of the three
+base↔adapted pairs. H1b asks whether Russian adaptation retains, attenuates or amplifies
+inherited memorization — and on five of six canon datasets there is nothing in the base to
+retain, attenuate or amplify. The comparison has a floor problem, and it was predicted: the
+reading notes for Bordt's Table 3 record that at 7-8B "extractability is lower, so zeros threaten
+us for reasons other than absence of memorization". Options are recorded in `TODO.md` block B;
+the decision is not made here, because it is a design decision and it belongs in an amendment,
+not in a results file.
+
+Two methodological items surfaced and are open before any H1/H2 verdict, neither affecting this
+gate:
+
+1. **First-token baselines are mode-only.** §5 requires the best of mode / LR / GBT. The mode
+   baseline that tabmemcheck prints differs from the paper's best-of baseline substantially on
+   adult (0.62 here against 0.26 published), and the first token is tokenizer-dependent, so it is
+   not the same quantity across models. No verdict here depends on it — iris clears the stricter
+   published baseline of 0.50 as well, and diabetes and adult fall *below* the mode baseline, so
+   the direction is unambiguous in every cell.
+2. **Feature-completion baselines are likewise mode-only.** Same requirement, same deferral. Both
+   are offline computations over counts already collected; neither needs a GPU.

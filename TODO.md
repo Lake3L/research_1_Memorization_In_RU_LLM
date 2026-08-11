@@ -4,9 +4,9 @@ Coarse-grained task list. Each block is meant to be picked up in its own session
 read the linked artefacts, do the block, tick the boxes, commit. Detailed decisions
 live in the documents referenced from each block, not here.
 
-Status: **week 3-4 of the plan** — dataset collection done; the adapted pipeline is
-built, instrument-validated against mocks over the whole block A plan, and waiting
-on one GPU session to be validated against a real model.
+Status: **week 4 of the plan** — block A closed on 2026-08-11: the adapted pipeline
+reproduces the English result and the §8 gate is fully passed. Block B is blocked on
+one design decision (the floor problem, below), not on compute.
 
 ---
 
@@ -29,14 +29,12 @@ on one GPU session to be validated against a real model.
 
 ---
 
-## Next: block A — validate the adapted pipeline (§8, the remaining gate)
+## Closed: block A — the adapted pipeline is validated (§8, gate passed 2026-08-11)
 
-The HF/Russian pipeline must reproduce the English result of the unmodified
-pipeline before it may be used for any hypothesis. Until this is ticked, no H1-H4
-number counts.
-
-Preparation is done and the decision rule is written down in `RESULTS_GATE.md` §6
-before the run. What is left is the run itself.
+The HF/Russian pipeline had to reproduce the English result of the unmodified
+pipeline before it could be used for any hypothesis. It does, on iris, by three of
+the four tests. The decision rule was written into `RESULTS_GATE.md` §6 before the
+run and the verdict was printed by the runner, not chosen afterwards.
 
 - [x] Pin the model revisions. → `models.lock`
 - [x] Make the datasets rebuildable on a clean machine and hash-verified there.
@@ -54,21 +52,47 @@ before the run. What is left is the run itself.
 - [x] First Kaggle attempt (2026-08-11) stopped at the data step: five canon hashes
       did not match. Root cause was a Windows line-ending conversion of the freeze
       itself, not the run. Fixed and re-frozen. → `AMENDMENT_2_LINE_ENDINGS.md`
-- [ ] **Run the notebook on Kaggle with `Qwen/Qwen2.5-7B-Instruct`, group `canon`,
-      variant `raw`, English prompts only.** Expect 1.5-3 h on a T4 in 4-bit.
-- [ ] Bring back both artefacts: `results/gateA_*.json` and `results/calls_*.jsonl`.
-      The call log matters more than the counts — it is what lets a scoring rule be
-      revised without paying for the session again.
-- [ ] Fill `RESULTS_GATE.md` §6 from the run. If FAIL_ADAPTER: diagnose the chat
-      template and truncation, not the model. If FAIL_NO_SIGNAL: that is a result
-      about a 7B model's extractability and it is reported, not tuned away (§10).
+- [x] **Run the notebook on Kaggle with `Qwen/Qwen2.5-7B-Instruct`.** 599 calls,
+      20/20 cells, 1 h 12 min, no errors.
+- [x] Both artefacts returned and committed: counts and the full call log.
+- [x] Every countable cell recomputed from the raw log by an independent path.
+      → `src/rescore_calls.py`, 11/11 reproduce exactly.
+- [x] **GATE PASSED** — iris row completion 13/50 (p=1.3e-11), iris header pass,
+      iris first token 0.78 vs 0.36. → `RESULTS_GATE.md` §6
 
 ## Block B — H1 and H1b: does the Western canon survive Russian adaptation
+
+**Decide first: the floor problem.** The gate found extractable memorization on iris
+and nowhere else. `Qwen2.5-7B-Instruct` is the base of two of the three pairs, so on
+five of six canon datasets H1b would be comparing zero against zero. This is a design
+decision, it changes what the study can claim, and it belongs in an amendment before
+any run — not in a results file afterwards. The options, none of them free:
+
+- **(a) Run the pairs as preregistered and report the floor.** Cheapest and most
+  honest; H1b then rests on iris plus whatever the adapted models add. A null on four
+  of five datasets is publishable under §10 but is a weak contribution.
+- **(b) Add a larger confirmatory model.** Vikhr-Nemo-12B ↔ Mistral-Nemo-12B is
+  already in `models.lock` and is 12B rather than 7B; running that pair *first* tests
+  whether the floor is a size effect before committing the rest of the compute.
+- **(c) Move to the more sensitive instruments.** First token fired on iris where row
+  completion was weakest relative to GPT-4, and the near-match rate separates iris
+  (38%) from adult (4%) from the rest (0%) where exact-match counts are all zero.
+  Making near-match a preregistered secondary outcome for H1b would give the paired
+  comparison a graded quantity instead of a binary one. Requires an amendment.
+- **(d) Reconsider the surface.** Titanic is the paper's strongest row-completion
+  signal (194/250) and gave zero here; our copy is a mirror whose byte-identity with
+  Kaggle's original is unverified (see `AMENDMENT_1_DATASETS.md`). Worth resolving
+  before concluding anything about titanic specifically.
 
 - [x] Pin revisions for the base↔adapted pairs: Qwen2.5-7B ↔ T-lite,
       Mistral-Nemo ↔ Vikhr-Nemo, Qwen2.5-7B ↔ ruadapt-Qwen, plus Llama-3.1-8B.
       → `models.lock`. Note: Llama-3.1-8B is gated (manual approval) and needs an
       accepted licence plus `HF_TOKEN` in the session — arrange before, not during.
+- [ ] Implement the preregistered baselines before any verdict: best of mode / LR /
+      GBT for feature completion and first token (§5). Offline, no GPU. The mode-only
+      baseline currently in use differs from the published best-of by 36 points on
+      adult first token.
+
 - [ ] Run all four memorization tests × 6 canon datasets × 4 serialisation variants,
       English prompts, 3 seeds.
 - [ ] Apply the preregistered decision rules (binomial tests against the stated

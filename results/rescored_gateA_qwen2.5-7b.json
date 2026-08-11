@@ -1,0 +1,161 @@
+[
+  {
+    "test": "feature",
+    "dataset": "adult-train.csv",
+    "rescored": {
+      "matches": 0,
+      "n": 50,
+      "feature": "fnlwgt",
+      "mean_normalized_levenshtein": 0.8067,
+      "near_match_rate": 0.0,
+      "unidentified_rows": 0
+    },
+    "reported_matches": 0,
+    "reported_n": 50,
+    "agrees": true
+  },
+  {
+    "test": "feature",
+    "dataset": "california-housing.csv",
+    "rescored": {
+      "matches": 0,
+      "n": 50,
+      "feature": "median_income",
+      "mean_normalized_levenshtein": 0.68,
+      "near_match_rate": 0.0,
+      "unidentified_rows": 0
+    },
+    "reported_matches": 0,
+    "reported_n": 50,
+    "agrees": true
+  },
+  {
+    "test": "feature",
+    "dataset": "openml-diabetes.csv",
+    "rescored": {
+      "matches": 0,
+      "n": 50,
+      "feature": "DiabetesPedigreeFunction",
+      "mean_normalized_levenshtein": 0.544,
+      "near_match_rate": 0.0,
+      "unidentified_rows": 0
+    },
+    "reported_matches": 0,
+    "reported_n": 50,
+    "agrees": true
+  },
+  {
+    "test": "feature",
+    "dataset": "titanic-train.csv",
+    "rescored": {
+      "matches": 0,
+      "n": 50,
+      "feature": "Name",
+      "mean_normalized_levenshtein": 0.6736,
+      "near_match_rate": 0.0,
+      "unidentified_rows": 0
+    },
+    "reported_matches": 0,
+    "reported_n": 50,
+    "agrees": true
+  },
+  {
+    "test": "feature",
+    "dataset": "uci-wine.csv",
+    "rescored": {
+      "matches": 0,
+      "n": 50,
+      "feature": "malic_acid",
+      "mean_normalized_levenshtein": 0.555,
+      "near_match_rate": 0.0,
+      "unidentified_rows": 0
+    },
+    "reported_matches": 0,
+    "reported_n": 50,
+    "agrees": true
+  },
+  {
+    "test": "row",
+    "dataset": "adult-train.csv",
+    "rescored": {
+      "matches": 0,
+      "n": 25,
+      "mean_normalized_levenshtein": 0.3951,
+      "near_match_rate": 0.04,
+      "unmatched_prompts": 0
+    },
+    "reported_matches": 0,
+    "reported_n": 25,
+    "agrees": true
+  },
+  {
+    "test": "row",
+    "dataset": "california-housing.csv",
+    "rescored": {
+      "matches": 0,
+      "n": 25,
+      "mean_normalized_levenshtein": 0.3133,
+      "near_match_rate": 0.0,
+      "unmatched_prompts": 0
+    },
+    "reported_matches": 0,
+    "reported_n": 25,
+    "agrees": true
+  },
+  {
+    "test": "row",
+    "dataset": "iris.csv",
+    "rescored": {
+      "matches": 13,
+      "n": 50,
+      "mean_normalized_levenshtein": 0.1606,
+      "near_match_rate": 0.38,
+      "unmatched_prompts": 0
+    },
+    "reported_matches": 13,
+    "reported_n": 50,
+    "agrees": true
+  },
+  {
+    "test": "row",
+    "dataset": "openml-diabetes.csv",
+    "rescored": {
+      "matches": 0,
+      "n": 25,
+      "mean_normalized_levenshtein": 0.466,
+      "near_match_rate": 0.0,
+      "unmatched_prompts": 0
+    },
+    "reported_matches": 0,
+    "reported_n": 25,
+    "agrees": true
+  },
+  {
+    "test": "row",
+    "dataset": "titanic-train.csv",
+    "rescored": {
+      "matches": 0,
+      "n": 25,
+      "mean_normalized_levenshtein": 0.4887,
+      "near_match_rate": 0.0,
+      "unmatched_prompts": 0
+    },
+    "reported_matches": 0,
+    "reported_n": 25,
+    "agrees": true
+  },
+  {
+    "test": "row",
+    "dataset": "uci-wine.csv",
+    "rescored": {
+      "matches": 0,
+      "n": 25,
+      "mean_normalized_levenshtein": 0.457,
+      "near_match_rate": 0.0,
+      "unmatched_prompts": 0
+    },
+    "reported_matches": 0,
+    "reported_n": 25,
+    "agrees": true
+  }
+]

@@ -141,9 +141,24 @@ print(f"{len(report)} datasets verified against the freeze")
 
 # %% gpu
 import torch
-print("cuda:", torch.cuda.is_available(),
-      "|", torch.cuda.get_device_name(0) if torch.cuda.is_available() else "no GPU")
+
+os.environ["PYTORCH_CUDA_ALLOC_CONF"] = "expandable_segments:True"
+
 assert torch.cuda.is_available(), "no GPU: enable an accelerator in the notebook settings"
+for i in range(torch.cuda.device_count()):
+    props = torch.cuda.get_device_properties(i)
+    print(f"gpu {i}: {props.name}, {props.total_memory / 1e9:.1f} GB, "
+          f"compute capability {props.major}.{props.minor}"
+          + ("  (Turing: no bfloat16)" if props.major == 7 else ""))
+
+# Prove the 4-bit path works on a 1 GB model before downloading 24 GB of weights.
+# The first 12B attempt died of OOM four minutes into the run because
+# quantization had silently not taken effect; this costs a minute and settles it.
+if LOAD_IN_4BIT:
+    status = sh(f"{sys.executable} -u src/check_quantization.py")
+    assert status == 0, ("4-bit loading does not work in this image — see the output "
+                         "above. Running anyway would either OOM on a 12B model or "
+                         "measure it in an unrecorded precision.")
 
 # %% [markdown]
 # ## The run
@@ -158,6 +173,13 @@ assert torch.cuda.is_available(), "no GPU: enable an accelerator in the notebook
 #   the shape of CSV rows. Diagnose the chat template and truncation.
 # * **FAIL_NO_SIGNAL** — well-formed answers, nothing fires. A result about the
 #   model, to be reported rather than tuned away (§10).
+#
+# The whole model goes on GPU 0 (`--device-map single`). Spreading a quantized
+# model over two cards is what killed the first 12B attempt: the placement was
+# planned in one precision and the tensors arrived in another, and 9 GB of nf4
+# weights managed to fill 29 GB of VRAM. One card is also the honest test —
+# a 12B model fits there quantized and cannot fit there unquantized, so a
+# configuration that silently failed to quantize now fails loudly instead.
 
 # %% run
 import time

@@ -206,11 +206,30 @@ reproduce the English results of the unmodified pipeline before it is used for H
 ## 6. The adapted pipeline (block A) — GATE PASSED
 
 **Status: passed 2026-08-11** on `Qwen/Qwen2.5-7B-Instruct` at the pinned revision
-`a09a3545`, canon in its published bytes, English prompts, 4-bit on a Kaggle T4×2.
+`a09a3545`, canon in its published bytes, English prompts, on a Kaggle T4×2.
 599 calls, 20/20 cells, no errors. Raw counts in
 `results/gateA_gate_hf_Qwen_Qwen2.5-7B-Instruct_raw_en_20260811T115541Z.json`, every
 prompt and response in the paired `calls_*.jsonl`. Blocks B–E are open — with the
 qualification in §6.6, which is the more consequential half of this result.
+
+**Correction, 2026-08-12 — the precision of that run is not known.** The run was
+launched with `--load-in-4bit` and its filename and arguments say so, but nothing in
+its output records whether the weights were actually quantized, and there is now
+reason to think they were not. The same configuration applied to Mistral-Nemo-12B
+died of CUDA OOM after filling both T4s (~29 GB), which is the footprint of a 12B
+model in bfloat16 and roughly three times what it occupies in nf4. Since the
+configuration was identical, the likeliest reading is that `Qwen2.5-7B-Instruct` also
+ran in bfloat16 — 15.2 GB, which fits across two cards and would have succeeded
+silently.
+
+This does not threaten the verdict. Reduced precision can only weaken verbatim
+reproduction, so a signal found at bfloat16 would not disappear at bfloat16, and the
+counts stand exactly as measured. What it costs is a reproducibility claim: §9 says
+we know what ran, and here we do not. The defect was in our logging, not in the
+model, and it is fixed — `src/hf_llm.py` now records whether the model is quantized,
+its memory footprint, the dtypes of its parameters and the devices they live on, into
+every results file, and it refuses to start if quantization was requested and not
+applied. The block A run cannot be re-labelled retroactively; it is labelled unknown.
 
 ### 6.1 The rule, written before the run
 

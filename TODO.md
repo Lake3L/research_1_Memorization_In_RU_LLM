@@ -62,7 +62,20 @@ run and the verdict was printed by the runner, not chosen afterwards.
 
 ## Block B — H1 and H1b: does the Western canon survive Russian adaptation
 
-**Decide first: the floor problem.** The gate found extractable memorization on iris
+**Decision taken 2026-08-11: amendment first, then a 12B diagnostic.**
+→ `AMENDMENT_3_H1B_OUTCOMES.md` (secondary outcome, chat-template policy, and the
+branch below committed in advance). Next action: run the notebook with the two 12B
+models already set in it. ~2 h each on a T4x2.
+
+- [x] Promote mean normalized Levenshtein to a secondary H1b outcome, with number
+      format canonicalisation implemented, not just described. → `src/metrics.py`
+- [x] Probe and record where each model's chat template puts the system prompt.
+      Mistral-Nemo moves it to the last user turn; Qwen and Vikhr do not.
+- [ ] **Run `mistralai/Mistral-Nemo-Instruct-2407` and
+      `Vikhrmodels/Vikhr-Nemo-12B-Instruct-R-21-09-24`** on canon/raw/EN.
+- [ ] Apply the branch of `AMENDMENT_3_H1B_OUTCOMES.md` §4 to the outcome.
+
+**The floor problem, for reference.** The gate found extractable memorization on iris
 and nowhere else. `Qwen2.5-7B-Instruct` is the base of two of the three pairs, so on
 five of six canon datasets H1b would be comparing zero against zero. This is a design
 decision, it changes what the study can claim, and it belongs in an amendment before

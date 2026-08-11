@@ -10,7 +10,54 @@ dataset rows reproduced verbatim anywhere in the response, which is the
 automatable form of their criterion.
 """
 
+import re
 from typing import List
+
+# A field that is a number and nothing else. Anything that does not match is left
+# exactly as it is — an identifier, a name, a category — because "looks numeric"
+# is not the same as "is a quantity".
+_NUMBER = re.compile(r"^[+-]?(?:\d+\.?\d*|\.\d+)$")
+
+
+def infer_separator(row: str) -> str:
+    return max(",;\t", key=row.count)
+
+
+def normalise_numbers(row: str, sep: str = None) -> str:
+    """Canonicalise numeric fields so that formatting is not scored as content.
+
+    Ward et al.'s caveat: `17.5` and `17.500` are the same quantity written two
+    ways, and a string metric that cannot tell them apart will report a format
+    difference as a memorization difference. That confound is fatal for H4, where
+    the two arms differ in a factor (prompt language) that carries number formats
+    with it, and it is present already in the canon — the published `uci-wine`
+    ships `.28` where a pandas round-trip writes `0.28`.
+
+    Applied only to the *approximate* metrics. The verbatim tests stay byte-exact,
+    because that is the thing they are for: PREREGISTRATION.md §5 defines them on
+    the published bytes and §7 forbids softening them.
+
+    Fields are normalised individually after splitting on the row's separator, so
+    that a decimal comma in a semicolon-separated file is handled without the two
+    roles of the comma being confused.
+    """
+    sep = sep or infer_separator(row)
+    out = []
+    for field in row.split(sep):
+        stripped = field.strip()
+        candidate = stripped.replace(",", ".") if sep != "," else stripped
+        if not _NUMBER.match(candidate):
+            out.append(stripped)
+            continue
+        sign = "-" if candidate.startswith("-") else ""
+        digits = candidate.lstrip("+-")
+        if "." in digits:
+            whole, frac = digits.split(".", 1)
+            frac = frac.rstrip("0")
+            whole = whole or "0"          # ".28" and "0.28" are one number
+            digits = f"{whole}.{frac}" if frac else whole   # "22.0" and "22" too
+        out.append(sign + digits)
+    return sep.join(out)
 
 
 def prefix_match_chars(truth: str, response: str) -> int:

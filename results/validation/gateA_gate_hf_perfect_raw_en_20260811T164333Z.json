@@ -1,6 +1,6 @@
 {
-  "run": "gate_hf_perfect_raw_en_20260811T102628Z",
-  "timestamp_utc": "20260811T102628Z",
+  "run": "gate_hf_perfect_raw_en_20260811T164333Z",
+  "timestamp_utc": "20260811T164333Z",
   "block": "A",
   "model": "mock:perfect",
   "revision_requested": null,
@@ -32,6 +32,7 @@
     "accelerate": "1.14.0",
     "bitsandbytes": null
   },
+  "chat_template": {},
   "instrument_check": {
     "perfect_memorizer": {
       "matches": 10,
@@ -69,7 +70,7 @@
       "model": "mock:perfect",
       "revision_requested": null,
       "revision_loaded": null,
-      "seconds": 0.5
+      "seconds": 0.2
     },
     {
       "dataset": "D:\\Microsoft Visual Studio\\Projects VSC\\_MyPapers_\\research_1_Memorization_In_RU_LLM\\data/canon/uci-wine.csv",
@@ -89,7 +90,7 @@
       "model": "mock:perfect",
       "revision_requested": null,
       "revision_loaded": null,
-      "seconds": 0.4
+      "seconds": 0.2
     },
     {
       "dataset": "D:\\Microsoft Visual Studio\\Projects VSC\\_MyPapers_\\research_1_Memorization_In_RU_LLM\\data/canon/openml-diabetes.csv",
@@ -109,7 +110,7 @@
       "model": "mock:perfect",
       "revision_requested": null,
       "revision_loaded": null,
-      "seconds": 0.4
+      "seconds": 0.2
     },
     {
       "dataset": "D:\\Microsoft Visual Studio\\Projects VSC\\_MyPapers_\\research_1_Memorization_In_RU_LLM\\data/canon/titanic-train.csv",
@@ -129,7 +130,7 @@
       "model": "mock:perfect",
       "revision_requested": null,
       "revision_loaded": null,
-      "seconds": 0.4
+      "seconds": 0.2
     },
     {
       "dataset": "D:\\Microsoft Visual Studio\\Projects VSC\\_MyPapers_\\research_1_Memorization_In_RU_LLM\\data/canon/adult-train.csv",
@@ -149,7 +150,7 @@
       "model": "mock:perfect",
       "revision_requested": null,
       "revision_loaded": null,
-      "seconds": 0.4
+      "seconds": 0.2
     },
     {
       "dataset": "D:\\Microsoft Visual Studio\\Projects VSC\\_MyPapers_\\research_1_Memorization_In_RU_LLM\\data/canon/california-housing.csv",
@@ -169,7 +170,7 @@
       "model": "mock:perfect",
       "revision_requested": null,
       "revision_loaded": null,
-      "seconds": 0.4
+      "seconds": 0.2
     },
     {
       "dataset": "D:\\Microsoft Visual Studio\\Projects VSC\\_MyPapers_\\research_1_Memorization_In_RU_LLM\\data/canon/iris.csv",
@@ -274,7 +275,7 @@
       "model": "mock:perfect",
       "revision_requested": null,
       "revision_loaded": null,
-      "seconds": 0.3
+      "seconds": 0.2
     },
     {
       "dataset": "D:\\Microsoft Visual Studio\\Projects VSC\\_MyPapers_\\research_1_Memorization_In_RU_LLM\\data/canon/california-housing.csv",
@@ -295,7 +296,7 @@
       "model": "mock:perfect",
       "revision_requested": null,
       "revision_loaded": null,
-      "seconds": 0.2
+      "seconds": 0.1
     },
     {
       "dataset": "D:\\Microsoft Visual Studio\\Projects VSC\\_MyPapers_\\research_1_Memorization_In_RU_LLM\\data/canon/titanic-train.csv",
@@ -315,7 +316,7 @@
       "model": "mock:perfect",
       "revision_requested": null,
       "revision_loaded": null,
-      "seconds": 0.7
+      "seconds": 0.4
     },
     {
       "dataset": "D:\\Microsoft Visual Studio\\Projects VSC\\_MyPapers_\\research_1_Memorization_In_RU_LLM\\data/canon/openml-diabetes.csv",
@@ -335,7 +336,7 @@
       "model": "mock:perfect",
       "revision_requested": null,
       "revision_loaded": null,
-      "seconds": 0.6
+      "seconds": 0.3
     },
     {
       "dataset": "D:\\Microsoft Visual Studio\\Projects VSC\\_MyPapers_\\research_1_Memorization_In_RU_LLM\\data/canon/uci-wine.csv",
@@ -355,7 +356,7 @@
       "model": "mock:perfect",
       "revision_requested": null,
       "revision_loaded": null,
-      "seconds": 0.5
+      "seconds": 0.3
     },
     {
       "dataset": "D:\\Microsoft Visual Studio\\Projects VSC\\_MyPapers_\\research_1_Memorization_In_RU_LLM\\data/canon/adult-train.csv",
@@ -375,7 +376,7 @@
       "model": "mock:perfect",
       "revision_requested": null,
       "revision_loaded": null,
-      "seconds": 11.9
+      "seconds": 5.7
     },
     {
       "dataset": "D:\\Microsoft Visual Studio\\Projects VSC\\_MyPapers_\\research_1_Memorization_In_RU_LLM\\data/canon/california-housing.csv",
@@ -395,7 +396,7 @@
       "model": "mock:perfect",
       "revision_requested": null,
       "revision_loaded": null,
-      "seconds": 8.1
+      "seconds": 3.9
     },
     {
       "dataset": "D:\\Microsoft Visual Studio\\Projects VSC\\_MyPapers_\\research_1_Memorization_In_RU_LLM\\data/canon/iris.csv",
@@ -414,7 +415,7 @@
       "model": "mock:perfect",
       "revision_requested": null,
       "revision_loaded": null,
-      "seconds": 37.1
+      "seconds": 17.9
     },
     {
       "dataset": "D:\\Microsoft Visual Studio\\Projects VSC\\_MyPapers_\\research_1_Memorization_In_RU_LLM\\data/canon/openml-diabetes.csv",
@@ -433,7 +434,7 @@
       "model": "mock:perfect",
       "revision_requested": null,
       "revision_loaded": null,
-      "seconds": 39.6
+      "seconds": 18.1
     },
     {
       "dataset": "D:\\Microsoft Visual Studio\\Projects VSC\\_MyPapers_\\research_1_Memorization_In_RU_LLM\\data/canon/adult-train.csv",
@@ -452,7 +453,7 @@
       "model": "mock:perfect",
       "revision_requested": null,
       "revision_loaded": null,
-      "seconds": 83.6
+      "seconds": 39.5
     }
   ]
 }

@@ -37,7 +37,11 @@ def load_rows(path):
 
 
 def norm_lev(a, b):
+    """Distance after number-format canonicalisation (AMENDMENT_3 §2)."""
     import jellyfish
+    from metrics import infer_separator, normalise_numbers
+    sep = infer_separator(a)
+    a, b = normalise_numbers(a, sep), normalise_numbers(b, sep)
     return jellyfish.levenshtein_distance(a, b) / max(len(a), len(b), 1)
 
 

@@ -223,7 +223,7 @@ def main():
     if os.path.exists(lock_path):
         lock = json.load(open(lock_path, encoding="utf-8"))["models"]
 
-    revision, loaded_revision, llm = args.revision, None, None
+    revision, loaded_revision, llm, template = args.revision, None, None, {}
     if args.mock != "none":
         # the perfect memorizer answers out of one specific CSV, so it is rebuilt
         # per dataset inside the run loop; one built on iris would score zero
@@ -255,6 +255,10 @@ def main():
             sys.exit(f"[model] loaded {loaded_revision}, models.lock says {revision} — "
                      "refusing to measure weights we did not pin")
         print(f"[model] loaded revision {loaded_revision}")
+        template = llm.chat_template_report()
+        print(f"[model] chat template: system role "
+              f"{'accepted' if template.get('accepts_system_role') else 'REJECTED (merged into the first user turn)'}"
+              f", position: {template.get('system_position')}")
 
     # ------------------------------------------------------------ the instrument
     print("\n[instrument] mock controls, in this process")
@@ -316,6 +320,7 @@ def main():
         "datasets": {k: os.path.relpath(v, ROOT).replace(os.sep, "/")
                      for k, v in paths.items()},
         "versions": versions(),
+        "chat_template": template,
         "instrument_check": instrument,
         "gate": verdict,
         "results": results,

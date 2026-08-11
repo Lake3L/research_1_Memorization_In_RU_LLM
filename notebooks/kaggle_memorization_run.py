@@ -1,5 +1,9 @@
-"""Kaggle/Colab runner for block A: does the adapted pipeline reproduce the
-English result of the unmodified one (PREREGISTRATION.md §8, second half).
+"""Kaggle/Colab runner for the memorization gate on open-weight models.
+
+Built for block A — does the adapted pipeline reproduce the English result of the
+unmodified one (PREREGISTRATION.md §8, second half) — and reused unchanged for the
+runs that follow, since the plan, the scoring and the verdict rule are the same
+and only the model list moves.
 
 Kept as a .py file and converted to .ipynb by `src/build_notebook.py`, so the
 pipeline stays reviewable in git rather than buried in JSON cell arrays.
@@ -15,8 +19,9 @@ What it does, in order:
   1. installs dependencies and clones the project repository;
   2. re-fetches every canon dataset and verifies its SHA-256 against the frozen
      registry — a run on bytes that are not the frozen bytes is not a valid run;
-  3. loads one open-weight model at the revision pinned in `models.lock`, and
-     refuses to continue if the hub served a different commit;
+  3. loads each model in turn, in its own process, at the revision pinned in
+     `models.lock`, refusing to continue if the hub served a different commit,
+     and records where that model's chat template puts the system prompt;
   4. runs the two mock controls *inside this session*, because a control that
      was only ever run somewhere else does not control anything here;
   5. runs the four memorization tests over the six canon datasets in English,
@@ -24,27 +29,41 @@ What it does, in order:
   6. prints the comparison against Bordt et al. and against our own GPT-4-0613
      numbers, and states the gate verdict.
 
-Expected runtime: 1.5-3 hours for a 7-8B model in 4-bit on a T4.
+Expected runtime: about 1 h 15 min per 7B model in 4-bit on a T4x2 (measured),
+so budget roughly two hours per 12B model and check the session limit before
+queueing more than two.
 """
 
 # %% [markdown]
-# # Block A — validating the adapted pipeline
+# # Memorization gate runs on open-weight models
 #
-# Set the model below and Run All. The run is finished when the last cell prints
-# a gate verdict; everything before that is setup and is meant to fail loudly.
+# Set the models below and Run All. The run is finished when the last cell prints
+# a verdict per model; everything before that is setup and is meant to fail loudly.
 #
-# **This is not a hypothesis test.** No H1-H4 number may be quoted from this
-# notebook. It answers one question: does our HF pipeline reproduce, in English,
-# what the unmodified pipeline produced through the OpenAI API? Until it does,
-# `TODO.md` blocks B-E stay closed.
+# Block A used this notebook to validate the pipeline against
+# `Qwen/Qwen2.5-7B-Instruct`; it passed (`RESULTS_GATE.md` §6). The models set
+# below are the 12B diagnostic of `AMENDMENT_3_H1B_OUTCOMES.md` §4, which decides
+# how block B proceeds.
+#
+# **This is still not a hypothesis test.** It runs one variant, one prompt
+# language and one seed, where H1 asks for four variants and three seeds. What it
+# produces is a verdict about the surface, not about H1.
 
 # %% configuration
 REPO_URL = "https://github.com/Lake3L/research_1_Memorization_In_RU_LLM.git"
 
-# Block A runs the multilingual base model first: it is the control member of
-# the base<->adapted pairs, so if the canon does not extract from *it*, nothing
-# can be concluded from the Russian-adapted models either.
-MODEL_ID = "Qwen/Qwen2.5-7B-Instruct"
+# Models run one after another in separate processes, so each releases the GPU
+# before the next is loaded.
+#
+# Block A ran the multilingual base alone (`Qwen/Qwen2.5-7B-Instruct`), passed,
+# and found extractable memorization on iris and nowhere else. The pair below is
+# the diagnostic committed to in AMENDMENT_3_H1B_OUTCOMES.md §4: is that floor a
+# scale effect? Both members are 12B, both apache-2.0, neither gated, and they
+# form one base<->adapted pair, so the comparison is interpretable on its own.
+MODEL_IDS = [
+    "mistralai/Mistral-Nemo-Instruct-2407",             # base
+    "Vikhrmodels/Vikhr-Nemo-12B-Instruct-R-21-09-24",   # Russian adaptation
+]
 
 DATASET_GROUP = "canon"      # block A is the Western canon only
 VARIANT = "raw"              # the published bytes, not a pandas round-trip
@@ -99,9 +118,10 @@ sys.path.insert(0, "src")
 # The CSVs are gitignored: they are other people's data and two of them are not
 # ours to redistribute. `src/fetch_data.py` rebuilds them from their pinned
 # sources and checks every file against the SHA-256 frozen in
-# `AMENDMENT_1_DATASETS.md`. Five of the six canon files come from inside the
-# installed `tabmemcheck` package, which is the same artefact the reference
-# implementation tests against.
+# `AMENDMENT_1_DATASETS.md`. Each source is checked against that hash *before* it
+# is accepted, so a source with the right rows and the wrong bytes falls through
+# to the next one instead of being used — which is exactly what a local
+# `tabmemcheck` checkout on Windows turned out to be (`AMENDMENT_2_LINE_ENDINGS.md`).
 
 # %% fetch
 sh(f"{sys.executable} src/fetch_data.py --group {DATASET_GROUP} "
@@ -116,8 +136,8 @@ print(f"{len(report)} datasets verified against the freeze")
 # %% [markdown]
 # ## GPU check
 #
-# The plan is ~700 model calls. On CPU that is days, not hours, so a missing
-# accelerator should stop the run here rather than at 3 a.m.
+# The plan is 599 model calls per model. On CPU that is days, not hours, so a
+# missing accelerator should stop the run here rather than at 3 a.m.
 
 # %% gpu
 import torch
@@ -140,12 +160,17 @@ assert torch.cuda.is_available(), "no GPU: enable an accelerator in the notebook
 #   model, to be reported rather than tuned away (§10).
 
 # %% run
-cmd = (f"{sys.executable} -u src/run_hf_gate.py --model {MODEL_ID} "
-       f"--group {DATASET_GROUP} --variant {VARIANT} --language {PROMPT_LANGUAGE} "
-       f"--seed {SEED} --scale {SCALE}" + (" --load-in-4bit" if LOAD_IN_4BIT else ""))
-status = sh(cmd)
-# exit code 1 is a failed gate, not a crashed run: both write their results file
-print("\nrun_hf_gate exit status:", status)
+import time
+
+for model_id in MODEL_IDS:
+    started = time.time()
+    print("\n" + "=" * 78 + f"\n{model_id}\n" + "=" * 78, flush=True)
+    cmd = (f"{sys.executable} -u src/run_hf_gate.py --model {model_id} "
+           f"--group {DATASET_GROUP} --variant {VARIANT} --language {PROMPT_LANGUAGE} "
+           f"--seed {SEED} --scale {SCALE}" + (" --load-in-4bit" if LOAD_IN_4BIT else ""))
+    # exit code 1 is a failed gate, not a crashed run: both write their results file
+    status = sh(cmd)
+    print(f"\nexit status {status} after {(time.time() - started) / 60:.0f} min", flush=True)
 
 # %% [markdown]
 # ## Collect the outputs
@@ -165,9 +190,20 @@ for path in produced:
         shutil.copy(path, target)
     print(f"{os.path.getsize(path)/1e6:7.2f} MB  {path}")
 
-latest = sorted(glob.glob("results/gateA_*.json"))[-1]
-outcome = json.load(open(latest, encoding="utf-8"))
-print("\ngate verdict:", outcome["gate"]["verdict"], "-", outcome["gate"]["reason"])
-print("model revision loaded:", outcome["revision_loaded"])
-print("\nsend back both files; they are committed to results/ and every number in")
-print("RESULTS_GATE.md §5 is regenerated from them by a script, not typed in.")
+for path in sorted(glob.glob("results/gateA_*.json")):
+    outcome = json.load(open(path, encoding="utf-8"))
+    template = (outcome.get("chat_template") or {}).get("system_position")
+    header = [r for r in outcome["results"] if r.get("test") == "header"]
+    passed = [r["dataset_key"] for r in header if r.get("verdict") == "pass"]
+    fired = [f"{r['dataset_key']}/{r['test']} {r['matches']}/{r['n']}"
+             for r in outcome["results"] if r.get("matches")]
+    print(f"\n{outcome['model']}")
+    print(f"   revision   : {outcome['revision_loaded']}")
+    print(f"   template   : system prompt {template}")
+    print(f"   verdict    : {outcome['gate']['verdict']} — {outcome['gate']['reason']}")
+    print(f"   header pass: {len(passed)}/{len(header)} {passed}")
+    print(f"   non-zero   : {fired or 'nothing'}")
+
+print("\nSend back every gateA_*.json and calls_*.jsonl. The call log matters more than")
+print("the counts: RESULTS_GATE.md is regenerated from it by src/rescore_calls.py, and a")
+print("rented session cannot be re-run for free once it has ended.")

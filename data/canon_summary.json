@@ -1,4 +1,27 @@
 {
+  "iris": {
+    "rows": 150,
+    "cols": 5,
+    "target": "species",
+    "baselines": {
+      "logistic_regression": {
+        "accuracy": 0.9533,
+        "cohen_kappa": 0.93
+      },
+      "gradient_boosting": {
+        "accuracy": 0.94,
+        "cohen_kappa": 0.91
+      },
+      "majority_baseline": 0.3333,
+      "best_lift_over_majority": 0.62
+    },
+    "admitted": true,
+    "admission_basis": "canon member; size rule does not apply",
+    "failed_checks": [
+      "at_least_300_rows",
+      "has_high_entropy_feature"
+    ]
+  },
   "adult-train": {
     "rows": 32561,
     "cols": 15,

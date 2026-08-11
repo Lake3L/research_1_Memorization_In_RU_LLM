@@ -1,0 +1,14 @@
+# Data files are bytes, not text.
+#
+# Verbatim memorization is measured character by character, so a line-ending
+# conversion is a change of the thing being measured. Git on Windows converts
+# LF to CRLF on checkout by default (core.autocrlf=true), and that is exactly
+# how the canon freeze of 2026-08-10 came to hold Windows line endings while
+# the published files, and every corpus a model was trained on, hold Unix ones.
+# See AMENDMENT_2_LINE_ENDINGS.md.
+#
+# This protects our own repository. It cannot protect a clone of somebody
+# else's — which is where the damage came from — so the authority on dataset
+# bytes is src/fetch_data.py and the hashes in the registry, never a checkout.
+*.csv   -text
+*.jsonl -text

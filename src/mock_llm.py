@@ -38,7 +38,15 @@ class MockAdapter(tabmemcheck.LLM_Interface):
         return self.fn(messages)
 
     def completion(self, prompt, temperature, max_tokens):
-        raise NotImplementedError("mocks are chat-mode only")
+        """The completion-mode path, so that it can be validated without a GPU.
+
+        AMENDMENT_4 §3 makes completion mode a preregistered probe, and an
+        unvalidated code path is exactly what sent five broken cells to a rented
+        GPU last time. The mocks take messages, so the raw prompt is wrapped in
+        the one-turn conversation they expect.
+        """
+        self.n_calls += 1
+        return self.fn([{"role": "user", "content": prompt}])
 
 
 def format_echo_mock(messages: List[Dict]) -> str:

@@ -40,14 +40,16 @@ queueing more than two.
 # Set the models below and Run All. The run is finished when the last cell prints
 # a verdict per model; everything before that is setup and is meant to fail loudly.
 #
-# Block A used this notebook to validate the pipeline against
-# `Qwen/Qwen2.5-7B-Instruct`; it passed (`RESULTS_GATE.md` §6). The models set
-# below are the 12B diagnostic of `AMENDMENT_3_H1B_OUTCOMES.md` §4, which decides
-# how block B proceeds.
+# Runs now use the parameters Bordt et al. used for open models, read from their
+# own code rather than from the library defaults, which differ: five few-shot
+# blocks, eight prefix rows, header completion length 350, and the library's
+# `max_tokens` instead of the caps we had inherited from a $5 OpenAI budget.
+# `AMENDMENT_4_PROTOCOL_ALIGNMENT.md` §1 has the table of what changed and why.
 #
 # **This is still not a hypothesis test.** It runs one variant, one prompt
 # language and one seed, where H1 asks for four variants and three seeds. What it
-# produces is a verdict about the surface, not about H1.
+# produces is a decision about which probe H1 should use, and a first properly
+# powered look at the base-vs-adapted direction.
 
 # %% configuration
 REPO_URL = "https://github.com/Lake3L/research_1_Memorization_In_RU_LLM.git"
@@ -55,30 +57,34 @@ REPO_URL = "https://github.com/Lake3L/research_1_Memorization_In_RU_LLM.git"
 # Each entry is one run in its own process, so the GPU is released between them.
 # `extra` goes straight to src/run_hf_gate.py.
 #
-# This session does two things, both named in RESULTS_12B_DIAGNOSTIC.md §5.
+# This session is a 2x2: two models (a base and its Russian adaptation) x two
+# prompting modes, over the same datasets at the same query counts. It is designed
+# to answer two questions at once, and it is described in AMENDMENT_4.
 #
-# 1. REPAIR. Five cells of the 2026-08-13 pair died of CUDA OOM — eager attention
-#    materialising a 3-4 GiB score matrix at 4k tokens. SDPA is now requested
-#    explicitly, so those cells should run; only they are re-run, not the whole
-#    plan, because the rest already has its numbers and its logs.
+#   Does the prompting mode matter?  In chat mode tabmemcheck sends a system
+#     prompt plus five few-shot blocks drawn from OTHER datasets, then the prefix
+#     rows. In completion mode it sends the prefix rows as raw text and nothing
+#     else. Bordt et al. used completion mode for three of their five open models;
+#     we have been using chat mode for everything, which may be why our signal is
+#     so thin. Completion mode also removes the chat-template confound entirely,
+#     because it uses no chat template.
 #
-# 2. THE TEMPLATE CONTROL. Mistral-Nemo's chat template moves the system prompt to
-#    the last user turn; its Russian adaptation Vikhr-Nemo puts it first. The
-#    adapted model scored higher on every cell where anything extracts, and that
-#    difference cannot be read as an effect of adaptation while the two arms also
-#    differ in where the instruction sits. `--system-prompt first_user` forces the
-#    same placement for both. If Mistral's numbers rise towards Vikhr's, the gap
-#    was placement.
+#   Is the adaptation higher than its base?  The pilot said yes on every cell
+#     where anything extracted, but at n=25-50 that is not decidable. Query counts
+#     here come from src/power_h1b.py and exhaust iris and wine, which are bounded
+#     by their own row counts.
+#
+# Completion-mode runs come first: they are the new information, and they are much
+# faster because the prompts are a fraction of the size. If the session runs out of
+# time, the two runs that matter will already be done.
 
-MISSING = ("adult-train.csv:header,uci-wine.csv:row,adult-train.csv:row,"
-           "california-housing.csv:row,adult-train.csv:first_token")
+PROBE = "--plan probe --protocol reference"
 
 RUNS = [
-    # repair the lost cells, both members of the pair
-    {"model": "mistralai/Mistral-Nemo-Instruct-2407", "extra": f"--only-cells {MISSING}"},
-    {"model": "Vikhrmodels/Vikhr-Nemo-12B-Instruct-R-21-09-24", "extra": f"--only-cells {MISSING}"},
-    # the control: the base model, queried with the instruction at the front
-    {"model": "mistralai/Mistral-Nemo-Instruct-2407", "extra": "--system-prompt first_user"},
+    {"model": "mistralai/Mistral-Nemo-Instruct-2407",           "extra": f"{PROBE} --prompting completion"},
+    {"model": "Vikhrmodels/Vikhr-Nemo-12B-Instruct-R-21-09-24", "extra": f"{PROBE} --prompting completion"},
+    {"model": "mistralai/Mistral-Nemo-Instruct-2407",           "extra": f"{PROBE} --prompting chat"},
+    {"model": "Vikhrmodels/Vikhr-Nemo-12B-Instruct-R-21-09-24", "extra": f"{PROBE} --prompting chat"},
 ]
 
 DATASET_GROUP = "canon"      # block A is the Western canon only
@@ -152,8 +158,10 @@ print(f"{len(report)} datasets verified against the freeze")
 # %% [markdown]
 # ## GPU check
 #
-# The plan is 599 model calls per model. On CPU that is days, not hours, so a
-# missing accelerator should stop the run here rather than at 3 a.m.
+# The plan is 912 model calls per run, four runs. On CPU that is days, not hours,
+# so a missing accelerator should stop the run here rather than at 3 a.m.
+# Completion-mode prompts are a few hundred tokens; chat-mode ones a few thousand,
+# so the first two runs are far quicker than the last two.
 
 # %% gpu
 import torch

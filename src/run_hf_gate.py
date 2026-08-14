@@ -52,7 +52,7 @@ sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 from dataset_registry import load_registry, sha256  # noqa: E402
 from mock_llm import MockAdapter, PerfectMemorizer, format_echo_mock  # noqa: E402
 from prompt_language import set_language  # noqa: E402
-from run_repro import PLANS, PAPER, dataset_key, run_one  # noqa: E402
+from run_repro import PLANS, PAPER, PROTOCOL, dataset_key, run_one  # noqa: E402
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
@@ -212,6 +212,18 @@ def main():
     ap.add_argument("--seed", type=int, default=42)
     ap.add_argument("--scale", type=float, default=1.0,
                     help="multiply every query count in the plan (for quick checks)")
+    ap.add_argument("--prompting", default="chat", choices=["chat", "completion"],
+                    help="'chat' sends a system prompt plus few-shot blocks from "
+                         "other datasets; 'completion' sends the prefix rows as raw "
+                         "text with neither. The authors used completion mode for "
+                         "three of their five open models, and it is the probe of "
+                         "AMENDMENT_4 §3 — it also removes the chat-template "
+                         "confound, because it uses no chat template")
+    ap.add_argument("--protocol", default="reference", choices=list(PROTOCOL),
+                    help="'reference' uses the parameters Bordt et al. used for "
+                         "open models (few_shot 5, 8 prefix rows, completion length "
+                         "350, library max_tokens); 'legacy' reproduces what our own "
+                         "runs before 2026-08-14 used. See AMENDMENT_4 §1")
     ap.add_argument("--system-prompt", default="template",
                     choices=["template", "first_user"],
                     help="'template' queries each model through its own chat "
@@ -242,6 +254,7 @@ def main():
     stamp = datetime.now(timezone.utc).strftime("%Y%m%dT%H%M%SZ")
     tag = (f"{args.plan}_{(args.mock if args.mock != 'none' else args.model).replace('/', '_')}"
            f"_{args.variant}_{args.language}"
+           + ("" if args.prompting == "chat" else f"_{args.prompting}")
            + ("" if args.system_prompt == "template" else f"_sys-{args.system_prompt}")
            + f"_{stamp}")
     os.makedirs(args.out_dir, exist_ok=True)
@@ -260,6 +273,8 @@ def main():
         # per dataset inside the run loop; one built on iris would score zero
         # everywhere else and look exactly like a real negative result
         llm = None if args.mock == "perfect" else MockAdapter(format_echo_mock)
+        if llm is not None:
+            llm.chat_mode = args.prompting == "chat"
         model_label = f"mock:{args.mock}"
     else:
         import torch
@@ -287,6 +302,7 @@ def main():
               f"device_map={device_map}")
         llm = HFLLM(model_name=args.model, revision=revision, device=device,
                     quantization_config=quantization, device_map=device_map,
+                    chat_mode=(args.prompting == "chat"),
                     system_prompt_placement=args.system_prompt, log_path=call_log)
         print(f"[model] loaded: {json.dumps(llm.load_report, ensure_ascii=False)}")
         loaded_revision = llm.loaded_revision
@@ -327,6 +343,7 @@ def main():
         num_queries = max(1, int(round(num_queries * args.scale)))
         if args.mock == "perfect":
             llm = MockAdapter(PerfectMemorizer(path))
+            llm.chat_mode = args.prompting == "chat"
         if hasattr(llm, "context"):
             llm.context = {"dataset": csv_name, "test": test,
                            "variant": args.variant, "prompt_language": args.language}
@@ -339,7 +356,8 @@ def main():
             llm.free_memory()
         started = time.time()
         try:
-            r = run_one(llm, path, test, num_queries, args.seed)
+            r = run_one(llm, path, test, num_queries, args.seed,
+                        protocol=args.protocol)
         except Exception as e:  # one broken cell must not kill the run
             r = {"dataset": path, "dataset_key": dataset_key(path), "test": test,
                  "error": f"{type(e).__name__}: {e}"}
@@ -360,6 +378,13 @@ def main():
 
     # ------------------------------------------------------------------ the verdict
     verdict = gate_verdict(results, instrument)
+    if args.plan != "gate_hf":
+        # The §8 gate rule is defined over the gate plan. Any other plan sees a
+        # different set of cells, so calling its outcome a gate verdict would be
+        # a claim about tests that were never run.
+        verdict = {**verdict, "verdict": f"DESCRIPTIVE ({args.plan})",
+                   "reason": f"plan '{args.plan}' is not the §8 gate plan; the "
+                             "counts stand on their own and no gate verdict is implied"}
     if args.only_cells:
         # A repair run sees a subset by construction, so its "verdict" would be a
         # statement about cells that were deliberately not run. Say so instead.
@@ -384,6 +409,8 @@ def main():
         "plan": args.plan, "group": args.group, "variant": args.variant,
         "prompt_language": args.language, "seed": args.seed, "scale": args.scale,
         "system_prompt_placement": args.system_prompt,
+        "prompting": args.prompting, "protocol": args.protocol,
+        "protocol_settings": {k: v for k, v in PROTOCOL[args.protocol].items()},
         "datasets": {k: os.path.relpath(v, ROOT).replace(os.sep, "/")
                      for k, v in paths.items()},
         "versions": versions(),

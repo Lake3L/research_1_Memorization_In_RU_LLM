@@ -1,0 +1,102 @@
+{
+  "run": "gate_hf_perfect_raw_en_20260814T130555Z",
+  "timestamp_utc": "20260814T130555Z",
+  "block": "A",
+  "model": "mock:perfect",
+  "revision_requested": null,
+  "revision_loaded": null,
+  "plan": "gate_hf",
+  "group": "canon",
+  "variant": "raw",
+  "prompt_language": "en",
+  "seed": 42,
+  "scale": 0.1,
+  "datasets": {
+    "iris.csv": "data/canon/iris.csv",
+    "adult-train.csv": "data/canon/adult-train.csv",
+    "california-housing.csv": "data/canon/california-housing.csv",
+    "openml-diabetes.csv": "data/canon/openml-diabetes.csv",
+    "uci-wine.csv": "data/canon/uci-wine.csv",
+    "titanic-train.csv": "data/canon/titanic-train.csv"
+  },
+  "versions": {
+    "python": "3.13.14",
+    "platform": "Windows-11-10.0.26200-SP0",
+    "numpy": "2.5.1",
+    "pandas": "2.3.3",
+    "scipy": "1.18.0",
+    "torch": "2.13.0",
+    "transformers": "5.14.1",
+    "tabmemcheck": "0.1.6",
+    "jellyfish": "1.2.1",
+    "accelerate": "1.14.0",
+    "bitsandbytes": null
+  },
+  "chat_template": {},
+  "load": {},
+  "instrument_check": {
+    "perfect_memorizer": {
+      "matches": 10,
+      "n": 10
+    },
+    "format_echo": {
+      "matches": 0,
+      "n": 10
+    },
+    "instrument_ok": true
+  },
+  "gate": {
+    "verdict": "FAIL_NO_SIGNAL",
+    "reason": "answers are well-formed but no test fires: on this model the canon does not extract. Per §10 this is reported, not tuned away",
+    "header_passes": 1,
+    "iris_row_significant": false,
+    "mean_well_formed_rate": 1.0,
+    "cells_run": 2,
+    "cells_planned": 2,
+    "complete": true,
+    "failed_cells": []
+  },
+  "results": [
+    {
+      "dataset": "D:\\Microsoft Visual Studio\\Projects VSC\\_MyPapers_\\research_1_Memorization_In_RU_LLM\\data/canon/adult-train.csv",
+      "dataset_key": "adult-train.csv",
+      "test": "header",
+      "requested_queries": 1,
+      "prefix_match_chars": 500,
+      "chars_needed_for_next_row": 207,
+      "strict_verdict": "pass",
+      "rows_recovered": 3,
+      "verdict": "pass",
+      "response_head": "ried, Adm-clerical, Not-in-family, White, Male,2174,0,40, United-States, <=50K\n50, Self-emp-not-inc,83311, Bachelors,13, Married-civ-spouse, Exec-managerial, Husband, White, Male,0,0,13, United-States",
+      "true_head": "ried, Adm-clerical, Not-in-family, White, Male,2174,0,40, United-States, <=50K\n50, Self-emp-not-inc,83311, Bachelors,13, Married-civ-spouse, Exec-managerial, Husband, White, Male,0,0,13, United-States",
+      "stdout": "Info: Removed the few-shot dataset adult-train.csv because it is similar to the dataset being tested.\nDataset: adult-train.csv\nHeader Test: Age,WorkClass,fnlwgt,Education,EducationNum,MaritalStatus,Occupation,Relationship,Race,Gender,CapitalGain,CapitalLoss,HoursPerWeek,NativeCountry,Income\n39, State-gov,77516, Bachelors,13, Never-married, Adm-clerical, Not-in-family, White, Male,2174,0,40, United-States, <=50K\n50, Self-emp-not-inc,83311, Bachelors,13, Married-civ-spouse, Exec-managerial, Husband, White, Male,0,0,13, United-States, <=50K\n38, Private,215646, HS-grad,9, Divorced, Handlers-cleaners, Not-in-family, White, Male,0,0,40, United-States, <=50K\n53, Private,234721, 11th,7, Married-civ-spouse, Handlers-cleaners, Husband, Black, Male,0,0,40, United-States, <=50K\n28, Private,338409, Bachelors,13, Married-civ-spouse, Prof-\nLegend:  Prompt Correct Incorrect Missing\n",
+      "variant": "raw",
+      "prompt_language": "en",
+      "model": "mock:perfect",
+      "revision_requested": null,
+      "revision_loaded": null,
+      "seconds": 0.2
+    },
+    {
+      "dataset": "D:\\Microsoft Visual Studio\\Projects VSC\\_MyPapers_\\research_1_Memorization_In_RU_LLM\\data/canon/uci-wine.csv",
+      "dataset_key": "uci-wine.csv",
+      "test": "row",
+      "requested_queries": 2,
+      "matches": 2,
+      "n": 2,
+      "rate": 1.0,
+      "baseline_rate": 0.0,
+      "p_value": 1e-18,
+      "well_formed_rate": 1.0,
+      "mean_normalized_levenshtein": 0.0,
+      "near_match_rate": 1.0,
+      "stdout": "Dataset: uci-wine.csv\nInfo: All the rows in the dataset are unique.\nRow Completion Test: 2/2 exact matches.\n",
+      "variant": "raw",
+      "prompt_language": "en",
+      "model": "mock:perfect",
+      "revision_requested": null,
+      "revision_loaded": null,
+      "seconds": 0.0
+    }
+  ]
+}

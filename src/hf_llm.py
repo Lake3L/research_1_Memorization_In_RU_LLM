@@ -42,11 +42,13 @@ class HFLLM(tabmemcheck.LLM_Interface):
     chat_mode: bool = True
     quantization_config: object = None
     device_map: object = None
+    system_prompt_placement: str = "template"   # template | first_user
     log_path: Optional[str] = None
 
     model: object = field(default=None, repr=False)
     tokenizer: object = field(default=None, repr=False)
     loaded_revision: Optional[str] = None
+    attn_implementation: Optional[str] = None
     load_report: dict = field(default_factory=dict)
     n_calls: int = 0
     context: dict = field(default_factory=dict)  # tags written into every log line
@@ -76,12 +78,32 @@ class HFLLM(tabmemcheck.LLM_Interface):
                 requested_dtype = torch.float16
         elif self.device_map:
             kwargs.update(device_map=self.device_map)
-        try:  # transformers >= 5
-            self.model = AutoModelForCausalLM.from_pretrained(
-                self.model_name, dtype=requested_dtype, **kwargs)
-        except TypeError:  # transformers 4
-            self.model = AutoModelForCausalLM.from_pretrained(
-                self.model_name, torch_dtype=requested_dtype, **kwargs)
+        # Scaled dot-product attention never materialises the [heads, seq, seq]
+        # score matrix; eager attention does, and at the prompt lengths these
+        # tests reach that matrix alone is gigabytes. The header and
+        # row-completion prompts run to 3-4.5k tokens because tabmemcheck sends
+        # ten prefix rows plus seven few-shot blocks, and on a 12B model in nf4
+        # there is only ~6 GB left on the card after the weights: five cells of
+        # the 2026-08-13 run died on single 3-4 GiB allocations. Requested
+        # explicitly rather than left to the library default, and recorded,
+        # because the default has changed between versions.
+        for attention in ("sdpa", "eager"):
+            try:
+                try:  # transformers >= 5
+                    self.model = AutoModelForCausalLM.from_pretrained(
+                        self.model_name, dtype=requested_dtype,
+                        attn_implementation=attention, **kwargs)
+                except TypeError:  # transformers 4
+                    self.model = AutoModelForCausalLM.from_pretrained(
+                        self.model_name, torch_dtype=requested_dtype,
+                        attn_implementation=attention, **kwargs)
+                self.attn_implementation = attention
+                break
+            except (ValueError, ImportError) as e:
+                if attention == "eager":
+                    raise
+                print(f"[model] {attention} attention unavailable ({e}); "
+                      "falling back to eager, which needs far more memory")
         if self.quantization_config is None and not self.device_map:
             self.model = self.model.to(self.device)
         self.model.eval()
@@ -103,7 +125,10 @@ class HFLLM(tabmemcheck.LLM_Interface):
         output could confirm or deny that the weights were ever quantized.
         """
         report = {"quantized": bool(getattr(self.model, "hf_quantizer", None)),
-                  "requested_quantization": self.quantization_config is not None}
+                  "requested_quantization": self.quantization_config is not None,
+                  "attn_implementation": getattr(
+                      self.model.config, "_attn_implementation", self.attn_implementation),
+                  "system_prompt_placement": self.system_prompt_placement}
         try:
             report["memory_footprint_gb"] = round(
                 self.model.get_memory_footprint() / 1e9, 2)
@@ -177,6 +202,21 @@ class HFLLM(tabmemcheck.LLM_Interface):
 
     # --------------------------------------------------------------- generation
 
+    def free_memory(self):
+        """Drop cached blocks between cells.
+
+        A cell that ends near the limit leaves the allocator fragmented, and the
+        next cell then fails on an allocation that would otherwise have fitted.
+        """
+        if torch.cuda.is_available():
+            torch.cuda.empty_cache()
+            torch.cuda.reset_peak_memory_stats()
+
+    def peak_memory_gb(self):
+        if not torch.cuda.is_available():
+            return None
+        return round(torch.cuda.max_memory_allocated() / 1e9, 2)
+
     def _generate(self, encoded, temperature: float, max_tokens: int) -> tuple:
         """Greedy at temperature 0. Returns (text, n_input_tokens)."""
         # transformers 5 returns a BatchEncoding here, transformers 4 a bare
@@ -220,8 +260,31 @@ class HFLLM(tabmemcheck.LLM_Interface):
                   time.time() - started)
         return text
 
+    @staticmethod
+    def _merge_system_into_first_user(messages):
+        """Put the system prompt at the front of the first user turn."""
+        merged, system = [], ""
+        for m in messages:
+            if m["role"] == "system":
+                system = m["content"]
+            elif m["role"] == "user" and system:
+                merged.append({"role": "user", "content": system + "\n\n" + m["content"]})
+                system = ""
+            else:
+                merged.append(m)
+        return merged
+
     def chat_completion(self, messages, temperature, max_tokens):
         started = time.time()
+        if self.system_prompt_placement == "first_user":
+            # The control for AMENDMENT_3 §3: Mistral-Nemo's template relocates the
+            # system prompt to the last user turn while its Russian adaptation puts
+            # it first, so a difference between the two arms may be placement
+            # rather than weights. Merging it into the first user turn gives both
+            # arms the same placement, at the cost of querying one of them through
+            # something other than its own template — which is why this is a
+            # control run and not the default.
+            messages = self._merge_system_into_first_user(messages)
         try:
             encoded = self.tokenizer.apply_chat_template(
                 messages, add_generation_prompt=True, return_tensors="pt"
@@ -229,20 +292,9 @@ class HFLLM(tabmemcheck.LLM_Interface):
         except Exception:
             # chat template rejects the system role: merge it into the first
             # user message and retry
-            merged = []
-            system = ""
-            for m in messages:
-                if m["role"] == "system":
-                    system = m["content"]
-                elif m["role"] == "user" and system:
-                    merged.append(
-                        {"role": "user", "content": system + "\n\n" + m["content"]}
-                    )
-                    system = ""
-                else:
-                    merged.append(m)
             encoded = self.tokenizer.apply_chat_template(
-                merged, add_generation_prompt=True, return_tensors="pt"
+                self._merge_system_into_first_user(messages),
+                add_generation_prompt=True, return_tensors="pt"
             )
         text, n_input = self._generate(encoded, temperature, max_tokens)
         self._log("messages", messages, text, temperature, max_tokens, n_input,

@@ -52,17 +52,33 @@ queueing more than two.
 # %% configuration
 REPO_URL = "https://github.com/Lake3L/research_1_Memorization_In_RU_LLM.git"
 
-# Models run one after another in separate processes, so each releases the GPU
-# before the next is loaded.
+# Each entry is one run in its own process, so the GPU is released between them.
+# `extra` goes straight to src/run_hf_gate.py.
 #
-# Block A ran the multilingual base alone (`Qwen/Qwen2.5-7B-Instruct`), passed,
-# and found extractable memorization on iris and nowhere else. The pair below is
-# the diagnostic committed to in AMENDMENT_3_H1B_OUTCOMES.md §4: is that floor a
-# scale effect? Both members are 12B, both apache-2.0, neither gated, and they
-# form one base<->adapted pair, so the comparison is interpretable on its own.
-MODEL_IDS = [
-    "mistralai/Mistral-Nemo-Instruct-2407",             # base
-    "Vikhrmodels/Vikhr-Nemo-12B-Instruct-R-21-09-24",   # Russian adaptation
+# This session does two things, both named in RESULTS_12B_DIAGNOSTIC.md §5.
+#
+# 1. REPAIR. Five cells of the 2026-08-13 pair died of CUDA OOM — eager attention
+#    materialising a 3-4 GiB score matrix at 4k tokens. SDPA is now requested
+#    explicitly, so those cells should run; only they are re-run, not the whole
+#    plan, because the rest already has its numbers and its logs.
+#
+# 2. THE TEMPLATE CONTROL. Mistral-Nemo's chat template moves the system prompt to
+#    the last user turn; its Russian adaptation Vikhr-Nemo puts it first. The
+#    adapted model scored higher on every cell where anything extracts, and that
+#    difference cannot be read as an effect of adaptation while the two arms also
+#    differ in where the instruction sits. `--system-prompt first_user` forces the
+#    same placement for both. If Mistral's numbers rise towards Vikhr's, the gap
+#    was placement.
+
+MISSING = ("adult-train.csv:header,uci-wine.csv:row,adult-train.csv:row,"
+           "california-housing.csv:row,adult-train.csv:first_token")
+
+RUNS = [
+    # repair the lost cells, both members of the pair
+    {"model": "mistralai/Mistral-Nemo-Instruct-2407", "extra": f"--only-cells {MISSING}"},
+    {"model": "Vikhrmodels/Vikhr-Nemo-12B-Instruct-R-21-09-24", "extra": f"--only-cells {MISSING}"},
+    # the control: the base model, queried with the instruction at the front
+    {"model": "mistralai/Mistral-Nemo-Instruct-2407", "extra": "--system-prompt first_user"},
 ]
 
 DATASET_GROUP = "canon"      # block A is the Western canon only
@@ -182,17 +198,25 @@ if LOAD_IN_4BIT:
 # configuration that silently failed to quantize now fails loudly instead.
 
 # %% run
-import time
+import glob, time
 
-for model_id in MODEL_IDS:
+# Earlier runs are committed to results/ and arrive with the clone. Remember them,
+# so the summary at the end reports this session rather than the whole history.
+PRE_EXISTING = set(glob.glob("results/gateA_*.json")) | set(glob.glob("results/calls_*.jsonl"))
+
+for run in RUNS:
     started = time.time()
-    print("\n" + "=" * 78 + f"\n{model_id}\n" + "=" * 78, flush=True)
-    cmd = (f"{sys.executable} -u src/run_hf_gate.py --model {model_id} "
+    label = run["model"] + (f"   [{run['extra']}]" if run.get("extra") else "")
+    print("\n" + "=" * 78 + f"\n{label}\n" + "=" * 78, flush=True)
+    cmd = (f"{sys.executable} -u src/run_hf_gate.py --model {run['model']} "
            f"--group {DATASET_GROUP} --variant {VARIANT} --language {PROMPT_LANGUAGE} "
-           f"--seed {SEED} --scale {SCALE}" + (" --load-in-4bit" if LOAD_IN_4BIT else ""))
+           f"--seed {SEED} --scale {SCALE}"
+           + (" --load-in-4bit" if LOAD_IN_4BIT else "")
+           + (" " + run["extra"] if run.get("extra") else ""))
     # exit code 1 is a failed gate, not a crashed run: both write their results file
     status = sh(cmd)
-    print(f"\nexit status {status} after {(time.time() - started) / 60:.0f} min", flush=True)
+    print(f"\nexit status {status} after {(time.time() - started) / 60:.0f} min",
+          flush=True)
 
 # %% [markdown]
 # ## Collect the outputs
@@ -203,16 +227,18 @@ for model_id in MODEL_IDS:
 # revised offline without paying for the run again.
 
 # %% collect
-import glob, shutil
+import shutil
 
-produced = sorted(glob.glob("results/gateA_*.json")) + sorted(glob.glob("results/calls_*.jsonl"))
+produced = sorted((set(glob.glob("results/gateA_*.json"))
+                   | set(glob.glob("results/calls_*.jsonl"))) - PRE_EXISTING)
+print(f"{len(produced)} files produced by this session\n")
 target = "/kaggle/working" if os.path.isdir("/kaggle/working") else "."
 for path in produced:
     if os.path.abspath(os.path.dirname(path)) != os.path.abspath(target):
         shutil.copy(path, target)
     print(f"{os.path.getsize(path)/1e6:7.2f} MB  {path}")
 
-for path in sorted(glob.glob("results/gateA_*.json")):
+for path in [p for p in produced if p.endswith(".json")]:
     outcome = json.load(open(path, encoding="utf-8"))
     template = (outcome.get("chat_template") or {}).get("system_position")
     header = [r for r in outcome["results"] if r.get("test") == "header"]
@@ -222,7 +248,12 @@ for path in sorted(glob.glob("results/gateA_*.json")):
     print(f"\n{outcome['model']}")
     print(f"   revision   : {outcome['revision_loaded']}")
     print(f"   template   : system prompt {template}")
+    print(f"   placement  : system prompt {outcome.get('system_prompt_placement')}")
+    print(f"   loaded     : {json.dumps(outcome.get('load', {}), ensure_ascii=False)[:110]}")
     print(f"   verdict    : {outcome['gate']['verdict']} — {outcome['gate']['reason']}")
+    if not outcome["gate"].get("complete", True):
+        print(f"   INCOMPLETE : {outcome['gate']['cells_run']}/"
+              f"{outcome['gate']['cells_planned']} cells ran")
     print(f"   header pass: {len(passed)}/{len(header)} {passed}")
     print(f"   non-zero   : {fired or 'nothing'}")
 

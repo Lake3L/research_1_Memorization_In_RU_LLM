@@ -1,0 +1,134 @@
+[
+  {
+    "dataset": "iris",
+    "group": "canon",
+    "n_rows": 150,
+    "duplicate_baseline": 0.02,
+    "query_ceiling": 142,
+    "queries_used": 142,
+    "minimum_detectable_rate": 0.0632,
+    "digits_per_row": 8.0,
+    "chars_per_row": 29.3
+  },
+  {
+    "dataset": "adult-train",
+    "group": "canon",
+    "n_rows": 32561,
+    "duplicate_baseline": 0.0007,
+    "query_ceiling": 32553,
+    "queries_used": 250,
+    "minimum_detectable_rate": 0.0119,
+    "digits_per_row": 16.0,
+    "chars_per_row": 116.1
+  },
+  {
+    "dataset": "california-housing",
+    "group": "canon",
+    "n_rows": 20640,
+    "duplicate_baseline": 0.0,
+    "query_ceiling": 20632,
+    "queries_used": 250,
+    "minimum_detectable_rate": 0.0064,
+    "digits_per_row": 41.4,
+    "chars_per_row": 68.0
+  },
+  {
+    "dataset": "openml-diabetes",
+    "group": "canon",
+    "n_rows": 768,
+    "duplicate_baseline": 0.0,
+    "query_ceiling": 760,
+    "queries_used": 250,
+    "minimum_detectable_rate": 0.0064,
+    "digits_per_row": 19.2,
+    "chars_per_row": 29.2
+  },
+  {
+    "dataset": "uci-wine",
+    "group": "canon",
+    "n_rows": 178,
+    "duplicate_baseline": 0.0,
+    "query_ceiling": 170,
+    "queries_used": 170,
+    "minimum_detectable_rate": 0.0094,
+    "digits_per_row": 38.9,
+    "chars_per_row": 62.9
+  },
+  {
+    "dataset": "titanic-train",
+    "group": "canon",
+    "n_rows": 891,
+    "duplicate_baseline": 0.0,
+    "query_ceiling": 883,
+    "queries_used": 250,
+    "minimum_detectable_rate": 0.0064,
+    "digits_per_row": 19.2,
+    "chars_per_row": 69.3
+  },
+  {
+    "dataset": "trudvsem_vacancies_2026",
+    "group": "fresh_control",
+    "n_rows": 1196,
+    "duplicate_baseline": 0.0,
+    "query_ceiling": 1188,
+    "queries_used": 250,
+    "minimum_detectable_rate": 0.0064,
+    "digits_per_row": 4.8,
+    "chars_per_row": 185.0
+  },
+  {
+    "dataset": "hflabs_city",
+    "group": "ru_pre_cutoff",
+    "n_rows": 1117,
+    "duplicate_baseline": 0.0,
+    "query_ceiling": 1109,
+    "queries_used": 250,
+    "minimum_detectable_rate": 0.0064,
+    "digits_per_row": 95.6,
+    "chars_per_row": 226.7
+  },
+  {
+    "dataset": "govdomains",
+    "group": "ru_pre_cutoff",
+    "n_rows": 7528,
+    "duplicate_baseline": 0.0009,
+    "query_ceiling": 7520,
+    "queries_used": 250,
+    "minimum_detectable_rate": 0.0119,
+    "digits_per_row": 22.3,
+    "chars_per_row": 220.9
+  },
+  {
+    "dataset": "mos_zemelnye_uchastki",
+    "group": "ru_pre_cutoff",
+    "n_rows": 5881,
+    "duplicate_baseline": 0.0,
+    "query_ceiling": 5873,
+    "queries_used": 250,
+    "minimum_detectable_rate": 0.0064,
+    "digits_per_row": 33.5,
+    "chars_per_row": 192.4
+  },
+  {
+    "dataset": "mos_torgovye_obekty",
+    "group": "ru_pre_cutoff",
+    "n_rows": 10212,
+    "duplicate_baseline": 0.0,
+    "query_ceiling": 10204,
+    "queries_used": 250,
+    "minimum_detectable_rate": 0.0064,
+    "digits_per_row": 53.7,
+    "chars_per_row": 179.5
+  },
+  {
+    "dataset": "russian_retail",
+    "group": "ru_pre_cutoff",
+    "n_rows": 2737,
+    "duplicate_baseline": 0.0026,
+    "query_ceiling": 2729,
+    "queries_used": 250,
+    "minimum_detectable_rate": 0.017,
+    "digits_per_row": 20.4,
+    "chars_per_row": 1335.0
+  }
+]

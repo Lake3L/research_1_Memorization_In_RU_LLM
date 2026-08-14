@@ -148,10 +148,20 @@ def gate_verdict(results, instrument):
         verdict, reason = "FAIL_NO_SIGNAL", (
             "answers are well-formed but no test fires: on this model the canon does not "
             "extract. Per §10 this is reported, not tuned away")
+
+    # A verdict says what the cells that ran show. Whether they all ran is a
+    # separate fact and has to travel with it: the 2026-08-13 pair each lost five
+    # cells to CUDA OOM and still printed an unqualified PASS, which is a report
+    # of a measurement that was a quarter missing.
+    failed = [{"test": r.get("test"), "dataset": r.get("dataset_key"),
+               "error": str(r.get("error"))[:120]}
+              for r in results if "error" in r]
     return {"verdict": verdict, "reason": reason,
             "header_passes": len(header_passes),
             "iris_row_significant": iris_significant,
-            "mean_well_formed_rate": round(well_formed, 4) if well_formed is not None else None}
+            "mean_well_formed_rate": round(well_formed, 4) if well_formed is not None else None,
+            "cells_run": len(results) - len(failed), "cells_planned": len(results),
+            "complete": not failed, "failed_cells": failed}
 
 
 def comparison_table(results):
@@ -202,6 +212,18 @@ def main():
     ap.add_argument("--seed", type=int, default=42)
     ap.add_argument("--scale", type=float, default=1.0,
                     help="multiply every query count in the plan (for quick checks)")
+    ap.add_argument("--system-prompt", default="template",
+                    choices=["template", "first_user"],
+                    help="'template' queries each model through its own chat "
+                         "template, which is the default and the faithful choice. "
+                         "'first_user' forces the system prompt to the front for "
+                         "every model — the control for AMENDMENT_3 §3, where a "
+                         "base and its adaptation place it differently")
+    ap.add_argument("--only-cells", default=None,
+                    help="comma-separated dataset:test pairs, e.g. "
+                         "'uci-wine.csv:row,adult-train.csv:header'. Lets a session "
+                         "repair the cells a previous one lost without paying for the "
+                         "whole plan again")
     ap.add_argument("--out-dir", default=os.path.join(ROOT, "results"))
     args = ap.parse_args()
 
@@ -219,7 +241,9 @@ def main():
 
     stamp = datetime.now(timezone.utc).strftime("%Y%m%dT%H%M%SZ")
     tag = (f"{args.plan}_{(args.mock if args.mock != 'none' else args.model).replace('/', '_')}"
-           f"_{args.variant}_{args.language}_{stamp}")
+           f"_{args.variant}_{args.language}"
+           + ("" if args.system_prompt == "template" else f"_sys-{args.system_prompt}")
+           + f"_{stamp}")
     os.makedirs(args.out_dir, exist_ok=True)
     call_log = os.path.join(args.out_dir, f"calls_{tag}.jsonl")
 
@@ -263,7 +287,7 @@ def main():
               f"device_map={device_map}")
         llm = HFLLM(model_name=args.model, revision=revision, device=device,
                     quantization_config=quantization, device_map=device_map,
-                    log_path=call_log)
+                    system_prompt_placement=args.system_prompt, log_path=call_log)
         print(f"[model] loaded: {json.dumps(llm.load_report, ensure_ascii=False)}")
         loaded_revision = llm.loaded_revision
         model_label = args.model
@@ -286,9 +310,16 @@ def main():
           f"-> {'OK' if instrument['instrument_ok'] else 'BROKEN'}")
 
     # -------------------------------------------------------------------- the run
-    print(f"\n[run] plan '{args.plan}', variant '{args.variant}', prompts '{args.language}'")
+    plan = PLANS[args.plan]
+    if args.only_cells:
+        wanted = {tuple(pair.split(":")) for pair in args.only_cells.split(",")}
+        plan = [cell for cell in plan if (cell[0], cell[1]) in wanted]
+        if not plan:
+            sys.exit(f"--only-cells matched nothing in plan '{args.plan}'")
+    print(f"\n[run] plan '{args.plan}', variant '{args.variant}', prompts "
+          f"'{args.language}', {len(plan)} cells")
     results = []
-    for csv_name, test, num_queries in PLANS[args.plan]:
+    for csv_name, test, num_queries in plan:
         path = paths.get(csv_name)
         if path is None:
             print(f"  {csv_name:24s} {test:12s} skipped (not in group '{args.group}')")
@@ -304,6 +335,8 @@ def main():
         # the header test always uses its four splits and ignores num_queries
         shown = "4 splits" if test == "header" else f"n={num_queries}"
         print(f"  {csv_name:24s} {test:12s} {shown:<9s} ...", flush=True)
+        if hasattr(llm, "free_memory"):
+            llm.free_memory()
         started = time.time()
         try:
             r = run_one(llm, path, test, num_queries, args.seed)
@@ -314,6 +347,8 @@ def main():
                  model=model_label, revision_requested=revision,
                  revision_loaded=loaded_revision,
                  seconds=round(time.time() - started, 1))
+        if hasattr(llm, "peak_memory_gb"):
+            r["peak_memory_gb"] = llm.peak_memory_gb()
         results.append(r)
         summary = (f"{r.get('matches')}/{r.get('n')}" if "matches" in r
                    else r.get("verdict", r.get("error", "?")))
@@ -325,8 +360,22 @@ def main():
 
     # ------------------------------------------------------------------ the verdict
     verdict = gate_verdict(results, instrument)
+    if args.only_cells:
+        # A repair run sees a subset by construction, so its "verdict" would be a
+        # statement about cells that were deliberately not run. Say so instead.
+        verdict = {"verdict": "PARTIAL", "reason": f"repair run of {len(plan)} cells; "
+                   "the gate verdict comes from the full plan, not from this",
+                   "repaired_cells": args.only_cells, **{k: v for k, v in verdict.items()
+                                                         if k not in ("verdict", "reason")}}
     print("\n" + comparison_table(results))
     print(f"\nGATE (block A): {verdict['verdict']} — {verdict['reason']}")
+    if not verdict["complete"]:
+        print(f"INCOMPLETE: {verdict['cells_run']}/{verdict['cells_planned']} cells ran. "
+              "The verdict describes only those; the plan was not finished.")
+        for cell in verdict["failed_cells"]:
+            print(f"   missing: {cell['dataset']} {cell['test']} — {cell['error'][:70]}")
+        repair = ",".join(f"{c['dataset']}:{c['test']}" for c in verdict["failed_cells"])
+        print(f"   repair with: --only-cells {repair}")
 
     out = {
         "run": tag, "timestamp_utc": stamp, "block": "A",
@@ -334,6 +383,7 @@ def main():
         "revision_loaded": loaded_revision,
         "plan": args.plan, "group": args.group, "variant": args.variant,
         "prompt_language": args.language, "seed": args.seed, "scale": args.scale,
+        "system_prompt_placement": args.system_prompt,
         "datasets": {k: os.path.relpath(v, ROOT).replace(os.sep, "/")
                      for k, v in paths.items()},
         "versions": versions(),

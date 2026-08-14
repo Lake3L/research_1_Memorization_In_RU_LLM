@@ -4,9 +4,9 @@ Coarse-grained task list. Each block is meant to be picked up in its own session
 read the linked artefacts, do the block, tick the boxes, commit. Detailed decisions
 live in the documents referenced from each block, not here.
 
-Status: **week 4 of the plan** — block A closed on 2026-08-11: the adapted pipeline
-reproduces the English result and the §8 gate is fully passed. Block B is blocked on
-one design decision (the floor problem, below), not on compute.
+Status: **week 4-5 of the plan** — block A closed; the 12B diagnostic is done and
+says the floor is not a scale effect. Block B is open, waiting on one control run
+(the chat-template confound) before any H1b claim.
 
 ---
 
@@ -77,9 +77,19 @@ models already set in it. ~2 h each on a T4x2.
       placement, explicit float16, and the run now aborts if quantization was
       requested and not applied. A 1 GB preflight settles it before any large
       download. → `src/check_quantization.py`
-- [ ] **Run `mistralai/Mistral-Nemo-Instruct-2407` and
+- [x] **Run `mistralai/Mistral-Nemo-Instruct-2407` and
       `Vikhrmodels/Vikhr-Nemo-12B-Instruct-R-21-09-24`** on canon/raw/EN.
-- [ ] Apply the branch of `AMENDMENT_3_H1B_OUTCOMES.md` §4 to the outcome.
+      Quantization confirmed (8.14 GB, nf4, one card). 15/20 cells each; five lost
+      to OOM in both, the same five. -> `RESULTS_12B_DIAGNOSTIC.md`
+- [x] Apply the branch of `AMENDMENT_3_H1B_OUTCOMES.md` §4: criterion met (Vikhr
+      passes header on 2), so block B proceeds as preregistered — but the floor is
+      **not** a scale effect. The 7B model shows the strongest signal of the three.
+- [ ] **The template control** — `--system-prompt first_user` on Mistral-Nemo.
+      Nothing about H1b can be claimed before it: the adapted model is higher on
+      5 of 15 comparable cells and also places the system prompt differently.
+- [ ] **Repair the five OOM cells** in both models, now that SDPA is requested.
+      Only `row/wine` plausibly carries signal; the rest are expected zeros that
+      still have to be measured rather than assumed.
 
 **The floor problem, for reference.** The gate found extractable memorization on iris
 and nowhere else. `Qwen2.5-7B-Instruct` is the base of two of the three pairs, so on

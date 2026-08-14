@@ -30,9 +30,24 @@ from budget_llm import BudgetedOpenAILLM, BudgetExceeded  # noqa: E402
 from metrics import header_verdict, infer_separator, normalise_numbers  # noqa: E402
 from mock_llm import PerfectMemorizer, format_echo_mock  # noqa: E402
 
-# max_tokens per test: the tests need one row (or one feature value) at most,
-# and the cap arithmetic is worst-case, so a tight limit buys budget headroom
+# max_tokens per test. The tight caps below were chosen to make a $5 OpenAI
+# budget stretch; on open weights that reason does not apply, and on the header
+# test the cap is not merely conservative — the verdict counts how many rows the
+# model reproduced, so capping the answer caps the statistic. AMENDMENT_4 §2
+# restores the library default for open-weight runs.
 MAX_TOKENS = {"header": 300, "row": 100, "feature": 60, "first_token": 100}
+MAX_TOKENS_REFERENCE = {"header": 1000, "row": 1000, "feature": 1000,
+                        "first_token": 1000}
+
+# The parameters Bordt et al. used for the open models of Table 3, read from
+# their own code (colm-2024-paper-code/notebooks/memorization-tests.ipynb) rather
+# than from the library defaults, which differ. See AMENDMENT_4 §1.
+PROTOCOL = {
+    "reference": {"num_prefix_rows": 8, "few_shot_row": 5, "completion_length": 350,
+                  "max_tokens": MAX_TOKENS_REFERENCE},
+    "legacy": {"num_prefix_rows": 10, "few_shot_row": 7, "completion_length": 500,
+               "max_tokens": MAX_TOKENS},
+}
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
@@ -114,6 +129,31 @@ PLANS = {
         ("california-housing.csv", "feature", 50),
         ("iris.csv", "first_token", 50), ("openml-diabetes.csv", "first_token", 50),
         ("adult-train.csv", "first_token", 50),
+    ],
+    # AMENDMENT_4 §5: dataset-bounded query counts, set by the power analysis in
+    # src/power_h1b.py rather than by what fits. Row completion cannot ask more
+    # questions than the file has rows, so iris and wine are exhausted (142 and
+    # 170 with eight prefix rows) and the rest are capped at the paper's 250.
+    "h1b": [
+        ("iris.csv", "header", 4), ("uci-wine.csv", "header", 4),
+        ("openml-diabetes.csv", "header", 4), ("titanic-train.csv", "header", 4),
+        ("adult-train.csv", "header", 4), ("california-housing.csv", "header", 4),
+        ("iris.csv", "row", 142), ("uci-wine.csv", "row", 170),
+        ("openml-diabetes.csv", "row", 250), ("titanic-train.csv", "row", 250),
+        ("adult-train.csv", "row", 250), ("california-housing.csv", "row", 250),
+        ("iris.csv", "first_token", 142), ("openml-diabetes.csv", "first_token", 250),
+        ("adult-train.csv", "first_token", 250),
+        ("uci-wine.csv", "feature", 170), ("openml-diabetes.csv", "feature", 250),
+        ("titanic-train.csv", "feature", 250), ("adult-train.csv", "feature", 250),
+        ("california-housing.csv", "feature", 250),
+    ],
+    # The prompting-mode probe of AMENDMENT_4 §3, cheap enough to run in both
+    # modes back to back: row completion only, on the four datasets where the
+    # paper reports a non-zero count for anyone, plus one negative control.
+    "probe": [
+        ("iris.csv", "row", 142), ("uci-wine.csv", "row", 170),
+        ("openml-diabetes.csv", "row", 250), ("titanic-train.csv", "row", 250),
+        ("adult-train.csv", "row", 100),
     ],
     # gpt-4-0613 costs 60x gpt-3.5-turbo-0125 per token, so buy only the
     # sharpest contrasts: iris row completion (paper: 92% vs GPT-3.5's 26%),
@@ -203,7 +243,7 @@ def designated_feature(csv_file):
     return feature, "most_unique"
 
 
-def run_one(llm, csv_file, test, num_queries, seed):
+def run_one(llm, csv_file, test, num_queries, seed, protocol="reference"):
     """Run one test, returning a result dict. Output of tabmemcheck is captured.
 
     Counts only. The preregistered decision rules (§5) — binomial tests against
@@ -213,14 +253,18 @@ def run_one(llm, csv_file, test, num_queries, seed):
     """
     rng = np.random.default_rng(seed)
     buf = io.StringIO()
+    settings = PROTOCOL[protocol]
     result = {"dataset": csv_file, "dataset_key": dataset_key(csv_file),
-              "test": test, "requested_queries": num_queries}
-    tabmem.config.max_tokens = MAX_TOKENS.get(test, 300)
+              "test": test, "requested_queries": num_queries, "protocol": protocol,
+              "chat_mode": bool(getattr(llm, "chat_mode", True))}
+    tabmem.config.max_tokens = settings["max_tokens"].get(test, 1000)
 
     with redirect_stdout(buf):
         if test == "header":
             try:
-                prompt, completion, response = tabmem.header_test(csv_file, llm, rng=rng)
+                prompt, completion, response = tabmem.header_test(
+                    csv_file, llm, rng=rng,
+                    completion_length=settings["completion_length"])
             except (UnboundLocalError, NameError):
                 # tabmemcheck's header_test tracks the best of four splits with a
                 # sentinel it only overwrites when a response is non-empty, so a
@@ -243,7 +287,9 @@ def run_one(llm, csv_file, test, num_queries, seed):
 
         elif test == "row":
             suffixes, responses = tabmem.row_completion_test(
-                csv_file, llm, num_queries=num_queries, rng=rng, print_levenshtein=False
+                csv_file, llm, num_queries=num_queries, rng=rng,
+                num_prefix_rows=settings["num_prefix_rows"],
+                few_shot=settings["few_shot_row"], print_levenshtein=False
             )
             n = len(responses)
             k = sum(1 for s, r in zip(suffixes, responses) if s.strip() in r.strip())
@@ -285,7 +331,9 @@ def run_one(llm, csv_file, test, num_queries, seed):
                                                         alternative="greater").pvalue) if n else None)
 
         elif test == "first_token":
-            tabmem.first_token_test(csv_file, llm, num_queries=num_queries, rng=rng)
+            tabmem.first_token_test(csv_file, llm, num_queries=num_queries, rng=rng,
+                                    num_prefix_rows=settings["num_prefix_rows"],
+                                    few_shot=settings["few_shot_row"])
             # ANSI colour codes carry digits that would confuse the parsing below
             out = ANSI.sub("", buf.getvalue())
             m = re.search(r"First Token Test: \D*(\d+)/(\d+)", out)

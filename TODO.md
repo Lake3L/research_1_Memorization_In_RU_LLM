@@ -4,9 +4,11 @@ Coarse-grained task list. Each block is meant to be picked up in its own session
 read the linked artefacts, do the block, tick the boxes, commit. Detailed decisions
 live in the documents referenced from each block, not here.
 
-Status: **week 4-5 of the plan** — block A closed; the 12B diagnostic is done and
-says the floor is not a scale effect. Block B is open, waiting on one control run
-(the chat-template confound) before any H1b claim.
+Status: **week 5 of the plan** — block A closed; the 12B diagnostic says the floor
+is not a scale effect. An audit against the authors' own code then found that we
+had been running open models with chat prompting and library defaults where they
+used completion prompting and smaller prompts. Block B waits on the 2x2 that
+decides which probe H1 uses.
 
 ---
 
@@ -84,12 +86,17 @@ models already set in it. ~2 h each on a T4x2.
 - [x] Apply the branch of `AMENDMENT_3_H1B_OUTCOMES.md` §4: criterion met (Vikhr
       passes header on 2), so block B proceeds as preregistered — but the floor is
       **not** a scale effect. The 7B model shows the strongest signal of the three.
-- [ ] **The template control** — `--system-prompt first_user` on Mistral-Nemo.
-      Nothing about H1b can be claimed before it: the adapted model is higher on
-      5 of 15 comparable cells and also places the system prompt differently.
-- [ ] **Repair the five OOM cells** in both models, now that SDPA is requested.
-      Only `row/wine` plausibly carries signal; the rest are expected zeros that
-      still have to be measured rather than assumed.
+- [x] **Audit our protocol against the authors' own code**, not against memory.
+      Five deviations found, all from library defaults where they chose otherwise
+      for open models — including `chat_mode`, which changes the probe entirely.
+      Corrected. -> `AMENDMENT_4_PROTOCOL_ALIGNMENT.md`
+- [x] **Power analysis for H1b** (`src/power_h1b.py`): the observed effect needs
+      210 queries per arm, and iris tops out at 142, so exhausting the dataset
+      still gives only 64% power. Seeds cannot fix a dataset-bounded ceiling.
+- [ ] **Run the 2x2**: base and adapted x chat and completion prompting, plan
+      `probe`, reference protocol, 912 calls per run. Decides which probe H1 uses.
+- [ ] Then, in whichever probe wins: the full `h1b` plan (3148 calls per model),
+      and the template control only if chat mode turns out to be the probe.
 
 **The floor problem, for reference.** The gate found extractable memorization on iris
 and nowhere else. `Qwen2.5-7B-Instruct` is the base of two of the three pairs, so on

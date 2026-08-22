@@ -37,8 +37,15 @@ queueing more than two.
 # %% [markdown]
 # # Memorization gate runs on open-weight models
 #
-# Set the models below and Run All. The run is finished when the last cell prints
-# a verdict per model; everything before that is setup and is meant to fail loudly.
+# **Run All. Change nothing here.** What this session runs is defined in
+# `notebooks/session.json` in the repository and is read from a fresh clone; this
+# notebook only executes it. If you need different runs, they are edited there and
+# pushed, not edited on Kaggle — a Kaggle notebook is a copy and does not follow
+# git, which is how the session of 2026-08-15 silently re-ran the previous
+# experiment.
+#
+# The run is finished when the last cell prints a summary per run; everything
+# before that is setup and is meant to fail loudly.
 #
 # Runs now use the parameters Bordt et al. used for open models, read from their
 # own code rather than from the library defaults, which differ: five few-shot
@@ -54,45 +61,19 @@ queueing more than two.
 # %% configuration
 REPO_URL = "https://github.com/Lake3L/research_1_Memorization_In_RU_LLM.git"
 
-# Each entry is one run in its own process, so the GPU is released between them.
-# `extra` goes straight to src/run_hf_gate.py.
+# What to run is NOT decided here. It lives in notebooks/session.json in the
+# repository and is read from a freshly updated clone below.
 #
-# This session is a 2x2: two models (a base and its Russian adaptation) x two
-# prompting modes, over the same datasets at the same query counts. It is designed
-# to answer two questions at once, and it is described in AMENDMENT_4.
+# The reason is a session that was lost on 2026-08-15. A Kaggle notebook is a copy:
+# it does not follow git. That one still held the previous session's model list, so
+# "Run All" faithfully re-ran the previous experiment and produced files named for a
+# plan we had already retired. Nothing errored. The only clue was in the filenames.
 #
-#   Does the prompting mode matter?  In chat mode tabmemcheck sends a system
-#     prompt plus five few-shot blocks drawn from OTHER datasets, then the prefix
-#     rows. In completion mode it sends the prefix rows as raw text and nothing
-#     else. Bordt et al. used completion mode for three of their five open models;
-#     we have been using chat mode for everything, which may be why our signal is
-#     so thin. Completion mode also removes the chat-template confound entirely,
-#     because it uses no chat template.
-#
-#   Is the adaptation higher than its base?  The pilot said yes on every cell
-#     where anything extracted, but at n=25-50 that is not decidable. Query counts
-#     here come from src/power_h1b.py and exhaust iris and wine, which are bounded
-#     by their own row counts.
-#
-# Completion-mode runs come first: they are the new information, and they are much
-# faster because the prompts are a fraction of the size. If the session runs out of
-# time, the two runs that matter will already be done.
+# So the notebook now decides nothing. It clones, hard-resets to origin, checks that
+# the cloned code understands the flags the session asks for, and executes the list
+# it found. To change what runs, edit session.json and push — never edit this
+# notebook on Kaggle.
 
-PROBE = "--plan probe --protocol reference"
-
-RUNS = [
-    {"model": "mistralai/Mistral-Nemo-Instruct-2407",           "extra": f"{PROBE} --prompting completion"},
-    {"model": "Vikhrmodels/Vikhr-Nemo-12B-Instruct-R-21-09-24", "extra": f"{PROBE} --prompting completion"},
-    {"model": "mistralai/Mistral-Nemo-Instruct-2407",           "extra": f"{PROBE} --prompting chat"},
-    {"model": "Vikhrmodels/Vikhr-Nemo-12B-Instruct-R-21-09-24", "extra": f"{PROBE} --prompting chat"},
-]
-
-DATASET_GROUP = "canon"      # block A is the Western canon only
-VARIANT = "raw"              # the published bytes, not a pandas round-trip
-PROMPT_LANGUAGE = "en"       # block A is English only; RU is block D (H4)
-LOAD_IN_4BIT = True
-SEED = 42
-SCALE = 1.0                  # 0.1 for a 10-minute smoke run of the whole plan
 
 # %% [markdown]
 # ## Install
@@ -128,11 +109,39 @@ def sh(cmd):
 sh(f"{sys.executable} -m pip install -q 'pandas<3' 'tabmemcheck==0.1.6' "
    f"transformers accelerate bitsandbytes jellyfish xgboost scipy")
 
+# /kaggle/working persists between sessions, so "clone only if missing" silently
+# runs last week's code. Always fetch and hard-reset instead.
 if not os.path.exists("research_1_Memorization_In_RU_LLM"):
     sh(f"git clone -q {REPO_URL}")
 os.chdir("research_1_Memorization_In_RU_LLM")
-sh("git log -1 --format='repo commit: %H %ci'")
+sh("git fetch -q origin && git reset -q --hard origin/master && git clean -qfd src notebooks")
+sh("git log -1 --format='REPO COMMIT: %H  %ci'")
 sys.path.insert(0, "src")
+
+import json
+SESSION = json.load(open("notebooks/session.json", encoding="utf-8"))
+DATASET_GROUP = SESSION["dataset_group"]
+VARIANT = SESSION["variant"]
+PROMPT_LANGUAGE = SESSION["prompt_language"]
+LOAD_IN_4BIT = SESSION["load_in_4bit"]
+SEED, SCALE = SESSION["seed"], SESSION["scale"]
+RUNS = SESSION["runs"]
+
+print(f"\nSESSION {SESSION['session_id']}: {len(RUNS)} runs")
+print(SESSION["purpose"])
+for r in RUNS:
+    print(f"   {r['model']}  {r['extra']}")
+
+# Refuse to spend a GPU on code that does not understand what the session asks for.
+# This is the check that would have caught the lost session at second zero.
+help_text = subprocess.run([sys.executable, "src/run_hf_gate.py", "--help"],
+                           capture_output=True, text=True).stdout
+missing = [f for f in SESSION["requires"]["flags"] if f not in help_text]
+assert not missing, (f"the cloned code does not support {missing}. The checkout is "
+                     f"stale, or session.json is ahead of it.")
+for plan in SESSION["requires"]["plans"]:
+    assert plan in help_text, f"plan '{plan}' unknown to the cloned code"
+print("\ncloned code understands every flag and plan this session needs")
 
 # %% [markdown]
 # ## Data
@@ -149,7 +158,6 @@ sys.path.insert(0, "src")
 sh(f"{sys.executable} src/fetch_data.py --group {DATASET_GROUP} "
    f"--report data/fetch_report_{DATASET_GROUP}.json")
 
-import json
 report = json.load(open(f"data/fetch_report_{DATASET_GROUP}.json", encoding="utf-8"))
 missing = [r["dataset"] for r in report if r["status"] not in ("cached", "fetched")]
 assert not missing, f"these datasets are not the frozen bytes: {missing}"

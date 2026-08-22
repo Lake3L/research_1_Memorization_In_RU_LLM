@@ -27,6 +27,7 @@ from tabmemcheck import utils
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 from budget_llm import BudgetedOpenAILLM, BudgetExceeded  # noqa: E402
+from detectability import minimum_detectable_rate  # noqa: E402
 from metrics import header_verdict, infer_separator, normalise_numbers  # noqa: E402
 from mock_llm import PerfectMemorizer, format_echo_mock  # noqa: E402
 
@@ -169,6 +170,19 @@ PLANS = {
 ANSI = re.compile(r"\x1b\[[0-9;]*m")
 
 
+def digits_per_row(csv_file):
+    """Ward et al.'s covariate: long digit strings are harder to reproduce.
+
+    Two datasets with the same rate are not the same feat if one carries eight
+    digits per row and the other ninety-six, so AMENDMENT_5 §1 requires this
+    beside every count rather than in a separate table nobody reads.
+    """
+    rows = utils.load_csv_rows(csv_file)
+    if not rows:
+        return None
+    return round(sum(sum(ch.isdigit() for ch in row) for row in rows) / len(rows), 1)
+
+
 def duplicate_rate(csv_file):
     rows = utils.load_csv_rows(csv_file)
     return 1 - len(set(rows)) / len(rows)
@@ -298,6 +312,10 @@ def run_one(llm, csv_file, test, num_queries, seed, protocol="reference"):
                           baseline_rate=base,
                           p_value=float(stats.binomtest(k, n, max(base, 1e-9),
                                                         alternative="greater").pvalue) if n else None,
+                          # AMENDMENT_5 §1: a zero is not a finding until the
+                          # smallest effect it could have excluded is stated
+                          minimum_detectable_rate=minimum_detectable_rate(base, n),
+                          digits_per_row=digits_per_row(csv_file),
                           **response_diagnostics(suffixes, responses))
 
         elif test == "feature":
@@ -328,7 +346,9 @@ def run_one(llm, csv_file, test, num_queries, seed, protocol="reference"):
                           matches=k, n=n, rate=k / n if n else 0.0,
                           mode_baseline=mode_rate,
                           p_value=float(stats.binomtest(k, n, max(mode_rate, 1e-9),
-                                                        alternative="greater").pvalue) if n else None)
+                                                        alternative="greater").pvalue) if n else None,
+                          minimum_detectable_rate=minimum_detectable_rate(mode_rate, n),
+                          digits_per_row=digits_per_row(csv_file))
 
         elif test == "first_token":
             tabmem.first_token_test(csv_file, llm, num_queries=num_queries, rng=rng,

@@ -1,6 +1,6 @@
 {
-  "_what": "The runs the next GPU session should perform. Read by the notebook from a freshly updated clone, so that a stale notebook cannot run a stale plan — which is exactly what happened on 2026-08-15, when a Kaggle notebook still holding the previous session's model list produced gate_hf results instead of the intended 2x2.",
-  "_rule": "Edit this file, commit, push. The notebook needs no changes and must not be edited on Kaggle.",
+  "_what": "The runs this GPU session performs. The notebook reads this file from the repository checkout, so the experiment is defined in version control rather than in a notebook copy.",
+  "_rule": "To change what runs: edit this file, commit, push. The notebook needs no changes.",
   "session_id": "2026-08-16-prompting-probe",
   "purpose": "AMENDMENT_4 §3: does completion-mode prompting extract more than chat mode? Two models x two prompting modes, same datasets, same query counts, so the mode effect and the base-vs-adapted effect are both readable from one session. Completion runs come first: they are the new information and they are several times faster.",
   "dataset_group": "canon",
@@ -10,9 +10,15 @@
   "seed": 42,
   "scale": 1.0,
   "requires": {
-    "flags": ["--prompting", "--protocol", "--only-cells"],
-    "plans": ["probe"],
-    "note": "the notebook asserts the cloned code accepts these before spending a GPU on it"
+    "flags": [
+      "--prompting",
+      "--protocol",
+      "--only-cells"
+    ],
+    "plans": [
+      "probe"
+    ],
+    "note": "verified against the checkout before any weights are downloaded"
   },
   "runs": [
     {
@@ -23,7 +29,7 @@
     {
       "model": "Vikhrmodels/Vikhr-Nemo-12B-Instruct-R-21-09-24",
       "extra": "--plan probe --protocol reference --prompting completion",
-      "why": "Russian adaptation of the same base, direct continuation probe. Completion mode uses no chat template, so the AMENDMENT_3 §3 confound does not exist in this arm"
+      "why": "Russian adaptation of the same base, direct continuation probe. Completion mode uses no chat template, so the two arms are asked an identical question (AMENDMENT_3 §3)"
     },
     {
       "model": "mistralai/Mistral-Nemo-Instruct-2407",

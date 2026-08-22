@@ -1,92 +1,56 @@
-"""Kaggle/Colab runner for the memorization gate on open-weight models.
+"""Kaggle/Colab runner for the memorization tests on open-weight models.
 
-Built for block A — does the adapted pipeline reproduce the English result of the
-unmodified one (PREREGISTRATION.md §8, second half) — and reused unchanged for the
-runs that follow, since the plan, the scoring and the verdict rule are the same
-and only the model list moves.
-
-Kept as a .py file and converted to .ipynb by `src/build_notebook.py`, so the
+Kept as a .py file and converted to .ipynb by `src/build_notebook.py`, so that the
 pipeline stays reviewable in git rather than buried in JSON cell arrays.
 
-The notebook is deliberately thin. Everything that decides anything lives in
-`src/`, is unit-checked, and has already been run end to end against both mocks
-on a laptop with no GPU (`python src/run_hf_gate.py --mock perfect|echo`). What
-is left here is what genuinely needs a GPU: install, fetch, load the weights,
-run, download the outputs. A notebook cell that nobody can diff is a bad place
-for a decision rule.
+The notebook is a driver and nothing more. Everything that decides anything lives
+in `src/`, is exercised against mocks without a GPU before it is used, and is
+configured from `notebooks/session.json`. What remains here is what genuinely
+needs an accelerator: install, fetch, load the weights, run, collect.
 
-What it does, in order:
-  1. installs dependencies and clones the project repository;
-  2. re-fetches every canon dataset and verifies its SHA-256 against the frozen
-     registry — a run on bytes that are not the frozen bytes is not a valid run;
-  3. loads each model in turn, in its own process, at the revision pinned in
-     `models.lock`, refusing to continue if the hub served a different commit,
-     and records where that model's chat template puts the system prompt;
-  4. runs the two mock controls *inside this session*, because a control that
-     was only ever run somewhere else does not control anything here;
-  5. runs the four memorization tests over the six canon datasets in English,
-     writing every prompt and response to a JSONL log;
-  6. prints the comparison against Bordt et al. and against our own GPT-4-0613
-     numbers, and states the gate verdict.
+In order:
+  1. install the pinned dependencies;
+  2. update the repository checkout and read the session definition;
+  3. rebuild every dataset and verify its SHA-256 against the frozen registry;
+  4. confirm the hardware and that 4-bit loading works in this image;
+  5. run each model at its pinned revision, logging every prompt and response;
+  6. collect the outputs.
 
-Expected runtime: about 1 h 15 min per 7B model in 4-bit on a T4x2 (measured),
-so budget roughly two hours per 12B model and check the session limit before
-queueing more than two.
+Runtime: roughly 25 minutes per completion-mode run and 70 per chat-mode run for a
+12B model in 4-bit on a T4, plus a few minutes for the weights.
 """
 
 # %% [markdown]
-# # Memorization gate runs on open-weight models
+# # Memorization tests on open-weight models
 #
-# **Run All. Change nothing here.** What this session runs is defined in
-# `notebooks/session.json` in the repository and is read from a fresh clone; this
-# notebook only executes it. If you need different runs, they are edited there and
-# pushed, not edited on Kaggle — a Kaggle notebook is a copy and does not follow
-# git, which is how the session of 2026-08-15 silently re-ran the previous
-# experiment.
+# **Run All. Nothing in this notebook needs editing.**
 #
-# The run is finished when the last cell prints a summary per run; everything
-# before that is setup and is meant to fail loudly.
+# What this session runs — the models, the plan, the prompting mode, the dataset
+# group and the seed — is defined in `notebooks/session.json` and read from the
+# repository below. To change the experiment, edit that file and push.
 #
-# Runs now use the parameters Bordt et al. used for open models, read from their
-# own code rather than from the library defaults, which differ: five few-shot
-# blocks, eight prefix rows, header completion length 350, and the library's
-# `max_tokens` instead of the caps we had inherited from a $5 OpenAI budget.
-# `AMENDMENT_4_PROTOCOL_ALIGNMENT.md` §1 has the table of what changed and why.
+# Every cell before the run is a precondition and is meant to stop the notebook if
+# it is not met. The run is finished when the last cell prints a summary per model.
 #
-# **This is still not a hypothesis test.** It runs one variant, one prompt
-# language and one seed, where H1 asks for four variants and three seeds. What it
-# produces is a decision about which probe H1 should use, and a first properly
-# powered look at the base-vs-adapted direction.
+# The measurement code is unmodified `tabmemcheck` 0.1.6 with the parameters Bordt
+# et al. used for open-weight models: five few-shot blocks, eight prefix rows, a
+# header completion length of 350. See `AMENDMENT_4_PROTOCOL_ALIGNMENT.md`.
 
 # %% configuration
 REPO_URL = "https://github.com/Lake3L/research_1_Memorization_In_RU_LLM.git"
 
-# What to run is NOT decided here. It lives in notebooks/session.json in the
-# repository and is read from a freshly updated clone below.
-#
-# The reason is a session that was lost on 2026-08-15. A Kaggle notebook is a copy:
-# it does not follow git. That one still held the previous session's model list, so
-# "Run All" faithfully re-ran the previous experiment and produced files named for a
-# plan we had already retired. Nothing errored. The only clue was in the filenames.
-#
-# So the notebook now decides nothing. It clones, hard-resets to origin, checks that
-# the cloned code understands the flags the session asks for, and executes the list
-# it found. To change what runs, edit session.json and push — never edit this
-# notebook on Kaggle.
-
-
 # %% [markdown]
 # ## Install
 #
-# `pandas` is pinned below 3 because `tabmemcheck` breaks on pandas 3 — both
-# `first_token_test` and `feature_completion_test` die (RESULTS_GATE.md §0), and
-# a version bump would silently remove two of our four instruments.
+# `pandas` is held below 3: `tabmemcheck` relies on behaviour that changed there,
+# and both `first_token_test` and `feature_completion_test` stop working, which
+# would silently remove two of the four instruments.
 #
-# `transformers` is deliberately *not* pinned. Kaggle images ship their own
-# torch, and forcing a transformers version against it is how a run dies at
-# minute one. The backend handles both the 4.x and 5.x APIs, and the resolved
-# version of everything is recorded in the results file, which is what §9
-# actually requires: knowing what ran.
+# `transformers` is deliberately unpinned. Hosted images ship their own torch, and
+# pinning against it is a frequent cause of an environment that will not resolve.
+# The backend supports both the 4.x and 5.x APIs, and the resolved version of every
+# package is recorded in the results file — which is what reproducibility requires:
+# knowing exactly what ran.
 
 # %% install
 import subprocess, sys, os
@@ -94,9 +58,9 @@ import subprocess, sys, os
 def sh(cmd):
     """Run a command and stream its output into the notebook cell.
 
-    A subprocess writing to fd 1 lands in the kernel log, not in the cell, so a
-    two-hour run would look like a hung notebook. Reading the pipe and printing
-    from Python puts the progress where the person watching it is.
+    A subprocess writing to fd 1 reaches the kernel log rather than the cell, so a
+    long run would appear to hang. Reading the pipe and printing from Python puts
+    the progress where it can be seen.
     """
     print(f"$ {cmd}", flush=True)
     process = subprocess.Popen(cmd, shell=True, stdout=subprocess.PIPE,
@@ -109,8 +73,18 @@ def sh(cmd):
 sh(f"{sys.executable} -m pip install -q 'pandas<3' 'tabmemcheck==0.1.6' "
    f"transformers accelerate bitsandbytes jellyfish xgboost scipy")
 
-# /kaggle/working persists between sessions, so "clone only if missing" silently
-# runs last week's code. Always fetch and hard-reset instead.
+# %% [markdown]
+# ## Repository and session
+#
+# The working directory persists between sessions, so the checkout is fetched and
+# hard-reset rather than cloned conditionally: the code that runs is always the
+# code at `origin/master`, and its commit is printed.
+#
+# The session definition is then read from that checkout, and the cell verifies
+# that the code understands the flags and plans the session asks for before any
+# weights are downloaded.
+
+# %% repository
 if not os.path.exists("research_1_Memorization_In_RU_LLM"):
     sh(f"git clone -q {REPO_URL}")
 os.chdir("research_1_Memorization_In_RU_LLM")
@@ -132,27 +106,27 @@ print(SESSION["purpose"])
 for r in RUNS:
     print(f"   {r['model']}  {r['extra']}")
 
-# Refuse to spend a GPU on code that does not understand what the session asks for.
-# This is the check that would have caught the lost session at second zero.
 help_text = subprocess.run([sys.executable, "src/run_hf_gate.py", "--help"],
                            capture_output=True, text=True).stdout
 missing = [f for f in SESSION["requires"]["flags"] if f not in help_text]
-assert not missing, (f"the cloned code does not support {missing}. The checkout is "
-                     f"stale, or session.json is ahead of it.")
+assert not missing, (f"the checkout does not support {missing}; it is behind the "
+                     f"session definition")
 for plan in SESSION["requires"]["plans"]:
-    assert plan in help_text, f"plan '{plan}' unknown to the cloned code"
-print("\ncloned code understands every flag and plan this session needs")
+    assert plan in help_text, f"plan '{plan}' unknown to the checkout"
+print("\ncheckout supports every flag and plan this session requires")
 
 # %% [markdown]
 # ## Data
 #
-# The CSVs are gitignored: they are other people's data and two of them are not
-# ours to redistribute. `src/fetch_data.py` rebuilds them from their pinned
-# sources and checks every file against the SHA-256 frozen in
-# `AMENDMENT_1_DATASETS.md`. Each source is checked against that hash *before* it
-# is accepted, so a source with the right rows and the wrong bytes falls through
-# to the next one instead of being used — which is exactly what a local
-# `tabmemcheck` checkout on Windows turned out to be (`AMENDMENT_2_LINE_ENDINGS.md`).
+# The CSVs are not committed — they are other people's data, and two of them carry
+# licences that do not permit redistribution. `src/fetch_data.py` rebuilds them
+# from pinned sources and checks each against the SHA-256 frozen in
+# `AMENDMENT_1_DATASETS.md`.
+#
+# The hash is verified *while a source is being chosen*, not after: a source can
+# return a file with the right rows and the wrong bytes, and verbatim memorization
+# is a claim about bytes. A source that does not match is rejected and the next one
+# is tried; a dataset that matches none stops the run.
 
 # %% fetch
 sh(f"{sys.executable} src/fetch_data.py --group {DATASET_GROUP} "
@@ -164,12 +138,16 @@ assert not missing, f"these datasets are not the frozen bytes: {missing}"
 print(f"{len(report)} datasets verified against the freeze")
 
 # %% [markdown]
-# ## GPU check
+# ## Hardware
 #
-# The plan is 912 model calls per run, four runs. On CPU that is days, not hours,
-# so a missing accelerator should stop the run here rather than at 3 a.m.
-# Completion-mode prompts are a few hundred tokens; chat-mode ones a few thousand,
-# so the first two runs are far quicker than the last two.
+# Two preconditions. An accelerator has to be present — these plans are hundreds
+# of model calls each, which is days of CPU time. And 4-bit loading has to work,
+# which is confirmed on a 1 GB model first: a large model whose quantization did
+# not take effect either exhausts the card or is measured in a precision other
+# than the one recorded.
+#
+# Compute capability is printed because Turing cards have no bfloat16, and the
+# backend selects float16 accordingly.
 
 # %% gpu
 import torch
@@ -183,41 +161,36 @@ for i in range(torch.cuda.device_count()):
           f"compute capability {props.major}.{props.minor}"
           + ("  (Turing: no bfloat16)" if props.major == 7 else ""))
 
-# Prove the 4-bit path works on a 1 GB model before downloading 24 GB of weights.
-# The first 12B attempt died of OOM four minutes into the run because
-# quantization had silently not taken effect; this costs a minute and settles it.
 if LOAD_IN_4BIT:
     status = sh(f"{sys.executable} -u src/check_quantization.py")
-    assert status == 0, ("4-bit loading does not work in this image — see the output "
-                         "above. Running anyway would either OOM on a 12B model or "
-                         "measure it in an unrecorded precision.")
+    assert status == 0, ("4-bit loading is not working in this image; see the output "
+                         "above. Continuing would either exhaust the card or measure "
+                         "the model in an unrecorded precision.")
 
 # %% [markdown]
 # ## The run
 #
-# `src/run_hf_gate.py` loads the model at its pinned revision, runs the mock
-# controls in-session, executes the plan, and applies the gate rule that was
-# written down before the run:
+# For each model, `src/run_hf_gate.py` loads it at the revision pinned in
+# `models.lock` and refuses to continue if the hub served a different commit; runs
+# the two mock controls inside the session, because a control that ran elsewhere
+# controls nothing here; executes the plan; and applies the decision rule fixed
+# before the run:
 #
-# * **PASS** — the mocks behave, and the header test passes on ≥2 of 6 canon
-#   datasets or iris row completion beats the duplicate base rate at p<0.05.
-# * **FAIL_ADAPTER** — the mocks behave but the model's answers do not even have
-#   the shape of CSV rows. Diagnose the chat template and truncation.
-# * **FAIL_NO_SIGNAL** — well-formed answers, nothing fires. A result about the
-#   model, to be reported rather than tuned away (§10).
+# * **PASS** — the mock controls behave, and the header test passes on ≥2 of 6
+#   canon datasets or iris row completion beats the duplicate base rate at p<0.05.
+# * **FAIL_ADAPTER** — the controls behave but the answers do not have the shape of
+#   CSV rows, which points at the chat template or truncation rather than the model.
+# * **FAIL_NO_SIGNAL** — well-formed answers and nothing fires. That is a result
+#   about the model and is reported as one.
 #
-# The whole model goes on GPU 0 (`--device-map single`). Spreading a quantized
-# model over two cards is what killed the first 12B attempt: the placement was
-# planned in one precision and the tensors arrived in another, and 9 GB of nf4
-# weights managed to fill 29 GB of VRAM. One card is also the honest test —
-# a 12B model fits there quantized and cannot fit there unquantized, so a
-# configuration that silently failed to quantize now fails loudly instead.
+# The whole model is placed on one device. A quantized 12B model fits on a single
+# 16 GB card and an unquantized one does not, so single-device placement makes the
+# precision self-evident instead of something to be inferred later.
 
 # %% run
 import glob, time
 
-# Earlier runs are committed to results/ and arrive with the clone. Remember them,
-# so the summary at the end reports this session rather than the whole history.
+# results/ arrives with the clone, so the summary below reports this session only
 PRE_EXISTING = set(glob.glob("results/gateA_*.json")) | set(glob.glob("results/calls_*.jsonl"))
 
 for run in RUNS:
@@ -229,18 +202,19 @@ for run in RUNS:
            f"--seed {SEED} --scale {SCALE}"
            + (" --load-in-4bit" if LOAD_IN_4BIT else "")
            + (" " + run["extra"] if run.get("extra") else ""))
-    # exit code 1 is a failed gate, not a crashed run: both write their results file
+    # exit status 1 means the decision rule was not met, not that the run crashed;
+    # both write their results file
     status = sh(cmd)
     print(f"\nexit status {status} after {(time.time() - started) / 60:.0f} min",
           flush=True)
 
 # %% [markdown]
-# ## Collect the outputs
+# ## Outputs
 #
-# Two files matter and both must come back: the counts, and the JSONL log of
-# every prompt and response. The log is the more valuable of the two — a rented
-# session is gone when it ends, and with the raw responses a scoring rule can be
-# revised offline without paying for the run again.
+# Two files per run, and both are needed: the counts, and the JSONL log of every
+# prompt and response. The log is the more valuable of the two. A hosted session
+# ends and takes its state with it, and with the raw responses any scoring rule can
+# be revised offline without running the models again.
 
 # %% collect
 import shutil
@@ -261,7 +235,7 @@ for path in [p for p in produced if p.endswith(".json")]:
     passed = [r["dataset_key"] for r in header if r.get("verdict") == "pass"]
     fired = [f"{r['dataset_key']}/{r['test']} {r['matches']}/{r['n']}"
              for r in outcome["results"] if r.get("matches")]
-    print(f"\n{outcome['model']}")
+    print(f"\n{outcome['model']}  [{outcome.get('prompting')}]")
     print(f"   revision   : {outcome['revision_loaded']}")
     print(f"   template   : system prompt {template}")
     print(f"   placement  : system prompt {outcome.get('system_prompt_placement')}")
@@ -273,6 +247,4 @@ for path in [p for p in produced if p.endswith(".json")]:
     print(f"   header pass: {len(passed)}/{len(header)} {passed}")
     print(f"   non-zero   : {fired or 'nothing'}")
 
-print("\nSend back every gateA_*.json and calls_*.jsonl. The call log matters more than")
-print("the counts: RESULTS_GATE.md is regenerated from it by src/rescore_calls.py, and a")
-print("rented session cannot be re-run for free once it has ended.")
+print("\nSend back every gateA_*.json and calls_*.jsonl listed above.")

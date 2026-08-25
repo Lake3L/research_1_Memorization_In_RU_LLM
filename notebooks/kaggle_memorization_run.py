@@ -188,10 +188,21 @@ if LOAD_IN_4BIT:
 # precision self-evident instead of something to be inferred later.
 
 # %% run
-import glob, time
+import glob, shutil, time
 
 # results/ arrives with the clone, so the summary below reports this session only
 PRE_EXISTING = set(glob.glob("results/gateA_*.json")) | set(glob.glob("results/calls_*.jsonl"))
+TARGET = "/kaggle/working" if os.path.isdir("/kaggle/working") else "."
+
+
+def collect():
+    """Copy this session's artefacts out and return what it has produced."""
+    produced = sorted((set(glob.glob("results/gateA_*.json"))
+                       | set(glob.glob("results/calls_*.jsonl"))) - PRE_EXISTING)
+    for path in produced:
+        if os.path.abspath(os.path.dirname(path)) != os.path.abspath(TARGET):
+            shutil.copy(path, TARGET)
+    return produced
 
 for run in RUNS:
     started = time.time()
@@ -207,6 +218,7 @@ for run in RUNS:
     status = sh(cmd)
     print(f"\nexit status {status} after {(time.time() - started) / 60:.0f} min",
           flush=True)
+    print(f"collected {len(collect())} files so far", flush=True)
 
 # %% [markdown]
 # ## Outputs
@@ -215,17 +227,16 @@ for run in RUNS:
 # prompt and response. The log is the more valuable of the two. A hosted session
 # ends and takes its state with it, and with the raw responses any scoring rule can
 # be revised offline without running the models again.
+#
+# Each run's files are copied out as soon as that run finishes, so a session that
+# ends early still yields complete files for the runs that completed. Download the
+# copies rather than the originals: a log is still being appended to while its run
+# is in progress, and a copy taken then is a prefix.
 
 # %% collect
-import shutil
-
-produced = sorted((set(glob.glob("results/gateA_*.json"))
-                   | set(glob.glob("results/calls_*.jsonl"))) - PRE_EXISTING)
+produced = collect()
 print(f"{len(produced)} files produced by this session\n")
-target = "/kaggle/working" if os.path.isdir("/kaggle/working") else "."
 for path in produced:
-    if os.path.abspath(os.path.dirname(path)) != os.path.abspath(target):
-        shutil.copy(path, target)
     print(f"{os.path.getsize(path)/1e6:7.2f} MB  {path}")
 
 for path in [p for p in produced if p.endswith(".json")]:

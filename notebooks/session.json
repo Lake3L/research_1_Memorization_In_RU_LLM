@@ -1,8 +1,8 @@
 {
   "_what": "The runs this GPU session performs. The notebook reads this file from the repository checkout, so the experiment is defined in version control rather than in a notebook copy.",
   "_rule": "To change what runs: edit this file, commit, push. The notebook needs no changes.",
-  "session_id": "2026-08-26-complete-the-2x2",
-  "purpose": "Complete the 2x2 of AMENDMENT_4 §3. Three of the four cells are measured: both models under completion prompting, and the base model under chat prompting. The adapted model under chat prompting is missing, and it is the cell that decides whether the direction of the base-vs-adapted difference depends on the prompting mode.",
+  "session_id": "2026-08-26-vikhr-chat",
+  "purpose": "Complete the 2x2 of AMENDMENT_4 §3. Three cells are measured: both models under completion prompting and the base model under chat prompting. This session measures the fourth, the adapted model under chat prompting, which turns the reversal in RESULTS_PROMPTING_PROBE.md §2 from an inference into a measured interaction. One model, one download.",
   "dataset_group": "canon",
   "variant": "raw",
   "prompt_language": "en",
@@ -24,17 +24,7 @@
     {
       "model": "Vikhrmodels/Vikhr-Nemo-12B-Instruct-R-21-09-24",
       "extra": "--plan probe --protocol reference --prompting chat",
-      "why": "the missing cell of the 2x2; ~2h40m"
-    },
-    {
-      "model": "mistralai/Mistral-Nemo-Instruct-2407",
-      "extra": "--plan probe --protocol reference --prompting completion",
-      "why": "repeat, to regenerate a complete call log for the headline result; ~1h20m"
-    },
-    {
-      "model": "Vikhrmodels/Vikhr-Nemo-12B-Instruct-R-21-09-24",
-      "extra": "--plan probe --protocol reference --prompting completion",
-      "why": "repeat, same reason; drop this and the previous run if the session is short"
+      "why": "the missing cell of the 2x2. The full probe plan is run rather than iris alone, so that the four cells are measured on identical surfaces"
     }
   ]
 }

@@ -45,6 +45,29 @@ def norm_lev(a, b):
     return jellyfish.levenshtein_distance(a, b) / max(len(a), len(b), 1)
 
 
+def block_index(rows, prefix_sizes=(8, 10)):
+    """Map a whole prefix block to the row that follows it.
+
+    Matching on the last row of the prompt alone is wrong wherever a dataset
+    contains duplicate rows: the lookup lands on the first occurrence and the row
+    taken as ground truth is then a different row. Iris carries 2% duplicates,
+    which is enough to move a count. Blocks of eight or ten rows are unique in
+    practice, so the reconstruction is matched on the whole block.
+    """
+    index = {}
+    for size in prefix_sizes:
+        for i in range(len(rows) - size):
+            index.setdefault(chr(10).join(rows[i:i + size]).strip(), rows[i + size])
+    return index
+
+
+def prompt_text(call):
+    """The user-visible prompt, whichever prompting mode produced the call."""
+    if call.get("kind") == "prompt":
+        return call["prompt"]
+    return [m for m in call["messages"] if m["role"] == "user"][-1]["content"]
+
+
 def first_line(text):
     for line in str(text).strip().split("\n"):
         if line.strip():
@@ -59,15 +82,12 @@ def rescore_row(calls, rows):
     consecutive rows, and the row that follows the last of them in the file is
     what the model was asked for.
     """
-    index = {row: i for i, row in enumerate(rows)}
+    index = block_index(rows)
     matches, n, distances, near = 0, 0, [], 0
     for call in calls:
-        prompt = [m for m in call["messages"] if m["role"] == "user"][-1]["content"]
-        last = first_line(prompt.strip().split("\n")[-1])
-        i = index.get(prompt.strip().split("\n")[-1].strip())
-        if i is None or i + 1 >= len(rows):
+        truth = index.get(prompt_text(call).strip())
+        if truth is None:
             continue
-        truth = rows[i + 1]
         n += 1
         if truth.strip() in call["response"].strip():
             matches += 1
@@ -89,7 +109,7 @@ def rescore_feature(calls, df, feature):
     """
     matches, n, distances, near = 0, 0, [], 0
     for call in calls:
-        prompt = [m for m in call["messages"] if m["role"] == "user"][-1]["content"]
+        prompt = prompt_text(call)
         conditions = dict(re.findall(r"([A-Za-z_][\w ]*) = ([^,\n]+)", prompt))
         mask = None
         for name, value in conditions.items():
@@ -127,7 +147,7 @@ def main():
     calls = [json.loads(l) for l in open(args.call_log, encoding="utf-8")]
     cells = defaultdict(list)
     for call in calls:
-        if "messages" in call:
+        if "messages" in call or "prompt" in call:
             cells[(call.get("test"), call.get("dataset"))].append(call)
 
     variant = calls[0].get("variant", "raw") if calls else "raw"

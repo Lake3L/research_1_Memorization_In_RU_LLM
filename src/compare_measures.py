@@ -54,18 +54,18 @@ def score(log_path, dataset, csv_path):
     """Exact-match flags and normalised distances, rebuilt from the raw log."""
     import jellyfish
     from tabmemcheck import utils
+    from rescore_calls import block_index, prompt_text
 
     rows = utils.load_csv_rows(csv_path)
-    index = {row: i for i, row in enumerate(rows)}
+    index = block_index(rows)
     exact, distances = [], []
     for call in (json.loads(l) for l in open(log_path, encoding="utf-8")):
         if call.get("test") != "row" or call.get("dataset") != dataset:
             continue
-        prompt = [m for m in call["messages"] if m["role"] == "user"][-1]["content"]
-        i = index.get(prompt.strip().split("\n")[-1].strip())
-        if i is None or i + 1 >= len(rows):
+        truth = index.get(prompt_text(call).strip())
+        if truth is None:
             continue
-        truth, got = rows[i + 1], first_line(call["response"])
+        got = first_line(call["response"])
         # the primary outcome is byte-exact and stays that way
         exact.append(truth.strip() in str(call["response"]).strip())
         sep = infer_separator(truth)

@@ -1,8 +1,8 @@
 {
   "_what": "The runs this GPU session performs. The notebook reads this file from the repository checkout, so the experiment is defined in version control rather than in a notebook copy.",
   "_rule": "To change what runs: edit this file, commit, push. The notebook needs no changes.",
-  "session_id": "2026-08-16-prompting-probe",
-  "purpose": "AMENDMENT_4 §3: does completion-mode prompting extract more than chat mode? Two models x two prompting modes, same datasets, same query counts, so the mode effect and the base-vs-adapted effect are both readable from one session. Completion runs come first: they are the new information and they are several times faster.",
+  "session_id": "2026-08-26-complete-the-2x2",
+  "purpose": "Complete the 2x2 of AMENDMENT_4 §3. Three of the four cells are measured: both models under completion prompting, and the base model under chat prompting. The adapted model under chat prompting is missing, and it is the cell that decides whether the direction of the base-vs-adapted difference depends on the prompting mode.",
   "dataset_group": "canon",
   "variant": "raw",
   "prompt_language": "en",
@@ -22,24 +22,19 @@
   },
   "runs": [
     {
+      "model": "Vikhrmodels/Vikhr-Nemo-12B-Instruct-R-21-09-24",
+      "extra": "--plan probe --protocol reference --prompting chat",
+      "why": "the missing cell of the 2x2; ~2h40m"
+    },
+    {
       "model": "mistralai/Mistral-Nemo-Instruct-2407",
       "extra": "--plan probe --protocol reference --prompting completion",
-      "why": "base model, direct continuation probe"
+      "why": "repeat, to regenerate a complete call log for the headline result; ~1h20m"
     },
     {
       "model": "Vikhrmodels/Vikhr-Nemo-12B-Instruct-R-21-09-24",
       "extra": "--plan probe --protocol reference --prompting completion",
-      "why": "Russian adaptation of the same base, direct continuation probe. Completion mode uses no chat template, so the two arms are asked an identical question (AMENDMENT_3 §3)"
-    },
-    {
-      "model": "mistralai/Mistral-Nemo-Instruct-2407",
-      "extra": "--plan probe --protocol reference --prompting chat",
-      "why": "the same cells under instruction prompting, for the mode comparison"
-    },
-    {
-      "model": "Vikhrmodels/Vikhr-Nemo-12B-Instruct-R-21-09-24",
-      "extra": "--plan probe --protocol reference --prompting chat",
-      "why": "completes the 2x2"
+      "why": "repeat, same reason; drop this and the previous run if the session is short"
     }
   ]
 }

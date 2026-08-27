@@ -1,8 +1,8 @@
 {
   "_what": "The runs this GPU session performs. The notebook reads this file from the repository checkout, so the experiment is defined in version control rather than in a notebook copy.",
   "_rule": "To change what runs: edit this file, commit, push. The notebook needs no changes.",
-  "session_id": "2026-08-26-vikhr-chat",
-  "purpose": "Complete the 2x2 of AMENDMENT_4 §3. Three cells are measured: both models under completion prompting and the base model under chat prompting. This session measures the fourth, the adapted model under chat prompting, which turns the reversal in RESULTS_PROMPTING_PROBE.md §2 from an inference into a measured interaction. One model, one download.",
+  "session_id": "2026-08-28-complete-logs",
+  "purpose": "The 2x2 of AMENDMENT_4 §3 is measured and its result files are complete. Three of the four call logs are prefixes, so those runs cannot be re-scored under a future rule without repeating them. This session repeats them, most valuable first: the two completion runs carry the headline comparison, the chat run of the base model completes the set.",
   "dataset_group": "canon",
   "variant": "raw",
   "prompt_language": "en",
@@ -22,9 +22,19 @@
   },
   "runs": [
     {
+      "model": "mistralai/Mistral-Nemo-Instruct-2407",
+      "extra": "--plan probe --protocol reference --prompting completion",
+      "why": "headline arm: base under direct continuation, 51/142 on iris; ~1h20m"
+    },
+    {
       "model": "Vikhrmodels/Vikhr-Nemo-12B-Instruct-R-21-09-24",
+      "extra": "--plan probe --protocol reference --prompting completion",
+      "why": "headline arm: adaptation under direct continuation, 32/142 on iris; ~1h20m"
+    },
+    {
+      "model": "mistralai/Mistral-Nemo-Instruct-2407",
       "extra": "--plan probe --protocol reference --prompting chat",
-      "why": "the missing cell of the 2x2. The full probe plan is run rather than iris alone, so that the four cells are measured on identical surfaces"
+      "why": "completes the log set; ~2h40m, drop it if the session is short"
     }
   ]
 }

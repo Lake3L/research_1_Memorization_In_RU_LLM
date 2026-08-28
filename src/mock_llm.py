@@ -104,6 +104,19 @@ class PerfectMemorizer:
             if m["role"] == "assistant" and " = " in m["content"]:
                 target = m["content"].split(" = ")[0].strip()
                 break
+        if target is None:
+            # Completion mode: tabmemcheck flattens the conversation into one
+            # string, so there are no assistant turns to read the target from.
+            # The structure still carries it — each completed few-shot block ends
+            # with the answer, and the query block ends with a dangling ", ".
+            for block in prompt.split("\n\n")[:-1]:
+                fields = [f for f in block.strip().rstrip(",").split(", ") if " = " in f]
+                if fields:
+                    candidate = fields[-1].split(" = ")[0].strip()
+                    if candidate in self.df.columns:
+                        target = candidate
+                        break
+            prompt = prompt.split("\n\n")[-1]
         if target is None or target not in self.df.columns:
             return ""
 

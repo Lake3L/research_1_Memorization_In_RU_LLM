@@ -1,8 +1,8 @@
 {
   "_what": "The runs this GPU session performs. The notebook reads this file from the repository checkout, so the experiment is defined in version control rather than in a notebook copy.",
   "_rule": "To change what runs: edit this file, commit, push. The notebook needs no changes.",
-  "session_id": "2026-08-28-complete-logs",
-  "purpose": "The 2x2 of AMENDMENT_4 §3 is measured and its result files are complete. Three of the four call logs are prefixes, so those runs cannot be re-scored under a future rule without repeating them. This session repeats them, most valuable first: the two completion runs carry the headline comparison, the chat run of the base model completes the set.",
+  "session_id": "2026-08-31-h1b-full-battery",
+  "purpose": "Completion prompting is now the primary probe (RESULTS_PROMPTING_PROBE.md §5). Only row completion has been measured that way on a real model; the header, feature and first-token tests have not. This session runs the full four-test battery under completion prompting on the base-adapted pair, at the dataset-bounded query counts of AMENDMENT_4 §5.",
   "dataset_group": "canon",
   "variant": "raw",
   "prompt_language": "en",
@@ -16,25 +16,21 @@
       "--only-cells"
     ],
     "plans": [
-      "probe"
+      "probe",
+      "h1b"
     ],
     "note": "verified against the checkout before any weights are downloaded"
   },
   "runs": [
     {
       "model": "mistralai/Mistral-Nemo-Instruct-2407",
-      "extra": "--plan probe --protocol reference --prompting completion",
-      "why": "headline arm: base under direct continuation, 51/142 on iris; ~1h20m"
+      "extra": "--plan h1b --protocol reference --prompting completion",
+      "why": "base model, all four tests, ~2h"
     },
     {
       "model": "Vikhrmodels/Vikhr-Nemo-12B-Instruct-R-21-09-24",
-      "extra": "--plan probe --protocol reference --prompting completion",
-      "why": "headline arm: adaptation under direct continuation, 32/142 on iris; ~1h20m"
-    },
-    {
-      "model": "mistralai/Mistral-Nemo-Instruct-2407",
-      "extra": "--plan probe --protocol reference --prompting chat",
-      "why": "completes the log set; ~2h40m, drop it if the session is short"
+      "extra": "--plan h1b --protocol reference --prompting completion",
+      "why": "its Russian adaptation, same battery; the pair is the H1b comparison"
     }
   ]
 }

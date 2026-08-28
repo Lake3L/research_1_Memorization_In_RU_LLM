@@ -1,6 +1,6 @@
 # The prompting probe — how a model is asked changes what it is found to remember
 
-**Date:** 2026-08-27. **Question:** `AMENDMENT_4` §3 asked whether direct
+**Date:** 2026-08-28. **Question:** `AMENDMENT_4` §3 asked whether direct
 continuation extracts more than instruction prompting, and whether the
 base-vs-adapted difference survives once the chat-template confound is removed.
 The 2×2 that answers both is complete.
@@ -41,8 +41,8 @@ and therefore samples different rows.
 
 | model | chat | completion | Fisher p | odds ratio |
 |---|---|---|---|---|
-| base | 0.089 | 0.359 | 5.8 × 10⁻⁸ | **5.74** |
-| adapted | 0.134 | 0.232 | 0.044 | **1.95** |
+| base | 0.092 | 0.359 | 7.3 × 10⁻⁸ | **5.56** |
+| adapted | 0.134 | 0.225 | 0.063 | **1.88** |
 
 Direct continuation extracts more from both models. It extracts *much* more from
 the base model than from the adaptation, and that difference in the size of the
@@ -54,24 +54,24 @@ Within a mode the two models receive byte-identical prompts in identical order �
 verified from the logs — so these are paired comparisons and McNemar applies.
 A positive difference favours the adaptation.
 
-| mode | both | base only | adapted only | adapted − base | 95% CI | p |
-|---|---|---|---|---|---|---|
-| chat | 5 | 7 | 14 | **+0.052** | [−0.015, +0.118] | 0.19 |
-| completion | 22 | 29 | 10 | **−0.138** | [−0.226, −0.049] | **0.0034** |
+| mode | n | both | base only | adapted only | adapted − base | 95% CI | p |
+|---|---|---|---|---|---|---|---|
+| chat | 142 | 5 | 8 | 14 | **+0.042** | [−0.022, +0.107] | 0.29 |
+| completion | 142 | 22 | 29 | 10 | **−0.134** | [−0.220, −0.048] | **0.0034** |
 
 ### The interaction
 
-**(adapted − base | completion) − (adapted − base | chat) = −0.190,
-95% CI [−0.300, −0.079], z = −3.35, p = 0.0008.**
+**(adapted − base | completion) − (adapted − base | chat) = −0.176,
+95% CI [−0.284, −0.068], z = −3.20, p = 0.0014.**
 
 The answer to "does the Russian adaptation retain more or less of what its base
 memorized" depends on how the question is put, and the dependence is itself
 significant.
 
-Under instruction prompting the two models are indistinguishable (p = 0.19).
-Under direct continuation the base model is ahead by 13.8 points (p = 0.0034).
+Under instruction prompting the two models are indistinguishable (p = 0.29).
+Under direct continuation the base model is ahead by 13.4 points (p = 0.0034).
 The reason is visible in the mode-effect table: the instruction wrapper costs the
-base model an odds ratio of 5.7 and the adaptation only 1.9. Vikhr-Nemo carries
+base model an odds ratio of 5.6 and the adaptation only 1.9. Vikhr-Nemo carries
 additional Russian instruction tuning, so it loses less to the wrapper; asked
 directly, with the wrapper gone, the base model's larger store shows.
 
@@ -119,21 +119,49 @@ the 0.05 the parenthetical named, and no other dataset moved off zero. The
 parenthetical did not anticipate that the only dataset carrying signal would
 already be above that line.
 
-The condition is met decisively — 0.089 → 0.359 on the base model, p = 5.8 × 10⁻⁸.
+The condition is met decisively — 0.092 → 0.359 on the base model, p = 7.3 × 10⁻⁸.
 **Completion mode is the primary probe for H1 and H1b**, and the chat-template
 confound of `AMENDMENT_3` §3 is designed out of the primary comparison rather than
 controlled for.
 
-## 6. Verification and limits
+## 6. The measurement is deterministic
+
+The two completion runs were repeated four days later, in a fresh session on a
+different machine, at the same pinned revisions and the same seed.
+
+| model | dataset | first run | repeat |
+|---|---|---|---|
+| base | iris | 51/142 | 51/142 |
+| base | wine, diabetes, titanic, adult | 0 | 0 |
+| adapted | iris | 32/142 | 32/142 |
+| adapted | wine, diabetes, titanic, adult | 0 | 0 |
+
+**All ten cells are identical.** Separately, a chat run of the base model that was
+started and abandoned reproduced that arm's iris count exactly (13/142) from a
+different session. Greedy decoding at temperature 0, with revisions pinned in
+`models.lock` and datasets pinned by hash, gives the same counts on different
+hardware — which is what the reproducibility commitment of §9 asks for, now
+demonstrated rather than assumed.
+
+## 7. Verification and limits
 
 Every count was recomputed from the raw call logs by `src/rescore_calls.py`, which
 rebuilds the ground truth from the prompts and the frozen CSVs without reading the
-run's own result file. The Vikhr chat run is complete — 912 calls, 5/5 cells
-reproduce exactly. For the three earlier runs the logs are prefixes and the
-verification covers what they contain: iris 51/142, wine 0/170 and diabetes 0/250
-for the base under completion; iris 32 of 138 logged calls against 32/142
-reported; iris 12 of 135 against 13/142 reported. The result files themselves are
-complete, and the paired analyses above use only prompts present in both logs.
+run's own result file.
+
+**Iris, the cell every comparison in §2 rests on, is fully logged at n = 142 in all
+four arms**, and each reproduces exactly. Two runs carry complete logs for all five
+datasets (912 calls each); for the others the logs cover iris and wine in full and
+stop inside a later dataset, all of whose counts are zero.
+
+Two defects were found in the course of this analysis and both are fixed:
+re-scoring matched a prompt by its last row, which lands on the wrong occurrence
+when a dataset contains duplicate rows, and now matches the whole prefix block;
+and the perfect-memorizer control could not answer feature-completion prompts in
+completion mode, because that mode flattens the conversation and the control was
+reading the target feature from assistant turns. With the control repaired, all
+four tests validate in both prompting modes: perfect memorizer 100%, format echo
+zero.
 
 Limits on what §2 supports:
 
@@ -143,6 +171,6 @@ Limits on what §2 supports:
   preregistered asks for four variants and three seeds;
 - the mode effect is estimated unpaired, because the two modes sample different
   rows. Making it paired would require fixing the sampled rows across modes, which
-  is a change to the test harness rather than to the protocol;
-- three of the four call logs are incomplete, so those runs cannot be re-scored
-  under a future rule without repeating them.
+  is a change to the harness rather than to the protocol;
+- only row completion was run. The header, feature and first-token tests have not
+  been measured under completion prompting on a real model.

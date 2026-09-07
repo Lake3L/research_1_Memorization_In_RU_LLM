@@ -183,9 +183,17 @@ if LOAD_IN_4BIT:
 # * **FAIL_NO_SIGNAL** — well-formed answers and nothing fires. That is a result
 #   about the model and is reported as one.
 #
-# The whole model is placed on one device. A quantized 12B model fits on a single
-# 16 GB card and an unquantized one does not, so single-device placement makes the
-# precision self-evident instead of something to be inferred later.
+# Each model is placed entirely on one device. A quantized 12B model fits on a
+# single 16 GB card and an unquantized one does not, so single-device placement
+# makes the precision self-evident instead of something to be inferred later.
+#
+# That is about one model, not about the machine. When `session.json` sets
+# `parallel` and more than one accelerator is present, different models run side
+# by side, one per card, each seeing only its own through `CUDA_VISIBLE_DEVICES`.
+# Nothing in the runner changes and neither does any measurement — the runs are
+# independent processes writing separate files — so the wall clock simply divides
+# by the number of cards. Output goes to one file per run, since two interleaved
+# streams are unreadable, and the tail of each is reported while they work.
 
 # %% run
 import glob, shutil, time
@@ -204,21 +212,81 @@ def collect():
             shutil.copy(path, TARGET)
     return produced
 
-for run in RUNS:
-    started = time.time()
-    label = run["model"] + (f"   [{run['extra']}]" if run.get("extra") else "")
-    print("\n" + "=" * 78 + f"\n{label}\n" + "=" * 78, flush=True)
-    cmd = (f"{sys.executable} -u src/run_hf_gate.py --model {run['model']} "
-           f"--group {DATASET_GROUP} --variant {VARIANT} --language {PROMPT_LANGUAGE} "
-           f"--seed {SEED} --scale {SCALE}"
-           + (" --load-in-4bit" if LOAD_IN_4BIT else "")
-           + (" " + run["extra"] if run.get("extra") else ""))
-    # exit status 1 means the decision rule was not met, not that the run crashed;
-    # both write their results file
-    status = sh(cmd)
-    print(f"\nexit status {status} after {(time.time() - started) / 60:.0f} min",
-          flush=True)
-    print(f"collected {len(collect())} files so far", flush=True)
+def command(run):
+    return (f"{sys.executable} -u src/run_hf_gate.py --model {run['model']} "
+            f"--group {DATASET_GROUP} --variant {VARIANT} --language {PROMPT_LANGUAGE} "
+            f"--seed {SEED} --scale {SCALE}"
+            + (" --load-in-4bit" if LOAD_IN_4BIT else "")
+            + (" " + run["extra"] if run.get("extra") else ""))
+
+
+def tail(path, default="starting"):
+    try:
+        lines = [l.rstrip() for l in open(path, encoding="utf-8", errors="replace") if l.strip()]
+        return lines[-1][:96] if lines else default
+    except OSError:
+        return default
+
+
+def run_in_parallel(runs, gpus, poll_seconds=120):
+    """One run per GPU, several at a time.
+
+    Each model is placed entirely on one card, which is what makes its precision
+    self-evident; CUDA_VISIBLE_DEVICES decides which card that is, so running two
+    different models side by side needs no change to the runner. Output goes to a
+    file per run, because two interleaved streams are unreadable, and the tail of
+    each is printed while they work.
+    """
+    pending, active, done = list(enumerate(runs)), {}, []
+    while pending or active:
+        for gpu in gpus:
+            if gpu not in active and pending:
+                index, run = pending.pop(0)
+                path = f"run{index}_gpu{gpu}.log"
+                handle = open(path, "w", encoding="utf-8")
+                process = subprocess.Popen(
+                    command(run), shell=True, stdout=handle,
+                    stderr=subprocess.STDOUT, text=True,
+                    env=dict(os.environ, CUDA_VISIBLE_DEVICES=str(gpu)))
+                active[gpu] = {"process": process, "log": path, "handle": handle,
+                               "run": run, "gpu": gpu, "started": time.time()}
+                print(f"[gpu {gpu}] started {run['model']}  -> {path}", flush=True)
+        time.sleep(poll_seconds)
+        for gpu, job in list(active.items()):
+            minutes = (time.time() - job["started"]) / 60
+            if job["process"].poll() is None:
+                print(f"[gpu {gpu}] {minutes:5.0f} min  {tail(job['log'])}", flush=True)
+                continue
+            job["handle"].close()
+            job["status"] = job["process"].returncode
+            done.append(job)
+            del active[gpu]
+            print(f"[gpu {gpu}] finished {job['run']['model']} in {minutes:.0f} min, "
+                  f"exit status {job['status']}", flush=True)
+            print(f"           collected {len(collect())} files so far", flush=True)
+    return done
+
+
+gpus = list(range(torch.cuda.device_count()))
+if SESSION.get("parallel") and len(gpus) > 1:
+    print(f"running {len(RUNS)} runs across {len(gpus)} GPUs\n", flush=True)
+    jobs = run_in_parallel(RUNS, gpus)
+    for job in jobs:
+        print("\n" + "=" * 78)
+        print(f"{job['run']['model']}   [{job['run'].get('extra', '')}]   gpu {job.get('gpu', '')}")
+        print("=" * 78)
+        print(open(job["log"], encoding="utf-8", errors="replace").read())
+else:
+    for run in RUNS:
+        started = time.time()
+        print("\n" + "=" * 78 + f"\n{run['model']}   [{run.get('extra', '')}]\n" + "=" * 78,
+              flush=True)
+        # exit status 1 means the decision rule was not met, not that the run
+        # crashed; both write their results file
+        status = sh(command(run))
+        print(f"\nexit status {status} after {(time.time() - started) / 60:.0f} min",
+              flush=True)
+        print(f"collected {len(collect())} files so far", flush=True)
 
 # %% [markdown]
 # ## Outputs

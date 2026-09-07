@@ -16,7 +16,7 @@ import json
 import os
 import re
 import sys
-from contextlib import redirect_stdout
+from contextlib import contextmanager, redirect_stdout
 from datetime import datetime, timezone
 
 import numpy as np
@@ -192,6 +192,47 @@ PLANS = {
 
 
 ANSI = re.compile(r"\x1b\[[0-9;]*m")
+
+
+@contextmanager
+def seeded_row_completion(rng):
+    """Give `first_token_test` the seed it forgets to pass in completion mode.
+
+    `functions.first_token_test` forwards `rng` to `row_chat_completion` on the
+    chat branch and omits it on the completion branch, so there `row_completion`
+    builds its own unseeded generator and draws different rows on every call.
+    Two models then answer different questions, the "most common first token"
+    baseline is computed over different draws, and a rate can clear that baseline
+    on one model and not on another for no reason but the draw — on adult-train
+    the two models' samples overlapped in one row out of 250, and the baselines
+    came out 0.068 and 0.260.
+
+    This binds the seed for the duration of the call. It changes no test logic and
+    no success criterion, which PREREGISTRATION.md §2 forbids touching; it makes
+    the same test answer the same question twice. The library is left unmodified —
+    the substitution lives here, and is undone on exit.
+    """
+    # `tabmemcheck.chat_completion` is shadowed in the package namespace by a
+    # function of the same name, so the modules are taken from sys.modules.
+    modules = [sys.modules[name] for name in
+               ("tabmemcheck.functions", "tabmemcheck.chat_completion")
+               if name in sys.modules]
+    original = sys.modules["tabmemcheck.chat_completion"].row_completion
+
+    def seeded(llm, csv_file, num_prefix_rows=10, num_queries=100, out_file=None,
+               print_levenshtein=False, rng_=None):
+        return original(llm, csv_file, num_prefix_rows, num_queries, out_file,
+                        print_levenshtein, rng)
+
+    for module in modules:
+        if hasattr(module, "row_completion"):
+            module.row_completion = seeded
+    try:
+        yield
+    finally:
+        for module in modules:
+            if hasattr(module, "row_completion"):
+                module.row_completion = original
 
 
 def digits_per_row(csv_file):
@@ -375,9 +416,10 @@ def run_one(llm, csv_file, test, num_queries, seed, protocol="reference"):
                           digits_per_row=digits_per_row(csv_file))
 
         elif test == "first_token":
-            tabmem.first_token_test(csv_file, llm, num_queries=num_queries, rng=rng,
-                                    num_prefix_rows=settings["num_prefix_rows"],
-                                    few_shot=settings["few_shot_row"])
+            with seeded_row_completion(rng):
+                tabmem.first_token_test(csv_file, llm, num_queries=num_queries, rng=rng,
+                                        num_prefix_rows=settings["num_prefix_rows"],
+                                        few_shot=settings["few_shot_row"])
             # ANSI colour codes carry digits that would confuse the parsing below
             out = ANSI.sub("", buf.getvalue())
             m = re.search(r"First Token Test: \D*(\d+)/(\d+)", out)

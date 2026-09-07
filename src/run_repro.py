@@ -37,7 +37,15 @@ from mock_llm import PerfectMemorizer, format_echo_mock  # noqa: E402
 # model reproduced, so capping the answer caps the statistic. AMENDMENT_4 §2
 # restores the library default for open-weight runs.
 MAX_TOKENS = {"header": 300, "row": 100, "feature": 60, "first_token": 100}
-MAX_TOKENS_REFERENCE = {"header": 1000, "row": 1000, "feature": 1000,
+# The library default of 1000 is right for the header test, whose statistic is how
+# many rows the model reproduced, and harmless for row and first token, which pass
+# their own budget of one row's length. It is ruinous for feature completion under
+# completion prompting: there tabmemcheck wraps the model, hands it the full
+# budget, and truncates the answer at the first blank line afterwards, so a model
+# with no stopping condition generates a thousand tokens and 990 are discarded.
+# One feature value plus its delimiter is a dozen tokens; 64 is generous and cannot
+# truncate an answer that the wrapper would have kept.
+MAX_TOKENS_REFERENCE = {"header": 1000, "row": 1000, "feature": 64,
                         "first_token": 1000}
 
 # The parameters Bordt et al. used for the open models of Table 3, read from
@@ -142,6 +150,22 @@ PLANS = {
         ("iris.csv", "row", 142), ("uci-wine.csv", "row", 170),
         ("openml-diabetes.csv", "row", 250), ("titanic-train.csv", "row", 250),
         ("adult-train.csv", "row", 250), ("california-housing.csv", "row", 250),
+        ("iris.csv", "first_token", 142), ("openml-diabetes.csv", "first_token", 250),
+        ("adult-train.csv", "first_token", 250),
+        ("uci-wine.csv", "feature", 170), ("openml-diabetes.csv", "feature", 250),
+        ("titanic-train.csv", "feature", 250), ("adult-train.csv", "feature", 250),
+        ("california-housing.csv", "feature", 250),
+    ],
+    # The cells of "h1b" that the "probe" plan does not already cover. Row
+    # completion has been measured at these very query counts, in this prompting
+    # mode, on both members of the pair, and repeating a run four days later
+    # returned identical counts in all ten cells — so re-measuring it buys
+    # nothing and costs 2.3 hours per model. The two plans together are the full
+    # battery; the analysis reads both files.
+    "h1b_rest": [
+        ("iris.csv", "header", 4), ("uci-wine.csv", "header", 4),
+        ("openml-diabetes.csv", "header", 4), ("titanic-train.csv", "header", 4),
+        ("adult-train.csv", "header", 4), ("california-housing.csv", "header", 4),
         ("iris.csv", "first_token", 142), ("openml-diabetes.csv", "first_token", 250),
         ("adult-train.csv", "first_token", 250),
         ("uci-wine.csv", "feature", 170), ("openml-diabetes.csv", "feature", 250),

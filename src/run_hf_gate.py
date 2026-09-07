@@ -39,6 +39,7 @@ Usage:
 """
 
 import argparse
+import glob
 import json
 import os
 import sys
@@ -120,6 +121,31 @@ def instrument_check(csv_path, seed=42, num_queries=10):
           and checks["format_echo"]["matches"] <= 0.1 * num_queries)
     checks["instrument_ok"] = bool(ok)
     return checks
+
+
+def load_finished_cells(out_dir, signature):
+    """Cells already measured by an earlier run of this exact configuration.
+
+    A run writes its results file after every cell, so an interrupted session
+    leaves a usable record of what it got through. This finds the most complete
+    such record whose configuration matches in every field that could change a
+    number — model, plan, prompting mode, protocol, variant, language, seed and
+    scale — and returns its finished cells so they are not measured again. A
+    cell that errored is not carried over: it is retried.
+    """
+    best, best_results, best_path = -1, [], None
+    for path in glob.glob(os.path.join(out_dir, "gateA_*.json")):
+        try:
+            data = json.load(open(path, encoding="utf-8"))
+        except (json.JSONDecodeError, OSError):
+            continue
+        if any(data.get(k) != v for k, v in signature.items()):
+            continue
+        finished = [r for r in data.get("results", []) if "error" not in r]
+        if len(finished) > best:
+            best, best_results, best_path = len(finished), finished, path
+    done = {(r.get("test"), r.get("dataset_key")): r for r in best_results}
+    return list(best_results), done, best_path
 
 
 def gate_verdict(results, instrument):
@@ -231,6 +257,10 @@ def main():
                          "'first_user' forces the system prompt to the front for "
                          "every model — the control for AMENDMENT_3 §3, where a "
                          "base and its adaptation place it differently")
+    ap.add_argument("--resume", action="store_true",
+                    help="reuse cells already measured by an earlier run of the "
+                         "same configuration, so an interrupted session continues "
+                         "instead of starting over")
     ap.add_argument("--only-cells", default=None,
                     help="comma-separated dataset:test pairs, e.g. "
                          "'uci-wine.csv:row,adult-train.csv:header'. Lets a session "
@@ -332,13 +362,58 @@ def main():
         plan = [cell for cell in plan if (cell[0], cell[1]) in wanted]
         if not plan:
             sys.exit(f"--only-cells matched nothing in plan '{args.plan}'")
+    signature = {"model": model_label, "plan": args.plan, "group": args.group,
+                 "variant": args.variant, "prompt_language": args.language,
+                 "seed": args.seed, "scale": args.scale,
+                 "prompting": args.prompting, "protocol": args.protocol,
+                 "system_prompt_placement": args.system_prompt}
+    out_path = os.path.join(args.out_dir, f"gateA_{tag}.json")
+
+    results = []
+    done = {}
+    if args.resume:
+        results, done, source = load_finished_cells(args.out_dir, signature)
+        if done:
+            print(f"[resume] {len(done)} cells already measured in {os.path.basename(source)}")
+        else:
+            print("[resume] nothing to resume from; running the whole plan")
+
+    def snapshot(verdict):
+        """Write the results file. Called after every cell, not only at the end.
+
+        A cell can take an hour and a hosted session can end without warning; a
+        file written only on completion means a session that is interrupted
+        yields nothing at all, and the cells it did measure have to be paid for
+        again.
+        """
+        out = {
+            "run": tag, "timestamp_utc": stamp, "block": "A",
+            "revision_requested": revision, "revision_loaded": loaded_revision,
+            **signature,
+            "datasets": {k: os.path.relpath(v, ROOT).replace(os.sep, "/")
+                         for k, v in paths.items()},
+            "versions": versions(),
+            "chat_template": template,
+            "load": load_report,
+            "instrument_check": instrument,
+            "gate": verdict,
+            "results": results,
+        }
+        with open(out_path, "w", encoding="utf-8") as f:
+            json.dump(out, f, ensure_ascii=False, indent=2)
+
     print(f"\n[run] plan '{args.plan}', variant '{args.variant}', prompts "
           f"'{args.language}', {len(plan)} cells")
-    results = []
     for csv_name, test, num_queries in plan:
         path = paths.get(csv_name)
         if path is None:
             print(f"  {csv_name:24s} {test:12s} skipped (not in group '{args.group}')")
+            continue
+        if (test, csv_name) in done:
+            previous = done[(test, csv_name)]
+            summary = (f"{previous.get('matches')}/{previous.get('n')}"
+                       if "matches" in previous else previous.get("verdict", "?"))
+            print(f"  {csv_name:24s} {test:12s} -> {str(summary):>10s}  [resumed]")
             continue
         num_queries = max(1, int(round(num_queries * args.scale)))
         if args.mock == "perfect":
@@ -375,6 +450,9 @@ def main():
                  if r.get("well_formed_rate") is not None else "")
         print(f"  {csv_name:24s} {test:12s} -> {str(summary):>10s}{extra}"
               f"  [{r['seconds']:.0f}s]", flush=True)
+        snapshot({"verdict": "IN_PROGRESS", "reason": "the run has not finished",
+                  "complete": False, "cells_run": len(results),
+                  "cells_planned": len(plan), "failed_cells": []})
 
     # ------------------------------------------------------------------ the verdict
     verdict = gate_verdict(results, instrument)
@@ -402,27 +480,7 @@ def main():
         repair = ",".join(f"{c['dataset']}:{c['test']}" for c in verdict["failed_cells"])
         print(f"   repair with: --only-cells {repair}")
 
-    out = {
-        "run": tag, "timestamp_utc": stamp, "block": "A",
-        "model": model_label, "revision_requested": revision,
-        "revision_loaded": loaded_revision,
-        "plan": args.plan, "group": args.group, "variant": args.variant,
-        "prompt_language": args.language, "seed": args.seed, "scale": args.scale,
-        "system_prompt_placement": args.system_prompt,
-        "prompting": args.prompting, "protocol": args.protocol,
-        "protocol_settings": {k: v for k, v in PROTOCOL[args.protocol].items()},
-        "datasets": {k: os.path.relpath(v, ROOT).replace(os.sep, "/")
-                     for k, v in paths.items()},
-        "versions": versions(),
-        "chat_template": template,
-        "load": load_report,
-        "instrument_check": instrument,
-        "gate": verdict,
-        "results": results,
-    }
-    out_path = os.path.join(args.out_dir, f"gateA_{tag}.json")
-    with open(out_path, "w", encoding="utf-8") as f:
-        json.dump(out, f, ensure_ascii=False, indent=2)
+    snapshot(verdict)
     print(f"wrote {out_path}")
     if os.path.exists(call_log):
         print(f"wrote {call_log} ({sum(1 for _ in open(call_log, encoding='utf-8'))} calls)")

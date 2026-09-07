@@ -172,6 +172,30 @@ PLANS = {
         ("titanic-train.csv", "feature", 250), ("adult-train.csv", "feature", 250),
         ("california-housing.csv", "feature", 250),
     ],
+    # Block C, first look: the Russian pre-cutoff datasets and the fresh control,
+    # with iris in the same session as the anchor AMENDMENT_5 §2 requires. Header
+    # and row completion only — the two tests that fire on the canon — at the
+    # paper's 250 queries, which every Russian file's row count allows. Feature
+    # and first token follow on whatever this finds.
+    #
+    # russian_retail is in its own plan. Its rows are free-text product
+    # descriptions (median 359 tokens, against 85-170 for the other Russian
+    # files), so a row query costs three to five times as much, and its first
+    # row is 1580 characters — longer than the header test's 500-character
+    # window, so that test has no answer to find and is not run
+    # (AMENDMENT_6 §3).
+    "ru_probe": [
+        ("iris.csv", "header", 4), ("iris.csv", "row", 142),
+        ("hflabs_city.csv", "header", 4), ("hflabs_city.csv", "row", 250),
+        ("govdomains.csv", "header", 4), ("govdomains.csv", "row", 250),
+        ("mos_zemelnye_uchastki.csv", "header", 4), ("mos_zemelnye_uchastki.csv", "row", 250),
+        ("mos_torgovye_obekty.csv", "header", 4), ("mos_torgovye_obekty.csv", "row", 250),
+        ("trudvsem_vacancies_2026.csv", "header", 4), ("trudvsem_vacancies_2026.csv", "row", 250),
+    ],
+    "ru_probe_long": [
+        ("iris.csv", "header", 4), ("iris.csv", "row", 142),
+        ("russian_retail.csv", "row", 250),
+    ],
     # The prompting-mode probe of AMENDMENT_4 §3, cheap enough to run in both
     # modes back to back: row completion only, on the four datasets where the
     # paper reports a non-zero count for anyone, plus one negative control.
@@ -428,12 +452,15 @@ def run_one(llm, csv_file, test, num_queries, seed, protocol="reference"):
                 k, n = int(m.group(1)), int(m.group(2))
                 result.update(matches=k, n=n, rate=k / n)
             if b:
+                # tabmemcheck labels this line a baseline, but it counts how often
+                # the MODEL'S answers were the most common token, not how often
+                # the truth was. It is recorded under an honest name and no
+                # p-value is derived from it; the test is scored offline against a
+                # data-derived baseline by src/rescore_first_token.py.
                 bk, bn = int(b.group(1)), int(b.group(2))
-                result.update(baseline_matches=bk, baseline_rate=bk / bn)
-                if m:
-                    result["p_value"] = float(stats.binomtest(
-                        int(m.group(1)), int(m.group(2)), max(bk / bn, 1e-9),
-                        alternative="greater").pvalue)
+                result.update(library_count_over_responses=bk / bn,
+                              baseline_rate=None, p_value=None,
+                              note="scored offline: see src/rescore_first_token.py")
             if "aborted" in out.lower() or "reject" in out.lower():
                 result["note"] = "row-independence pre-check flagged; see stdout"
         else:

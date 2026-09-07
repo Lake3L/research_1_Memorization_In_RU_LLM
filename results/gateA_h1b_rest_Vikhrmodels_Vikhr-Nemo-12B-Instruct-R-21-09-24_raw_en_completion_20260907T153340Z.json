@@ -1,0 +1,148 @@
+{
+  "run": "h1b_rest_Vikhrmodels_Vikhr-Nemo-12B-Instruct-R-21-09-24_raw_en_completion_20260907T153340Z",
+  "timestamp_utc": "20260907T153340Z",
+  "block": "A",
+  "revision_requested": "7499757d9f41a2965b0e9db94c976e0982e292b8",
+  "revision_loaded": "7499757d9f41a2965b0e9db94c976e0982e292b8",
+  "model": "Vikhrmodels/Vikhr-Nemo-12B-Instruct-R-21-09-24",
+  "plan": "h1b_rest",
+  "group": "canon",
+  "variant": "raw",
+  "prompt_language": "en",
+  "seed": 42,
+  "scale": 1.0,
+  "prompting": "completion",
+  "protocol": "reference",
+  "system_prompt_placement": "template",
+  "datasets": {
+    "iris.csv": "data/canon/iris.csv",
+    "adult-train.csv": "data/canon/adult-train.csv",
+    "california-housing.csv": "data/canon/california-housing.csv",
+    "openml-diabetes.csv": "data/canon/openml-diabetes.csv",
+    "uci-wine.csv": "data/canon/uci-wine.csv",
+    "titanic-train.csv": "data/canon/titanic-train.csv"
+  },
+  "versions": {
+    "python": "3.12.13",
+    "platform": "Linux-6.12.90+-x86_64-with-glibc2.35",
+    "numpy": "2.0.2",
+    "pandas": "2.3.3",
+    "scipy": "1.16.3",
+    "torch": "2.10.0+cu128",
+    "transformers": "5.0.0",
+    "tabmemcheck": "0.1.6",
+    "jellyfish": "1.2.1",
+    "accelerate": "1.13.0",
+    "bitsandbytes": "0.50.2"
+  },
+  "chat_template": {
+    "accepts_system_role": true,
+    "system_position": "before_first_user",
+    "rendered": "<s><|start_header_id|>system<|end_header_id|>\n\nSYSTEM_MARKER</s><|start_header_id|>user<|end_header_id|>\n\nUSER_ONE</s><|start_header_id|>assistant<|end_header_id|>\n\nASSISTANT_ONE</s><|start_header_id|>user<|end_header_id|>\n\nUSER_TWO</s><|start_header_id|>assistant<|end_header_id|>\n\n"
+  },
+  "load": {
+    "quantized": true,
+    "requested_quantization": true,
+    "attn_implementation": "sdpa",
+    "system_prompt_placement": "template",
+    "memory_footprint_gb": 8.14,
+    "parameter_dtypes": {
+      "torch.float16": 83,
+      "torch.uint8": 280
+    },
+    "devices": [
+      "cuda:0"
+    ]
+  },
+  "instrument_check": {
+    "perfect_memorizer": {
+      "matches": 10,
+      "n": 10
+    },
+    "format_echo": {
+      "matches": 0,
+      "n": 10
+    },
+    "instrument_ok": true
+  },
+  "gate": {
+    "verdict": "PARTIAL",
+    "reason": "repair run of 3 cells; the gate verdict comes from the full plan, not from this",
+    "repaired_cells": "iris.csv:first_token,openml-diabetes.csv:first_token,adult-train.csv:first_token",
+    "header_passes": 0,
+    "iris_row_significant": false,
+    "mean_well_formed_rate": null,
+    "cells_run": 3,
+    "cells_planned": 3,
+    "complete": true,
+    "failed_cells": []
+  },
+  "results": [
+    {
+      "dataset": "/kaggle/working/research_1_Memorization_In_RU_LLM/data/canon/iris.csv",
+      "dataset_key": "iris.csv",
+      "test": "first_token",
+      "requested_queries": 142,
+      "protocol": "reference",
+      "chat_mode": false,
+      "matches": 109,
+      "n": 142,
+      "rate": 0.7676056338028169,
+      "baseline_matches": 54,
+      "baseline_rate": 0.38028169014084506,
+      "p_value": 6.2205224525934914e-21,
+      "stdout": "First Token Test: 109/142 exact matches.\nFirst Token Test Baseline (Matches of most common first token): 54/142.\n",
+      "variant": "raw",
+      "prompt_language": "en",
+      "model": "Vikhrmodels/Vikhr-Nemo-12B-Instruct-R-21-09-24",
+      "revision_requested": "7499757d9f41a2965b0e9db94c976e0982e292b8",
+      "revision_loaded": "7499757d9f41a2965b0e9db94c976e0982e292b8",
+      "seconds": 410.7,
+      "peak_memory_gb": 8.52
+    },
+    {
+      "dataset": "/kaggle/working/research_1_Memorization_In_RU_LLM/data/canon/openml-diabetes.csv",
+      "dataset_key": "openml-diabetes.csv",
+      "test": "first_token",
+      "requested_queries": 250,
+      "protocol": "reference",
+      "chat_mode": false,
+      "matches": 55,
+      "n": 250,
+      "rate": 0.22,
+      "baseline_matches": 170,
+      "baseline_rate": 0.68,
+      "p_value": 1.0,
+      "stdout": "First Token Test: 55/250 exact matches.\nFirst Token Test Baseline (Matches of most common first token): 170/250.\n",
+      "variant": "raw",
+      "prompt_language": "en",
+      "model": "Vikhrmodels/Vikhr-Nemo-12B-Instruct-R-21-09-24",
+      "revision_requested": "7499757d9f41a2965b0e9db94c976e0982e292b8",
+      "revision_loaded": "7499757d9f41a2965b0e9db94c976e0982e292b8",
+      "seconds": 702.7,
+      "peak_memory_gb": 8.54
+    },
+    {
+      "dataset": "/kaggle/working/research_1_Memorization_In_RU_LLM/data/canon/adult-train.csv",
+      "dataset_key": "adult-train.csv",
+      "test": "first_token",
+      "requested_queries": 250,
+      "protocol": "reference",
+      "chat_mode": false,
+      "matches": 52,
+      "n": 250,
+      "rate": 0.208,
+      "baseline_matches": 19,
+      "baseline_rate": 0.076,
+      "p_value": 2.943155619317321e-11,
+      "stdout": "First Token Test: 52/250 exact matches.\nFirst Token Test Baseline (Matches of most common first token): 19/250.\n",
+      "variant": "raw",
+      "prompt_language": "en",
+      "model": "Vikhrmodels/Vikhr-Nemo-12B-Instruct-R-21-09-24",
+      "revision_requested": "7499757d9f41a2965b0e9db94c976e0982e292b8",
+      "revision_loaded": "7499757d9f41a2965b0e9db94c976e0982e292b8",
+      "seconds": 2574.7,
+      "peak_memory_gb": 8.59
+    }
+  ]
+}

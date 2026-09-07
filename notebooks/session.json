@@ -2,11 +2,12 @@
   "_what": "The runs this GPU session performs. The notebook reads this file from the repository checkout, so the experiment is defined in version control rather than in a notebook copy.",
   "_rule": "To change what runs: edit this file, commit, push. The notebook needs no changes.",
   "session_id": "2026-09-08-h1b-rest",
-  "purpose": "The header, feature and first-token tests under completion prompting, on the base-adapted pair. Row completion is not repeated: it is already measured at these query counts in this mode on both models, and repeat runs returned identical counts, so the probe files carry it. Projected 4.3 h per model. Every cell is written to the results file as it finishes and --resume continues an interrupted session.",
+  "purpose": "The header, feature and first-token tests under completion prompting, on the base-adapted pair, run side by side on separate accelerators. Row completion is not repeated: it is already measured at these query counts in this mode on both models, and repeat runs returned identical counts, so the probe files carry it. Projected 4.3 h per model, both at once. Every cell is written to the results file as it finishes and --resume continues an interrupted session.",
   "dataset_group": "canon",
   "variant": "raw",
   "prompt_language": "en",
   "load_in_4bit": true,
+  "parallel": true,
   "seed": 42,
   "scale": 1.0,
   "requires": {

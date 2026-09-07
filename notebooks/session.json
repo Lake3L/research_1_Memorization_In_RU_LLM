@@ -1,9 +1,18 @@
 {
   "_what": "The runs this GPU session performs. The notebook reads this file from the repository checkout, so the experiment is defined in version control rather than in a notebook copy.",
   "_rule": "To change what runs: edit this file, commit, push. The notebook needs no changes.",
-  "session_id": "2026-09-09-first-token-reseeded",
-  "purpose": "Re-measure the first-token cells. tabmemcheck forwards the seed to the row sampler on its chat branch and omits it on the completion branch, so those cells drew different rows for the two models — on adult-train the samples overlapped in one row out of 250 — which left them unpaired, irreproducible, and each judged against a baseline computed over its own draw. The seed is now bound for the duration of the call. Header and feature were unaffected and are not repeated.",
-  "dataset_group": "canon",
+  "session_id": "2026-09-08-block-C1-russian-probe",
+  "purpose": "Block C, first session (AMENDMENT_6 §7): the four Russian pre-cutoff datasets with rows under 200 tokens, the fresh control, and iris as the in-session anchor. Header and row completion on the published bytes, completion prompting, reference protocol, the same seed for both models of the pair. russian_retail has its own session because its rows are three to five times longer.",
+  "dataset_group": "canon,ru_pre_cutoff,fresh_control",
+  "datasets": [
+    "iris",
+    "hflabs_city",
+    "govdomains",
+    "mos_zemelnye_uchastki",
+    "mos_torgovye_obekty",
+    "trudvsem_vacancies_2026"
+  ],
+  "attached_input": "trudvsem_vacancies_2026.csv — the frozen fresh control, attached to the session as a Kaggle dataset; it cannot be re-fetched",
   "variant": "raw",
   "prompt_language": "en",
   "load_in_4bit": true,
@@ -15,25 +24,25 @@
       "--prompting",
       "--protocol",
       "--only-cells",
-      "--resume"
+      "--resume",
+      "--group"
     ],
     "plans": [
-      "probe",
-      "h1b",
-      "h1b_rest"
+      "ru_probe",
+      "ru_probe_long"
     ],
     "note": "verified against the checkout before any weights are downloaded"
   },
   "runs": [
     {
       "model": "mistralai/Mistral-Nemo-Instruct-2407",
-      "extra": "--plan h1b_rest --protocol reference --prompting completion --only-cells iris.csv:first_token,openml-diabetes.csv:first_token,adult-train.csv:first_token",
-      "why": "base model, three first-token cells, ~1h05m"
+      "extra": "--plan ru_probe --protocol reference --prompting completion",
+      "why": "base model; 1416 calls, about 7 h by the conservative estimate of src/price_plan.py, likely 5-6"
     },
     {
       "model": "Vikhrmodels/Vikhr-Nemo-12B-Instruct-R-21-09-24",
-      "extra": "--plan h1b_rest --protocol reference --prompting completion --only-cells iris.csv:first_token,openml-diabetes.csv:first_token,adult-train.csv:first_token",
-      "why": "its Russian adaptation, same cells; both run at once"
+      "extra": "--plan ru_probe --protocol reference --prompting completion",
+      "why": "its Russian adaptation, same cells, same seed; both run at once, one per accelerator"
     }
   ]
 }

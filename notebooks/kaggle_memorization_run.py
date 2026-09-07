@@ -63,9 +63,12 @@ def sh(cmd):
     the progress where it can be seen.
     """
     print(f"$ {cmd}", flush=True)
+    # tabmemcheck opens CSVs in the interpreter's default encoding; pin it to
+    # UTF-8 so the Russian files load the same way on every machine
     process = subprocess.Popen(cmd, shell=True, stdout=subprocess.PIPE,
                                stderr=subprocess.STDOUT, text=True,
-                               encoding="utf-8", errors="replace", bufsize=1)
+                               encoding="utf-8", errors="replace", bufsize=1,
+                               env=dict(os.environ, PYTHONUTF8="1"))
     for line in process.stdout:
         print(line.rstrip(), flush=True)
     return process.wait()
@@ -127,12 +130,33 @@ print("\ncheckout supports every flag and plan this session requires")
 # return a file with the right rows and the wrong bytes, and verbatim memorization
 # is a claim about bytes. A source that does not match is rejected and the next one
 # is tried; a dataset that matches none stops the run.
+#
+# The fresh control cannot be re-fetched: it was collected from a live API that
+# serves today's vacancies. Its frozen CSV is attached to the session as a Kaggle
+# dataset and picked up from `/kaggle/input`; the hash check applies to it as to
+# every other file. Only the datasets the session names are fetched.
+
+# %% attached inputs
+import glob, shutil
+from dataset_registry import load_registry
+
+for name, rec in load_registry().items():
+    target = rec["raw_path"]
+    if os.path.exists(target):
+        continue
+    attached = glob.glob(f"/kaggle/input/**/{os.path.basename(target)}", recursive=True)
+    if attached:
+        os.makedirs(os.path.dirname(target), exist_ok=True)
+        shutil.copy(attached[0], target)
+        print(f"{name}: attached copy -> {target}")
 
 # %% fetch
+ONLY = SESSION.get("datasets")
+REPORT = f"data/fetch_report_{DATASET_GROUP.replace(',', '+')}.json"
 sh(f"{sys.executable} src/fetch_data.py --group {DATASET_GROUP} "
-   f"--report data/fetch_report_{DATASET_GROUP}.json")
+   + (f"--only {','.join(ONLY)} " if ONLY else "") + f"--report {REPORT}")
 
-report = json.load(open(f"data/fetch_report_{DATASET_GROUP}.json", encoding="utf-8"))
+report = json.load(open(REPORT, encoding="utf-8"))
 missing = [r["dataset"] for r in report if r["status"] not in ("cached", "fetched")]
 assert not missing, f"these datasets are not the frozen bytes: {missing}"
 print(f"{len(report)} datasets verified against the freeze")
@@ -247,7 +271,7 @@ def run_in_parallel(runs, gpus, poll_seconds=120):
                 process = subprocess.Popen(
                     command(run), shell=True, stdout=handle,
                     stderr=subprocess.STDOUT, text=True,
-                    env=dict(os.environ, CUDA_VISIBLE_DEVICES=str(gpu)))
+                    env=dict(os.environ, CUDA_VISIBLE_DEVICES=str(gpu), PYTHONUTF8="1"))
                 active[gpu] = {"process": process, "log": path, "handle": handle,
                                "run": run, "gpu": gpu, "started": time.time()}
                 print(f"[gpu {gpu}] started {run['model']}  -> {path}", flush=True)

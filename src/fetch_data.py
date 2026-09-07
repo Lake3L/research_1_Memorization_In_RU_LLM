@@ -195,7 +195,8 @@ def rebuild(name: str, rec: dict, raw_path: str) -> dict:
 
 def main():
     ap = argparse.ArgumentParser()
-    ap.add_argument("--group", default=None, help="canon | ru_pre_cutoff | fresh_control")
+    ap.add_argument("--group", default=None,
+                    help="canon | ru_pre_cutoff | fresh_control, or several separated by commas")
     ap.add_argument("--only", default=None, help="comma-separated dataset names")
     ap.add_argument("--all", action="store_true")
     ap.add_argument("--no-variants", action="store_true")
@@ -210,7 +211,8 @@ def main():
     registry = load_registry()
     targets = registry
     if args.group:
-        targets = {k: v for k, v in targets.items() if v["group"] == args.group}
+        groups = {g.strip() for g in args.group.split(",")}
+        targets = {k: v for k, v in targets.items() if v["group"] in groups}
     if args.only:
         keep = set(args.only.split(","))
         targets = {k: v for k, v in targets.items() if k in keep}

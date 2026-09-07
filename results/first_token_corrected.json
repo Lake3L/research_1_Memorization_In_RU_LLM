@@ -1,0 +1,132 @@
+{
+  "calls_h1b_rest_Vikhrmodels_Vikhr-Nemo-12B-Instruct-R-21-09-24_raw_en_completion_20260907T153340Z.jsonl": [
+    {
+      "dataset": "iris.csv",
+      "n": 142,
+      "matches": 109,
+      "rate": 0.7676056338028169,
+      "num_digits": 1,
+      "mode_token": "5",
+      "baselines": {
+        "mode": 0.4084507042253521,
+        "previous_row": 0.49295774647887325,
+        "logistic_regression": 0.7533333333333333,
+        "gradient_boosting": 0.7133333333333333
+      },
+      "baseline": 0.49295774647887325,
+      "baseline_source": "previous_row",
+      "p_value": 1.8287514904746533e-11,
+      "row_conditional_baseline": 0.7533333333333333,
+      "row_conditional_source": "logistic_regression",
+      "p_value_row_conditional": 0.38900472225296373,
+      "library_reported_baseline": 0.38028169014084506
+    },
+    {
+      "dataset": "openml-diabetes.csv",
+      "n": 250,
+      "matches": 55,
+      "rate": 0.22,
+      "num_digits": 1,
+      "mode_token": "1",
+      "baselines": {
+        "mode": 0.28,
+        "previous_row": 0.148,
+        "logistic_regression": 0.230506748153807,
+        "gradient_boosting": 0.2343943638061285
+      },
+      "baseline": 0.28,
+      "baseline_source": "mode",
+      "p_value": 0.987066807781216,
+      "row_conditional_baseline": 0.2343943638061285,
+      "row_conditional_source": "gradient_boosting",
+      "p_value_row_conditional": 0.7269017632268353,
+      "library_reported_baseline": 0.68
+    },
+    {
+      "dataset": "adult-train.csv",
+      "n": 250,
+      "matches": 52,
+      "rate": 0.208,
+      "num_digits": 1,
+      "mode_token": "3",
+      "baselines": {
+        "mode": 0.22,
+        "previous_row": 0.18,
+        "logistic_regression": 0.400939771373903,
+        "gradient_boosting": 0.43478395222407207
+      },
+      "baseline": 0.22,
+      "baseline_source": "mode",
+      "p_value": 0.6998550052961015,
+      "row_conditional_baseline": 0.43478395222407207,
+      "row_conditional_source": "gradient_boosting",
+      "p_value_row_conditional": 0.9999999999999862,
+      "library_reported_baseline": 0.076
+    }
+  ],
+  "calls_h1b_rest_mistralai_Mistral-Nemo-Instruct-2407_raw_en_completion_20260907T153341Z.jsonl": [
+    {
+      "dataset": "iris.csv",
+      "n": 142,
+      "matches": 117,
+      "rate": 0.823943661971831,
+      "num_digits": 1,
+      "mode_token": "5",
+      "baselines": {
+        "mode": 0.4084507042253521,
+        "previous_row": 0.49295774647887325,
+        "logistic_regression": 0.7533333333333333,
+        "gradient_boosting": 0.7133333333333333
+      },
+      "baseline": 0.49295774647887325,
+      "baseline_source": "previous_row",
+      "p_value": 2.6597375119397374e-16,
+      "row_conditional_baseline": 0.7533333333333333,
+      "row_conditional_source": "logistic_regression",
+      "p_value_row_conditional": 0.02856847277280842,
+      "library_reported_baseline": 0.4154929577464789
+    },
+    {
+      "dataset": "openml-diabetes.csv",
+      "n": 250,
+      "matches": 52,
+      "rate": 0.208,
+      "num_digits": 1,
+      "mode_token": "1",
+      "baselines": {
+        "mode": 0.28,
+        "previous_row": 0.148,
+        "logistic_regression": 0.230506748153807,
+        "gradient_boosting": 0.2343943638061285
+      },
+      "baseline": 0.28,
+      "baseline_source": "mode",
+      "p_value": 0.996282872054466,
+      "row_conditional_baseline": 0.2343943638061285,
+      "row_conditional_source": "gradient_boosting",
+      "p_value_row_conditional": 0.8558390173961303,
+      "library_reported_baseline": 0.652
+    },
+    {
+      "dataset": "adult-train.csv",
+      "n": 250,
+      "matches": 57,
+      "rate": 0.228,
+      "num_digits": 1,
+      "mode_token": "3",
+      "baselines": {
+        "mode": 0.22,
+        "previous_row": 0.18,
+        "logistic_regression": 0.400939771373903,
+        "gradient_boosting": 0.43478395222407207
+      },
+      "baseline": 0.22,
+      "baseline_source": "mode",
+      "p_value": 0.4042191133585783,
+      "row_conditional_baseline": 0.43478395222407207,
+      "row_conditional_source": "gradient_boosting",
+      "p_value_row_conditional": 0.9999999999974493,
+      "library_reported_baseline": 0.292
+    }
+  ]
+}

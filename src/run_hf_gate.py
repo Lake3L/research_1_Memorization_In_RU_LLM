@@ -41,6 +41,7 @@ Usage:
 import argparse
 import glob
 import json
+import locale
 import os
 import sys
 import time
@@ -82,9 +83,10 @@ def resolve_datasets(group="canon", variant="raw"):
     whose hash does not match the freeze is void, so this refuses to return one.
     """
     registry = load_registry()
+    groups = {g.strip() for g in str(group).split(",")}
     paths, problems = {}, []
     for name, rec in registry.items():
-        if rec["group"] != group:
+        if rec["group"] not in groups:
             continue
         info = rec.get("variants", {}).get(variant)
         if info is None:
@@ -224,7 +226,10 @@ def main():
     ap.add_argument("--mock", default="none", choices=["none", "perfect", "echo"],
                     help="run the plan against a mock instead of a model")
     ap.add_argument("--plan", default="gate_hf", choices=list(PLANS))
-    ap.add_argument("--group", default="canon")
+    ap.add_argument("--group", default="canon",
+                    help="dataset group, or several separated by commas: block C "
+                         "runs the Russian groups together with canon so that iris "
+                         "sits in the same session as the anchor")
     ap.add_argument("--variant", default="raw")
     ap.add_argument("--language", default="en", choices=["en", "ru"])
     ap.add_argument("--load-in-4bit", action="store_true")
@@ -280,6 +285,20 @@ def main():
         sys.exit("no dataset passed hash verification — nothing can be measured")
     print(f"[data] {len(paths)} datasets verified against the freeze: "
           f"{', '.join(sorted(paths))}")
+
+    # tabmemcheck opens the files in text mode with the interpreter's default
+    # encoding. Where that default is not UTF-8 a Cyrillic file either fails to
+    # decode or reaches the model as other characters; only the first of those
+    # is visible, so the second is ruled out here.
+    non_ascii = sorted(name for name, path in paths.items()
+                       if any(b > 127 for b in open(path, "rb").read()))
+    preferred = locale.getpreferredencoding(False).lower().replace("-", "")
+    if non_ascii and preferred != "utf8":
+        sys.exit(f"[data] the default text encoding is {preferred!r} and "
+                 f"{', '.join(non_ascii)} contain non-ASCII bytes; run with "
+                 f"PYTHONUTF8=1 so that they are decoded as UTF-8")
+    print(f"[data] default text encoding {preferred}; files with non-ASCII bytes: "
+          f"{', '.join(non_ascii) or 'none'}")
 
     stamp = datetime.now(timezone.utc).strftime("%Y%m%dT%H%M%SZ")
     tag = (f"{args.plan}_{(args.mock if args.mock != 'none' else args.model).replace('/', '_')}"

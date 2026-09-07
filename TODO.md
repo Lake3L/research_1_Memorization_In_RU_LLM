@@ -4,11 +4,12 @@ Coarse-grained task list. Each block is meant to be picked up in its own session
 read the linked artefacts, do the block, tick the boxes, commit. Detailed decisions
 live in the documents referenced from each block, not here.
 
-Status: **week 5 of the plan** — block A closed; the 12B diagnostic says the floor
-is not a scale effect. An audit against the authors' own code then found that we
-had been running open models with chat prompting and library defaults where they
-used completion prompting and smaller prompts. Block B waits on the 2x2 that
-decides which probe H1 uses.
+Status: **week 8 of the plan** — block A closed. Block B has the full four-test
+battery on the Mistral-Nemo ↔ Vikhr-Nemo pair in the completion probe; the two
+Qwen pairs and the Llama control are still to run. Block C is defined, validated
+on mocks and priced (`AMENDMENT_6_FIRST_TOKEN_AND_BLOCK_C.md`) and is the next GPU
+session. H4a and H3 were re-scoped by that amendment before any Russian dataset
+was measured.
 
 ---
 
@@ -93,10 +94,21 @@ models already set in it. ~2 h each on a T4x2.
 - [x] **Power analysis for H1b** (`src/power_h1b.py`): the observed effect needs
       210 queries per arm, and iris tops out at 142, so exhausting the dataset
       still gives only 64% power. Seeds cannot fix a dataset-bounded ceiling.
-- [ ] **Run the 2x2**: base and adapted x chat and completion prompting, plan
-      `probe`, reference protocol, 912 calls per run. Decides which probe H1 uses.
-- [ ] Then, in whichever probe wins: the full `h1b` plan (3148 calls per model),
-      and the template control only if chat mode turns out to be the probe.
+- [x] **Run the 2x2**: base and adapted × chat and completion prompting, plan
+      `probe`, reference protocol. Completion extracts about four times more and
+      is the primary probe. → `RESULTS_PROMPTING_PROBE.md`
+- [x] The rest of the battery in the completion probe (`h1b_rest`: header, first
+      token, feature; 1836 calls per model, 4 h 20 min for the pair on two T4s).
+      Header passes on iris and diabetes for both models; feature is at the floor
+      for both.
+- [x] First token re-measured with the seed bound on the completion branch, so
+      that the pair answers the same rows, and scored offline against
+      data-derived baselines. Iris positive for both, base ahead on 18 vs 10
+      discordant rows (McNemar p = 0.19); diabetes and adult negative for both.
+      → `AMENDMENT_6` §1, `src/rescore_first_token.py`,
+      `results/first_token_corrected.json`
+- [ ] Write the block B results document from the result files by script
+      (`src/report_run.py` plus the paired contrasts) once the pair is complete.
 
 **The floor problem, for reference.** The gate found extractable memorization on iris
 and nowhere else. `Qwen2.5-7B-Instruct` is the base of two of the three pairs, so on
@@ -124,29 +136,58 @@ any run — not in a results file afterwards. The options, none of them free:
       Mistral-Nemo ↔ Vikhr-Nemo, Qwen2.5-7B ↔ ruadapt-Qwen, plus Llama-3.1-8B.
       → `models.lock`. Note: Llama-3.1-8B is gated (manual approval) and needs an
       accepted licence plus `HF_TOKEN` in the session — arrange before, not during.
-- [ ] Implement the preregistered baselines before any verdict: best of mode / LR /
-      GBT for feature completion and first token (§5). Offline, no GPU. The mode-only
-      baseline currently in use differs from the published best-of by 36 points on
-      adult first token.
+- [x] First-token baselines implemented offline (`src/rescore_first_token.py`):
+      mode and previous-row decide, LR/GBT reported as the row-conditional bound
+      (`AMENDMENT_6` §1).
+- [ ] Feature-completion baselines: best of mode / LR / GBT (§5), offline over the
+      counts. Needed before any feature verdict; the feature cells measured so far
+      are at the floor for both models, so no verdict waits on it yet.
 
-- [ ] Run all four memorization tests × 6 canon datasets × 4 serialisation variants,
-      English prompts, 3 seeds.
+- [ ] The two Qwen pairs (Qwen2.5-7B ↔ T-lite, Qwen2.5-7B ↔ ruadapt-Qwen) and the
+      Llama-3.1-8B control on `probe` + `h1b_rest` in the completion probe. Llama
+      is gated: licence accepted and `HF_TOKEN` in the session before, not during.
 - [ ] Apply the preregistered decision rules (binomial tests against the stated
       baselines, Holm within the H1 family).
-- [ ] H1b is the contribution: paired base vs adapted comparison per dataset,
-      Wilcoxon across datasets. Retained, attenuated, or amplified?
+- [ ] H1b is the contribution: paired base vs adapted comparison per dataset
+      (McNemar on the same rows), Wilcoxon across datasets. Retained, attenuated,
+      or amplified? On the one pair measured so far: iris retained with the base
+      ahead on every test, nothing significant, everything else at the floor for
+      both — the power ceiling of `src/power_h1b.py` is binding.
 
-## Block C — H2: Russian datasets
+## Block C — H2: Russian datasets (next GPU session)
 
-- [ ] Same battery on the five Russian pre-cutoff datasets, both prompt languages.
+Defined in `AMENDMENT_6` §2, §3 and §7 before any Russian file was measured. The
+session itself is `notebooks/session.json`.
+
+- [x] Preflight on the six Russian files: all decode and prompt under UTF-8 mode,
+      first-token digits build, every prompt fits the context. The runner refuses
+      Cyrillic files under any other default encoding; the notebook sets UTF-8 mode.
+- [x] Instrument check on the Russian plans: perfect memorizer 100% on every
+      applicable cell, echo mock zero. → `results/validation/gateA_ru_probe_*`
+- [x] Plans priced from a cost model fitted to the logged queries
+      (`src/price_plan.py`): `ru_probe` ≈ 7 h per model on a T4 by the conservative
+      estimate, `ru_probe_long` ≈ 4 h — two sessions, not one.
+- [ ] **Session C1**: `ru_probe` — iris anchor, hflabs_city, govdomains,
+      mos_zemelnye_uchastki, mos_torgovye_obekty, trudvsem (fresh control); header
+      and row completion; `raw`; completion probe; Mistral-Nemo and Vikhr-Nemo in
+      parallel, same seed.
+- [ ] **Session C2**: `ru_probe_long` (russian_retail rows) and first token on the
+      Russian datasets where it is defined.
 - [ ] Fresh control must come out at zero; any positive verdict there invalidates
       that model×test cell (preregistered validity gate).
+- [ ] Secondary serialisations (`utf8_semicolon`, decimal comma where its text
+      differs), cells positive under `raw` first.
 - [ ] Strong form: the dataset is positive for a Russian-centric model and negative
-      for every multilingual control.
+      for every multilingual control — needs the Qwen pairs and Llama on the same
+      plans.
+- [ ] Every Russian zero reported with its minimum detectable rate, digits per row
+      and the iris anchor of the same session (`AMENDMENT_5` §1–2).
 
 ## Block D — H4: prompt language
 
-- [ ] Every cell that is positive under English prompts is re-run under Russian.
+- [ ] H4a runs under chat prompting only — the completion probe has no instruction
+      to translate (`AMENDMENT_6` §4). Every cell positive under either probe, plus
+      the full canon, is re-run under Russian instructions.
 - [ ] Number-format normalisation before string comparison (Ward's caveat) — without
       it a decimal-comma artefact masquerades as a language effect.
 - [ ] McNemar over paired verdicts; Wilcoxon over per-cell rates.
@@ -155,6 +196,9 @@ any run — not in a results file afterwards. The options, none of them free:
 
 ## Block E — H3: few-shot inflation
 
+- [ ] **Precondition** (`AMENDMENT_6` §5): H3 runs for a model only if blocks B
+      and C give it at least three datasets with a positive verbatim verdict. The
+      one pair measured so far has iris, plus diabetes by the header test only.
 - [ ] **Power analysis first** (preregistered, and it is not a formality). The honest
       target effect is the difference-in-differences of ≈3.9 pp measured from the
       authors' data, not the 6 pp headline, and our confirmation threshold is 3 pp.

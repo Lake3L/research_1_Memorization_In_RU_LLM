@@ -1,0 +1,16 @@
+{
+  "_what": "AMENDMENT_7 §3: for each frozen dataset, the columns whose values are realisations of high-entropy variables that no public source outside the file supplies. A row-completion cell can be positive only if the model reproduced at least one such value that occurs nowhere in the prompt. Public classifier codes, sequential ids, templated dates and pattern-following names are not witnesses.",
+  "_rule": "Frozen with AMENDMENT_7 on 2026-09-09. A change is a new dated amendment.",
+  "iris": ["sepal_length", "sepal_width", "petal_length", "petal_width"],
+  "uci-wine": ["alcohol", "malic_acid", "ash", "alcalinity_of_ash", "magnesium", "total_phenols", "flavanoids", "nonflavanoid_phenols", "proanthocyanins", "color_intensity", "hue", "od280_od315_of_diluted_wines", "proline"],
+  "openml-diabetes": ["Glucose", "BloodPressure", "SkinThickness", "Insulin", "BMI", "DiabetesPedigreeFunction"],
+  "adult-train": ["fnlwgt"],
+  "california-housing": ["longitude", "latitude", "total_rooms", "total_bedrooms", "population", "households", "median_income", "median_house_value"],
+  "titanic-train": ["Ticket", "Fare", "Cabin"],
+  "govdomains": ["IPs", "ASN"],
+  "hflabs_city": ["fias_id", "geo_lat", "geo_lon", "population"],
+  "mos_zemelnye_uchastki": ["Кадастровый номер", "Площадь (кв.м)"],
+  "mos_torgovye_obekty": ["Номер свидетельства", "Дата свидетельства"],
+  "russian_retail": ["total_rented_area", "presence_russia"],
+  "trudvsem_vacancies_2026": []
+}

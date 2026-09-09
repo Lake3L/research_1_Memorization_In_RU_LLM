@@ -6,7 +6,10 @@
     "Qwen/Qwen2.5-7B-Instruct": {
       "revision": "a09a35458c702b33eeacc393d103063234e8bc28",
       "role": "multilingual control; the base of both Russian-adapted Qwen pairs",
-      "pairs_with": ["t-tech/T-lite-it-1.0", "RefalMachine/ruadapt_qwen2.5_7B_ext_u48_instruct"],
+      "pairs_with": [
+        "t-tech/T-lite-it-1.0",
+        "RefalMachine/ruadapt_qwen2.5_7B_ext_u48_instruct"
+      ],
       "license": "apache-2.0",
       "gated": false,
       "pinned_utc": "2026-08-10",
@@ -15,7 +18,9 @@
     "t-tech/T-lite-it-1.0": {
       "revision": "fbabc76f32140416dc5b0ceef392c7778eec1312",
       "role": "Russian-centric (confirmatory), continued pretraining of Qwen2.5-7B",
-      "pairs_with": ["Qwen/Qwen2.5-7B-Instruct"],
+      "pairs_with": [
+        "Qwen/Qwen2.5-7B-Instruct"
+      ],
       "license": "see model card (T-Bank licence, not an SPDX identifier)",
       "gated": false,
       "pinned_utc": "2026-08-10",
@@ -24,7 +29,9 @@
     "RefalMachine/ruadapt_qwen2.5_7B_ext_u48_instruct": {
       "revision": "845d58fc59997f82e7fd7909713b73c2605081ba",
       "role": "Russian-adapted (confirmatory), vocabulary-extended Qwen2.5-7B",
-      "pairs_with": ["Qwen/Qwen2.5-7B-Instruct"],
+      "pairs_with": [
+        "Qwen/Qwen2.5-7B-Instruct"
+      ],
       "license": "see model card",
       "gated": false,
       "pinned_utc": "2026-08-10",
@@ -34,7 +41,9 @@
     "Vikhrmodels/Vikhr-Nemo-12B-Instruct-R-21-09-24": {
       "revision": "7499757d9f41a2965b0e9db94c976e0982e292b8",
       "role": "Russian-centric (confirmatory), adapted from Mistral-Nemo-12B",
-      "pairs_with": ["mistralai/Mistral-Nemo-Instruct-2407"],
+      "pairs_with": [
+        "mistralai/Mistral-Nemo-Instruct-2407"
+      ],
       "license": "apache-2.0",
       "gated": false,
       "pinned_utc": "2026-08-10",
@@ -43,7 +52,9 @@
     "mistralai/Mistral-Nemo-Instruct-2407": {
       "revision": "04d8a90549d23fc6bd7f642064003592df51e9b3",
       "role": "multilingual control; the base of Vikhr-Nemo",
-      "pairs_with": ["Vikhrmodels/Vikhr-Nemo-12B-Instruct-R-21-09-24"],
+      "pairs_with": [
+        "Vikhrmodels/Vikhr-Nemo-12B-Instruct-R-21-09-24"
+      ],
       "license": "apache-2.0",
       "gated": false,
       "pinned_utc": "2026-08-10",
@@ -58,6 +69,62 @@
       "pinned_utc": "2026-08-10",
       "used_for": "H1, H2",
       "note": "gated: the licence must be accepted on the model page and an HF_TOKEN supplied to the run, otherwise the download fails with 401. Arrange this before the confirmatory session, not during it."
+    },
+    "yandex/YandexGPT-5-Lite-8B-pretrain": {
+      "revision": "f4aec3abf522c57354f0000e3e30719b3e65bda3",
+      "role": "Russian-centric, trained from scratch (15T tokens, 60% web per the model card); pretrain member of a pretrain-instruct pair",
+      "pairs_with": [
+        "yandex/YandexGPT-5-Lite-8B-instruct"
+      ],
+      "license": "YandexGPT-5-Lite-8B licence agreement (research and commercial use permitted, attribution on redistribution)",
+      "gated": false,
+      "pinned_utc": "2026-09-09",
+      "used_for": "H1, H2 (AMENDMENT_8)",
+      "note": "'llama' is the architecture, not the weights: no third-party checkpoint was used, so Llama-3.1-8B is not its base and it does not enter H1b"
+    },
+    "yandex/YandexGPT-5-Lite-8B-instruct": {
+      "revision": "b556811768376b46c69caab60c4d1b69df9faaa1",
+      "role": "Russian-centric, trained from scratch; instruct member",
+      "pairs_with": [
+        "yandex/YandexGPT-5-Lite-8B-pretrain"
+      ],
+      "license": "YandexGPT-5-Lite-8B licence agreement",
+      "gated": false,
+      "pinned_utc": "2026-09-09",
+      "used_for": "H1, H2 (AMENDMENT_8)"
+    },
+    "ai-sage/GigaChat-20B-A3B-base": {
+      "revision": "78724201ba8db03d9fb5f4d54d39df7c2563c9ff",
+      "role": "Russian-centric, trained from scratch, mixture of experts (21B total); base member",
+      "pairs_with": [
+        "ai-sage/GigaChat-20B-A3B-instruct"
+      ],
+      "license": "mit",
+      "gated": false,
+      "pinned_utc": "2026-09-09",
+      "used_for": "H1, H2 (AMENDMENT_8)",
+      "note": "custom modelling code (trust_remote_code); nf4 footprint estimated 12-13 GB on a 15 GB T4 - preflight and full-size smoke test before any plan"
+    },
+    "ai-sage/GigaChat-20B-A3B-instruct": {
+      "revision": "d6a97fca83b088cb636756a0485242e05198998e",
+      "role": "instruct member",
+      "pairs_with": [
+        "ai-sage/GigaChat-20B-A3B-base"
+      ],
+      "license": "mit",
+      "gated": false,
+      "pinned_utc": "2026-09-09",
+      "used_for": "H1, H2 (AMENDMENT_8)"
+    },
+    "allenai/OLMo-7B-hf": {
+      "revision": "11fb3186a2e4f681edea621fa8b4345147a9db6a",
+      "role": "method control: published per-dataset verdicts in Bordt et al. Table 3, public pretraining corpus (Dolma v1.7)",
+      "pairs_with": [],
+      "license": "apache-2.0",
+      "gated": false,
+      "pinned_utc": "2026-09-09",
+      "used_for": "method check on the canon only (2,048-token context); corpus lookup (AMENDMENT_8 E2)"
     }
-  }
+  },
+  "_amendments": "Five models added 2026-09-09 by AMENDMENT_8; the six of 2026-08-10 are unchanged."
 }

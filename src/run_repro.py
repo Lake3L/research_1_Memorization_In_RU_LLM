@@ -277,6 +277,25 @@ def duplicate_rate(csv_file):
     return 1 - len(set(rows)) / len(rows)
 
 
+def row_completion_null(csv_file, prefix_rows):
+    """AMENDMENT_7 R2: the null of the row-completion test is never epsilon.
+
+    The duplicate rate covers one way of being right without memory, a
+    repeated row. A prefix-only predictor (copy the last row, or advance a
+    counter that the last two rows advanced) covers the other that registry
+    exports open, and the rule of three (Hanley & Lippman-Hand 1983) bounds a
+    rate that was observed to be zero over the file's windows. The largest of
+    the three is the null; all three are recorded.
+    """
+    from prefix_baseline import predictor_rate, null_rate
+    rows = utils.load_csv_rows(csv_file)
+    dup = 1 - len(set(rows)) / len(rows)
+    pred = predictor_rate(rows, prefix_rows)
+    p0, floor = null_rate(dup, pred["rate"], pred["windows"])
+    return {"baseline_rate": p0, "duplicate_rate": dup, "predictor_rate": pred["rate"],
+            "rule_of_three": floor, "windows": pred["windows"]}
+
+
 def response_diagnostics(suffixes, responses):
     """Is the model even trying to produce CSV rows?
 
@@ -396,10 +415,14 @@ def run_one(llm, csv_file, test, num_queries, seed, protocol="reference"):
             )
             n = len(responses)
             k = sum(1 for s, r in zip(suffixes, responses) if s.strip() in r.strip())
-            base = duplicate_rate(csv_file)
+            null = row_completion_null(csv_file, settings["num_prefix_rows"])
+            base = null["baseline_rate"]
             result.update(matches=k, n=n, rate=k / n if n else 0.0,
-                          baseline_rate=base,
-                          p_value=float(stats.binomtest(k, n, max(base, 1e-9),
+                          **null,
+                          # the p-value here is the letter of §5 against the R2
+                          # null; the verdict itself (R1, R3, R4) is taken offline
+                          # by src/prefix_baseline.py from the call log
+                          p_value=float(stats.binomtest(k, n, base,
                                                         alternative="greater").pvalue) if n else None,
                           # AMENDMENT_5 §1: a zero is not a finding until the
                           # smallest effect it could have excluded is stated

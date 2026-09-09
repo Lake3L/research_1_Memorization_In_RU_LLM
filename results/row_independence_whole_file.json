@@ -1,0 +1,230 @@
+[
+  {
+    "dataset": "iris",
+    "group": "canon",
+    "first_feature": "sepal_length",
+    "check": "whole-file row_independence_test",
+    "seeds": [
+      42,
+      43,
+      44
+    ],
+    "verdicts": [
+      "dependent",
+      "dependent",
+      "dependent"
+    ],
+    "first_token_schedulable": false,
+    "note": null,
+    "seconds": 126.2
+  },
+  {
+    "dataset": "trudvsem_vacancies_2026",
+    "group": "fresh_control",
+    "first_feature": "Регион",
+    "check": "whole-file row_independence_test",
+    "seeds": [
+      42,
+      43,
+      44
+    ],
+    "verdicts": [
+      "dependent",
+      "dependent",
+      "dependent"
+    ],
+    "first_token_schedulable": false,
+    "note": null,
+    "seconds": 58.9
+  },
+  {
+    "dataset": "hflabs_city",
+    "group": "ru_pre_cutoff",
+    "first_feature": "address",
+    "check": "whole-file row_independence_test",
+    "seeds": [
+      42,
+      43,
+      44
+    ],
+    "verdicts": [
+      "error",
+      "error",
+      "error"
+    ],
+    "first_token_schedulable": false,
+    "note": "Invalid classes inferred from unique values of `y`.  Expected: [  0   1   2   3   4   5   6   7   8   9  10  11  12  13  14  15  16  17",
+    "seconds": 10.5
+  },
+  {
+    "dataset": "govdomains",
+    "group": "ru_pre_cutoff",
+    "first_feature": "Domain",
+    "check": "whole-file row_independence_test",
+    "seeds": [
+      42,
+      43,
+      44
+    ],
+    "verdicts": [
+      "error",
+      "error",
+      "error"
+    ],
+    "first_token_schedulable": false,
+    "note": "Invalid classes inferred from unique values of `y`.  Expected: [   0    1    2 ... 4392 4393 4394], got [   0    2    3 ... 7503 7504 7507]",
+    "seconds": 59.8
+  },
+  {
+    "dataset": "mos_zemelnye_uchastki",
+    "group": "ru_pre_cutoff",
+    "first_feature": "№ строки",
+    "check": "whole-file row_independence_test",
+    "seeds": [
+      42,
+      43,
+      44
+    ],
+    "verdicts": [
+      "dependent",
+      "dependent",
+      "dependent"
+    ],
+    "first_token_schedulable": false,
+    "note": null,
+    "seconds": 43.9
+  },
+  {
+    "dataset": "mos_torgovye_obekty",
+    "group": "ru_pre_cutoff",
+    "first_feature": "№ строки",
+    "check": "whole-file row_independence_test",
+    "seeds": [
+      42,
+      43,
+      44
+    ],
+    "verdicts": [
+      "dependent",
+      "dependent",
+      "dependent"
+    ],
+    "first_token_schedulable": false,
+    "note": null,
+    "seconds": 52.1
+  },
+  {
+    "dataset": "russian_retail",
+    "group": "ru_pre_cutoff",
+    "first_feature": "name",
+    "check": "whole-file row_independence_test",
+    "seeds": [
+      42,
+      43,
+      44
+    ],
+    "verdicts": [
+      "error",
+      "error",
+      "error"
+    ],
+    "first_token_schedulable": false,
+    "note": "Invalid classes inferred from unique values of `y`.  Expected: [   0    1    2 ... 1592 1593 1594], got [  -1    4    5 ... 2702 2703 2704]",
+    "seconds": 30.5
+  },
+  {
+    "dataset": "adult-train",
+    "group": "canon",
+    "first_feature": "Age",
+    "check": "whole-file row_independence_test",
+    "seeds": [
+      42,
+      43,
+      44
+    ],
+    "verdicts": [
+      "not rejected",
+      "not rejected",
+      "not rejected"
+    ],
+    "first_token_schedulable": false,
+    "note": null,
+    "seconds": 1550.5
+  },
+  {
+    "dataset": "california-housing",
+    "group": "canon",
+    "first_feature": "longitude",
+    "check": "whole-file row_independence_test",
+    "seeds": [
+      42,
+      43,
+      44
+    ],
+    "verdicts": [
+      "dependent",
+      "dependent",
+      "dependent"
+    ],
+    "first_token_schedulable": false,
+    "note": null,
+    "seconds": 30.3
+  },
+  {
+    "dataset": "openml-diabetes",
+    "group": "canon",
+    "first_feature": "Pregnancies",
+    "check": "whole-file row_independence_test",
+    "seeds": [
+      42,
+      43,
+      44
+    ],
+    "verdicts": [
+      "not rejected",
+      "not rejected",
+      "not rejected"
+    ],
+    "first_token_schedulable": false,
+    "note": null,
+    "seconds": 184.3
+  },
+  {
+    "dataset": "uci-wine",
+    "group": "canon",
+    "first_feature": "target",
+    "check": "whole-file row_independence_test",
+    "seeds": [
+      42,
+      43,
+      44
+    ],
+    "verdicts": [
+      "dependent",
+      "dependent",
+      "dependent"
+    ],
+    "first_token_schedulable": false,
+    "note": null,
+    "seconds": 57.4
+  },
+  {
+    "dataset": "titanic-train",
+    "group": "canon",
+    "first_feature": "PassengerId",
+    "check": "whole-file row_independence_test",
+    "seeds": [
+      42,
+      43,
+      44
+    ],
+    "verdicts": [
+      "dependent",
+      "dependent",
+      "dependent"
+    ],
+    "first_token_schedulable": false,
+    "note": null,
+    "seconds": 15.8
+  }
+]

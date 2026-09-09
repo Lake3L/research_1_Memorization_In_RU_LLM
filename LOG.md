@@ -1,5 +1,48 @@
 # Лабораторный журнал — Проект 1: Меморизация табличных данных в русскоязычных LLM
 
+## 2026-09-09 (вечер) — first token на русских датасетах не запускается: ворота библиотеки закрыты на всех шести файлах
+
+§5 разрешает first token «только там, где проходит пре-проверка независимости
+строк». В библиотеке это `statistical_feature_prediction_test` на *первом*
+признаке внутри `first_token_test`: градиентный бустинг и линейная модель
+предсказывают первый признак строки n по предыдущим строкам, и при отклонении
+нулевой гипотезы тест отказывается запускаться. Прогнано офлайн ровно это,
+с сидом (библиотека выбирает тестовые строки несидированным `np.random.choice`),
+три сида, `src/precheck_first_token.py`, `results/first_token_precheck.json`:
+
+| файл | первый признак | 42 / 43 / 44 |
+|---|---|---|
+| iris | sepal_length | pass, pass, pass |
+| hflabs_city | address | error ×3 |
+| govdomains | Domain | error ×3 |
+| mos_zemelnye_uchastki | № строки | reject ×3 |
+| mos_torgovye_obekty | № строки | reject ×3 |
+| russian_retail | name | error ×3 |
+| trudvsem_vacancies_2026 | Регион | reject ×3 |
+| adult-train | Age | pass ×3 |
+| openml-diabetes | Pregnancies | pass ×3 |
+| california-housing | longitude | reject ×3 |
+| uci-wine | target | reject, reject, pass |
+| titanic-train | PassengerId | reject ×3 |
+
+На каноне ворота открыты ровно на трёх файлах, где first token и запускался в
+блоке B (план `h1b_rest`: iris, diabetes, adult); california отсортирован по
+долготе, wine по классу, titanic несёт сквозной PassengerId. «error» — не наш дефект: первый признак почти уникальная строка, `LabelEncoder`
+даёт классы, которых нет в обучении, XGBoost падает с `Invalid classes inferred
+from unique values of y`, и все десять попыток библиотеки повторяют то же. «reject»
+— сквозной номер и файл, отсортированный по региону. Итог: **first token не
+планируется ни на одном русском файле**; это следствие предрегистрированного
+правила, не поправка. Для C2 остаётся `ru_probe_long`. На каноне ворота согласуются
+с блоком B: iris проходит (там тест и запускался без отказа).
+
+Для записи прогнан и строгий вариант библиотеки, `row_independence_test`, все
+признаки с поправкой Бонферрони, три сида: iris «dependent» (файл отсортирован по
+виду), openml-diabetes и adult-train «not rejected», mos_zemelnye_uchastki,
+mos_torgovye_obekty и trudvsem «dependent», hflabs_city, govdomains и russian_retail
+— та же ошибка. Он не является воротами (§5 говорит о пре-проверке теста, а тест
+проверяет первый признак), но подтверждает картину утренней записи: русские
+реестры — зависимые строки, и row completion на них измеряет продолжение реестра.
+
 ## 2026-09-09 — сессия C1 разобрана: якорь сработал, свежий контроль на нуле, а единственный «положительный» русский датасет воспроизводится без файла
 
 Сессия C1 (`ru_probe`, 2026-09-08): Mistral-Nemo и Vikhr-Nemo параллельно, по 1416

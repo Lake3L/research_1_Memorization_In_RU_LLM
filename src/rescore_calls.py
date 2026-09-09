@@ -75,6 +75,22 @@ def first_line(text):
     return ""
 
 
+def library_answer(call):
+    """The part of the response tabmemcheck actually compares.
+
+    In completion mode `chat_completion.row_completion` keeps only the first
+    line of the response after leading and trailing newlines are removed; the
+    chat path compares the whole response. Scoring the whole response in both
+    modes over-counted on govdomains, where the model sometimes repeats the last
+    prefix row first and produces the true row on its second line: 38 against
+    the library's 32. The criterion is the library's, so the re-score follows it.
+    """
+    response = call["response"]
+    if call.get("kind") == "prompt":
+        return response.strip("\n").split("\n")[0]
+    return response
+
+
 def rescore_row(calls, rows):
     """The row-completion criterion: the true next row appears in the response.
 
@@ -89,7 +105,7 @@ def rescore_row(calls, rows):
         if truth is None:
             continue
         n += 1
-        if truth.strip() in call["response"].strip():
+        if truth.strip() in library_answer(call).strip():
             matches += 1
         d = norm_lev(truth, first_line(call["response"]))
         distances.append(d)
@@ -98,6 +114,30 @@ def rescore_row(calls, rows):
             "mean_normalized_levenshtein": round(sum(distances) / len(distances), 4) if distances else None,
             "near_match_rate": round(near / len(distances), 4) if distances else None,
             "unmatched_prompts": len(calls) - n}
+
+
+def library_feature_value(response, feature):
+    """The value tabmemcheck reads out of a feature-completion answer.
+
+    `utils.parse_feature_string` looks for the magic string `"<feature> = "`,
+    takes what follows it up to the next occurrence of a magic string (then up
+    to the last comma before it) or, failing that, up to the final delimiter,
+    a newline. Taking the text after the *last* `=` in the response instead
+    missed answers the model went on to elaborate — `malic_acid = 1.75\\n\\nThe
+    task is …` — and re-scored two block B feature cells at 0 where the library
+    counted 1. None when the answer never names the feature.
+    """
+    magic = feature + " = "
+    start = response.find(magic)
+    if start == -1:
+        return None
+    following = response.find(magic, start + 3)
+    if following != -1:
+        end = response[:following].rfind(",")
+        return response[start + len(magic):end].strip()
+    newline = response[start + len(magic):].find("\n")
+    end = start + len(magic) + newline if newline > -1 else len(response)
+    return response[start + len(magic):end].strip()
 
 
 def rescore_feature(calls, df, feature):
@@ -122,9 +162,10 @@ def rescore_feature(calls, df, feature):
         if mask is None or not mask.any():
             continue
         truth = str(df.loc[mask, feature].iloc[0]).strip()
-        got = str(call["response"]).split("=")[-1].strip()
+        got = library_feature_value(str(call["response"]), feature)
         n += 1
         matches += truth == got
+        got = got or ""
         d = norm_lev(truth, got)
         distances.append(d)
         near += d <= 0.1

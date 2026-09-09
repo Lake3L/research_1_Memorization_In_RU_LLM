@@ -1,0 +1,532 @@
+{
+  "dataset_rates": {
+    "iris.csv": {
+      "windows": 142,
+      "hits": 0,
+      "rate": 0.0,
+      "by_kind": {},
+      "near_duplicate_windows": 38,
+      "near_duplicate_share": 0.2676056338028169
+    },
+    "trudvsem_vacancies_2026.csv": {
+      "windows": 1188,
+      "hits": 0,
+      "rate": 0.0,
+      "by_kind": {},
+      "near_duplicate_windows": 222,
+      "near_duplicate_share": 0.18686868686868688
+    },
+    "hflabs_city.csv": {
+      "windows": 1109,
+      "hits": 0,
+      "rate": 0.0,
+      "by_kind": {},
+      "near_duplicate_windows": 0,
+      "near_duplicate_share": 0.0
+    },
+    "govdomains.csv": {
+      "windows": 7793,
+      "hits": 180,
+      "rate": 0.023097651738739896,
+      "by_kind": {
+        "increment": 180
+      },
+      "near_duplicate_windows": 4213,
+      "near_duplicate_share": 0.540613370973951
+    },
+    "mos_zemelnye_uchastki.csv": {
+      "windows": 5873,
+      "hits": 0,
+      "rate": 0.0,
+      "by_kind": {},
+      "near_duplicate_windows": 14,
+      "near_duplicate_share": 0.0023837902264600714
+    },
+    "mos_torgovye_obekty.csv": {
+      "windows": 10204,
+      "hits": 11,
+      "rate": 0.0010780086240689925,
+      "by_kind": {
+        "increment": 11
+      },
+      "near_duplicate_windows": 852,
+      "near_duplicate_share": 0.08349666797334379
+    },
+    "russian_retail.csv": {
+      "windows": 2729,
+      "hits": 1,
+      "rate": 0.00036643459142543056,
+      "by_kind": {
+        "copy": 1
+      },
+      "near_duplicate_windows": 2,
+      "near_duplicate_share": 0.0007328691828508611
+    },
+    "adult-train.csv": {
+      "windows": 32553,
+      "hits": 0,
+      "rate": 0.0,
+      "by_kind": {},
+      "near_duplicate_windows": 540,
+      "near_duplicate_share": 0.01658833287254631
+    },
+    "california-housing.csv": {
+      "windows": 20632,
+      "hits": 0,
+      "rate": 0.0,
+      "by_kind": {},
+      "near_duplicate_windows": 0,
+      "near_duplicate_share": 0.0
+    },
+    "openml-diabetes.csv": {
+      "windows": 760,
+      "hits": 0,
+      "rate": 0.0,
+      "by_kind": {},
+      "near_duplicate_windows": 0,
+      "near_duplicate_share": 0.0
+    },
+    "uci-wine.csv": {
+      "windows": 170,
+      "hits": 0,
+      "rate": 0.0,
+      "by_kind": {},
+      "near_duplicate_windows": 0,
+      "near_duplicate_share": 0.0
+    },
+    "titanic-train.csv": {
+      "windows": 883,
+      "hits": 0,
+      "rate": 0.0,
+      "by_kind": {},
+      "near_duplicate_windows": 0,
+      "near_duplicate_share": 0.0
+    }
+  },
+  "cells": {
+    "mistralai/Mistral-Nemo-Instruct-2407|govdomains.csv": {
+      "novel_field_recall": {
+        "cyrillic text": {
+          "present": 258,
+          "recalled": 40
+        },
+        "domain": {
+          "present": 249,
+          "recalled": 64
+        },
+        "ip": {
+          "present": 27,
+          "recalled": 0
+        },
+        "number": {
+          "present": 22,
+          "recalled": 0
+        },
+        "other": {
+          "present": 5,
+          "recalled": 0
+        }
+      },
+      "n": 250,
+      "matches": 32,
+      "rate": 0.128,
+      "predictor_hits_in_cell": 7,
+      "matches_that_are_predictor_hits": 5,
+      "near_duplicate_queries": 132,
+      "matches_within_near_of_a_prefix_row": 29,
+      "matches_with_novel_share_at_least_half": 3,
+      "mean_novel_share_of_matches": 0.208,
+      "p_vs_duplicate": 7.357272764411966e-58,
+      "p_vs_duplicate_or_predictor": 8.102122277386491e-15,
+      "p_excluding_predictor_hits": 2.5471154993061474e-47,
+      "matches_excluding_near_duplicate_queries": 3,
+      "n_excluding_near_duplicate_queries": 118,
+      "p_excluding_near_duplicate_queries": 0.0001800800995190829
+    },
+    "mistralai/Mistral-Nemo-Instruct-2407|hflabs_city.csv": {
+      "novel_field_recall": {
+        "cyrillic text": {
+          "present": 678,
+          "recalled": 294
+        },
+        "number": {
+          "present": 2132,
+          "recalled": 162
+        },
+        "other": {
+          "present": 263,
+          "recalled": 0
+        }
+      },
+      "n": 250,
+      "matches": 0,
+      "rate": 0.0,
+      "predictor_hits_in_cell": 0,
+      "matches_that_are_predictor_hits": 0,
+      "near_duplicate_queries": 0,
+      "matches_within_near_of_a_prefix_row": 0,
+      "matches_with_novel_share_at_least_half": 0,
+      "mean_novel_share_of_matches": null,
+      "p_vs_duplicate": 1.0,
+      "p_vs_duplicate_or_predictor": 1.0,
+      "p_excluding_predictor_hits": 1.0,
+      "matches_excluding_near_duplicate_queries": 0,
+      "n_excluding_near_duplicate_queries": 250,
+      "p_excluding_near_duplicate_queries": 1.0
+    },
+    "mistralai/Mistral-Nemo-Instruct-2407|iris.csv": {
+      "novel_field_recall": {
+        "number": {
+          "present": 279,
+          "recalled": 177
+        },
+        "other": {
+          "present": 2,
+          "recalled": 1
+        }
+      },
+      "n": 142,
+      "matches": 51,
+      "rate": 0.3591549295774648,
+      "predictor_hits_in_cell": 0,
+      "matches_that_are_predictor_hits": 0,
+      "near_duplicate_queries": 39,
+      "matches_within_near_of_a_prefix_row": 15,
+      "matches_with_novel_share_at_least_half": 16,
+      "mean_novel_share_of_matches": 0.396,
+      "p_vs_duplicate": 4.773913538452406e-49,
+      "p_vs_duplicate_or_predictor": 4.773913538452406e-49,
+      "p_excluding_predictor_hits": 4.773913538452406e-49,
+      "matches_excluding_near_duplicate_queries": 36,
+      "n_excluding_near_duplicate_queries": 103,
+      "p_excluding_near_duplicate_queries": 1.3453422295974085e-34
+    },
+    "mistralai/Mistral-Nemo-Instruct-2407|mos_torgovye_obekty.csv": {
+      "novel_field_recall": {
+        "cyrillic text": {
+          "present": 617,
+          "recalled": 5
+        },
+        "number": {
+          "present": 250,
+          "recalled": 243
+        },
+        "other": {
+          "present": 654,
+          "recalled": 0
+        }
+      },
+      "n": 250,
+      "matches": 1,
+      "rate": 0.004,
+      "predictor_hits_in_cell": 1,
+      "matches_that_are_predictor_hits": 1,
+      "near_duplicate_queries": 16,
+      "matches_within_near_of_a_prefix_row": 1,
+      "matches_with_novel_share_at_least_half": 0,
+      "mean_novel_share_of_matches": 0.111,
+      "p_vs_duplicate": 2.4999996887500264e-07,
+      "p_vs_duplicate_or_predictor": 0.2363513847685308,
+      "p_excluding_predictor_hits": 1.0,
+      "matches_excluding_near_duplicate_queries": 0,
+      "n_excluding_near_duplicate_queries": 234,
+      "p_excluding_near_duplicate_queries": 1.0
+    },
+    "mistralai/Mistral-Nemo-Instruct-2407|mos_zemelnye_uchastki.csv": {
+      "novel_field_recall": {
+        "cyrillic text": {
+          "present": 553,
+          "recalled": 0
+        },
+        "number": {
+          "present": 729,
+          "recalled": 170
+        },
+        "other": {
+          "present": 242,
+          "recalled": 0
+        }
+      },
+      "n": 250,
+      "matches": 0,
+      "rate": 0.0,
+      "predictor_hits_in_cell": 0,
+      "matches_that_are_predictor_hits": 0,
+      "near_duplicate_queries": 1,
+      "matches_within_near_of_a_prefix_row": 0,
+      "matches_with_novel_share_at_least_half": 0,
+      "mean_novel_share_of_matches": null,
+      "p_vs_duplicate": 1.0,
+      "p_vs_duplicate_or_predictor": 1.0,
+      "p_excluding_predictor_hits": 1.0,
+      "matches_excluding_near_duplicate_queries": 0,
+      "n_excluding_near_duplicate_queries": 249,
+      "p_excluding_near_duplicate_queries": 1.0
+    },
+    "mistralai/Mistral-Nemo-Instruct-2407|trudvsem_vacancies_2026.csv": {
+      "novel_field_recall": {
+        "cyrillic text": {
+          "present": 493,
+          "recalled": 0
+        },
+        "number": {
+          "present": 47,
+          "recalled": 4
+        },
+        "other": {
+          "present": 6,
+          "recalled": 0
+        }
+      },
+      "n": 250,
+      "matches": 0,
+      "rate": 0.0,
+      "predictor_hits_in_cell": 0,
+      "matches_that_are_predictor_hits": 0,
+      "near_duplicate_queries": 43,
+      "matches_within_near_of_a_prefix_row": 0,
+      "matches_with_novel_share_at_least_half": 0,
+      "mean_novel_share_of_matches": null,
+      "p_vs_duplicate": 1.0,
+      "p_vs_duplicate_or_predictor": 1.0,
+      "p_excluding_predictor_hits": 1.0,
+      "matches_excluding_near_duplicate_queries": 0,
+      "n_excluding_near_duplicate_queries": 207,
+      "p_excluding_near_duplicate_queries": 1.0
+    },
+    "Vikhrmodels/Vikhr-Nemo-12B-Instruct-R-21-09-24|govdomains.csv": {
+      "novel_field_recall": {
+        "cyrillic text": {
+          "present": 258,
+          "recalled": 27
+        },
+        "domain": {
+          "present": 249,
+          "recalled": 53
+        },
+        "ip": {
+          "present": 27,
+          "recalled": 0
+        },
+        "number": {
+          "present": 22,
+          "recalled": 0
+        },
+        "other": {
+          "present": 5,
+          "recalled": 0
+        }
+      },
+      "n": 250,
+      "matches": 19,
+      "rate": 0.076,
+      "predictor_hits_in_cell": 7,
+      "matches_that_are_predictor_hits": 3,
+      "near_duplicate_queries": 132,
+      "matches_within_near_of_a_prefix_row": 17,
+      "matches_with_novel_share_at_least_half": 3,
+      "mean_novel_share_of_matches": 0.261,
+      "p_vs_duplicate": 1.6440464897326838e-30,
+      "p_vs_duplicate_or_predictor": 7.41470317745824e-06,
+      "p_excluding_predictor_hits": 6.520319587680823e-25,
+      "matches_excluding_near_duplicate_queries": 2,
+      "n_excluding_near_duplicate_queries": 118,
+      "p_excluding_near_duplicate_queries": 0.005216966231538927
+    },
+    "Vikhrmodels/Vikhr-Nemo-12B-Instruct-R-21-09-24|hflabs_city.csv": {
+      "novel_field_recall": {
+        "cyrillic text": {
+          "present": 678,
+          "recalled": 162
+        },
+        "number": {
+          "present": 2132,
+          "recalled": 129
+        },
+        "other": {
+          "present": 263,
+          "recalled": 0
+        }
+      },
+      "n": 250,
+      "matches": 0,
+      "rate": 0.0,
+      "predictor_hits_in_cell": 0,
+      "matches_that_are_predictor_hits": 0,
+      "near_duplicate_queries": 0,
+      "matches_within_near_of_a_prefix_row": 0,
+      "matches_with_novel_share_at_least_half": 0,
+      "mean_novel_share_of_matches": null,
+      "p_vs_duplicate": 1.0,
+      "p_vs_duplicate_or_predictor": 1.0,
+      "p_excluding_predictor_hits": 1.0,
+      "matches_excluding_near_duplicate_queries": 0,
+      "n_excluding_near_duplicate_queries": 250,
+      "p_excluding_near_duplicate_queries": 1.0
+    },
+    "Vikhrmodels/Vikhr-Nemo-12B-Instruct-R-21-09-24|iris.csv": {
+      "novel_field_recall": {
+        "number": {
+          "present": 279,
+          "recalled": 156
+        },
+        "other": {
+          "present": 2,
+          "recalled": 0
+        }
+      },
+      "n": 142,
+      "matches": 32,
+      "rate": 0.22535211267605634,
+      "predictor_hits_in_cell": 0,
+      "matches_that_are_predictor_hits": 0,
+      "near_duplicate_queries": 39,
+      "matches_within_near_of_a_prefix_row": 8,
+      "matches_with_novel_share_at_least_half": 9,
+      "mean_novel_share_of_matches": 0.4,
+      "p_vs_duplicate": 3.2200707519228674e-24,
+      "p_vs_duplicate_or_predictor": 3.2200707519228674e-24,
+      "p_excluding_predictor_hits": 3.2200707519228674e-24,
+      "matches_excluding_near_duplicate_queries": 24,
+      "n_excluding_near_duplicate_queries": 103,
+      "p_excluding_near_duplicate_queries": 6.484061717309962e-19
+    },
+    "Vikhrmodels/Vikhr-Nemo-12B-Instruct-R-21-09-24|mos_torgovye_obekty.csv": {
+      "novel_field_recall": {
+        "cyrillic text": {
+          "present": 617,
+          "recalled": 3
+        },
+        "number": {
+          "present": 250,
+          "recalled": 236
+        },
+        "other": {
+          "present": 654,
+          "recalled": 1
+        }
+      },
+      "n": 250,
+      "matches": 1,
+      "rate": 0.004,
+      "predictor_hits_in_cell": 1,
+      "matches_that_are_predictor_hits": 1,
+      "near_duplicate_queries": 16,
+      "matches_within_near_of_a_prefix_row": 1,
+      "matches_with_novel_share_at_least_half": 0,
+      "mean_novel_share_of_matches": 0.111,
+      "p_vs_duplicate": 2.4999996887500264e-07,
+      "p_vs_duplicate_or_predictor": 0.2363513847685308,
+      "p_excluding_predictor_hits": 1.0,
+      "matches_excluding_near_duplicate_queries": 0,
+      "n_excluding_near_duplicate_queries": 234,
+      "p_excluding_near_duplicate_queries": 1.0
+    },
+    "Vikhrmodels/Vikhr-Nemo-12B-Instruct-R-21-09-24|mos_zemelnye_uchastki.csv": {
+      "novel_field_recall": {
+        "cyrillic text": {
+          "present": 553,
+          "recalled": 3
+        },
+        "number": {
+          "present": 729,
+          "recalled": 150
+        },
+        "other": {
+          "present": 242,
+          "recalled": 0
+        }
+      },
+      "n": 250,
+      "matches": 0,
+      "rate": 0.0,
+      "predictor_hits_in_cell": 0,
+      "matches_that_are_predictor_hits": 0,
+      "near_duplicate_queries": 1,
+      "matches_within_near_of_a_prefix_row": 0,
+      "matches_with_novel_share_at_least_half": 0,
+      "mean_novel_share_of_matches": null,
+      "p_vs_duplicate": 1.0,
+      "p_vs_duplicate_or_predictor": 1.0,
+      "p_excluding_predictor_hits": 1.0,
+      "matches_excluding_near_duplicate_queries": 0,
+      "n_excluding_near_duplicate_queries": 249,
+      "p_excluding_near_duplicate_queries": 1.0
+    },
+    "Vikhrmodels/Vikhr-Nemo-12B-Instruct-R-21-09-24|trudvsem_vacancies_2026.csv": {
+      "novel_field_recall": {
+        "cyrillic text": {
+          "present": 493,
+          "recalled": 0
+        },
+        "number": {
+          "present": 47,
+          "recalled": 3
+        },
+        "other": {
+          "present": 6,
+          "recalled": 0
+        }
+      },
+      "n": 250,
+      "matches": 0,
+      "rate": 0.0,
+      "predictor_hits_in_cell": 0,
+      "matches_that_are_predictor_hits": 0,
+      "near_duplicate_queries": 43,
+      "matches_within_near_of_a_prefix_row": 0,
+      "matches_with_novel_share_at_least_half": 0,
+      "mean_novel_share_of_matches": null,
+      "p_vs_duplicate": 1.0,
+      "p_vs_duplicate_or_predictor": 1.0,
+      "p_excluding_predictor_hits": 1.0,
+      "matches_excluding_near_duplicate_queries": 0,
+      "n_excluding_near_duplicate_queries": 207,
+      "p_excluding_near_duplicate_queries": 1.0
+    }
+  },
+  "pairs": {
+    "govdomains.csv": {
+      "same_rows": true,
+      "both": 16,
+      "first_only": 16,
+      "second_only": 3,
+      "p": 0.004425048828125
+    },
+    "hflabs_city.csv": {
+      "same_rows": true,
+      "both": 0,
+      "first_only": 0,
+      "second_only": 0,
+      "p": 1.0
+    },
+    "iris.csv": {
+      "same_rows": true,
+      "both": 22,
+      "first_only": 29,
+      "second_only": 10,
+      "p": 0.0033778479119064286
+    },
+    "mos_torgovye_obekty.csv": {
+      "same_rows": true,
+      "both": 1,
+      "first_only": 0,
+      "second_only": 0,
+      "p": 1.0
+    },
+    "mos_zemelnye_uchastki.csv": {
+      "same_rows": true,
+      "both": 0,
+      "first_only": 0,
+      "second_only": 0,
+      "p": 1.0
+    },
+    "trudvsem_vacancies_2026.csv": {
+      "same_rows": true,
+      "both": 0,
+      "first_only": 0,
+      "second_only": 0,
+      "p": 1.0
+    }
+  }
+}

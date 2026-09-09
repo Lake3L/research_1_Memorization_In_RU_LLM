@@ -6,10 +6,12 @@ live in the documents referenced from each block, not here.
 
 Status: **week 8 of the plan** — block A closed. Block B has the full four-test
 battery on the Mistral-Nemo ↔ Vikhr-Nemo pair in the completion probe; the two
-Qwen pairs and the Llama control are still to run. Block C is defined, validated
-on mocks and priced (`AMENDMENT_6_FIRST_TOKEN_AND_BLOCK_C.md`) and is the next GPU
-session. H4a and H3 were re-scoped by that amendment before any Russian dataset
-was measured.
+Qwen pairs and the Llama control are still to run. Block C session C1 has run
+on that pair (2026-09-08): anchor fired, fresh control at zero, and the one
+Russian dataset that fires (govdomains) does so through rows that are
+near-duplicates of their own prompt — the near-duplicate half of §5's baseline
+has to be operationalised in an amendment before any H2 verdict is stated. H4a
+and H3 were re-scoped by `AMENDMENT_6` before any Russian dataset was measured.
 
 ---
 
@@ -167,14 +169,36 @@ session itself is `notebooks/session.json`.
 - [x] Plans priced from a cost model fitted to the logged queries
       (`src/price_plan.py`): `ru_probe` ≈ 7 h per model on a T4 by the conservative
       estimate, `ru_probe_long` ≈ 4 h — two sessions, not one.
-- [ ] **Session C1**: `ru_probe` — iris anchor, hflabs_city, govdomains,
+- [x] **Session C1** (2026-09-08): `ru_probe` — iris anchor, hflabs_city, govdomains,
       mos_zemelnye_uchastki, mos_torgovye_obekty, trudvsem (fresh control); header
       and row completion; `raw`; completion probe; Mistral-Nemo and Vikhr-Nemo in
-      parallel, same seed.
+      parallel, same seed. 1416 calls per model, 12/12 cells each, 7 h 25 min,
+      quantization confirmed, instrument check 10/10 and 0/10. Iris anchor fired
+      for both (51/142 and 32/142 — byte-identical to the August runs, all 142
+      responses). Every count recomputed from the raw log by `src/rescore_calls.py`.
+- [x] Fresh control at zero for both models on both tests (row 0/250, header
+      fail; minimum detectable rate 0.6%). The validity gate holds for row
+      completion and header on this pair.
+- [ ] **Decide the near-duplicate rule before any H2 verdict** (`AMENDMENT_7`,
+      pending). Under the letter of §5 govdomains is positive for both models
+      (32/250 and 19/250 against a 0.6% duplicate rate) and so is
+      mos_torgovye_obekty on a single match (1/250, p = 2.5e-7 against a zero
+      baseline). `src/prefix_baseline.py` shows what those matches are: rows that
+      lie within edit distance 0.1 of a row already in the prompt (29 of 32, 17 of
+      19), reproduced by copying the template, advancing a counter, and filling
+      the region name from world knowledge; the one mos_torgovye match is a
+      sequential id. Bordt's test assumes independent rows; registry exports
+      sorted by organisation break that assumption, and the duplicate rate does
+      not see it. The preregistration names a "duplicate/near-duplicate base
+      rate" and never operationalised the second half. Options in `LOG.md`
+      2026-09-09; the rule goes into a dated amendment with a transparency note,
+      since the numbers were seen first.
+- [ ] Write the block C1 results document once the rule is fixed
+      (`src/report_run.py`, `src/prefix_baseline.py`, `src/compare_pair.py`).
 - [ ] **Session C2**: `ru_probe_long` (russian_retail rows) and first token on the
-      Russian datasets where it is defined.
-- [ ] Fresh control must come out at zero; any positive verdict there invalidates
-      that model×test cell (preregistered validity gate).
+      Russian datasets where the row-independence pre-check passes; govdomains
+      also on its secondary serialisations, since it is the only cell positive
+      under `raw` by the letter of the rule.
 - [ ] Secondary serialisations (`utf8_semicolon`, decimal comma where its text
       differs), cells positive under `raw` first.
 - [ ] Strong form: the dataset is positive for a Russian-centric model and negative

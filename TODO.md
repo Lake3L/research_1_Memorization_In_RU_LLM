@@ -201,7 +201,12 @@ session itself is `notebooks/session.json`.
       of every model (delegated 2026-09-09, verify personally): table in the
       block C results document.
 - [ ] **E3, the fresh registry twin** (`AMENDMENT_5` §4, `AMENDMENT_7` R5):
-      search delegated 2026-09-09; register before any model runs on it.
+      candidates found 2026-09-09 (LOG.md): FNS register of disqualified persons
+      (CSV, weekly, sequential record number, per-record dates, but personal
+      data of individuals), FNS unified SME register (XML, monthly,
+      `ДатаВклМСП`, legal entities), and a data.mos.ru set via a free API key,
+      to be checked from a Russian address. Author chooses; register source,
+      schema, collection date and hash before any model runs on it.
 - [ ] Read the YandexGPT licence in full and the GigaChat custom code before
       the first Kaggle preflight; GigaChat smoke test at full size on a T4 before
       pricing any plan.

@@ -195,10 +195,18 @@ session itself is `notebooks/session.json`.
       since the numbers were seen first.
 - [ ] Write the block C1 results document once the rule is fixed
       (`src/report_run.py`, `src/prefix_baseline.py`, `src/compare_pair.py`).
-- [ ] **Session C2**: `ru_probe_long` (russian_retail rows) and first token on the
-      Russian datasets where the row-independence pre-check passes; govdomains
-      also on its secondary serialisations, since it is the only cell positive
-      under `raw` by the letter of the rule.
+- [x] First token on the Russian datasets: the library's own pre-check (the
+      first feature predicted from the preceding rows, which `first_token_test`
+      refuses to run past) rejects mos_zemelnye_uchastki, mos_torgovye_obekty and
+      trudvsem on every seed and cannot run on hflabs_city, govdomains and
+      russian_retail (near-unique string first feature). Iris passes. **Not
+      scheduled on any Russian file** — a consequence of the preregistered rule,
+      recorded, not amended. → `src/precheck_first_token.py`,
+      `results/first_token_precheck.json`
+- [ ] **Session C2**: `ru_probe_long` (russian_retail rows, iris anchor). Whether
+      govdomains goes on its secondary serialisations depends on the
+      near-duplicate rule above; by the letter it is the only cell positive under
+      `raw`.
 - [ ] Secondary serialisations (`utf8_semicolon`, decimal comma where its text
       differs), cells positive under `raw` first.
 - [ ] Strong form: the dataset is positive for a Russian-centric model and negative

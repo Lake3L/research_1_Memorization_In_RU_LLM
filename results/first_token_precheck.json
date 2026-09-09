@@ -1,0 +1,230 @@
+[
+  {
+    "dataset": "iris",
+    "group": "canon",
+    "first_feature": "sepal_length",
+    "check": "first-feature gate of first_token_test",
+    "seeds": [
+      42,
+      43,
+      44
+    ],
+    "verdicts": [
+      "pass",
+      "pass",
+      "pass"
+    ],
+    "first_token_schedulable": true,
+    "note": null,
+    "seconds": 19.3
+  },
+  {
+    "dataset": "trudvsem_vacancies_2026",
+    "group": "fresh_control",
+    "first_feature": "Регион",
+    "check": "first-feature gate of first_token_test",
+    "seeds": [
+      42,
+      43,
+      44
+    ],
+    "verdicts": [
+      "reject",
+      "reject",
+      "reject"
+    ],
+    "first_token_schedulable": false,
+    "note": null,
+    "seconds": 52.8
+  },
+  {
+    "dataset": "hflabs_city",
+    "group": "ru_pre_cutoff",
+    "first_feature": "address",
+    "check": "first-feature gate of first_token_test",
+    "seeds": [
+      42,
+      43,
+      44
+    ],
+    "verdicts": [
+      "error",
+      "error",
+      "error"
+    ],
+    "first_token_schedulable": false,
+    "note": "Invalid classes inferred from unique values of `y`.  Expected: [  0   1   2   3   4   5   6   7   8   9  10  11  12  13  14  15  16  17",
+    "seconds": 11.6
+  },
+  {
+    "dataset": "govdomains",
+    "group": "ru_pre_cutoff",
+    "first_feature": "Domain",
+    "check": "first-feature gate of first_token_test",
+    "seeds": [
+      42,
+      43,
+      44
+    ],
+    "verdicts": [
+      "error",
+      "error",
+      "error"
+    ],
+    "first_token_schedulable": false,
+    "note": "Invalid classes inferred from unique values of `y`.  Expected: [   0    1    2 ... 4392 4393 4394], got [   0    2    3 ... 7503 7504 7507]",
+    "seconds": 63.8
+  },
+  {
+    "dataset": "mos_zemelnye_uchastki",
+    "group": "ru_pre_cutoff",
+    "first_feature": "№ строки",
+    "check": "first-feature gate of first_token_test",
+    "seeds": [
+      42,
+      43,
+      44
+    ],
+    "verdicts": [
+      "reject",
+      "reject",
+      "reject"
+    ],
+    "first_token_schedulable": false,
+    "note": null,
+    "seconds": 51.9
+  },
+  {
+    "dataset": "mos_torgovye_obekty",
+    "group": "ru_pre_cutoff",
+    "first_feature": "№ строки",
+    "check": "first-feature gate of first_token_test",
+    "seeds": [
+      42,
+      43,
+      44
+    ],
+    "verdicts": [
+      "reject",
+      "reject",
+      "reject"
+    ],
+    "first_token_schedulable": false,
+    "note": null,
+    "seconds": 53.6
+  },
+  {
+    "dataset": "russian_retail",
+    "group": "ru_pre_cutoff",
+    "first_feature": "name",
+    "check": "first-feature gate of first_token_test",
+    "seeds": [
+      42,
+      43,
+      44
+    ],
+    "verdicts": [
+      "error",
+      "error",
+      "error"
+    ],
+    "first_token_schedulable": false,
+    "note": "Invalid classes inferred from unique values of `y`.  Expected: [   0    1    2 ... 1592 1593 1594], got [  -1    4    5 ... 2702 2703 2704]",
+    "seconds": 30.8
+  },
+  {
+    "dataset": "adult-train",
+    "group": "canon",
+    "first_feature": "Age",
+    "check": "first-feature gate of first_token_test",
+    "seeds": [
+      42,
+      43,
+      44
+    ],
+    "verdicts": [
+      "pass",
+      "pass",
+      "pass"
+    ],
+    "first_token_schedulable": true,
+    "note": null,
+    "seconds": 107.8
+  },
+  {
+    "dataset": "california-housing",
+    "group": "canon",
+    "first_feature": "longitude",
+    "check": "first-feature gate of first_token_test",
+    "seeds": [
+      42,
+      43,
+      44
+    ],
+    "verdicts": [
+      "reject",
+      "reject",
+      "reject"
+    ],
+    "first_token_schedulable": false,
+    "note": null,
+    "seconds": 69.2
+  },
+  {
+    "dataset": "openml-diabetes",
+    "group": "canon",
+    "first_feature": "Pregnancies",
+    "check": "first-feature gate of first_token_test",
+    "seeds": [
+      42,
+      43,
+      44
+    ],
+    "verdicts": [
+      "pass",
+      "pass",
+      "pass"
+    ],
+    "first_token_schedulable": true,
+    "note": null,
+    "seconds": 77.0
+  },
+  {
+    "dataset": "uci-wine",
+    "group": "canon",
+    "first_feature": "target",
+    "check": "first-feature gate of first_token_test",
+    "seeds": [
+      42,
+      43,
+      44
+    ],
+    "verdicts": [
+      "reject",
+      "reject",
+      "pass"
+    ],
+    "first_token_schedulable": false,
+    "note": null,
+    "seconds": 57.4
+  },
+  {
+    "dataset": "titanic-train",
+    "group": "canon",
+    "first_feature": "PassengerId",
+    "check": "first-feature gate of first_token_test",
+    "seeds": [
+      42,
+      43,
+      44
+    ],
+    "verdicts": [
+      "reject",
+      "reject",
+      "reject"
+    ],
+    "first_token_schedulable": false,
+    "note": null,
+    "seconds": 45.7
+  }
+]

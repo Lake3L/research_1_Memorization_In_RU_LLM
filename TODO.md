@@ -179,22 +179,34 @@ session itself is `notebooks/session.json`.
 - [x] Fresh control at zero for both models on both tests (row 0/250, header
       fail; minimum detectable rate 0.6%). The validity gate holds for row
       completion and header on this pair.
-- [ ] **Decide the near-duplicate rule before any H2 verdict** (`AMENDMENT_7`,
-      pending). Under the letter of §5 govdomains is positive for both models
-      (32/250 and 19/250 against a 0.6% duplicate rate) and so is
-      mos_torgovye_obekty on a single match (1/250, p = 2.5e-7 against a zero
-      baseline). `src/prefix_baseline.py` shows what those matches are: rows that
-      lie within edit distance 0.1 of a row already in the prompt (29 of 32, 17 of
-      19), reproduced by copying the template, advancing a counter, and filling
-      the region name from world knowledge; the one mos_torgovye match is a
-      sequential id. Bordt's test assumes independent rows; registry exports
-      sorted by organisation break that assumption, and the duplicate rate does
-      not see it. The preregistration names a "duplicate/near-duplicate base
-      rate" and never operationalised the second half. Options in `LOG.md`
-      2026-09-09; the rule goes into a dated amendment with a transparency note,
-      since the numbers were seen first.
-- [ ] Write the block C1 results document once the rule is fixed
-      (`src/report_run.py`, `src/prefix_baseline.py`, `src/compare_pair.py`).
+- [x] **The near-duplicate rule** → `AMENDMENT_7_NEAR_DUPLICATE_RULE.md`
+      (2026-09-09): near-duplicate queries excluded with a τ-curve, the null
+      never ε (duplicate / prefix-predictor / rule of three), witness columns
+      per dataset (`data/witness_columns.json`), fragment queries excluded, the
+      fresh twin a precondition for registry-style cells. Scored by
+      `src/prefix_baseline.py`; runner and `detectability.py` use the same null;
+      mocks re-validated. **C1 under the rule: iris positive for both, every
+      Russian cell negative, H2 not confirmed on the Nemo pair.**
+- [x] **Model set widened** → `AMENDMENT_8_MODEL_SET_AND_EXPEDITIONS.md`:
+      YandexGPT-5-Lite-8B pretrain and instruct, GigaChat-20B-A3B base and
+      instruct (both from scratch, Russian-centric, enter H1 and H2, not H1b),
+      OLMo-7B-hf as the published-verdict and open-corpus control. Pinned in
+      `models.lock`. Hypothesis stated before any run: the H2 null is exposure,
+      not adaptation.
+- [ ] **E1, duplication covariate**: public copies of two distinctive rows per
+      dataset (GitHub code search, web, infini-gram over Dolma v1.7). First
+      probe done: iris rows 310 and 212 hits in Dolma, Russian rows 0 (Dolma is
+      English-heavy; the GitHub/web count is the one that matters).
+- [ ] **E2, corpus composition** from the technical reports and model cards
+      of every model (delegated 2026-09-09, verify personally): table in the
+      block C results document.
+- [ ] **E3, the fresh registry twin** (`AMENDMENT_5` §4, `AMENDMENT_7` R5):
+      search delegated 2026-09-09; register before any model runs on it.
+- [ ] Read the YandexGPT licence in full and the GigaChat custom code before
+      the first Kaggle preflight; GigaChat smoke test at full size on a T4 before
+      pricing any plan.
+- [ ] Write the block C1 results document (`src/report_run.py`,
+      `src/prefix_baseline.py`, `src/compare_pair.py`, E2 table).
 - [x] First token on the Russian datasets: the library's own pre-check (the
       first feature predicted from the preceding rows, which `first_token_test`
       refuses to run past) rejects mos_zemelnye_uchastki, mos_torgovye_obekty and
@@ -203,10 +215,13 @@ session itself is `notebooks/session.json`.
       scheduled on any Russian file** — a consequence of the preregistered rule,
       recorded, not amended. → `src/precheck_first_token.py`,
       `results/first_token_precheck.json`
-- [ ] **Session C2**: `ru_probe_long` (russian_retail rows, iris anchor). Whether
-      govdomains goes on its secondary serialisations depends on the
-      near-duplicate rule above; by the letter it is the only cell positive under
-      `raw`.
+- [ ] **Sessions, in the order of `AMENDMENT_8` §5**: C2 `ru_probe_long` on the
+      Nemo pair; YandexGPT pretrain + instruct on `probe` and `ru_probe`;
+      OLMo-7B-hf on the canon (`probe`, `h1b_rest`) with the cell-by-cell
+      comparison to Bordt Table 3; GigaChat base + instruct after the smoke
+      test; then the Qwen pairs and Llama-3.1-8B (block B); the twin last, on
+      every model that ran on the file it mirrors. Secondary serialisations of
+      govdomains are no longer queued: the cell is negative under `raw`.
 - [ ] Secondary serialisations (`utf8_semicolon`, decimal comma where its text
       differs), cells positive under `raw` first.
 - [ ] Strong form: the dataset is positive for a Russian-centric model and negative

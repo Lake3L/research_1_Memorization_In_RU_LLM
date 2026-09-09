@@ -1,39 +1,31 @@
-"""How much of a completed row was already in the prompt? A model-free baseline
-for row completion on registry-like data, reported beside every count.
+"""The near-duplicate half of the row-completion baseline (AMENDMENT_7).
 
-Row completion shows the model eight consecutive rows and asks for the ninth.
-On the Western canon the rows are independent observations, so the only way
-to produce the ninth row verbatim without having seen the file is to hit a
-duplicate — which is why Bordt et al. score the test against the duplicate
-rate, and why PREREGISTRATION.md §5 names the "duplicate/near-duplicate base
-rate" as the bar. The Russian open-data files are not like that. A registry
-export sorted by organisation carries runs of rows that differ only in a
-counter or a region name (`deti.r36.nalog.ru` → `deti.r37.nalog.ru`,
-`7791 Садко трейдинг …` → `7792 Садко трейдинг …`), and the ninth row is then
-largely determined by the eight before it. An exact match there is pattern
-continuation, not memory, and the duplicate rate does not see it.
+Row completion shows the model eight consecutive rows and asks for the
+ninth. On the Western canon the rows are independent observations, so the
+only way to produce the ninth verbatim without having seen the file is to hit
+a duplicate — the rate Bordt et al. score against. Registry exports sorted by
+organisation are not like that: consecutive rows differ in a counter or a
+region name, the ninth row is largely determined by the eight before it, and
+the remainder is world knowledge. This module measures that and applies the
+four rules of AMENDMENT_7 §2:
 
-This script measures that predictability with predictors that use only what
-the model was given, in the spirit of the previous-row predictor of
-AMENDMENT_6 §1:
+  R1  a query whose true row lies within tau of a prompt row is a
+      near-duplicate of its own context and is not counted (tau = 0.10,
+      reported at 0.05 / 0.10 / 0.20 / 0.30);
+  R2  the null is max(duplicate rate, prefix-predictor rate, 3 / windows),
+      never epsilon;
+  R3  a positive cell needs at least one witness value — a value of a column
+      named in data/witness_columns.json — that occurs nowhere in the prompt
+      and is reproduced as a complete field of the scored line;
+  R4  a query whose target line is not a complete record is not a row query.
 
-  copy       — repeat the last prefix row;
-  increment  — if the last two prefix rows differ only in digit runs, advance
-               every changed run by the same step, width preserved.
-
-Their hit rate over every eight-row window of the file is the dataset's
-prefix-predictability rate: a property of the data, computable before any
-model runs. Over the prompts a run actually asked it is the cell's. Beside
-that, for every exact match the run produced: the distance of the true row to
-the nearest prefix row, and the share of its fields that occur in no prefix
-row — the content the model had to bring from outside the prompt.
-
-Whether the predictor rate enters the decision rule is a matter for the
-preregistration and its amendments, not for this script; here it is reported.
+Everything is computed from the call log and the frozen CSV, by the
+library's own criterion (first line of the answer, substring match).
 
 Usage:
-  python src/prefix_baseline.py --group ru_pre_cutoff,fresh_control,canon
-  python src/prefix_baseline.py results/calls_ru_probe_<base>.jsonl results/calls_ru_probe_<adapted>.jsonl --details
+  python src/prefix_baseline.py --group ru_pre_cutoff,fresh_control,canon        # file-level rates only
+  python src/prefix_baseline.py results/calls_<base>.jsonl results/calls_<adapted>.jsonl --out results/prefix_baseline_<run>.json
+  python src/prefix_baseline.py ... --file-scan     # also the file-wide near-duplicate share (slow)
 """
 
 import argparse
@@ -51,9 +43,15 @@ from dataset_registry import load_registry  # noqa: E402
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 PREFIX_ROWS = 8
-NEAR = 0.1
+TAU = 0.10
+TAUS = (0.05, 0.10, 0.20, 0.30)
 TOKENS = re.compile(r"\d+|\D+")
+WITNESS_FILE = os.path.join(ROOT, "data", "witness_columns.json")
 
+
+# ----------------------------------------------------------------------------
+# distances, the library's criterion, the prefix-only predictor
+# ----------------------------------------------------------------------------
 
 def norm_lev(a, b):
     import jellyfish
@@ -61,9 +59,8 @@ def norm_lev(a, b):
 
 
 def library_answer(response):
-    """What tabmemcheck compares against the true row in completion mode: the
-    first line of the response once leading and trailing newlines are removed
-    (`chat_completion.row_completion`)."""
+    """What tabmemcheck compares in completion mode: the first line of the
+    response once leading and trailing newlines are removed."""
     return response.strip("\n").split("\n")[0]
 
 
@@ -92,8 +89,8 @@ def increment(prev, last):
     return "".join(out) if changed else None
 
 
-def predictor_hits(prefix, truth):
-    """Does either prefix-only predictor reproduce the true row exactly?"""
+def predictor_hit(prefix, truth):
+    """Which prefix-only predictor, if any, reproduces the true row exactly."""
     last = prefix[-1]
     if last.strip() == truth.strip():
         return "copy"
@@ -103,68 +100,28 @@ def predictor_hits(prefix, truth):
     return None
 
 
-def fields(line):
-    from metrics import infer_separator
-    sep = infer_separator(line)
-    try:
-        parsed = next(csv.reader([line], delimiter=sep))
-    except (csv.Error, StopIteration):
-        parsed = line.split(sep)
-    return [f.strip() for f in parsed if f.strip()]
+def predictor_rate(rows, prefix_rows=PREFIX_ROWS):
+    """R2: the predictor's exact-hit rate over every window of the file, and
+    the number of windows (for the rule-of-three floor). Fast."""
+    n = hits = 0
+    kinds = defaultdict(int)
+    for i in range(1, len(rows) - prefix_rows):
+        kind = predictor_hit(rows[i:i + prefix_rows], rows[i + prefix_rows])
+        n += 1
+        if kind:
+            hits += 1
+            kinds[kind] += 1
+    return {"windows": n, "hits": hits, "rate": hits / n if n else 0.0, "by_kind": dict(kinds)}
 
 
-def novel_fields(truth, prefix):
-    seen = set()
-    for row in prefix:
-        seen.update(fields(row))
-    own = fields(truth)
-    return [f for f in own if f not in seen], own
+def null_rate(duplicate_rate, predictor, windows):
+    """R2: max of the duplicate rate, the predictor rate and the rule-of-three
+    upper bound on a rate observed to be zero in `windows` trials."""
+    floor = 3.0 / windows if windows else 0.0
+    return max(duplicate_rate, predictor, floor), floor
 
 
-IP_LIKE = re.compile(r"^\d{1,3}(\.\d{1,3}){3}$")
-NUMBER = re.compile(r"^\d+([.,]\d+)?$")
-CYRILLIC = re.compile("[А-Яа-яЁё]")
-
-
-def field_kind(value):
-    """A coarse split of a field the model had to bring from outside the prompt:
-    arbitrary identifiers (IP addresses, numbers) that only the file could
-    supply, against domains and Cyrillic names that world knowledge or a
-    naming pattern can."""
-    if IP_LIKE.match(value):
-        return "ip"
-    if NUMBER.match(value):
-        return "number"
-    if CYRILLIC.search(value):
-        return "cyrillic text"
-    if "." in value and " " not in value:
-        return "domain"
-    return "other"
-
-
-def novel_recall(truth, prefix, answer):
-    """For every field of the true row that occurs in no prefix row: its kind,
-    and whether the model's answer contains it verbatim. Counted over all
-    queries, not only exact matches — the §7 two-tier view of one cell."""
-    novel, _ = novel_fields(truth, prefix)
-    answer_fields = set(fields(answer))
-    return [(field_kind(f), (f in answer_fields) or (f in answer)) for f in novel]
-
-
-def load_rows(path):
-    from tabmemcheck import utils
-    return utils.load_csv_rows(path)
-
-
-def near_prefix(prefix, truth):
-    return min(norm_lev(truth, r) for r in prefix)
-
-
-def is_near(prefix, truth, threshold=NEAR):
-    """Whether the true row lies within `threshold` of some prefix row. A length
-    difference alone bounds the normalised distance from below, so most pairs
-    are settled without computing an edit distance; the file-wide scan over
-    32,000 windows of adult-train needs that."""
+def is_near(prefix, truth, threshold):
     lt = len(truth)
     for row in prefix:
         longest = max(lt, len(row), 1)
@@ -175,22 +132,40 @@ def is_near(prefix, truth, threshold=NEAR):
     return False
 
 
-def dataset_rate(rows):
-    """Prefix-predictability over every eight-row window of the file: how often
-    a prefix-only predictor reproduces the ninth row, and how often the ninth
-    row lies within NEAR of one of the eight (a near-duplicate of its context)."""
-    n = hits = near = 0
-    kinds = defaultdict(int)
-    for i in range(1, len(rows) - PREFIX_ROWS):
-        prefix, truth = rows[i:i + PREFIX_ROWS], rows[i + PREFIX_ROWS]
-        kind = predictor_hits(prefix, truth)
+def near_duplicate_share(rows, prefix_rows=PREFIX_ROWS, threshold=TAU):
+    """File-wide share of windows whose ninth row lies within `threshold` of
+    one of the eight. Slow on large files; a covariate, not part of a test."""
+    n = near = 0
+    for i in range(1, len(rows) - prefix_rows):
         n += 1
-        if kind:
-            hits += 1
-            kinds[kind] += 1
-        near += is_near(prefix, truth)
-    return {"windows": n, "hits": hits, "rate": hits / n if n else None, "by_kind": dict(kinds),
-            "near_duplicate_windows": near, "near_duplicate_share": near / n if n else None}
+        near += is_near(rows[i:i + prefix_rows], rows[i + prefix_rows], threshold)
+    return {"windows": n, "near": near, "share": near / n if n else 0.0, "threshold": threshold}
+
+
+# ----------------------------------------------------------------------------
+# records, fields, witnesses
+# ----------------------------------------------------------------------------
+
+def separator_of(header):
+    from metrics import infer_separator
+    return infer_separator(header)
+
+
+def fields_of(line, sep):
+    try:
+        return [x.strip() for x in next(csv.reader([line], delimiter=sep))]
+    except (csv.Error, StopIteration):
+        return [x.strip() for x in line.split(sep)]
+
+
+def load_rows(path):
+    from tabmemcheck import utils
+    return utils.load_csv_rows(path)
+
+
+def witnesses():
+    data = json.load(open(WITNESS_FILE, encoding="utf-8"))
+    return {k: v for k, v in data.items() if not k.startswith("_")}
 
 
 def block_index(rows):
@@ -201,9 +176,17 @@ def block_index(rows):
     return index
 
 
-def score_cell(calls, rows):
-    """Every row query of one cell, scored by the library's own criterion, with
-    the prefix-only predictor and the novelty of each exact match beside it."""
+# ----------------------------------------------------------------------------
+# scoring one cell
+# ----------------------------------------------------------------------------
+
+def score_cell(calls, rows, witness_columns):
+    """Every row query of one cell with what the four rules need."""
+    header = rows[0]
+    sep = separator_of(header)
+    columns = [c.strip().lstrip("﻿") for c in fields_of(header, sep)]
+    n_fields = len(columns)
+    witness_idx = [columns.index(c) for c in witness_columns if c in columns]
     index = block_index(rows)
     out = []
     for call in calls:
@@ -212,104 +195,135 @@ def score_cell(calls, rows):
             continue
         i, truth = located
         prefix = call["prompt"].split("\n")
-        match = library_match(truth, call["response"])
-        kind = predictor_hits(prefix, truth)
-        dmin = round(near_prefix(prefix, truth), 3)
-        rec = {"row": i, "match": match, "predictor": kind, "min_dist_to_prefix": dmin,
-               "near_duplicate_query": dmin <= NEAR,
-               "novel_recall": novel_recall(truth, prefix, library_answer(call["response"]))}
-        if match:
-            novel, own = novel_fields(truth, prefix)
-            rec.update(dist_to_prev=round(norm_lev(truth, prefix[-1]), 3),
-                       novel_fields=novel, novel_share=round(len(novel) / len(own), 3) if own else None,
-                       truth=truth)
+        prompt_text = call["prompt"]
+        answer = library_answer(call["response"])
+        answer_fields = set(fields_of(answer, sep))
+        truth_fields = fields_of(truth, sep)
+        record = (len(truth_fields) == n_fields) and truth[:1] not in (" ", "\t")
+        rec = {
+            "row": i,
+            "match": library_match(truth, call["response"]),
+            "predictor": predictor_hit(prefix, truth),
+            "min_dist_to_prefix": round(min(norm_lev(truth, r) for r in prefix), 3),
+            "is_record": record,
+        }
+        # R3: witness values absent from the prompt, reproduced as a field
+        present = reproduced = 0
+        hits = []
+        if record:
+            for j in witness_idx:
+                v = truth_fields[j] if j < len(truth_fields) else ""
+                if len(v) < 3 or v in prompt_text:
+                    continue
+                present += 1
+                if v in answer_fields:
+                    reproduced += 1
+                    hits.append(columns[j])
+        rec.update(witness_present=present, witness_reproduced=reproduced, witness_hits=hits)
+        # the same for every other column, for the two-tier report of §7
+        o_present = o_reproduced = 0
+        if record:
+            for j, v in enumerate(truth_fields):
+                if j in witness_idx or len(v) < 3 or v in prompt_text:
+                    continue
+                o_present += 1
+                o_reproduced += v in answer_fields
+        rec.update(other_present=o_present, other_reproduced=o_reproduced)
         out.append(rec)
     return out
 
 
-def summarise(scored, duplicate_baseline, predictor_rate):
-    n = len(scored)
-    matches = [r for r in scored if r["match"]]
-    k = len(matches)
-    pred_in_cell = sum(1 for r in scored if r["predictor"])
-    both = sum(1 for r in matches if r["predictor"])
-    near_queries = sum(1 for r in scored if r["near_duplicate_query"])
-    near = sum(1 for r in matches if r["near_duplicate_query"])
-    novel_shares = [r["novel_share"] for r in matches if r["novel_share"] is not None]
-    fully_novel = sum(1 for r in matches if r["novel_share"] and r["novel_share"] >= 0.5)
-    stronger = max(duplicate_baseline, predictor_rate or 0.0)
-    n_far = n - near_queries
-    recall = defaultdict(lambda: [0, 0])
-    for r in scored:
-        for kind, hit in r["novel_recall"]:
-            recall[kind][0] += 1
-            recall[kind][1] += hit
+def summarise(scored, duplicate_rate, predictor, windows):
+    n_all = len(scored)
+    k_all = sum(r["match"] for r in scored)
+    records = [r for r in scored if r["is_record"]]
+    p0, floor = null_rate(duplicate_rate, predictor["rate"], windows)
+
+    def test(k, n):
+        return stats.binomtest(k, n, p0, alternative="greater").pvalue if n else None
+
+    by_tau = {}
+    for tau in TAUS:
+        kept = [r for r in records if r["min_dist_to_prefix"] > tau]
+        k, n = sum(r["match"] for r in kept), len(kept)
+        by_tau[str(tau)] = {"matches": k, "n": n, "p": test(k, n)}
+    main = by_tau[str(TAU)]
+    witness_present = sum(r["witness_present"] for r in records)
+    witness_reproduced = sum(r["witness_reproduced"] for r in records)
+    positive = bool(main["p"] is not None and main["p"] < 0.05 and witness_reproduced >= 1)
     return {
-        "novel_field_recall": {k: {"present": v[0], "recalled": v[1]} for k, v in sorted(recall.items())},
-        "n": n, "matches": k, "rate": k / n if n else None,
-        "predictor_hits_in_cell": pred_in_cell,
-        "matches_that_are_predictor_hits": both,
-        "near_duplicate_queries": near_queries,
-        "matches_within_near_of_a_prefix_row": near,
-        "matches_with_novel_share_at_least_half": fully_novel,
-        "mean_novel_share_of_matches": round(sum(novel_shares) / len(novel_shares), 3) if novel_shares else None,
-        "p_vs_duplicate": stats.binomtest(k, n, max(duplicate_baseline, 1e-9), alternative="greater").pvalue if n else None,
-        "p_vs_duplicate_or_predictor": stats.binomtest(k, n, max(stronger, 1e-9), alternative="greater").pvalue if n else None,
-        "p_excluding_predictor_hits": (stats.binomtest(k - both, n - pred_in_cell, max(duplicate_baseline, 1e-9),
-                                                       alternative="greater").pvalue if n - pred_in_cell > 0 else None),
-        "matches_excluding_near_duplicate_queries": k - near,
-        "n_excluding_near_duplicate_queries": n_far,
-        "p_excluding_near_duplicate_queries": (stats.binomtest(k - near, n_far, max(duplicate_baseline, 1e-9),
-                                                               alternative="greater").pvalue if n_far > 0 else None),
+        "n": n_all, "matches": k_all, "rate": k_all / n_all if n_all else None,
+        "p_vs_duplicate_rate_epsilon_null": stats.binomtest(k_all, n_all, max(duplicate_rate, 1e-9), alternative="greater").pvalue if n_all else None,
+        "fragment_queries": n_all - len(records),
+        "near_duplicate_queries": sum(1 for r in records if r["min_dist_to_prefix"] <= TAU),
+        "predictor_hits_in_cell": sum(1 for r in scored if r["predictor"]),
+        "matches_that_are_predictor_hits": sum(1 for r in scored if r["match"] and r["predictor"]),
+        "null": {"duplicate_rate": duplicate_rate, "predictor_rate": predictor["rate"],
+                 "rule_of_three": floor, "windows": windows, "p0": p0},
+        "after_rules": {"tau": TAU, **main},
+        "by_tau": by_tau,
+        "witness": {"present": witness_present, "reproduced": witness_reproduced,
+                    "columns_hit": sorted({c for r in records for c in r["witness_hits"]})},
+        "other_columns": {"present": sum(r["other_present"] for r in records),
+                          "reproduced": sum(r["other_reproduced"] for r in records)},
+        "positive": positive,
     }
 
 
-def mcnemar(a, b):
-    """Exact McNemar on identical prompts: rows the first log matched and the
-    second did not, and the reverse."""
-    va = {r["row"]: r["match"] for r in a}
-    vb = {r["row"]: r["match"] for r in b}
+def mcnemar(a, b, rule=True):
+    """Exact McNemar on identical prompts, over the queries the rules keep."""
+    def keep(r):
+        return (r["is_record"] and r["min_dist_to_prefix"] > TAU) if rule else True
+    va = {r["row"]: r["match"] for r in a if keep(r)}
+    vb = {r["row"]: r["match"] for r in b if keep(r)}
     if set(va) != set(vb):
         return {"same_rows": False}
     both = sum(va[i] and vb[i] for i in va)
     a_only = sum(va[i] and not vb[i] for i in va)
     b_only = sum(vb[i] and not va[i] for i in va)
     p = stats.binomtest(min(a_only, b_only), a_only + b_only, 0.5).pvalue if a_only + b_only else 1.0
-    return {"same_rows": True, "both": both, "first_only": a_only, "second_only": b_only, "p": p}
+    return {"same_rows": True, "n": len(va), "both": both, "first_only": a_only, "second_only": b_only, "p": p}
 
+
+# ----------------------------------------------------------------------------
 
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("call_logs", nargs="*", help="one or two call logs; two are compared pairwise")
     ap.add_argument("--group", default="ru_pre_cutoff,fresh_control,canon")
-    ap.add_argument("--details", action="store_true", help="print every exact match")
+    ap.add_argument("--file-scan", action="store_true", help="also the file-wide near-duplicate share (slow)")
     ap.add_argument("--out", default=None)
     args = ap.parse_args()
 
     registry = load_registry()
+    wit = witnesses()
     groups = set(args.group.split(","))
     paths = {f"{name}.csv": os.path.join(ROOT, rec["variants"]["raw"]["path"])
              for name, rec in registry.items() if rec["group"] in groups}
-    baselines = {f"{name}.csv": rec["diagnostics"]["duplicate_row_share"] for name, rec in registry.items()}
+    dup = {f"{name}.csv": rec["diagnostics"]["duplicate_row_share"] for name, rec in registry.items()}
 
-    print(f"Prefix-only predictors (copy, increment) and near-duplicate share (ninth row within "
-          f"{NEAR} of one of the eight) over every {PREFIX_ROWS}-row window\n")
-    header = (f"{'dataset':28s} {'windows':>8s} {'pred':>5s} {'pred rate':>9s} {'near-dup':>8s} "
-              f"{'near share':>10s} {'dup base':>9s}  kinds")
-    print(header)
-    print("-" * len(header))
-    data_rates = {}
+    print("R2 null per file: duplicate rate, prefix-predictor rate over every window, rule-of-three floor\n")
+    head = f"{'dataset':28s} {'windows':>8s} {'dup':>8s} {'predictor':>10s} {'3/W':>9s} {'p0':>9s} {'witness columns'}"
+    print(head)
+    print("-" * len(head))
+    file_stats = {}
     for name, path in paths.items():
         if not os.path.exists(path):
             print(f"{name:28s}  (file missing — run src/fetch_data.py)")
             continue
         rows = load_rows(path)
-        r = dataset_rate(rows)
-        data_rates[name] = r
-        print(f"{name:28s} {r['windows']:8d} {r['hits']:5d} {r['rate']:9.3%} {r['near_duplicate_windows']:8d} "
-              f"{r['near_duplicate_share']:10.3%} {baselines[name]:9.4f}  {r['by_kind']}")
+        pred = predictor_rate(rows)
+        p0, floor = null_rate(dup[name], pred["rate"], pred["windows"])
+        entry = {"predictor": pred, "duplicate_rate": dup[name], "rule_of_three": floor, "p0": p0,
+                 "witness_columns": wit.get(name[:-4], [])}
+        if args.file_scan:
+            entry["near_duplicate"] = near_duplicate_share(rows)
+        file_stats[name] = entry
+        print(f"{name:28s} {pred['windows']:8d} {dup[name]:8.4f} {pred['rate']:10.4f} {floor:9.2e} {p0:9.2e} "
+              f"{', '.join(entry['witness_columns']) or '-'}"
+              + (f"   near-dup share {entry['near_duplicate']['share']:.1%}" if args.file_scan else ""))
 
-    result = {"dataset_rates": data_rates, "cells": {}, "pairs": {}}
+    result = {"files": file_stats, "cells": {}, "pairs": {}}
     scored_by_log = []
     for log in args.call_logs:
         calls = [json.loads(l) for l in open(log, encoding="utf-8")]
@@ -319,55 +333,46 @@ def main():
             if c.get("test") == "row" and c.get("kind") == "prompt":
                 cells[c["dataset"]].append(c)
         print(f"\n{model}  ({os.path.basename(log)})")
-        head = (f"  {'dataset':28s} {'match':>8s} {'pred':>5s} {'m∩p':>4s} {'nearQ':>5s} {'m∩near':>6s} "
-                f"{'novel':>6s} {'p dup':>9s} {'p dup|pred':>10s} {'far match':>9s} {'p far':>9s}")
+        head = (f"  {'dataset':26s} {'library':>8s} {'frag':>5s} {'nearQ':>6s} {'R1+R4':>8s} {'p (R2)':>9s} "
+                f"{'witness':>9s} {'other':>9s}  verdict   tau-curve 0.05/0.10/0.20/0.30")
         print(head)
         print("  " + "-" * (len(head) - 2))
         scored_here = {}
         for name, group in sorted(cells.items()):
-            if name not in paths:
+            if name not in paths or name not in file_stats:
                 continue
-            scored = score_cell(group, load_rows(paths[name]))
+            fs = file_stats[name]
+            scored = score_cell(group, load_rows(paths[name]), fs["witness_columns"])
             scored_here[name] = scored
-            s = summarise(scored, baselines[name], data_rates.get(name, {}).get("rate"))
+            s = summarise(scored, fs["duplicate_rate"], fs["predictor"], fs["predictor"]["windows"])
             result["cells"][f"{model}|{name}"] = s
-            far = f"{s['matches_excluding_near_duplicate_queries']}/{s['n_excluding_near_duplicate_queries']}"
-            print(f"  {name:28s} {s['matches']:>4d}/{s['n']:<3d} {s['predictor_hits_in_cell']:5d} "
-                  f"{s['matches_that_are_predictor_hits']:4d} {s['near_duplicate_queries']:5d} "
-                  f"{s['matches_within_near_of_a_prefix_row']:6d} "
-                  f"{(f'{s['mean_novel_share_of_matches']:.2f}' if s['mean_novel_share_of_matches'] is not None else '-'):>6s} "
-                  f"{s['p_vs_duplicate']:9.2e} {s['p_vs_duplicate_or_predictor']:10.2e} {far:>9s} "
-                  f"{(f'{s['p_excluding_near_duplicate_queries']:.2e}' if s['p_excluding_near_duplicate_queries'] is not None else '-'):>9s}")
-            if s["matches"]:
-                recall = ", ".join(f"{k} {v['recalled']}/{v['present']}"
-                                   for k, v in s["novel_field_recall"].items())
-                print(f"      fields absent from the prompt, recalled verbatim over all {s['n']} queries: {recall}")
-            if args.details:
-                for r in scored:
-                    if r["match"]:
-                        print(f"      row {r['row']:5d}  pred={r['predictor'] or '-':9s} dmin={r['min_dist_to_prefix']:.3f} "
-                              f"novel={r['novel_share']}  {r['novel_fields'][:3]}")
+            curve = "  ".join(f"{v['matches']}/{v['n']}" for v in s["by_tau"].values())
+            print(f"  {name:26s} {s['matches']:>3d}/{s['n']:<4d} {s['fragment_queries']:5d} {s['near_duplicate_queries']:6d} "
+                  f"{s['after_rules']['matches']:>3d}/{s['after_rules']['n']:<4d} "
+                  f"{(f'{s['after_rules']['p']:.2e}' if s['after_rules']['p'] is not None else '-'):>9s} "
+                  f"{s['witness']['reproduced']:>3d}/{s['witness']['present']:<5d} "
+                  f"{s['other_columns']['reproduced']:>3d}/{s['other_columns']['present']:<5d}  "
+                  f"{'POSITIVE' if s['positive'] else 'negative':9s} {curve}")
         scored_by_log.append((model, scored_here))
 
     if len(scored_by_log) == 2:
         (ma, sa), (mb, sb) = scored_by_log
-        print(f"\nPaired on identical prompts: first = {ma}, second = {mb}")
+        print(f"\nPaired on identical prompts, queries kept by R1 and R4: first = {ma}, second = {mb}")
         for name in sorted(set(sa) & set(sb)):
             m = mcnemar(sa[name], sb[name])
-            result["pairs"][name] = m
+            raw = mcnemar(sa[name], sb[name], rule=False)
+            result["pairs"][name] = {"after_rules": m, "all_queries": raw}
             if not m["same_rows"]:
-                print(f"  {name:28s} the two logs asked different rows")
+                print(f"  {name:26s} the two logs asked different rows")
                 continue
-            print(f"  {name:28s} both {m['both']:3d}  first only {m['first_only']:3d}  "
-                  f"second only {m['second_only']:3d}  McNemar p = {m['p']:.3g}")
+            print(f"  {name:26s} n {m['n']:3d}  both {m['both']:3d}  first only {m['first_only']:3d}  "
+                  f"second only {m['second_only']:3d}  McNemar p = {m['p']:.3g}   (all queries: {raw['first_only']}/{raw['second_only']}, p = {raw['p']:.3g})")
 
-    print("\nRead 'pred' as the number of asked rows a prefix-only predictor reproduces exactly and")
-    print(f"'m∩p' as the exact matches among them; 'nearQ' as the asked rows that lie within {NEAR}")
-    print("of a prefix row (near-duplicates of their own context) and 'm∩near' as the exact matches")
-    print("among those; 'novel' as the mean share of a matched row's fields that occur in no prefix")
-    print("row. The p-values are one-sided exact binomial tests against the duplicate rate, against")
-    print("the larger of duplicate and predictor rate, and — 'far' — over the queries that are not")
-    print("near-duplicates of their context, against the duplicate rate.")
+    print("\n'library' is the count by tabmemcheck's criterion; 'frag' the queries whose target is not a record (R4);")
+    print(f"'nearQ' the record queries within {TAU} of a prompt row (R1); 'R1+R4' the count over the queries kept;")
+    print("'p (R2)' the one-sided exact binomial test against max(duplicate, predictor, 3/W); 'witness' the")
+    print("witness values absent from the prompt and how many were reproduced as a field (R3); 'other' the same")
+    print("for every non-witness column. A cell is POSITIVE only if p < 0.05 and at least one witness was reproduced.")
 
     if args.out:
         with open(args.out, "w", encoding="utf-8") as f:

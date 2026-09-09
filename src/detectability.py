@@ -51,7 +51,9 @@ def minimum_detectable_rate(baseline, n, alpha=0.05, power=0.8):
     """
     if n <= 0:
         return None
-    # the count a one-sided exact test would need to reject at alpha
+    # the count a one-sided exact test would need to reject at alpha. The
+    # baseline is the R2 null of AMENDMENT_7 and is never zero; the guard
+    # below only protects a caller that passes a bare duplicate rate.
     critical = None
     for k in range(n + 1):
         if stats.binomtest(k, n, max(baseline, 1e-9),
@@ -80,6 +82,9 @@ def main():
     ap.add_argument("--out", default=None)
     args = ap.parse_args()
 
+    from prefix_baseline import predictor_rate, null_rate
+    from tabmemcheck import utils
+
     registry = json.load(open(os.path.join(ROOT, "data", "registry.json"),
                               encoding="utf-8"))
     rows = []
@@ -87,14 +92,18 @@ def main():
         if args.group and rec["group"] != args.group:
             continue
         diagnostics = rec["diagnostics"]
-        baseline = diagnostics["duplicate_row_share"]
+        dup = diagnostics["duplicate_row_share"]
+        path = os.path.join(ROOT, rec["variants"]["raw"]["path"])
+        pred = predictor_rate(utils.load_csv_rows(path), PREFIX_ROWS)
+        baseline, floor = null_rate(dup, pred["rate"], pred["windows"])
         ceiling = max(rec["n_rows"] - PREFIX_ROWS, 0)
         n = min(args.queries, ceiling)
         mdr = minimum_detectable_rate(baseline, n)
         rows.append({
             "dataset": name, "group": rec["group"], "n_rows": rec["n_rows"],
-            "duplicate_baseline": baseline, "query_ceiling": ceiling,
-            "queries_used": n,
+            "duplicate_rate": dup, "predictor_rate": pred["rate"],
+            "rule_of_three": floor, "null": baseline,
+            "query_ceiling": ceiling, "queries_used": n,
             "minimum_detectable_rate": round(mdr, 4) if mdr else None,
             "digits_per_row": diagnostics["mean_digits_per_row"],
             "chars_per_row": diagnostics["mean_chars_per_row"],
@@ -102,16 +111,16 @@ def main():
 
     print(f"Row completion, {args.queries} queries requested, "
           f"{PREFIX_ROWS} prefix rows, one-sided exact binomial at alpha 0.05, "
-          f"power 0.80\n")
-    header = (f"{'dataset':26s} {'group':14s} {'dup base':>9s} {'ceiling':>8s} "
+          f"power 0.80, against the AMENDMENT_7 R2 null\n")
+    header = (f"{'dataset':26s} {'group':14s} {'dup':>7s} {'pred':>7s} {'3/W':>8s} {'null':>8s} "
               f"{'n used':>7s} {'min detectable':>14s} {'digits/row':>11s}")
     print(header)
     print("-" * len(header))
     for r in rows:
         mdr = (f"{r['minimum_detectable_rate']:.1%}"
                if r["minimum_detectable_rate"] else "—")
-        print(f"{r['dataset']:26s} {r['group']:14s} {r['duplicate_baseline']:9.4f} "
-              f"{r['query_ceiling']:8d} {r['queries_used']:7d} {mdr:>14s} "
+        print(f"{r['dataset']:26s} {r['group']:14s} {r['duplicate_rate']:7.4f} {r['predictor_rate']:7.4f} "
+              f"{r['rule_of_three']:8.1e} {r['null']:8.1e} {r['queries_used']:7d} {mdr:>14s} "
               f"{r['digits_per_row']:11.1f}")
 
     print("\nRead this as: a zero on that dataset excludes memorization rates above")

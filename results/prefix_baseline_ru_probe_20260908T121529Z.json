@@ -1,532 +1,994 @@
 {
-  "dataset_rates": {
+  "files": {
     "iris.csv": {
-      "windows": 142,
-      "hits": 0,
-      "rate": 0.0,
-      "by_kind": {},
-      "near_duplicate_windows": 38,
-      "near_duplicate_share": 0.2676056338028169
+      "predictor": {
+        "windows": 142,
+        "hits": 0,
+        "rate": 0.0,
+        "by_kind": {}
+      },
+      "duplicate_rate": 0.02,
+      "rule_of_three": 0.02112676056338028,
+      "p0": 0.02112676056338028,
+      "witness_columns": [
+        "sepal_length",
+        "sepal_width",
+        "petal_length",
+        "petal_width"
+      ]
     },
     "trudvsem_vacancies_2026.csv": {
-      "windows": 1188,
-      "hits": 0,
-      "rate": 0.0,
-      "by_kind": {},
-      "near_duplicate_windows": 222,
-      "near_duplicate_share": 0.18686868686868688
+      "predictor": {
+        "windows": 1188,
+        "hits": 0,
+        "rate": 0.0,
+        "by_kind": {}
+      },
+      "duplicate_rate": 0.0,
+      "rule_of_three": 0.0025252525252525255,
+      "p0": 0.0025252525252525255,
+      "witness_columns": []
     },
     "hflabs_city.csv": {
-      "windows": 1109,
-      "hits": 0,
-      "rate": 0.0,
-      "by_kind": {},
-      "near_duplicate_windows": 0,
-      "near_duplicate_share": 0.0
+      "predictor": {
+        "windows": 1109,
+        "hits": 0,
+        "rate": 0.0,
+        "by_kind": {}
+      },
+      "duplicate_rate": 0.0,
+      "rule_of_three": 0.002705139765554554,
+      "p0": 0.002705139765554554,
+      "witness_columns": [
+        "fias_id",
+        "geo_lat",
+        "geo_lon",
+        "population"
+      ]
     },
     "govdomains.csv": {
-      "windows": 7793,
-      "hits": 180,
-      "rate": 0.023097651738739896,
-      "by_kind": {
-        "increment": 180
+      "predictor": {
+        "windows": 7793,
+        "hits": 180,
+        "rate": 0.023097651738739896,
+        "by_kind": {
+          "increment": 180
+        }
       },
-      "near_duplicate_windows": 4213,
-      "near_duplicate_share": 0.540613370973951
+      "duplicate_rate": 0.0009,
+      "rule_of_three": 0.00038496086231233157,
+      "p0": 0.023097651738739896,
+      "witness_columns": [
+        "IPs",
+        "ASN"
+      ]
     },
     "mos_zemelnye_uchastki.csv": {
-      "windows": 5873,
-      "hits": 0,
-      "rate": 0.0,
-      "by_kind": {},
-      "near_duplicate_windows": 14,
-      "near_duplicate_share": 0.0023837902264600714
+      "predictor": {
+        "windows": 5873,
+        "hits": 0,
+        "rate": 0.0,
+        "by_kind": {}
+      },
+      "duplicate_rate": 0.0,
+      "rule_of_three": 0.000510812191384301,
+      "p0": 0.000510812191384301,
+      "witness_columns": [
+        "Кадастровый номер",
+        "Площадь (кв.м)"
+      ]
     },
     "mos_torgovye_obekty.csv": {
-      "windows": 10204,
-      "hits": 11,
-      "rate": 0.0010780086240689925,
-      "by_kind": {
-        "increment": 11
+      "predictor": {
+        "windows": 10204,
+        "hits": 11,
+        "rate": 0.0010780086240689925,
+        "by_kind": {
+          "increment": 11
+        }
       },
-      "near_duplicate_windows": 852,
-      "near_duplicate_share": 0.08349666797334379
+      "duplicate_rate": 0.0,
+      "rule_of_three": 0.00029400235201881614,
+      "p0": 0.0010780086240689925,
+      "witness_columns": [
+        "Номер свидетельства",
+        "Дата свидетельства"
+      ]
     },
     "russian_retail.csv": {
-      "windows": 2729,
-      "hits": 1,
-      "rate": 0.00036643459142543056,
-      "by_kind": {
-        "copy": 1
+      "predictor": {
+        "windows": 2729,
+        "hits": 1,
+        "rate": 0.00036643459142543056,
+        "by_kind": {
+          "copy": 1
+        }
       },
-      "near_duplicate_windows": 2,
-      "near_duplicate_share": 0.0007328691828508611
+      "duplicate_rate": 0.0026,
+      "rule_of_three": 0.0010993037742762918,
+      "p0": 0.0026,
+      "witness_columns": [
+        "total_rented_area",
+        "presence_russia"
+      ]
     },
     "adult-train.csv": {
-      "windows": 32553,
-      "hits": 0,
-      "rate": 0.0,
-      "by_kind": {},
-      "near_duplicate_windows": 540,
-      "near_duplicate_share": 0.01658833287254631
+      "predictor": {
+        "windows": 32553,
+        "hits": 0,
+        "rate": 0.0,
+        "by_kind": {}
+      },
+      "duplicate_rate": 0.0007,
+      "rule_of_three": 9.21574048474795e-05,
+      "p0": 0.0007,
+      "witness_columns": [
+        "fnlwgt"
+      ]
     },
     "california-housing.csv": {
-      "windows": 20632,
-      "hits": 0,
-      "rate": 0.0,
-      "by_kind": {},
-      "near_duplicate_windows": 0,
-      "near_duplicate_share": 0.0
+      "predictor": {
+        "windows": 20632,
+        "hits": 0,
+        "rate": 0.0,
+        "by_kind": {}
+      },
+      "duplicate_rate": 0.0,
+      "rule_of_three": 0.00014540519581233036,
+      "p0": 0.00014540519581233036,
+      "witness_columns": [
+        "longitude",
+        "latitude",
+        "total_rooms",
+        "total_bedrooms",
+        "population",
+        "households",
+        "median_income",
+        "median_house_value"
+      ]
     },
     "openml-diabetes.csv": {
-      "windows": 760,
-      "hits": 0,
-      "rate": 0.0,
-      "by_kind": {},
-      "near_duplicate_windows": 0,
-      "near_duplicate_share": 0.0
+      "predictor": {
+        "windows": 760,
+        "hits": 0,
+        "rate": 0.0,
+        "by_kind": {}
+      },
+      "duplicate_rate": 0.0,
+      "rule_of_three": 0.003947368421052632,
+      "p0": 0.003947368421052632,
+      "witness_columns": [
+        "Glucose",
+        "BloodPressure",
+        "SkinThickness",
+        "Insulin",
+        "BMI",
+        "DiabetesPedigreeFunction"
+      ]
     },
     "uci-wine.csv": {
-      "windows": 170,
-      "hits": 0,
-      "rate": 0.0,
-      "by_kind": {},
-      "near_duplicate_windows": 0,
-      "near_duplicate_share": 0.0
+      "predictor": {
+        "windows": 170,
+        "hits": 0,
+        "rate": 0.0,
+        "by_kind": {}
+      },
+      "duplicate_rate": 0.0,
+      "rule_of_three": 0.01764705882352941,
+      "p0": 0.01764705882352941,
+      "witness_columns": [
+        "alcohol",
+        "malic_acid",
+        "ash",
+        "alcalinity_of_ash",
+        "magnesium",
+        "total_phenols",
+        "flavanoids",
+        "nonflavanoid_phenols",
+        "proanthocyanins",
+        "color_intensity",
+        "hue",
+        "od280_od315_of_diluted_wines",
+        "proline"
+      ]
     },
     "titanic-train.csv": {
-      "windows": 883,
-      "hits": 0,
-      "rate": 0.0,
-      "by_kind": {},
-      "near_duplicate_windows": 0,
-      "near_duplicate_share": 0.0
+      "predictor": {
+        "windows": 883,
+        "hits": 0,
+        "rate": 0.0,
+        "by_kind": {}
+      },
+      "duplicate_rate": 0.0,
+      "rule_of_three": 0.0033975084937712344,
+      "p0": 0.0033975084937712344,
+      "witness_columns": [
+        "Ticket",
+        "Fare",
+        "Cabin"
+      ]
     }
   },
   "cells": {
     "mistralai/Mistral-Nemo-Instruct-2407|govdomains.csv": {
-      "novel_field_recall": {
-        "cyrillic text": {
-          "present": 258,
-          "recalled": 40
-        },
-        "domain": {
-          "present": 249,
-          "recalled": 64
-        },
-        "ip": {
-          "present": 27,
-          "recalled": 0
-        },
-        "number": {
-          "present": 22,
-          "recalled": 0
-        },
-        "other": {
-          "present": 5,
-          "recalled": 0
-        }
-      },
       "n": 250,
       "matches": 32,
       "rate": 0.128,
+      "p_vs_duplicate_rate_epsilon_null": 7.357272764411966e-58,
+      "fragment_queries": 15,
+      "near_duplicate_queries": 124,
       "predictor_hits_in_cell": 7,
       "matches_that_are_predictor_hits": 5,
-      "near_duplicate_queries": 132,
-      "matches_within_near_of_a_prefix_row": 29,
-      "matches_with_novel_share_at_least_half": 3,
-      "mean_novel_share_of_matches": 0.208,
-      "p_vs_duplicate": 7.357272764411966e-58,
-      "p_vs_duplicate_or_predictor": 8.102122277386491e-15,
-      "p_excluding_predictor_hits": 2.5471154993061474e-47,
-      "matches_excluding_near_duplicate_queries": 3,
-      "n_excluding_near_duplicate_queries": 118,
-      "p_excluding_near_duplicate_queries": 0.0001800800995190829
-    },
-    "mistralai/Mistral-Nemo-Instruct-2407|hflabs_city.csv": {
-      "novel_field_recall": {
-        "cyrillic text": {
-          "present": 678,
-          "recalled": 294
+      "null": {
+        "duplicate_rate": 0.0009,
+        "predictor_rate": 0.023097651738739896,
+        "rule_of_three": 0.00038496086231233157,
+        "windows": 7793,
+        "p0": 0.023097651738739896
+      },
+      "after_rules": {
+        "tau": 0.1,
+        "matches": 2,
+        "n": 111,
+        "p": 0.7291548047617942
+      },
+      "by_tau": {
+        "0.05": {
+          "matches": 6,
+          "n": 157,
+          "p": 0.15727636917601068
         },
-        "number": {
-          "present": 2132,
-          "recalled": 162
+        "0.1": {
+          "matches": 2,
+          "n": 111,
+          "p": 0.7291548047617942
         },
-        "other": {
-          "present": 263,
-          "recalled": 0
+        "0.2": {
+          "matches": 0,
+          "n": 57,
+          "p": 1.0
+        },
+        "0.3": {
+          "matches": 0,
+          "n": 27,
+          "p": 1.0
         }
       },
+      "witness": {
+        "present": 47,
+        "reproduced": 0,
+        "columns_hit": []
+      },
+      "other_columns": {
+        "present": 561,
+        "reproduced": 160
+      },
+      "positive": false
+    },
+    "mistralai/Mistral-Nemo-Instruct-2407|hflabs_city.csv": {
       "n": 250,
       "matches": 0,
       "rate": 0.0,
+      "p_vs_duplicate_rate_epsilon_null": 1.0,
+      "fragment_queries": 0,
+      "near_duplicate_queries": 0,
       "predictor_hits_in_cell": 0,
       "matches_that_are_predictor_hits": 0,
-      "near_duplicate_queries": 0,
-      "matches_within_near_of_a_prefix_row": 0,
-      "matches_with_novel_share_at_least_half": 0,
-      "mean_novel_share_of_matches": null,
-      "p_vs_duplicate": 1.0,
-      "p_vs_duplicate_or_predictor": 1.0,
-      "p_excluding_predictor_hits": 1.0,
-      "matches_excluding_near_duplicate_queries": 0,
-      "n_excluding_near_duplicate_queries": 250,
-      "p_excluding_near_duplicate_queries": 1.0
-    },
-    "mistralai/Mistral-Nemo-Instruct-2407|iris.csv": {
-      "novel_field_recall": {
-        "number": {
-          "present": 279,
-          "recalled": 177
+      "null": {
+        "duplicate_rate": 0.0,
+        "predictor_rate": 0.0,
+        "rule_of_three": 0.002705139765554554,
+        "windows": 1109,
+        "p0": 0.002705139765554554
+      },
+      "after_rules": {
+        "tau": 0.1,
+        "matches": 0,
+        "n": 250,
+        "p": 1.0
+      },
+      "by_tau": {
+        "0.05": {
+          "matches": 0,
+          "n": 250,
+          "p": 1.0
         },
-        "other": {
-          "present": 2,
-          "recalled": 1
+        "0.1": {
+          "matches": 0,
+          "n": 250,
+          "p": 1.0
+        },
+        "0.2": {
+          "matches": 0,
+          "n": 250,
+          "p": 1.0
+        },
+        "0.3": {
+          "matches": 0,
+          "n": 230,
+          "p": 1.0
         }
       },
+      "witness": {
+        "present": 999,
+        "reproduced": 0,
+        "columns_hit": []
+      },
+      "other_columns": {
+        "present": 2012,
+        "reproduced": 404
+      },
+      "positive": false
+    },
+    "mistralai/Mistral-Nemo-Instruct-2407|iris.csv": {
       "n": 142,
       "matches": 51,
       "rate": 0.3591549295774648,
+      "p_vs_duplicate_rate_epsilon_null": 4.773913538452406e-49,
+      "fragment_queries": 0,
+      "near_duplicate_queries": 39,
       "predictor_hits_in_cell": 0,
       "matches_that_are_predictor_hits": 0,
-      "near_duplicate_queries": 39,
-      "matches_within_near_of_a_prefix_row": 15,
-      "matches_with_novel_share_at_least_half": 16,
-      "mean_novel_share_of_matches": 0.396,
-      "p_vs_duplicate": 4.773913538452406e-49,
-      "p_vs_duplicate_or_predictor": 4.773913538452406e-49,
-      "p_excluding_predictor_hits": 4.773913538452406e-49,
-      "matches_excluding_near_duplicate_queries": 36,
-      "n_excluding_near_duplicate_queries": 103,
-      "p_excluding_near_duplicate_queries": 1.3453422295974085e-34
-    },
-    "mistralai/Mistral-Nemo-Instruct-2407|mos_torgovye_obekty.csv": {
-      "novel_field_recall": {
-        "cyrillic text": {
-          "present": 617,
-          "recalled": 5
+      "null": {
+        "duplicate_rate": 0.02,
+        "predictor_rate": 0.0,
+        "rule_of_three": 0.02112676056338028,
+        "windows": 142,
+        "p0": 0.02112676056338028
+      },
+      "after_rules": {
+        "tau": 0.1,
+        "matches": 36,
+        "n": 103,
+        "p": 8.978839245509074e-34
+      },
+      "by_tau": {
+        "0.05": {
+          "matches": 51,
+          "n": 140,
+          "p": 3.007683559013338e-48
         },
-        "number": {
-          "present": 250,
-          "recalled": 243
+        "0.1": {
+          "matches": 36,
+          "n": 103,
+          "p": 8.978839245509074e-34
         },
-        "other": {
-          "present": 654,
-          "recalled": 0
+        "0.2": {
+          "matches": 3,
+          "n": 9,
+          "p": 0.0007198996367827728
+        },
+        "0.3": {
+          "matches": 1,
+          "n": 2,
+          "p": 0.041807181114858157
         }
       },
+      "witness": {
+        "present": 247,
+        "reproduced": 151,
+        "columns_hit": [
+          "petal_length",
+          "petal_width",
+          "sepal_length",
+          "sepal_width"
+        ]
+      },
+      "other_columns": {
+        "present": 2,
+        "reproduced": 1
+      },
+      "positive": true
+    },
+    "mistralai/Mistral-Nemo-Instruct-2407|mos_torgovye_obekty.csv": {
       "n": 250,
       "matches": 1,
       "rate": 0.004,
+      "p_vs_duplicate_rate_epsilon_null": 2.4999996887500264e-07,
+      "fragment_queries": 0,
+      "near_duplicate_queries": 16,
       "predictor_hits_in_cell": 1,
       "matches_that_are_predictor_hits": 1,
-      "near_duplicate_queries": 16,
-      "matches_within_near_of_a_prefix_row": 1,
-      "matches_with_novel_share_at_least_half": 0,
-      "mean_novel_share_of_matches": 0.111,
-      "p_vs_duplicate": 2.4999996887500264e-07,
-      "p_vs_duplicate_or_predictor": 0.2363513847685308,
-      "p_excluding_predictor_hits": 1.0,
-      "matches_excluding_near_duplicate_queries": 0,
-      "n_excluding_near_duplicate_queries": 234,
-      "p_excluding_near_duplicate_queries": 1.0
+      "null": {
+        "duplicate_rate": 0.0,
+        "predictor_rate": 0.0010780086240689925,
+        "rule_of_three": 0.00029400235201881614,
+        "windows": 10204,
+        "p0": 0.0010780086240689925
+      },
+      "after_rules": {
+        "tau": 0.1,
+        "matches": 0,
+        "n": 234,
+        "p": 1.0
+      },
+      "by_tau": {
+        "0.05": {
+          "matches": 0,
+          "n": 244,
+          "p": 1.0
+        },
+        "0.1": {
+          "matches": 0,
+          "n": 234,
+          "p": 1.0
+        },
+        "0.2": {
+          "matches": 0,
+          "n": 192,
+          "p": 1.0
+        },
+        "0.3": {
+          "matches": 0,
+          "n": 134,
+          "p": 1.0
+        }
+      },
+      "witness": {
+        "present": 394,
+        "reproduced": 0,
+        "columns_hit": []
+      },
+      "other_columns": {
+        "present": 1117,
+        "reproduced": 242
+      },
+      "positive": false
     },
     "mistralai/Mistral-Nemo-Instruct-2407|mos_zemelnye_uchastki.csv": {
-      "novel_field_recall": {
-        "cyrillic text": {
-          "present": 553,
-          "recalled": 0
-        },
-        "number": {
-          "present": 729,
-          "recalled": 170
-        },
-        "other": {
-          "present": 242,
-          "recalled": 0
-        }
-      },
       "n": 250,
       "matches": 0,
       "rate": 0.0,
+      "p_vs_duplicate_rate_epsilon_null": 1.0,
+      "fragment_queries": 0,
+      "near_duplicate_queries": 1,
       "predictor_hits_in_cell": 0,
       "matches_that_are_predictor_hits": 0,
-      "near_duplicate_queries": 1,
-      "matches_within_near_of_a_prefix_row": 0,
-      "matches_with_novel_share_at_least_half": 0,
-      "mean_novel_share_of_matches": null,
-      "p_vs_duplicate": 1.0,
-      "p_vs_duplicate_or_predictor": 1.0,
-      "p_excluding_predictor_hits": 1.0,
-      "matches_excluding_near_duplicate_queries": 0,
-      "n_excluding_near_duplicate_queries": 249,
-      "p_excluding_near_duplicate_queries": 1.0
+      "null": {
+        "duplicate_rate": 0.0,
+        "predictor_rate": 0.0,
+        "rule_of_three": 0.000510812191384301,
+        "windows": 5873,
+        "p0": 0.000510812191384301
+      },
+      "after_rules": {
+        "tau": 0.1,
+        "matches": 0,
+        "n": 249,
+        "p": 1.0
+      },
+      "by_tau": {
+        "0.05": {
+          "matches": 0,
+          "n": 250,
+          "p": 1.0
+        },
+        "0.1": {
+          "matches": 0,
+          "n": 249,
+          "p": 1.0
+        },
+        "0.2": {
+          "matches": 0,
+          "n": 242,
+          "p": 1.0
+        },
+        "0.3": {
+          "matches": 0,
+          "n": 219,
+          "p": 1.0
+        }
+      },
+      "witness": {
+        "present": 493,
+        "reproduced": 0,
+        "columns_hit": []
+      },
+      "other_columns": {
+        "present": 974,
+        "reproduced": 168
+      },
+      "positive": false
     },
     "mistralai/Mistral-Nemo-Instruct-2407|trudvsem_vacancies_2026.csv": {
-      "novel_field_recall": {
-        "cyrillic text": {
-          "present": 493,
-          "recalled": 0
-        },
-        "number": {
-          "present": 47,
-          "recalled": 4
-        },
-        "other": {
-          "present": 6,
-          "recalled": 0
-        }
-      },
       "n": 250,
       "matches": 0,
       "rate": 0.0,
+      "p_vs_duplicate_rate_epsilon_null": 1.0,
+      "fragment_queries": 0,
+      "near_duplicate_queries": 43,
       "predictor_hits_in_cell": 0,
       "matches_that_are_predictor_hits": 0,
-      "near_duplicate_queries": 43,
-      "matches_within_near_of_a_prefix_row": 0,
-      "matches_with_novel_share_at_least_half": 0,
-      "mean_novel_share_of_matches": null,
-      "p_vs_duplicate": 1.0,
-      "p_vs_duplicate_or_predictor": 1.0,
-      "p_excluding_predictor_hits": 1.0,
-      "matches_excluding_near_duplicate_queries": 0,
-      "n_excluding_near_duplicate_queries": 207,
-      "p_excluding_near_duplicate_queries": 1.0
-    },
-    "Vikhrmodels/Vikhr-Nemo-12B-Instruct-R-21-09-24|govdomains.csv": {
-      "novel_field_recall": {
-        "cyrillic text": {
-          "present": 258,
-          "recalled": 27
+      "null": {
+        "duplicate_rate": 0.0,
+        "predictor_rate": 0.0,
+        "rule_of_three": 0.0025252525252525255,
+        "windows": 1188,
+        "p0": 0.0025252525252525255
+      },
+      "after_rules": {
+        "tau": 0.1,
+        "matches": 0,
+        "n": 207,
+        "p": 1.0
+      },
+      "by_tau": {
+        "0.05": {
+          "matches": 0,
+          "n": 234,
+          "p": 1.0
         },
-        "domain": {
-          "present": 249,
-          "recalled": 53
+        "0.1": {
+          "matches": 0,
+          "n": 207,
+          "p": 1.0
         },
-        "ip": {
-          "present": 27,
-          "recalled": 0
+        "0.2": {
+          "matches": 0,
+          "n": 151,
+          "p": 1.0
         },
-        "number": {
-          "present": 22,
-          "recalled": 0
-        },
-        "other": {
-          "present": 5,
-          "recalled": 0
+        "0.3": {
+          "matches": 0,
+          "n": 121,
+          "p": 1.0
         }
       },
+      "witness": {
+        "present": 0,
+        "reproduced": 0,
+        "columns_hit": []
+      },
+      "other_columns": {
+        "present": 550,
+        "reproduced": 42
+      },
+      "positive": false
+    },
+    "Vikhrmodels/Vikhr-Nemo-12B-Instruct-R-21-09-24|govdomains.csv": {
       "n": 250,
       "matches": 19,
       "rate": 0.076,
+      "p_vs_duplicate_rate_epsilon_null": 1.6440464897326838e-30,
+      "fragment_queries": 15,
+      "near_duplicate_queries": 124,
       "predictor_hits_in_cell": 7,
       "matches_that_are_predictor_hits": 3,
-      "near_duplicate_queries": 132,
-      "matches_within_near_of_a_prefix_row": 17,
-      "matches_with_novel_share_at_least_half": 3,
-      "mean_novel_share_of_matches": 0.261,
-      "p_vs_duplicate": 1.6440464897326838e-30,
-      "p_vs_duplicate_or_predictor": 7.41470317745824e-06,
-      "p_excluding_predictor_hits": 6.520319587680823e-25,
-      "matches_excluding_near_duplicate_queries": 2,
-      "n_excluding_near_duplicate_queries": 118,
-      "p_excluding_near_duplicate_queries": 0.005216966231538927
-    },
-    "Vikhrmodels/Vikhr-Nemo-12B-Instruct-R-21-09-24|hflabs_city.csv": {
-      "novel_field_recall": {
-        "cyrillic text": {
-          "present": 678,
-          "recalled": 162
+      "null": {
+        "duplicate_rate": 0.0009,
+        "predictor_rate": 0.023097651738739896,
+        "rule_of_three": 0.00038496086231233157,
+        "windows": 7793,
+        "p0": 0.023097651738739896
+      },
+      "after_rules": {
+        "tau": 0.1,
+        "matches": 1,
+        "n": 111,
+        "p": 0.9252729144584328
+      },
+      "by_tau": {
+        "0.05": {
+          "matches": 3,
+          "n": 157,
+          "p": 0.7052111987235509
         },
-        "number": {
-          "present": 2132,
-          "recalled": 129
+        "0.1": {
+          "matches": 1,
+          "n": 111,
+          "p": 0.9252729144584328
         },
-        "other": {
-          "present": 263,
-          "recalled": 0
+        "0.2": {
+          "matches": 0,
+          "n": 57,
+          "p": 1.0
+        },
+        "0.3": {
+          "matches": 0,
+          "n": 27,
+          "p": 1.0
         }
       },
+      "witness": {
+        "present": 47,
+        "reproduced": 0,
+        "columns_hit": []
+      },
+      "other_columns": {
+        "present": 561,
+        "reproduced": 134
+      },
+      "positive": false
+    },
+    "Vikhrmodels/Vikhr-Nemo-12B-Instruct-R-21-09-24|hflabs_city.csv": {
       "n": 250,
       "matches": 0,
       "rate": 0.0,
+      "p_vs_duplicate_rate_epsilon_null": 1.0,
+      "fragment_queries": 0,
+      "near_duplicate_queries": 0,
       "predictor_hits_in_cell": 0,
       "matches_that_are_predictor_hits": 0,
-      "near_duplicate_queries": 0,
-      "matches_within_near_of_a_prefix_row": 0,
-      "matches_with_novel_share_at_least_half": 0,
-      "mean_novel_share_of_matches": null,
-      "p_vs_duplicate": 1.0,
-      "p_vs_duplicate_or_predictor": 1.0,
-      "p_excluding_predictor_hits": 1.0,
-      "matches_excluding_near_duplicate_queries": 0,
-      "n_excluding_near_duplicate_queries": 250,
-      "p_excluding_near_duplicate_queries": 1.0
-    },
-    "Vikhrmodels/Vikhr-Nemo-12B-Instruct-R-21-09-24|iris.csv": {
-      "novel_field_recall": {
-        "number": {
-          "present": 279,
-          "recalled": 156
+      "null": {
+        "duplicate_rate": 0.0,
+        "predictor_rate": 0.0,
+        "rule_of_three": 0.002705139765554554,
+        "windows": 1109,
+        "p0": 0.002705139765554554
+      },
+      "after_rules": {
+        "tau": 0.1,
+        "matches": 0,
+        "n": 250,
+        "p": 1.0
+      },
+      "by_tau": {
+        "0.05": {
+          "matches": 0,
+          "n": 250,
+          "p": 1.0
         },
-        "other": {
-          "present": 2,
-          "recalled": 0
+        "0.1": {
+          "matches": 0,
+          "n": 250,
+          "p": 1.0
+        },
+        "0.2": {
+          "matches": 0,
+          "n": 250,
+          "p": 1.0
+        },
+        "0.3": {
+          "matches": 0,
+          "n": 230,
+          "p": 1.0
         }
       },
+      "witness": {
+        "present": 999,
+        "reproduced": 0,
+        "columns_hit": []
+      },
+      "other_columns": {
+        "present": 2012,
+        "reproduced": 244
+      },
+      "positive": false
+    },
+    "Vikhrmodels/Vikhr-Nemo-12B-Instruct-R-21-09-24|iris.csv": {
       "n": 142,
       "matches": 32,
       "rate": 0.22535211267605634,
+      "p_vs_duplicate_rate_epsilon_null": 3.2200707519228674e-24,
+      "fragment_queries": 0,
+      "near_duplicate_queries": 39,
       "predictor_hits_in_cell": 0,
       "matches_that_are_predictor_hits": 0,
-      "near_duplicate_queries": 39,
-      "matches_within_near_of_a_prefix_row": 8,
-      "matches_with_novel_share_at_least_half": 9,
-      "mean_novel_share_of_matches": 0.4,
-      "p_vs_duplicate": 3.2200707519228674e-24,
-      "p_vs_duplicate_or_predictor": 3.2200707519228674e-24,
-      "p_excluding_predictor_hits": 3.2200707519228674e-24,
-      "matches_excluding_near_duplicate_queries": 24,
-      "n_excluding_near_duplicate_queries": 103,
-      "p_excluding_near_duplicate_queries": 6.484061717309962e-19
-    },
-    "Vikhrmodels/Vikhr-Nemo-12B-Instruct-R-21-09-24|mos_torgovye_obekty.csv": {
-      "novel_field_recall": {
-        "cyrillic text": {
-          "present": 617,
-          "recalled": 3
+      "null": {
+        "duplicate_rate": 0.02,
+        "predictor_rate": 0.0,
+        "rule_of_three": 0.02112676056338028,
+        "windows": 142,
+        "p0": 0.02112676056338028
+      },
+      "after_rules": {
+        "tau": 0.1,
+        "matches": 24,
+        "n": 103,
+        "p": 2.2149328529977977e-18
+      },
+      "by_tau": {
+        "0.05": {
+          "matches": 32,
+          "n": 140,
+          "p": 1.0272312465019121e-23
         },
-        "number": {
-          "present": 250,
-          "recalled": 236
+        "0.1": {
+          "matches": 24,
+          "n": 103,
+          "p": 2.2149328529977977e-18
         },
-        "other": {
-          "present": 654,
-          "recalled": 1
+        "0.2": {
+          "matches": 2,
+          "n": 9,
+          "p": 0.014557268322896218
+        },
+        "0.3": {
+          "matches": 0,
+          "n": 2,
+          "p": 1.0
         }
       },
+      "witness": {
+        "present": 247,
+        "reproduced": 130,
+        "columns_hit": [
+          "petal_length",
+          "petal_width",
+          "sepal_length",
+          "sepal_width"
+        ]
+      },
+      "other_columns": {
+        "present": 2,
+        "reproduced": 0
+      },
+      "positive": true
+    },
+    "Vikhrmodels/Vikhr-Nemo-12B-Instruct-R-21-09-24|mos_torgovye_obekty.csv": {
       "n": 250,
       "matches": 1,
       "rate": 0.004,
+      "p_vs_duplicate_rate_epsilon_null": 2.4999996887500264e-07,
+      "fragment_queries": 0,
+      "near_duplicate_queries": 16,
       "predictor_hits_in_cell": 1,
       "matches_that_are_predictor_hits": 1,
-      "near_duplicate_queries": 16,
-      "matches_within_near_of_a_prefix_row": 1,
-      "matches_with_novel_share_at_least_half": 0,
-      "mean_novel_share_of_matches": 0.111,
-      "p_vs_duplicate": 2.4999996887500264e-07,
-      "p_vs_duplicate_or_predictor": 0.2363513847685308,
-      "p_excluding_predictor_hits": 1.0,
-      "matches_excluding_near_duplicate_queries": 0,
-      "n_excluding_near_duplicate_queries": 234,
-      "p_excluding_near_duplicate_queries": 1.0
+      "null": {
+        "duplicate_rate": 0.0,
+        "predictor_rate": 0.0010780086240689925,
+        "rule_of_three": 0.00029400235201881614,
+        "windows": 10204,
+        "p0": 0.0010780086240689925
+      },
+      "after_rules": {
+        "tau": 0.1,
+        "matches": 0,
+        "n": 234,
+        "p": 1.0
+      },
+      "by_tau": {
+        "0.05": {
+          "matches": 0,
+          "n": 244,
+          "p": 1.0
+        },
+        "0.1": {
+          "matches": 0,
+          "n": 234,
+          "p": 1.0
+        },
+        "0.2": {
+          "matches": 0,
+          "n": 192,
+          "p": 1.0
+        },
+        "0.3": {
+          "matches": 0,
+          "n": 134,
+          "p": 1.0
+        }
+      },
+      "witness": {
+        "present": 394,
+        "reproduced": 0,
+        "columns_hit": []
+      },
+      "other_columns": {
+        "present": 1117,
+        "reproduced": 237
+      },
+      "positive": false
     },
     "Vikhrmodels/Vikhr-Nemo-12B-Instruct-R-21-09-24|mos_zemelnye_uchastki.csv": {
-      "novel_field_recall": {
-        "cyrillic text": {
-          "present": 553,
-          "recalled": 3
-        },
-        "number": {
-          "present": 729,
-          "recalled": 150
-        },
-        "other": {
-          "present": 242,
-          "recalled": 0
-        }
-      },
       "n": 250,
       "matches": 0,
       "rate": 0.0,
+      "p_vs_duplicate_rate_epsilon_null": 1.0,
+      "fragment_queries": 0,
+      "near_duplicate_queries": 1,
       "predictor_hits_in_cell": 0,
       "matches_that_are_predictor_hits": 0,
-      "near_duplicate_queries": 1,
-      "matches_within_near_of_a_prefix_row": 0,
-      "matches_with_novel_share_at_least_half": 0,
-      "mean_novel_share_of_matches": null,
-      "p_vs_duplicate": 1.0,
-      "p_vs_duplicate_or_predictor": 1.0,
-      "p_excluding_predictor_hits": 1.0,
-      "matches_excluding_near_duplicate_queries": 0,
-      "n_excluding_near_duplicate_queries": 249,
-      "p_excluding_near_duplicate_queries": 1.0
+      "null": {
+        "duplicate_rate": 0.0,
+        "predictor_rate": 0.0,
+        "rule_of_three": 0.000510812191384301,
+        "windows": 5873,
+        "p0": 0.000510812191384301
+      },
+      "after_rules": {
+        "tau": 0.1,
+        "matches": 0,
+        "n": 249,
+        "p": 1.0
+      },
+      "by_tau": {
+        "0.05": {
+          "matches": 0,
+          "n": 250,
+          "p": 1.0
+        },
+        "0.1": {
+          "matches": 0,
+          "n": 249,
+          "p": 1.0
+        },
+        "0.2": {
+          "matches": 0,
+          "n": 242,
+          "p": 1.0
+        },
+        "0.3": {
+          "matches": 0,
+          "n": 219,
+          "p": 1.0
+        }
+      },
+      "witness": {
+        "present": 493,
+        "reproduced": 0,
+        "columns_hit": []
+      },
+      "other_columns": {
+        "present": 974,
+        "reproduced": 148
+      },
+      "positive": false
     },
     "Vikhrmodels/Vikhr-Nemo-12B-Instruct-R-21-09-24|trudvsem_vacancies_2026.csv": {
-      "novel_field_recall": {
-        "cyrillic text": {
-          "present": 493,
-          "recalled": 0
-        },
-        "number": {
-          "present": 47,
-          "recalled": 3
-        },
-        "other": {
-          "present": 6,
-          "recalled": 0
-        }
-      },
       "n": 250,
       "matches": 0,
       "rate": 0.0,
+      "p_vs_duplicate_rate_epsilon_null": 1.0,
+      "fragment_queries": 0,
+      "near_duplicate_queries": 43,
       "predictor_hits_in_cell": 0,
       "matches_that_are_predictor_hits": 0,
-      "near_duplicate_queries": 43,
-      "matches_within_near_of_a_prefix_row": 0,
-      "matches_with_novel_share_at_least_half": 0,
-      "mean_novel_share_of_matches": null,
-      "p_vs_duplicate": 1.0,
-      "p_vs_duplicate_or_predictor": 1.0,
-      "p_excluding_predictor_hits": 1.0,
-      "matches_excluding_near_duplicate_queries": 0,
-      "n_excluding_near_duplicate_queries": 207,
-      "p_excluding_near_duplicate_queries": 1.0
+      "null": {
+        "duplicate_rate": 0.0,
+        "predictor_rate": 0.0,
+        "rule_of_three": 0.0025252525252525255,
+        "windows": 1188,
+        "p0": 0.0025252525252525255
+      },
+      "after_rules": {
+        "tau": 0.1,
+        "matches": 0,
+        "n": 207,
+        "p": 1.0
+      },
+      "by_tau": {
+        "0.05": {
+          "matches": 0,
+          "n": 234,
+          "p": 1.0
+        },
+        "0.1": {
+          "matches": 0,
+          "n": 207,
+          "p": 1.0
+        },
+        "0.2": {
+          "matches": 0,
+          "n": 151,
+          "p": 1.0
+        },
+        "0.3": {
+          "matches": 0,
+          "n": 121,
+          "p": 1.0
+        }
+      },
+      "witness": {
+        "present": 0,
+        "reproduced": 0,
+        "columns_hit": []
+      },
+      "other_columns": {
+        "present": 550,
+        "reproduced": 22
+      },
+      "positive": false
     }
   },
   "pairs": {
     "govdomains.csv": {
-      "same_rows": true,
-      "both": 16,
-      "first_only": 16,
-      "second_only": 3,
-      "p": 0.004425048828125
+      "after_rules": {
+        "same_rows": true,
+        "n": 111,
+        "both": 1,
+        "first_only": 1,
+        "second_only": 0,
+        "p": 1.0
+      },
+      "all_queries": {
+        "same_rows": true,
+        "n": 250,
+        "both": 16,
+        "first_only": 16,
+        "second_only": 3,
+        "p": 0.004425048828125
+      }
     },
     "hflabs_city.csv": {
-      "same_rows": true,
-      "both": 0,
-      "first_only": 0,
-      "second_only": 0,
-      "p": 1.0
+      "after_rules": {
+        "same_rows": true,
+        "n": 250,
+        "both": 0,
+        "first_only": 0,
+        "second_only": 0,
+        "p": 1.0
+      },
+      "all_queries": {
+        "same_rows": true,
+        "n": 250,
+        "both": 0,
+        "first_only": 0,
+        "second_only": 0,
+        "p": 1.0
+      }
     },
     "iris.csv": {
-      "same_rows": true,
-      "both": 22,
-      "first_only": 29,
-      "second_only": 10,
-      "p": 0.0033778479119064286
+      "after_rules": {
+        "same_rows": true,
+        "n": 103,
+        "both": 17,
+        "first_only": 19,
+        "second_only": 7,
+        "p": 0.028959274291992188
+      },
+      "all_queries": {
+        "same_rows": true,
+        "n": 142,
+        "both": 22,
+        "first_only": 29,
+        "second_only": 10,
+        "p": 0.0033778479119064286
+      }
     },
     "mos_torgovye_obekty.csv": {
-      "same_rows": true,
-      "both": 1,
-      "first_only": 0,
-      "second_only": 0,
-      "p": 1.0
+      "after_rules": {
+        "same_rows": true,
+        "n": 234,
+        "both": 0,
+        "first_only": 0,
+        "second_only": 0,
+        "p": 1.0
+      },
+      "all_queries": {
+        "same_rows": true,
+        "n": 250,
+        "both": 1,
+        "first_only": 0,
+        "second_only": 0,
+        "p": 1.0
+      }
     },
     "mos_zemelnye_uchastki.csv": {
-      "same_rows": true,
-      "both": 0,
-      "first_only": 0,
-      "second_only": 0,
-      "p": 1.0
+      "after_rules": {
+        "same_rows": true,
+        "n": 249,
+        "both": 0,
+        "first_only": 0,
+        "second_only": 0,
+        "p": 1.0
+      },
+      "all_queries": {
+        "same_rows": true,
+        "n": 250,
+        "both": 0,
+        "first_only": 0,
+        "second_only": 0,
+        "p": 1.0
+      }
     },
     "trudvsem_vacancies_2026.csv": {
-      "same_rows": true,
-      "both": 0,
-      "first_only": 0,
-      "second_only": 0,
-      "p": 1.0
+      "after_rules": {
+        "same_rows": true,
+        "n": 207,
+        "both": 0,
+        "first_only": 0,
+        "second_only": 0,
+        "p": 1.0
+      },
+      "all_queries": {
+        "same_rows": true,
+        "n": 250,
+        "both": 0,
+        "first_only": 0,
+        "second_only": 0,
+        "p": 1.0
+      }
     }
   }
 }

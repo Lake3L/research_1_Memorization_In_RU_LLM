@@ -27,22 +27,6 @@ data/               dataset collection scripts (with collection dates)
 results/            experiment outputs backing the paper's numbers
 ```
 
-## Commit policy
-
-The history is part of the record and is written for a reviewer.
-
-- The subject says what changed in the record — a script, a result file, a frozen
-  dataset, an amendment. Imperative, English, at most 72 characters.
-- A body appears only when the diff cannot be read without a fact: the number, the
-  rule, the file it comes from. A few lines at most. No process narration, no
-  pending decisions, no account of who asked for what — that belongs in `LOG.md`
-  and in the dated amendments.
-- One unit of work per commit; a result and the script that produced it travel
-  together.
-- No attribution trailers. The repository owner is the author of record; tools are
-  disclosed in the paper, not in the history.
-- Frozen documents are never rewritten in place; a change is a new dated amendment.
-
 ## Reproducing
 
 Will be a single command from a clean clone; exact instructions appear here together with the first committed results. All reported numbers use ≥3 seeds (mean ± std), fixed model revisions (HF commit hashes), and pinned dependency versions.

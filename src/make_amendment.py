@@ -140,7 +140,7 @@ def main():
         "no redistribution, and this is flagged in the paper's data statement.",
     ]
 
-    out = os.path.join(ROOT, "AMENDMENT_1_DATASETS.md")
+    out = os.path.join(ROOT, "amendments", "AMENDMENT_1_DATASETS.md")
     with open(out, "w", encoding="utf-8") as f:
         f.write("\n".join(lines) + "\n")
     print(f"wrote {out} ({len(lines)} lines)")

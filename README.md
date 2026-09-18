@@ -20,12 +20,19 @@ Preregistered before any experiments — see [PREREGISTRATION.md](PREREGISTRATIO
 ```
 NOVELTY_CHECK.md    novelty protocol results (search queries, findings, verdict)
 PREREGISTRATION.md  frozen hypotheses, metrics, and decision criteria
+amendments/         dated amendments to the preregistration, never rewritten in place
+reports/            results documents, one per experiment block
 LOG.md              lab journal
+TODO.md             roadmap, one block per session
 paper.md            paper draft, grown incrementally
 src/                adapted tests and experiment code
-data/               dataset collection scripts (with collection dates)
-results/            experiment outputs backing the paper's numbers
+data/               dataset registry with provenance and hashes; files are refetched by script
+notebooks/          the GPU session driver and the session definition it reads
+results/            raw call logs and per-run outputs backing every reported number
 ```
+
+Every new amendment goes to `amendments/`, every new results document to `reports/`;
+the root holds only the documents that frame the study.
 
 ## Reproducing
 

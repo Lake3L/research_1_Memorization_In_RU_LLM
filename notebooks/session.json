@@ -1,18 +1,18 @@
 {
   "_what": "The runs this GPU session performs. The notebook reads this file from the repository checkout, so the experiment is defined in version control rather than in a notebook copy.",
   "_rule": "To change what runs: edit this file, commit, push. The notebook needs no changes.",
-  "session_id": "2026-09-08-block-C1-russian-probe",
-  "purpose": "Block C, first session (AMENDMENT_6 §7): the four Russian pre-cutoff datasets with rows under 200 tokens, the fresh control, and iris as the in-session anchor. Header and row completion on the published bytes, completion prompting, reference protocol, the same seed for both models of the pair. russian_retail has its own session because its rows are three to five times longer.",
-  "dataset_group": "canon,ru_pre_cutoff,fresh_control",
+  "session_id": "2026-09-19-block-C-E1-exposure",
+  "purpose": "Block C, exposure session 1 (AMENDMENT_9 §5): the high-exposure tables whose rows the internet repeats — МКБ-10 v2, ОКВЭД 2, the Kaggle course files cardio_train and Alice, the 2022 release of the Moscow metro stations — with iris as the in-session anchor. Header and row completion on the published bytes, completion prompting, reference protocol, the same seed for both models of the pair. Priced at 6.0 h per model by src/price_plan.py (the C1 estimate of 7.1 h ran in 7.4 h), inside the 10-hour ceiling with the two-hour reserve.",
+  "dataset_group": "canon,ru_exposure",
   "datasets": [
     "iris",
-    "hflabs_city",
-    "govdomains",
-    "mos_zemelnye_uchastki",
-    "mos_torgovye_obekty",
-    "trudvsem_vacancies_2026"
+    "mkb10_v2",
+    "okved2",
+    "cardio_train",
+    "alice_train_sessions",
+    "mos_metro_stations_2022"
   ],
-  "attached_input": "trudvsem_vacancies_2026.csv — the frozen fresh control, attached to the session as a Kaggle dataset; it cannot be re-fetched",
+  "attached_input": "all nine ru_exposure CSVs, attached to the session as one Kaggle dataset and picked up from /kaggle/input by file name; the hash check applies to each. Two of them (the Moscow releases, the Kaggle competition file) cannot be re-fetched at all; the St Petersburg portal refuses foreign connections, so its four files are attached as well rather than fetched",
   "variant": "raw",
   "prompt_language": "en",
   "load_in_4bit": true,
@@ -28,20 +28,20 @@
       "--group"
     ],
     "plans": [
-      "ru_probe",
-      "ru_probe_long"
+      "exposure_1",
+      "exposure_2"
     ],
     "note": "verified against the checkout before any weights are downloaded"
   },
   "runs": [
     {
       "model": "mistralai/Mistral-Nemo-Instruct-2407",
-      "extra": "--plan ru_probe --protocol reference --prompting completion",
-      "why": "base model; 1416 calls, about 7 h by the conservative estimate of src/price_plan.py, likely 5-6"
+      "extra": "--plan exposure_1 --protocol reference --prompting completion",
+      "why": "base model; 1416 calls, 6.0 h by the conservative estimate of src/price_plan.py"
     },
     {
       "model": "Vikhrmodels/Vikhr-Nemo-12B-Instruct-R-21-09-24",
-      "extra": "--plan ru_probe --protocol reference --prompting completion",
+      "extra": "--plan exposure_1 --protocol reference --prompting completion",
       "why": "its Russian adaptation, same cells, same seed; both run at once, one per accelerator"
     }
   ]

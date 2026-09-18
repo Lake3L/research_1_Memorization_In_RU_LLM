@@ -729,5 +729,573 @@
       "cyrillic_in_values": false
     },
     "notes": "Western canon, tested by Bordt et al. Target 'Survived' follows their transform config."
+  },
+  "mkb10_v2": {
+    "name": "mkb10_v2",
+    "group": "ru_exposure",
+    "source_url": "https://data.gov.spb.ru/irsi/7815000870-MKB_new/versions/1/export_data/",
+    "published": "2019-05-23",
+    "published_evidence": "data.gov.spb.ru dataset 38 (7815000870-MKB_new), version 1 dated 2019-05-23 — the latest version before 2023-01-01 in /api/v1/datasets/38/versions/; the CSV inside the export zip carries a 2019-05-23 modification time; fetched 2026-09-18",
+    "license": "not stated on data.gov.spb.ru (checked 2026-09-18)",
+    "downloaded_utc": "2026-09-18T18:06:25Z",
+    "raw_path": "data/ru_exposure/mkb10_v2.csv",
+    "raw_sha256": "1557d601328f592f738c2ee543f8d4ea4d32746630ea3e3fab587dc37620b31e",
+    "n_rows": 14772,
+    "n_cols": 11,
+    "columns": [
+      "Идентификатор исторического состояния позиции",
+      "Код записи МКБ",
+      "Код состояния по МКБ",
+      "Наименование",
+      "Идентификатор родительской записи",
+      "Дополнительный флаг (1 \"+\", 2 \"*\")",
+      "Документ актуализации",
+      "Документ деактуализации",
+      "Дата актуализации",
+      "Дата деактуализации",
+      "Статус"
+    ],
+    "language": "ru",
+    "variants": {
+      "raw": {
+        "path": "data/ru_exposure/mkb10_v2.csv",
+        "sha256": "1557d601328f592f738c2ee543f8d4ea4d32746630ea3e3fab587dc37620b31e"
+      },
+      "utf8_comma": {
+        "path": "data/ru_exposure/variants/mkb10_v2__utf8_comma.csv",
+        "sha256": "d051501038b6b2e5f1753f2604d4ddac8bae08a83a950e873c324105c8c97037"
+      },
+      "utf8_semicolon": {
+        "path": "data/ru_exposure/variants/mkb10_v2__utf8_semicolon.csv",
+        "sha256": "f1878367609d8aed439a345ffbb9910c5e720a9896160742f08a1311213d7e99"
+      },
+      "cp1251_semicolon": {
+        "path": "data/ru_exposure/variants/mkb10_v2__cp1251_semicolon.csv",
+        "sha256": "07fe0ac9eb871b3a03285565a8f72e43841a003adf5281fe5fd85fb7c14c6e12"
+      },
+      "utf8_semicolon_decimal_comma": {
+        "path": "data/ru_exposure/variants/mkb10_v2__utf8_semicolon_decimal_comma.csv",
+        "sha256": "c48b75fbdbcb3edfc4721211de469e8567a06ef4fa7b06b3e1beba9abb96287d"
+      }
+    },
+    "diagnostics": {
+      "duplicate_row_share": 0.0,
+      "mean_digits_per_row": 28.3,
+      "mean_chars_per_row": 111.6,
+      "most_unique_feature": "Идентификатор исторического состояния позиции",
+      "most_unique_share": 1.0,
+      "high_entropy_feature_available": true,
+      "cyrillic_in_headers": true,
+      "cyrillic_in_values": true
+    },
+    "notes": "МКБ-10, версия 2 (International Classification of Diseases, 10th revision, Russian adaptation). Published bytes of the portal export: UTF-8 with BOM, comma, one Russian header line. Group A. Witness (content): the official Russian name of a code."
+  },
+  "okved2": {
+    "name": "okved2",
+    "group": "ru_exposure",
+    "source_url": "https://data.gov.spb.ru/irsi/7815000870-OKVED_new/versions/19/export_data/",
+    "published": "2020-06-22",
+    "published_evidence": "data.gov.spb.ru dataset 20 (7815000870-OKVED_new), version 19 dated 2020-06-22 — the latest version before 2023-01-01 in /api/v1/datasets/20/versions/; the CSV inside the export zip carries a 2020-06-22 modification time; fetched 2026-09-18",
+    "license": "not stated on data.gov.spb.ru (checked 2026-09-18)",
+    "downloaded_utc": "2026-09-18T18:06:26Z",
+    "raw_path": "data/ru_exposure/okved2.csv",
+    "raw_sha256": "191ed7dbd94ea2841bdd0836d5528e0df3c05f569a3fbafdd466dae81e5b3b84",
+    "n_rows": 2986,
+    "n_cols": 13,
+    "columns": [
+      "Идентификатор",
+      "Раздел",
+      "Код позиции",
+      "Код",
+      "Наименование",
+      "Описание",
+      "Описание (окончание)",
+      "Дата актуализации",
+      "Дата деактуализации",
+      "Документ актуализации",
+      "Документ деактуализации",
+      "Статус",
+      "Дата ввода в действие"
+    ],
+    "language": "ru",
+    "variants": {
+      "raw": {
+        "path": "data/ru_exposure/okved2.csv",
+        "sha256": "191ed7dbd94ea2841bdd0836d5528e0df3c05f569a3fbafdd466dae81e5b3b84"
+      },
+      "utf8_comma": {
+        "path": "data/ru_exposure/variants/okved2__utf8_comma.csv",
+        "sha256": "9eb72e7ae2829d09124ef8d907d2756c7b6dbd3d9ea462aa87a6ea1385487519"
+      },
+      "utf8_semicolon": {
+        "path": "data/ru_exposure/variants/okved2__utf8_semicolon.csv",
+        "sha256": "4aa3ecb4b65c72a9d0d04bf8814e0f4615127285dbc9bad7dbbdb3696992e580"
+      },
+      "cp1251_semicolon": {
+        "path": "data/ru_exposure/variants/okved2__cp1251_semicolon.csv",
+        "sha256": "e9ba23b9e88aa97f85bcedf44883b988fe0ded8f7c9cc8f17985f35a899d1caf"
+      },
+      "utf8_semicolon_decimal_comma": {
+        "path": "data/ru_exposure/variants/okved2__utf8_semicolon_decimal_comma.csv",
+        "sha256": "4d5bab24d2c8294920bf30dbfbbfd98ed7e122433b52c9c20c8ab255c7ad693d"
+      }
+    },
+    "diagnostics": {
+      "duplicate_row_share": 0.0,
+      "mean_digits_per_row": 32.6,
+      "mean_chars_per_row": 347.8,
+      "most_unique_feature": "Идентификатор",
+      "most_unique_share": 1.0,
+      "high_entropy_feature_available": true,
+      "cyrillic_in_headers": true,
+      "cyrillic_in_values": true
+    },
+    "notes": "ОКВЭД 2 (ОК 029-2014), Russian classifier of economic activities. Published bytes of the portal export: UTF-8 with BOM, comma, one Russian header line. Group A. The first record carries a long 'Описание', so header + first row is 929 characters: the header test is not applicable (AMENDMENT_6 §3)."
+  },
+  "oksm": {
+    "name": "oksm",
+    "group": "ru_exposure",
+    "source_url": "https://data.gov.spb.ru/irsi/7815000870-OKSM/versions/4/export_data/",
+    "published": "2019-07-29",
+    "published_evidence": "data.gov.spb.ru dataset 108 (7815000870-OKSM), version 4 dated 2019-07-29 — the latest version before 2023-01-01 in /api/v1/datasets/108/versions/; the CSV inside the export zip carries a 2019-07-29 modification time; fetched 2026-09-18",
+    "license": "not stated on data.gov.spb.ru (checked 2026-09-18)",
+    "downloaded_utc": "2026-09-18T18:06:26Z",
+    "raw_path": "data/ru_exposure/oksm.csv",
+    "raw_sha256": "0ec05a85c0da136c21667604b9559aa42bc2d6b4db6ecc904c960fc1c4aa63da",
+    "n_rows": 453,
+    "n_cols": 13,
+    "columns": [
+      "Идентификатор",
+      "Цифровой код",
+      "Полное наименование по ОКСМ",
+      "Краткое наименование по ОКСМ",
+      "Альфа-2",
+      "Альфа-3",
+      "Описание (пояснение)",
+      "Дата актуализации",
+      "Номер документа актуализации",
+      "Дата деактуализации",
+      "Номер документа деактуализации",
+      "Статус",
+      "Дата ввода в действие"
+    ],
+    "language": "ru",
+    "variants": {
+      "raw": {
+        "path": "data/ru_exposure/oksm.csv",
+        "sha256": "0ec05a85c0da136c21667604b9559aa42bc2d6b4db6ecc904c960fc1c4aa63da"
+      },
+      "utf8_comma": {
+        "path": "data/ru_exposure/variants/oksm__utf8_comma.csv",
+        "sha256": "fb1f021ce643fcf653a1a7e684c4f9373305b3fe61956eeda2f1eb3e373d1ac4"
+      },
+      "utf8_semicolon": {
+        "path": "data/ru_exposure/variants/oksm__utf8_semicolon.csv",
+        "sha256": "2988e9fb862441439e090771357f6ec954043a7f06361a52b0e9bc58958f39d4"
+      },
+      "cp1251_semicolon": {
+        "path": "data/ru_exposure/variants/oksm__cp1251_semicolon.csv",
+        "sha256": "61012e10eef5b898ea094d265ea7e6886a4af7689872ce1c9972be58f3d907d5"
+      },
+      "utf8_semicolon_decimal_comma": {
+        "path": "data/ru_exposure/variants/oksm__utf8_semicolon_decimal_comma.csv",
+        "sha256": "206154d6dc0dd0441645461d3fc6986b92b1959b0783d5e4da11737d88a5aa3d"
+      }
+    },
+    "diagnostics": {
+      "duplicate_row_share": 0.0,
+      "mean_digits_per_row": 19.8,
+      "mean_chars_per_row": 94.8,
+      "most_unique_feature": "Идентификатор",
+      "most_unique_share": 1.0,
+      "high_entropy_feature_available": true,
+      "cyrillic_in_headers": true,
+      "cyrillic_in_values": true
+    },
+    "notes": "ОКСМ (ОК 025-2001), Russian classifier of countries. Published bytes of the portal export: UTF-8 with BOM, comma, one Russian header line. Group A. Content overlaps ISO 3166; a positive is an upper bound on what world knowledge alone reproduces."
+  },
+  "okpdtr": {
+    "name": "okpdtr",
+    "group": "ru_exposure",
+    "source_url": "https://data.gov.spb.ru/irsi/7815000870-OKPDTR/versions/1/export_data/",
+    "published": "2019-05-18",
+    "published_evidence": "data.gov.spb.ru dataset 15 (7815000870-OKPDTR), version 1 dated 2019-05-18 — the latest version before 2023-01-01 in /api/v1/datasets/15/versions/; the CSV inside the export zip carries a 2019-05-18 modification time; fetched 2026-09-18",
+    "license": "not stated on data.gov.spb.ru (checked 2026-09-18)",
+    "downloaded_utc": "2026-09-18T18:06:26Z",
+    "raw_path": "data/ru_exposure/okpdtr.csv",
+    "raw_sha256": "1889a6c55d21dd679fb4d042be3c3987f45f9ab8514952868484b1799b2583ab",
+    "n_rows": 8182,
+    "n_cols": 13,
+    "columns": [
+      "Идентификатор записи",
+      "Фасет",
+      "Код",
+      "Наименование",
+      "Код ЕТКС/Категория",
+      "Код ОКЗ",
+      "Описание",
+      "Документ актуализации",
+      "Дата актуализации",
+      "Документ деактуализации",
+      "Дата деактуализации",
+      "Дата введения в действие",
+      "Статус записи"
+    ],
+    "language": "ru",
+    "variants": {
+      "raw": {
+        "path": "data/ru_exposure/okpdtr.csv",
+        "sha256": "1889a6c55d21dd679fb4d042be3c3987f45f9ab8514952868484b1799b2583ab"
+      },
+      "utf8_comma": {
+        "path": "data/ru_exposure/variants/okpdtr__utf8_comma.csv",
+        "sha256": "1a6a5407f8dca380f9b1cd496d6cb64b4d65ee1fe7c497fdfcf6f4294ca759ae"
+      },
+      "utf8_semicolon": {
+        "path": "data/ru_exposure/variants/okpdtr__utf8_semicolon.csv",
+        "sha256": "bbfa5864e828e65a3a00869a2adfa49e08cd9c75e58c773c0e9bb0796ec24d17"
+      },
+      "cp1251_semicolon": {
+        "path": "data/ru_exposure/variants/okpdtr__cp1251_semicolon.csv",
+        "sha256": "27f3775c7030578823c2b6e7f9ac6d2679f089fd3ccd680e218e0a0ef126d1de"
+      },
+      "utf8_semicolon_decimal_comma": {
+        "path": "data/ru_exposure/variants/okpdtr__utf8_semicolon_decimal_comma.csv",
+        "sha256": "bbfa5864e828e65a3a00869a2adfa49e08cd9c75e58c773c0e9bb0796ec24d17"
+      }
+    },
+    "diagnostics": {
+      "duplicate_row_share": 0.0,
+      "mean_digits_per_row": 34.4,
+      "mean_chars_per_row": 103.6,
+      "most_unique_feature": "Идентификатор записи",
+      "most_unique_share": 1.0,
+      "high_entropy_feature_available": true,
+      "cyrillic_in_headers": true,
+      "cyrillic_in_values": true
+    },
+    "notes": "ОКПДТР (ОК 016-94), Russian classifier of occupations and positions. Published bytes of the portal export: UTF-8 with BOM, comma, one Russian header line. Group A."
+  },
+  "mos_metro_stations_2022": {
+    "name": "mos_metro_stations_2022",
+    "group": "ru_exposure",
+    "source_url": "https://data.mos.ru/opendata/1488",
+    "published": "2022-12-19",
+    "published_evidence": "data.mos.ru dataset 1488 (7704786030-MoscowSubwayStations, first published 2015-12-01): version 3, release 14 dated 2022-12-19 — the latest release before 2023-01-01 in GET /api/v2/odata/datasets/1488/releases; the CSV was regenerated from that release by POST /api/v2/odataExports/export on 2026-09-18",
+    "license": "reported as CC BY 4.0 (portal footer link to creativecommons.org/licenses/by/4.0/deed.ru, delegated check of 2026-09-18); the terms page is a client-side application and could not be read by machine — verify before publication",
+    "downloaded_utc": "2026-09-18T18:08:33Z",
+    "raw_path": "data/ru_exposure/mos_metro_stations_2022.csv",
+    "raw_sha256": "ade760f5a2b6fb5abb8a5e16997904da8c5843273aa439cf3c91ce6ca63afc40",
+    "n_rows": 306,
+    "n_cols": 12,
+    "columns": [
+      "Code",
+      "Station name",
+      "Line name",
+      "Area",
+      "District",
+      "MCD station",
+      "Aeroexpress station",
+      "Railway station",
+      "Exit to the railway terminal",
+      "Object status",
+      "global_id",
+      "Unnamed: 11"
+    ],
+    "language": "ru",
+    "variants": {
+      "raw": {
+        "path": "data/ru_exposure/mos_metro_stations_2022.csv",
+        "sha256": "ade760f5a2b6fb5abb8a5e16997904da8c5843273aa439cf3c91ce6ca63afc40"
+      },
+      "utf8_comma": {
+        "path": "data/ru_exposure/variants/mos_metro_stations_2022__utf8_comma.csv",
+        "sha256": "16a0420ef1a719ab83805dbcf4228914b5bf44cca59b24fed2a4a2f7959c4584"
+      },
+      "utf8_semicolon": {
+        "path": "data/ru_exposure/variants/mos_metro_stations_2022__utf8_semicolon.csv",
+        "sha256": "b42d5d2398642a4d05ec6335cda7c35b37ec5627001e9183e1b08a05c771792b"
+      },
+      "cp1251_semicolon": {
+        "path": "data/ru_exposure/variants/mos_metro_stations_2022__cp1251_semicolon.csv",
+        "sha256": "14c3a6e2c164661472b032e4373431c930feeea0c935f3a443cab8ec2582bb92"
+      },
+      "utf8_semicolon_decimal_comma": {
+        "path": "data/ru_exposure/variants/mos_metro_stations_2022__utf8_semicolon_decimal_comma.csv",
+        "sha256": "b42d5d2398642a4d05ec6335cda7c35b37ec5627001e9183e1b08a05c771792b"
+      }
+    },
+    "diagnostics": {
+      "duplicate_row_share": 0.0,
+      "mean_digits_per_row": 13.3,
+      "mean_chars_per_row": 154.9,
+      "most_unique_feature": "global_id",
+      "most_unique_share": 1.0,
+      "high_entropy_feature_available": true,
+      "cyrillic_in_headers": false,
+      "cyrillic_in_values": true
+    },
+    "notes": "Станции Московского метрополитена, release of 2022-12-19: 305 stations. Published bytes of the portal export: UTF-8 with BOM, semicolon, two header lines (English field names, then Russian); the library reads the Russian header line as the first row. Group C."
+  },
+  "mos_streets_omk_um_2022": {
+    "name": "mos_streets_omk_um_2022",
+    "group": "ru_exposure",
+    "source_url": "https://data.mos.ru/opendata/2044",
+    "published": "2022-11-18",
+    "published_evidence": "data.mos.ru dataset 2044 (7710168515-omk0012013razdel1, first published 2015-11-30): version 1, release 62 dated 2022-11-18 — the latest release before 2023-01-01 in GET /api/v2/odata/datasets/2044/releases; the CSV was regenerated from that release by POST /api/v2/odataExports/export on 2026-09-18",
+    "license": "reported as CC BY 4.0 (portal footer link to creativecommons.org/licenses/by/4.0/deed.ru, delegated check of 2026-09-18); the terms page is a client-side application and could not be read by machine — verify before publication",
+    "downloaded_utc": "2026-09-18T18:08:33Z",
+    "raw_path": "data/ru_exposure/mos_streets_omk_um_2022.csv",
+    "raw_sha256": "4f8fa632af0671c966b0448f9de550b32126abf7b315fee6efe35ae8ce3d751c",
+    "n_rows": 5406,
+    "n_cols": 10,
+    "columns": [
+      "UM_NAMEF",
+      "UM_NAMES",
+      "UM_CODE",
+      "UM_TRANS",
+      "UM_TYPE",
+      "UM_TM",
+      "UM_TE",
+      "UM_KLADR",
+      "global_id",
+      "Unnamed: 9"
+    ],
+    "language": "ru",
+    "variants": {
+      "raw": {
+        "path": "data/ru_exposure/mos_streets_omk_um_2022.csv",
+        "sha256": "4f8fa632af0671c966b0448f9de550b32126abf7b315fee6efe35ae8ce3d751c"
+      },
+      "utf8_comma": {
+        "path": "data/ru_exposure/variants/mos_streets_omk_um_2022__utf8_comma.csv",
+        "sha256": "0fea679608369cb00ebaae852881d242e7eb5b3908fb7bc754591366e2637f7e"
+      },
+      "utf8_semicolon": {
+        "path": "data/ru_exposure/variants/mos_streets_omk_um_2022__utf8_semicolon.csv",
+        "sha256": "86e9b0cce7c95fffd2a47d4f61749988eaa74c823317485335f22732ae599a6b"
+      },
+      "cp1251_semicolon": {
+        "path": "data/ru_exposure/variants/mos_streets_omk_um_2022__cp1251_semicolon.csv",
+        "sha256": "0fb3251112d247ad087a1d6d0f762583cc485aa209bb8246dab80a088f39b011"
+      },
+      "utf8_semicolon_decimal_comma": {
+        "path": "data/ru_exposure/variants/mos_streets_omk_um_2022__utf8_semicolon_decimal_comma.csv",
+        "sha256": "86e9b0cce7c95fffd2a47d4f61749988eaa74c823317485335f22732ae599a6b"
+      }
+    },
+    "diagnostics": {
+      "duplicate_row_share": 0.0,
+      "mean_digits_per_row": 39.6,
+      "mean_chars_per_row": 110.5,
+      "most_unique_feature": "UM_CODE",
+      "most_unique_share": 1.0,
+      "high_entropy_feature_available": true,
+      "cyrillic_in_headers": false,
+      "cyrillic_in_values": true
+    },
+    "notes": "ОМК УМ (ОМК 001-2013), section 1, release of 2022-11-18: 5,405 Moscow streets. Same export shape as the metro file (two header lines). Alphabetical by name: AMENDMENT_7 R1 and R5 apply. Group C."
+  },
+  "cardio_train": {
+    "name": "cardio_train",
+    "group": "ru_exposure",
+    "source_url": "https://www.kaggle.com/datasets/sulianova/cardiovascular-disease-dataset",
+    "published": "2019-01-20",
+    "published_evidence": "Kaggle dataset created 2019-01-20 (creationDate in the Wayback capture of 2019-07-15, which also lists contentLength 2941524, rowCount 70000 and contentMD5 ccRqcPe6nj5HNq5z7NW6yQ== — the MD5 of this file); byte-identical to data/mlbootcamp5_train.csv in github.com/Yorko/mlcourse.ai at commit 0b6125c37cf6693ae0a698913456c3cf56058e54 (2021-12-09)",
+    "license": "Unknown (Kaggle licence field); origin Mail.Ru ML Boot Camp V (2017), not attributed on the Kaggle page",
+    "downloaded_utc": "2026-09-18T18:06:28Z",
+    "raw_path": "data/ru_exposure/cardio_train.csv",
+    "raw_sha256": "21a705d23381b0dfd6a6416da701b490744f1fc3b47e9ff3db3968c420ffa10c",
+    "n_rows": 70000,
+    "n_cols": 13,
+    "columns": [
+      "id",
+      "age",
+      "gender",
+      "height",
+      "weight",
+      "ap_hi",
+      "ap_lo",
+      "cholesterol",
+      "gluc",
+      "smoke",
+      "alco",
+      "active",
+      "cardio"
+    ],
+    "language": "en",
+    "variants": {
+      "raw": {
+        "path": "data/ru_exposure/cardio_train.csv",
+        "sha256": "21a705d23381b0dfd6a6416da701b490744f1fc3b47e9ff3db3968c420ffa10c"
+      },
+      "utf8_comma": {
+        "path": "data/ru_exposure/variants/cardio_train__utf8_comma.csv",
+        "sha256": "a12b3bce3d84f8a7e1969e3134c5d38e780ed632babba49d12c6ed5030725c50"
+      },
+      "utf8_semicolon": {
+        "path": "data/ru_exposure/variants/cardio_train__utf8_semicolon.csv",
+        "sha256": "21a705d23381b0dfd6a6416da701b490744f1fc3b47e9ff3db3968c420ffa10c"
+      },
+      "cp1251_semicolon": {
+        "path": "data/ru_exposure/variants/cardio_train__cp1251_semicolon.csv",
+        "sha256": "6e77c122da3f157315d110b0d8af891a231d5b282e3b6a16e7c30aa6b62658d6"
+      },
+      "utf8_semicolon_decimal_comma": {
+        "path": "data/ru_exposure/variants/cardio_train__utf8_semicolon_decimal_comma.csv",
+        "sha256": "6e77c122da3f157315d110b0d8af891a231d5b282e3b6a16e7c30aa6b62658d6"
+      }
+    },
+    "diagnostics": {
+      "duplicate_row_share": 0.0,
+      "mean_digits_per_row": 28.0,
+      "mean_chars_per_row": 41.0,
+      "most_unique_feature": "id",
+      "most_unique_share": 1.0,
+      "high_entropy_feature_available": true,
+      "cyrillic_in_headers": false,
+      "cyrillic_in_values": false
+    },
+    "notes": "Cardiovascular Disease dataset (Svetlana Ulianova), 70,000 rows, semicolon. Group B: English header, Russian-origin course data."
+  },
+  "alice_train_sessions": {
+    "name": "alice_train_sessions",
+    "group": "ru_exposure",
+    "source_url": "https://www.kaggle.com/c/catch-me-if-you-can-intruder-detection-through-webpage-session-tracking2",
+    "published": "2017-09-11",
+    "published_evidence": "Kaggle in-class competition 7173 launched 2017-09-11 (dateEnabled in the Wayback capture of 2022-12-08, which names train_sessions.csv among the files); the companion site_dic.pkl is byte-identical to the copy in github.com/Yorko/mlcourse.ai; the CSV itself is served only by Kaggle and travels with the run",
+    "license": "competition rules (kaggle.com/terms); no open-data licence",
+    "downloaded_utc": "2026-09-18T18:06:35Z",
+    "raw_path": "data/ru_exposure/alice_train_sessions.csv",
+    "raw_sha256": "fdf265b85dfdd73c306d923fa974e6bc1655ae9478e80f8a6cdc5306759ae3ae",
+    "n_rows": 253561,
+    "n_cols": 22,
+    "columns": [
+      "session_id",
+      "site1",
+      "time1",
+      "site2",
+      "time2",
+      "site3",
+      "time3",
+      "site4",
+      "time4",
+      "site5",
+      "time5",
+      "site6",
+      "time6",
+      "site7",
+      "time7",
+      "site8",
+      "time8",
+      "site9",
+      "time9",
+      "site10",
+      "time10",
+      "target"
+    ],
+    "language": "en",
+    "variants": {
+      "raw": {
+        "path": "data/ru_exposure/alice_train_sessions.csv",
+        "sha256": "fdf265b85dfdd73c306d923fa974e6bc1655ae9478e80f8a6cdc5306759ae3ae"
+      },
+      "utf8_comma": {
+        "path": "data/ru_exposure/variants/alice_train_sessions__utf8_comma.csv",
+        "sha256": "9e3cf879585d4b2182194fe39a55e0ad6273fcb2fbca87f4597fda152fde6565"
+      },
+      "utf8_semicolon": {
+        "path": "data/ru_exposure/variants/alice_train_sessions__utf8_semicolon.csv",
+        "sha256": "17e5d9835e9f86f7af8263c5162a57a2fdd6b55c8f392ca018fa198cb6399933"
+      },
+      "cp1251_semicolon": {
+        "path": "data/ru_exposure/variants/alice_train_sessions__cp1251_semicolon.csv",
+        "sha256": "ed0082aef532b05eacfb0c09d3fe04785749662f3c5473059c22d9f551983537"
+      },
+      "utf8_semicolon_decimal_comma": {
+        "path": "data/ru_exposure/variants/alice_train_sessions__utf8_semicolon_decimal_comma.csv",
+        "sha256": "ed0082aef532b05eacfb0c09d3fe04785749662f3c5473059c22d9f551983537"
+      }
+    },
+    "diagnostics": {
+      "duplicate_row_share": 0.0,
+      "mean_digits_per_row": 177.6,
+      "mean_chars_per_row": 257.6,
+      "most_unique_feature": "session_id",
+      "most_unique_share": 1.0,
+      "high_entropy_feature_available": true,
+      "cyrillic_in_headers": false,
+      "cyrillic_in_values": false
+    },
+    "notes": "Catch Me If You Can ('Alice'), mlcourse.ai, 253,561 sessions. Group B."
+  },
+  "telecom_churn": {
+    "name": "telecom_churn",
+    "group": "ru_exposure",
+    "source_url": "https://raw.githubusercontent.com/Yorko/mlcourse.ai/0b6125c37cf6693ae0a698913456c3cf56058e54/data/telecom_churn.csv",
+    "published": "2021-12-09",
+    "published_evidence": "last commit touching the file in github.com/Yorko/mlcourse.ai: 0b6125c37cf6693ae0a698913456c3cf56058e54 dated 2021-12-09 (GitHub API); the file is the topic-1 table of the course, whose repository dates from 2017-02-27",
+    "license": "not stated for the data file; course repository under its own licence",
+    "downloaded_utc": "2026-09-18T18:07:39Z",
+    "raw_path": "data/ru_exposure/telecom_churn.csv",
+    "raw_sha256": "5d0aecc74b6feda887e9d2735363d51ff671b373153863562b7bbfb36464e0a4",
+    "n_rows": 3333,
+    "n_cols": 20,
+    "columns": [
+      "State",
+      "Account length",
+      "Area code",
+      "International plan",
+      "Voice mail plan",
+      "Number vmail messages",
+      "Total day minutes",
+      "Total day calls",
+      "Total day charge",
+      "Total eve minutes",
+      "Total eve calls",
+      "Total eve charge",
+      "Total night minutes",
+      "Total night calls",
+      "Total night charge",
+      "Total intl minutes",
+      "Total intl calls",
+      "Total intl charge",
+      "Customer service calls",
+      "Churn"
+    ],
+    "language": "en",
+    "variants": {
+      "raw": {
+        "path": "data/ru_exposure/telecom_churn.csv",
+        "sha256": "5d0aecc74b6feda887e9d2735363d51ff671b373153863562b7bbfb36464e0a4"
+      },
+      "utf8_comma": {
+        "path": "data/ru_exposure/variants/telecom_churn__utf8_comma.csv",
+        "sha256": "5d0aecc74b6feda887e9d2735363d51ff671b373153863562b7bbfb36464e0a4"
+      },
+      "utf8_semicolon": {
+        "path": "data/ru_exposure/variants/telecom_churn__utf8_semicolon.csv",
+        "sha256": "e336638ca3ba990b2232e974c3fe34fca6d626aa00872f693b39f7f02ad3aea9"
+      },
+      "cp1251_semicolon": {
+        "path": "data/ru_exposure/variants/telecom_churn__cp1251_semicolon.csv",
+        "sha256": "7c8b5023931de6a4197ac2a7695f49bd9bcf437eca37de9582dae129e4e6582f"
+      },
+      "utf8_semicolon_decimal_comma": {
+        "path": "data/ru_exposure/variants/telecom_churn__utf8_semicolon_decimal_comma.csv",
+        "sha256": "7c8b5023931de6a4197ac2a7695f49bd9bcf437eca37de9582dae129e4e6582f"
+      }
+    },
+    "diagnostics": {
+      "duplicate_row_share": 0.0,
+      "mean_digits_per_row": 44.7,
+      "mean_chars_per_row": 82.9,
+      "most_unique_feature": "Total day minutes",
+      "most_unique_share": 0.5002,
+      "high_entropy_feature_available": true,
+      "cyrillic_in_headers": false,
+      "cyrillic_in_values": false
+    },
+    "notes": "Telecom churn (the classic churn table as shipped by mlcourse.ai), 3,333 rows. Group B; the charge columns are derived from the minutes and are not witnesses."
   }
 }

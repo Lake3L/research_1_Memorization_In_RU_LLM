@@ -120,12 +120,28 @@ class PerfectMemorizer:
         if target is None or target not in self.df.columns:
             return ""
 
-        # parse conditioning values and find the matching row
+        # parse conditioning values and find the matching row. The library joins
+        # fields with ", ", and values may themselves contain ", " (ОКВЭД names,
+        # "МОЛДОВА, РЕСПУБЛИКА"), so the split is on "<column> = " boundaries —
+        # a known column name at the start or right after ", " — and a value
+        # runs to the next such boundary.
+        query = prompt.split("\n\n")[-1]
+        bounds = []
+        for name in self.df.columns:
+            key = f"{name} = "
+            start = 0
+            while True:
+                i = query.find(key, start)
+                if i < 0:
+                    break
+                if i == 0 or query[max(0, i - 2):i] == ", ":
+                    bounds.append((i, name))
+                start = i + 1
+        bounds.sort()
         conds = {}
-        for part in prompt.split(", "):
-            if " = " in part:
-                name, value = part.split(" = ", 1)
-                conds[name.strip()] = value.strip()
+        for k, (i, name) in enumerate(bounds):
+            end = bounds[k + 1][0] - 2 if k + 1 < len(bounds) else len(query)
+            conds[name] = query[i + len(name) + 3:end].strip().rstrip(",").strip()
 
         mask = None
         for name, value in conds.items():

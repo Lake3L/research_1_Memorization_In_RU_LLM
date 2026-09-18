@@ -200,13 +200,23 @@ session itself is `notebooks/session.json`.
       search works through the authenticated `gh` CLI (2026-09-18): iris row
       47,104 files, govdomains row 2; the fragment rule (which fields, how many)
       is fixed in the next amendment before any count enters a table.
-- [ ] **High-exposure candidates** (2026-09-18, `LOG.md`): 55 files collected
-      outside the repository, 16 St Petersburg classifiers fetched at their
-      last pre-2023 version, all 32 candidates profiled by
-      `src/profile_candidates.py`, provenance verified. Pending the author's
-      choice of groups and arms; then a dated amendment freezes the files with
-      hashes, witness columns and the exposure covariate **before any model
-      sees them**, and the session is priced with `src/price_plan.py`.
+- [x] **High-exposure tables frozen** → `amendments/AMENDMENT_9_HIGH_EXPOSURE_TABLES.md`
+      (2026-09-18): nine files in registry group `ru_exposure` with hashes
+      (`src/prepare_exposure_datasets.py`), witness columns in two tiers
+      (file / content), the exposure covariate measured by one rule for all
+      21 datasets (`src/exposure_counts.py` → `data/exposure_counts.json`),
+      hypothesis H2e and its predictions written before any run, plans
+      `exposure_1` (6.0 h) and `exposure_2` (4.9 h) priced and validated on
+      both mocks. Re-fetch sources verified against the frozen hashes for the
+      six re-fetchable files; the Moscow releases and the Kaggle competition
+      file travel with the run.
+- [ ] **Session E1** (`notebooks/session.json`): `exposure_1` on the Nemo pair.
+      Before it runs: upload the nine CSVs of `data/ru_exposure/` as one
+      Kaggle dataset and attach it to the notebook (the portal refuses foreign
+      connections); push; check the checkout on Kaggle before weights load.
+- [ ] **Session E2**: `exposure_2` on the same pair; then both plans on the
+      YandexGPT and GigaChat pairs and on the controls, so that the exposure
+      figure has every model on the same files.
 - [ ] **E2, corpus composition** from the technical reports and model cards
       of every model (delegated 2026-09-09, verify personally): table in the
       block C results document.
@@ -230,7 +240,9 @@ session itself is `notebooks/session.json`.
       scheduled on any Russian file** — a consequence of the preregistered rule,
       recorded, not amended. → `src/precheck_first_token.py`,
       `results/first_token_precheck.json`
-- [ ] **Sessions, in the order of `AMENDMENT_8` §5**: C2 `ru_probe_long` on the
+- [ ] **Sessions, in the order of `AMENDMENT_8` §5**, with E1 and E2 slotted
+      first on each pair and every session planned at ≤ 10 h by the
+      conservative estimate (`AMENDMENT_9` §7): C2 `ru_probe_long` on the
       Nemo pair; YandexGPT pretrain + instruct on `probe` and `ru_probe`;
       OLMo-7B-hf on the canon (`probe`, `h1b_rest`) with the cell-by-cell
       comparison to Bordt Table 3; GigaChat base + instruct after the smoke

@@ -94,6 +94,13 @@ FEATURES = {
     "titanic-train.csv": "Name",
     "adult-train.csv": "fnlwgt",
     "california-housing.csv": "median_income",
+    # AMENDMENT_9 §3: the content-tier witness of each high-exposure table
+    "mkb10_v2.csv": "Наименование",
+    "okved2.csv": "Наименование",
+    "oksm.csv": "Полное наименование по ОКСМ",
+    "okpdtr.csv": "Наименование",
+    "cardio_train.csv": "age",
+    "telecom_churn.csv": "Total day minutes",
 }
 
 CANON = ["iris.csv", "uci-wine.csv", "openml-diabetes.csv",
@@ -195,6 +202,30 @@ PLANS = {
     "ru_probe_long": [
         ("iris.csv", "header", 4), ("iris.csv", "row", 142),
         ("russian_retail.csv", "row", 250),
+    ],
+    # AMENDMENT_9: the high-exposure tables, in two sessions so that each stays
+    # under the 10-hour ceiling by the conservative estimate of src/price_plan.py.
+    # Header and row completion on every file, iris as the in-session anchor;
+    # feature completion on the files whose designated feature is a name or a
+    # measurement, in the second session. The header test is not run on okved2:
+    # its header plus first row exceeds the 500-character window (AMENDMENT_6 §3).
+    "exposure_1": [
+        ("iris.csv", "header", 4), ("iris.csv", "row", 142),
+        ("mkb10_v2.csv", "header", 4), ("mkb10_v2.csv", "row", 250),
+        ("okved2.csv", "row", 250),
+        ("cardio_train.csv", "header", 4), ("cardio_train.csv", "row", 250),
+        ("alice_train_sessions.csv", "header", 4), ("alice_train_sessions.csv", "row", 250),
+        ("mos_metro_stations_2022.csv", "header", 4), ("mos_metro_stations_2022.csv", "row", 250),
+    ],
+    "exposure_2": [
+        ("iris.csv", "header", 4), ("iris.csv", "row", 142),
+        ("oksm.csv", "header", 4), ("oksm.csv", "row", 250),
+        ("okpdtr.csv", "header", 4), ("okpdtr.csv", "row", 250),
+        ("mos_streets_omk_um_2022.csv", "header", 4), ("mos_streets_omk_um_2022.csv", "row", 250),
+        ("telecom_churn.csv", "header", 4), ("telecom_churn.csv", "row", 250),
+        ("mkb10_v2.csv", "feature", 250), ("okved2.csv", "feature", 250),
+        ("oksm.csv", "feature", 250), ("okpdtr.csv", "feature", 250),
+        ("cardio_train.csv", "feature", 250), ("telecom_churn.csv", "feature", 250),
     ],
     # The prompting-mode probe of AMENDMENT_4 §3, cheap enough to run in both
     # modes back to back: row completion only, on the four datasets where the

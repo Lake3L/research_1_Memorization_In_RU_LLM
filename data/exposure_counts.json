@@ -1,0 +1,477 @@
+{
+  "_what": "\"Exposure\" is how often a table occurs in public text a model could have been\ntrained on. Kandpal et al. (arXiv:2202.06539) show that a sequence seen once\nis almost never regurgitated and one seen ten times is regurgitated orders of\nmagnitude more often, so a memorization verdict is only interpretable next to\na count. Two counts are taken here for every frozen dataset, by one rule,\nbefore any model runs on the new files:",
+  "iris": {
+    "group": "canon",
+    "mode": "full_line",
+    "measured": "2026-09-18",
+    "github": {
+      "name:iris.csv": {
+        "query": "\"iris.csv\"",
+        "files": 131840,
+        "incomplete": false
+      },
+      "fragment_1": {
+        "query": "\"4.9,3.1,1.5,0.1,Iris-setosa\"",
+        "files": 26048,
+        "incomplete": false
+      },
+      "fragment_2": {
+        "query": "\"6.4,2.9,4.3,1.3,Iris-versicolor\"",
+        "files": 26688,
+        "incomplete": false
+      }
+    },
+    "wikipedia": {
+      "title": "Ирисы Фишера",
+      "views_2025": 6771,
+      "months": 12
+    }
+  },
+  "trudvsem_vacancies_2026": {
+    "group": "fresh_control",
+    "mode": "full_line",
+    "measured": "2026-09-18",
+    "github": {
+      "fragment_1": {
+        "query": "\"Город Москва,\\\"Образование, наука\\\",Преподаватель по направлению Информационные системы,Не указано,3,Полный рабочий день,1,False,False,False,0,ГБПОУ Колледж современных технологий имени Героя Советского\"",
+        "files": 0,
+        "incomplete": false
+      },
+      "fragment_2": {
+        "query": "\"Новосибирская область,\\\"ЖКХ, эксплуатация\\\",Электрогазосварщик 6 разряда,Среднее профессиональное образование,3,Полный рабочий день,2,False,False,False,0,\\\"ФИЛИАЛ ООО \\\"\\\"ГАЗПРОМ ГАЗОРАСПРЕДЕЛЕНИЕ СИБИРЬ\\\"\\\"\"",
+        "files": 0,
+        "incomplete": false
+      }
+    },
+    "wikipedia": null
+  },
+  "hflabs_city": {
+    "group": "ru_pre_cutoff",
+    "mode": "full_line",
+    "measured": "2026-09-18",
+    "github": {
+      "name:city.csv": {
+        "query": "\"city.csv\"",
+        "files": 36608,
+        "incomplete": false
+      },
+      "fragment_1": {
+        "query": "\"\\\"Алтайский край, г Змеиногорск\\\",658480,Россия,Сибирский,край,Алтайский,р-н,Змеиногорский,г,Змеиногорск,,,2201500100000,e7001b8f-d104-4873-96d4-66339f5e530a,4,1,01214501000,01614101001,2209,UTC+7,51.15\"",
+        "files": 26,
+        "incomplete": false
+      },
+      "fragment_2": {
+        "query": "\"\\\"Московская обл, г Павловский Посад\\\",142500,Россия,Центральный,обл,Московская,,,г,Павловский Посад,,,5000004700000,bb464d94-30bf-4cf8-a320-905733fa67e2,4,1,46459000000,46759000001,5034,UTC+3,55.780724\"",
+        "files": 31,
+        "incomplete": false
+      }
+    },
+    "wikipedia": {
+      "title": "Список городов России",
+      "views_2025": 846543,
+      "months": 12
+    }
+  },
+  "govdomains": {
+    "group": "ru_pre_cutoff",
+    "mode": "full_line",
+    "measured": "2026-09-18",
+    "github": {
+      "name:feddomains.csv": {
+        "query": "\"feddomains.csv\"",
+        "files": 3,
+        "incomplete": false
+      },
+      "fragment_1": {
+        "query": "\"minjust.ru,minjust.gov.ru,Официальный сайт Минюста России,Сайт органа власти,Минюст России,Перенаправляет,Российская Федерация,,Да,Да,200,,,Не архивируется,,43797,RU,95.173.157.26,Федеральная исполнит\"",
+        "files": 0,
+        "incomplete": false
+      },
+      "fragment_2": {
+        "query": "\"50.mvd.ru,,Медико-санитарная часть МВД России по Московской области,Сайт территориального управления ФОИВ,МВД России,,Московская область,,Да,Да,200,,,,,209030,RU,\\\"82.202.189.118,82.202.189.119\\\",Федера\"",
+        "files": 0,
+        "incomplete": false
+      }
+    },
+    "wikipedia": null
+  },
+  "mos_zemelnye_uchastki": {
+    "group": "ru_pre_cutoff",
+    "mode": "full_line",
+    "measured": "2026-09-18",
+    "github": {
+      "fragment_1": {
+        "query": "\"10\t25501038\t77:09:0001026:61\tпер 3-й Лихачевский    (г Москва, пер 3-й Лихачевский, вл 2А)\t15809.0\tСубъект РФ - город Москва\tНет\tОСУЩЕСТВЛЕНИЯ ВОСПИТАТЕЛЬНО-ОБРАЗОВАТЕЛЬНОЙ ДЕЯТЕЛЬНОСТИ\"",
+        "files": 0,
+        "incomplete": false
+      },
+      "fragment_2": {
+        "query": "\"2940\t25498392\t77:05:0001002:56\tпроезд Павелецкий 2-й    (г Москва, проезд 2-й Павелецкий, вл 4А)\t5449.0\tСубъект РФ - город Москва\tНет\tэксплуатации здания колледжа с прилегающей территорией\"",
+        "files": 0,
+        "incomplete": false
+      }
+    },
+    "wikipedia": null
+  },
+  "mos_torgovye_obekty": {
+    "group": "ru_pre_cutoff",
+    "mode": "full_line",
+    "measured": "2026-09-18",
+    "github": {
+      "fragment_1": {
+        "query": "\"10\tпечать на Зеленоград, Район Крюково, у корп.1462, пл.8,5\tЗеленоград  к. 1462\tЗелАО\tКрюково\tМодульный объект\tс 1 января по 31 декабря\t01.01.2011 0:00:00\t31.12.2013 0:00:00\t1000-01317\t19.10.2011 0:00\"",
+        "files": 0,
+        "incomplete": false
+      },
+      "fragment_2": {
+        "query": "\"5106\tПечать на Мамоновский пер. 7 с. 1\tМамоновский пер. 7 с. 1\tЦАО\tТверской\tМодульный объект\tс 1 января по 31 декабря\t05.07.2012 0:00:00\t05.07.2015 0:00:00\t\t\"",
+        "files": 0,
+        "incomplete": false
+      }
+    },
+    "wikipedia": null
+  },
+  "russian_retail": {
+    "group": "ru_pre_cutoff",
+    "mode": "full_line",
+    "measured": "2026-09-18",
+    "github": {
+      "fragment_1": {
+        "query": "\"13 Rules,Россия,\\\"Кафе, ресторан\\\",Средний,2012.0,3,3 и 30 франчайзинговых,Москва; Санкт-Петербург; Воронеж; Киров; Краснодар; Новосибирск; Уфа,\\\"Компания 13 Rules основана в 2012 году Алексеем Омельченк\"",
+        "files": 0,
+        "incomplete": false
+      },
+      "fragment_2": {
+        "query": "\"Городские кондитерские № 1,Россия,\\\"Кафе, ресторан\\\",Средний,1997.0,,7,Санкт-Петербург,\\\"Городские кондитерские № 1 – это место, которое отлично передает атмосферу культурной столицы. Утренний кофе с вид\"",
+        "files": 0,
+        "incomplete": false
+      }
+    },
+    "wikipedia": null
+  },
+  "adult-train": {
+    "group": "canon",
+    "mode": "full_line",
+    "measured": "2026-09-18",
+    "github": {
+      "name:adult.csv": {
+        "query": "\"adult.csv\"",
+        "files": 12256,
+        "incomplete": false
+      },
+      "fragment_1": {
+        "query": "\"42, Private,159449, Bachelors,13, Married-civ-spouse, Exec-managerial, Husband, White, Male,5178,0,40, United-States, >50K\"",
+        "files": 78,
+        "incomplete": false
+      },
+      "fragment_2": {
+        "query": "\"26, Private,57512, Assoc-voc,11, Never-married, Craft-repair, Own-child, White, Male,0,0,48, United-States, <=50K\"",
+        "files": 15,
+        "incomplete": false
+      }
+    },
+    "wikipedia": null
+  },
+  "california-housing": {
+    "group": "canon",
+    "mode": "full_line",
+    "measured": "2026-09-18",
+    "github": {
+      "name:housing.csv": {
+        "query": "\"housing.csv\"",
+        "files": 45184,
+        "incomplete": false
+      },
+      "fragment_1": {
+        "query": "\"-122.25,37.84,52.0,3549.0,707.0,1551.0,714.0,3.6912,261100.0,NEAR BAY\"",
+        "files": 37,
+        "incomplete": false
+      },
+      "fragment_2": {
+        "query": "\"-117.79,33.84,9.0,10484.0,1603.0,4005.0,1419.0,8.3931,365300.0,<1H OCEAN\"",
+        "files": 5,
+        "incomplete": false
+      }
+    },
+    "wikipedia": null
+  },
+  "openml-diabetes": {
+    "group": "canon",
+    "mode": "full_line",
+    "measured": "2026-09-18",
+    "github": {
+      "name:diabetes.csv": {
+        "query": "\"diabetes.csv\"",
+        "files": 53504,
+        "incomplete": false
+      },
+      "fragment_1": {
+        "query": "\"8,125,96,0,0,0,0.232,54,1\"",
+        "files": 12448,
+        "incomplete": false
+      },
+      "fragment_2": {
+        "query": "\"1,90,62,18,59,25.1,1.268,25,0\"",
+        "files": 16352,
+        "incomplete": false
+      }
+    },
+    "wikipedia": null
+  },
+  "uci-wine": {
+    "group": "canon",
+    "mode": "full_line",
+    "measured": "2026-09-18",
+    "github": {
+      "name:wine.csv": {
+        "query": "\"wine.csv\"",
+        "files": 16416,
+        "incomplete": false
+      },
+      "fragment_1": {
+        "query": "\"1,13.86,1.35,2.27,16,98,2.98,3.15,.22,1.85,7.22,1.01,3.55,1045\"",
+        "files": 3184,
+        "incomplete": false
+      },
+      "fragment_2": {
+        "query": "\"2,11.64,2.06,2.46,21.6,84,1.95,1.69,.48,1.35,2.8,1,2.75,680\"",
+        "files": 3168,
+        "incomplete": false
+      }
+    },
+    "wikipedia": null
+  },
+  "titanic-train": {
+    "group": "canon",
+    "mode": "full_line",
+    "measured": "2026-09-18",
+    "github": {
+      "name:titanic.csv": {
+        "query": "\"titanic.csv\"",
+        "files": 76544,
+        "incomplete": false
+      },
+      "fragment_1": {
+        "query": "\"10,1,2,\\\"Nasser, Mrs. Nicholas (Adele Achem)\\\",female,14,1,0,237736,30.0708,,C\"",
+        "files": 30464,
+        "incomplete": false
+      },
+      "fragment_2": {
+        "query": "\"445,1,3,\\\"Johannesen-Bratthammer, Mr. Bernt\\\",male,,0,0,65306,8.1125,,S\"",
+        "files": 32448,
+        "incomplete": false
+      }
+    },
+    "wikipedia": {
+      "title": "Титаник",
+      "views_2025": 596503,
+      "months": 12
+    }
+  },
+  "mkb10_v2": {
+    "group": "ru_exposure",
+    "mode": "name_column",
+    "measured": "2026-09-18",
+    "github": {
+      "fragment_1": {
+        "query": "\"Паратиф B\"",
+        "files": 8,
+        "incomplete": false
+      },
+      "fragment_2": {
+        "query": "\"Другие уточненные расстройства системы пищеварения в перинатальном периоде\"",
+        "files": 1,
+        "incomplete": false
+      }
+    },
+    "wikipedia": {
+      "title": "МКБ-10",
+      "views_2025": 257778,
+      "months": 12
+    }
+  },
+  "okved2": {
+    "group": "ru_exposure",
+    "mode": "name_column",
+    "measured": "2026-09-18",
+    "github": {
+      "fragment_1": {
+        "query": "\"Выращивание тропических и субтропических культур\"",
+        "files": 21,
+        "incomplete": false
+      },
+      "fragment_2": {
+        "query": "\"Торговля оптовая автомобильными деталями, узлами и принадлежностями\"",
+        "files": 73,
+        "incomplete": false
+      }
+    },
+    "wikipedia": {
+      "title": "Общероссийский классификатор видов экономической деятельности",
+      "views_2025": 19205,
+      "months": 12
+    }
+  },
+  "oksm": {
+    "group": "ru_exposure",
+    "mode": "name_column",
+    "measured": "2026-09-18",
+    "github": {
+      "fragment_1": {
+        "query": "\"Аргентинская Республика\"",
+        "files": 1124,
+        "incomplete": false
+      },
+      "fragment_2": {
+        "query": "\"Республика Македония\"",
+        "files": 4256,
+        "incomplete": false
+      }
+    },
+    "wikipedia": {
+      "title": "Общероссийский классификатор стран мира",
+      "views_2025": 63535,
+      "months": 12
+    }
+  },
+  "okpdtr": {
+    "group": "ru_exposure",
+    "mode": "name_column",
+    "measured": "2026-09-18",
+    "github": {
+      "fragment_1": {
+        "query": "\"Аппаратчик дозирования\"",
+        "files": 4,
+        "incomplete": false
+      },
+      "fragment_2": {
+        "query": "\"Оператор трубообжимных станков\"",
+        "files": 2,
+        "incomplete": false
+      }
+    },
+    "wikipedia": {
+      "title": "Общероссийский классификатор профессий рабочих, должностей служащих и тарифных разрядов",
+      "views_2025": 4924,
+      "months": 11
+    }
+  },
+  "mos_metro_stations_2022": {
+    "group": "ru_exposure",
+    "mode": "name_column",
+    "measured": "2026-09-18",
+    "github": {
+      "fragment_1": {
+        "query": "\"Плющиха\"",
+        "files": 417,
+        "incomplete": false
+      },
+      "fragment_2": {
+        "query": "\"Воробьёвы горы\"",
+        "files": 918,
+        "incomplete": false
+      }
+    },
+    "wikipedia": {
+      "title": "Список станций Московского метрополитена",
+      "views_2025": 161095,
+      "months": 12
+    }
+  },
+  "mos_streets_omk_um_2022": {
+    "group": "ru_exposure",
+    "mode": "name_column",
+    "measured": "2026-09-18",
+    "github": {
+      "fragment_1": {
+        "query": "\"Истринская улица\"",
+        "files": 32,
+        "incomplete": false
+      },
+      "fragment_2": {
+        "query": "\"Мартовская улица\"",
+        "files": 15,
+        "incomplete": false
+      }
+    },
+    "wikipedia": {
+      "title": "Список улиц Москвы",
+      "views_2025": 95406,
+      "months": 12
+    }
+  },
+  "cardio_train": {
+    "group": "ru_exposure",
+    "mode": "full_line",
+    "measured": "2026-09-18",
+    "github": {
+      "name:cardio_train.csv": {
+        "query": "\"cardio_train.csv\"",
+        "files": 1824,
+        "incomplete": false
+      },
+      "name:mlbootcamp5_train.csv": {
+        "query": "\"mlbootcamp5_train.csv\"",
+        "files": 207,
+        "incomplete": false
+      },
+      "fragment_1": {
+        "query": "\"14;19834;1;164;68.0;110;60;1;1;0;0;0;0\"",
+        "files": 8,
+        "incomplete": false
+      },
+      "fragment_2": {
+        "query": "\"50001;17349;2;163;65.0;130;90;1;1;0;0;1;0\"",
+        "files": 0,
+        "incomplete": false
+      }
+    },
+    "wikipedia": null
+  },
+  "alice_train_sessions": {
+    "group": "ru_exposure",
+    "mode": "full_line",
+    "measured": "2026-09-18",
+    "github": {
+      "name:train_sessions.csv": {
+        "query": "\"train_sessions.csv\"",
+        "files": 382,
+        "incomplete": false
+      },
+      "fragment_1": {
+        "query": "\"10,3700,2014-02-20 16:09:13,229,2014-02-20 16:10:08,570,2014-02-20 16:10:08,21,2014-02-20 16:10:08,229,2014-02-20 16:10:24,21,2014-02-20 16:10:24,21,2014-02-20 16:10:29,21,2014-02-20 16:10:39,2336,201\"",
+        "files": 0,
+        "incomplete": false
+      },
+      "fragment_2": {
+        "query": "\"126780,77,2014-03-27 14:16:56,80,2014-03-27 14:16:58,80,2014-03-27 14:16:59,77,2014-03-27 14:16:59,77,2014-03-27 14:17:03,80,2014-03-27 14:17:05,80,2014-03-27 14:17:08,14616,2014-03-27 14:17:10,77,201\"",
+        "files": 0,
+        "incomplete": false
+      }
+    },
+    "wikipedia": null
+  },
+  "telecom_churn": {
+    "group": "ru_exposure",
+    "mode": "full_line",
+    "measured": "2026-09-18",
+    "github": {
+      "name:telecom_churn.csv": {
+        "query": "\"telecom_churn.csv\"",
+        "files": 1656,
+        "incomplete": false
+      },
+      "fragment_1": {
+        "query": "\"WV,141,415,Yes,Yes,37,258.6,84,43.96,222.0,111,18.87,326.4,97,14.69,11.2,5,3.02,0,False\"",
+        "files": 507,
+        "incomplete": false
+      },
+      "fragment_2": {
+        "query": "\"FL,106,415,No,Yes,31,197.4,125,33.56,123.4,110,10.49,115.6,101,5.2,12.3,4,3.32,3,False\"",
+        "files": 692,
+        "incomplete": false
+      }
+    },
+    "wikipedia": null
+  }
+}

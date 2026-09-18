@@ -196,7 +196,17 @@ session itself is `notebooks/session.json`.
 - [ ] **E1, duplication covariate**: public copies of two distinctive rows per
       dataset (GitHub code search, web, infini-gram over Dolma v1.7). First
       probe done: iris rows 310 and 212 hits in Dolma, Russian rows 0 (Dolma is
-      English-heavy; the GitHub/web count is the one that matters).
+      English-heavy; the GitHub/web count is the one that matters). GitHub code
+      search works through the authenticated `gh` CLI (2026-09-18): iris row
+      47,104 files, govdomains row 2; the fragment rule (which fields, how many)
+      is fixed in the next amendment before any count enters a table.
+- [ ] **High-exposure candidates** (2026-09-18, `LOG.md`): 55 files collected
+      outside the repository, 16 St Petersburg classifiers fetched at their
+      last pre-2023 version, all 32 candidates profiled by
+      `src/profile_candidates.py`, provenance verified. Pending the author's
+      choice of groups and arms; then a dated amendment freezes the files with
+      hashes, witness columns and the exposure covariate **before any model
+      sees them**, and the session is priced with `src/price_plan.py`.
 - [ ] **E2, corpus composition** from the technical reports and model cards
       of every model (delegated 2026-09-09, verify personally): table in the
       block C results document.

@@ -27,6 +27,9 @@ wandb/
 # dataset payloads: registry.json carries provenance and hashes, files are refetched by scripts
 data/*/variants/
 data/*/*.csv
+# archives of those payloads, made to attach a session's files to a hosted run
+data/*.zip
+data/*/*.zip
 
 # AI working notes (not part of the research record)
 AI/

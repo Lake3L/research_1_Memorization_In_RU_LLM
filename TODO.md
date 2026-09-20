@@ -211,9 +211,11 @@ session itself is `notebooks/session.json`.
       six re-fetchable files; the Moscow releases and the Kaggle competition
       file travel with the run.
 - [ ] **Session E1** (`notebooks/session.json`): `exposure_1` on the Nemo pair.
-      Before it runs: upload the nine CSVs of `data/ru_exposure/` as one
-      Kaggle dataset and attach it to the notebook (the portal refuses foreign
-      connections); push; check the checkout on Kaggle before weights load.
+      Before it runs: upload the nine CSVs of `data/ru_exposure/` as one Kaggle
+      dataset — loose or as one zip, both work — and attach it to the notebook
+      (the portals refuse foreign connections); push. The fetch step adopts them
+      from `/kaggle/input`, looking inside a zip, and verifies every hash before
+      any weights load (`src/fetch_data.py --adopt`).
 - [ ] **Session E2**: `exposure_2` on the same pair; then both plans on the
       YandexGPT and GigaChat pairs and on the controls, so that the exposure
       figure has every model on the same files.

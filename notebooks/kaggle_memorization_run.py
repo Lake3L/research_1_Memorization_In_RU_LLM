@@ -131,24 +131,24 @@ print("\ncheckout supports every flag and plan this session requires")
 # is a claim about bytes. A source that does not match is rejected and the next one
 # is tried; a dataset that matches none stops the run.
 #
-# The fresh control cannot be re-fetched: it was collected from a live API that
-# serves today's vacancies. Its frozen CSV is attached to the session as a Kaggle
-# dataset and picked up from `/kaggle/input`; the hash check applies to it as to
-# every other file. Only the datasets the session names are fetched.
+# Some files cannot be fetched from here at all and travel with the session as an
+# attached Kaggle dataset: the fresh control (collected from a live API that serves
+# today's vacancies), the two data.mos.ru releases that only the portal's export API
+# can regenerate, the Kaggle competition file, and the St Petersburg exports, whose
+# portal refuses foreign connections. They are picked up from `/kaggle/input` by file
+# name — inside an uploaded zip as well, since Kaggle does not always unpack one —
+# and every one of them is checked against its frozen hash here, before any weights
+# are loaded. Only the datasets the session names are fetched.
 
 # %% attached inputs
 import glob, shutil
-from dataset_registry import load_registry
+from fetch_data import adopt_attached
 
-for name, rec in load_registry().items():
-    target = rec["raw_path"]
-    if os.path.exists(target):
-        continue
-    attached = glob.glob(f"/kaggle/input/**/{os.path.basename(target)}", recursive=True)
-    if attached:
-        os.makedirs(os.path.dirname(target), exist_ok=True)
-        shutil.copy(attached[0], target)
-        print(f"{name}: attached copy -> {target}")
+adopted = adopt_attached("/kaggle/input")
+for r in adopted:
+    print(f"{r['dataset']:26s} {r['status']:20s} {r['source']}")
+bad = [r["dataset"] for r in adopted if r["status"] != "adopted"]
+assert not bad, f"attached copies that are not the frozen bytes: {bad}"
 
 # %% fetch
 ONLY = SESSION.get("datasets")

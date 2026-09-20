@@ -225,8 +225,85 @@ def rebuild(name: str, rec: dict, raw_path: str) -> dict:
     return report
 
 
+def adopt_attached(root: str = "/kaggle/input", registry=None,
+                   dest_root: str = ROOT) -> list:
+    """Place the frozen files that travel with the run, from an attached folder.
+
+    Some files cannot be fetched from a hosted session at all: the two
+    data.mos.ru releases that only its export API can regenerate, the Kaggle
+    competition file, the fresh control collected from a live API, and the
+    St Petersburg exports, whose portal refuses foreign connections. They are
+    uploaded as a Kaggle dataset and attached to the session instead. Kaggle
+    normally unpacks an uploaded archive, but it does not have to, so a zip in
+    the attached folder is searched as well as the folder itself.
+
+    A file already on disk is left alone. The hash is checked here, not only in
+    `fetch_one`, so that a wrong upload is visible at the data step instead of
+    after an hour of loading weights. Two registered files with the same base
+    name would make "find it by name" ambiguous, so that is reported rather
+    than guessed.
+    """
+    registry = registry or load_registry()
+    by_basename = {}
+    for name, rec in registry.items():
+        by_basename.setdefault(os.path.basename(rec["raw_path"]), []).append((name, rec))
+    results, placed = [], set()
+
+    def take(basename):
+        """The (name, record) this file belongs to, or None with a report entry."""
+        hits = by_basename.get(basename, [])
+        if len(hits) > 1:
+            results.append({"dataset": "+".join(n for n, _ in hits), "status": "ambiguous",
+                            "source": basename, "sha256": None})
+            return None
+        if not hits or hits[0][0] in placed:
+            return None
+        name, rec = hits[0]
+        if os.path.exists(os.path.join(dest_root, rec["raw_path"])):
+            return None
+        return name, rec
+
+    def place(name, rec, payload, source):
+        target = os.path.join(dest_root, rec["raw_path"])
+        os.makedirs(os.path.dirname(target), exist_ok=True)
+        with open(target, "wb") as f:
+            f.write(payload)
+        digest = hashlib.sha256(payload).hexdigest()
+        placed.add(name)
+        results.append({"dataset": name, "source": source, "sha256": digest,
+                        "status": "adopted" if digest == rec["raw_sha256"]
+                                  else "adopted_wrong_bytes"})
+
+    if not os.path.isdir(root):
+        return results
+    for folder, _, files in os.walk(root):
+        for fname in sorted(files):
+            path = os.path.join(folder, fname)
+            hit = take(fname)
+            if hit:
+                with open(path, "rb") as f:
+                    place(hit[0], hit[1], f.read(), path)
+            elif fname.lower().endswith(".zip"):
+                try:
+                    archive = zipfile.ZipFile(path)
+                except (zipfile.BadZipFile, OSError):
+                    continue
+                with archive:
+                    for member in archive.infolist():
+                        hit = take(os.path.basename(member.filename))
+                        if hit:
+                            place(hit[0], hit[1], archive.read(member),
+                                  f"{path}!{member.filename}")
+    return results
+
+
 def main():
     ap = argparse.ArgumentParser()
+    ap.add_argument("--adopt", default=None,
+                    help="folder of files uploaded with the run; zips in it are searched "
+                         "too. Defaults to /kaggle/input where that exists, so that a "
+                         "hosted session adopts its attached files even when the notebook "
+                         "copy that drives it is older than this checkout")
     ap.add_argument("--group", default=None,
                     help="canon | ru_pre_cutoff | fresh_control | ru_exposure, or several separated by commas")
     ap.add_argument("--only", default=None, help="comma-separated dataset names")
@@ -241,6 +318,12 @@ def main():
     args = ap.parse_args()
 
     registry = load_registry()
+    # The notebook cell that adopts attached files belongs to whichever copy of
+    # the .ipynb the hosted service imported, which can be older than this
+    # checkout; the fetch step always runs from the checkout, so the adoption
+    # happens here too and the two are idempotent.
+    for r in adopt_attached(args.adopt or "/kaggle/input", registry):
+        print(f"{r['dataset']:26s} {r['status']:20s} {r['source']}")
     targets = registry
     if args.group:
         groups = {g.strip() for g in args.group.split(",")}

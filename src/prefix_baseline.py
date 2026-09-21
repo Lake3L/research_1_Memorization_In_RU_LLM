@@ -168,6 +168,14 @@ def witnesses():
     return {k: v for k, v in data.items() if not k.startswith("_")}
 
 
+def witness_tiers(dataset):
+    """AMENDMENT_9 §3: column -> "file" or "content" for the datasets that
+    designate both tiers; empty for the datasets frozen under AMENDMENT_7,
+    whose single tier is reported as before."""
+    data = json.load(open(WITNESS_FILE, encoding="utf-8")).get("_tiers", {})
+    return {c: tier for tier, cols in data.get(dataset, {}).items() for c in cols}
+
+
 def block_index(rows):
     index = {}
     for size in (8, 10):
@@ -180,8 +188,9 @@ def block_index(rows):
 # scoring one cell
 # ----------------------------------------------------------------------------
 
-def score_cell(calls, rows, witness_columns):
+def score_cell(calls, rows, witness_columns, tiers=None):
     """Every row query of one cell with what the four rules need."""
+    tiers = tiers or {}
     header = rows[0]
     sep = separator_of(header)
     columns = [c.strip().lstrip("﻿") for c in fields_of(header, sep)]
@@ -210,16 +219,21 @@ def score_cell(calls, rows, witness_columns):
         # R3: witness values absent from the prompt, reproduced as a field
         present = reproduced = 0
         hits = []
+        by_tier = defaultdict(lambda: [0, 0])
         if record:
             for j in witness_idx:
                 v = truth_fields[j] if j < len(truth_fields) else ""
                 if len(v) < 3 or v in prompt_text:
                     continue
                 present += 1
+                tier = tiers.get(columns[j], "single")
+                by_tier[tier][0] += 1
                 if v in answer_fields:
                     reproduced += 1
+                    by_tier[tier][1] += 1
                     hits.append(columns[j])
-        rec.update(witness_present=present, witness_reproduced=reproduced, witness_hits=hits)
+        rec.update(witness_present=present, witness_reproduced=reproduced, witness_hits=hits,
+                   witness_by_tier={k: list(v) for k, v in by_tier.items()})
         # the same for every other column, for the two-tier report of §7
         o_present = o_reproduced = 0
         if record:
@@ -263,7 +277,12 @@ def summarise(scored, duplicate_rate, predictor, windows):
         "after_rules": {"tau": TAU, **main},
         "by_tau": by_tau,
         "witness": {"present": witness_present, "reproduced": witness_reproduced,
-                    "columns_hit": sorted({c for r in records for c in r["witness_hits"]})},
+                    "columns_hit": sorted({c for r in records for c in r["witness_hits"]}),
+                    "by_tier": {tier: {"present": sum(r["witness_by_tier"].get(tier, (0, 0))[0]
+                                                      for r in records),
+                                       "reproduced": sum(r["witness_by_tier"].get(tier, (0, 0))[1]
+                                                         for r in records)}
+                                for tier in sorted({t for r in records for t in r["witness_by_tier"]})}},
         "other_columns": {"present": sum(r["other_present"] for r in records),
                           "reproduced": sum(r["other_reproduced"] for r in records)},
         "positive": positive,
@@ -290,14 +309,17 @@ def mcnemar(a, b, rule=True):
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("call_logs", nargs="*", help="one or two call logs; two are compared pairwise")
-    ap.add_argument("--group", default="ru_pre_cutoff,fresh_control,canon")
+    ap.add_argument("--group", default=None,
+                    help="dataset groups to score; every group in the registry by default, "
+                         "so that a group added later cannot be silently skipped")
     ap.add_argument("--file-scan", action="store_true", help="also the file-wide near-duplicate share (slow)")
     ap.add_argument("--out", default=None)
     args = ap.parse_args()
 
     registry = load_registry()
     wit = witnesses()
-    groups = set(args.group.split(","))
+    groups = (set(args.group.split(",")) if args.group
+              else {rec["group"] for rec in registry.values()})
     paths = {f"{name}.csv": os.path.join(ROOT, rec["variants"]["raw"]["path"])
              for name, rec in registry.items() if rec["group"] in groups}
     dup = {f"{name}.csv": rec["diagnostics"]["duplicate_row_share"] for name, rec in registry.items()}
@@ -340,9 +362,11 @@ def main():
         scored_here = {}
         for name, group in sorted(cells.items()):
             if name not in paths or name not in file_stats:
+                print(f"  {name:26s} NOT SCORED — not in the selected groups or its file is missing")
                 continue
             fs = file_stats[name]
-            scored = score_cell(group, load_rows(paths[name]), fs["witness_columns"])
+            scored = score_cell(group, load_rows(paths[name]), fs["witness_columns"],
+                                witness_tiers(name[:-4]))
             scored_here[name] = scored
             s = summarise(scored, fs["duplicate_rate"], fs["predictor"], fs["predictor"]["windows"])
             result["cells"][f"{model}|{name}"] = s

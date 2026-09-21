@@ -210,15 +210,29 @@ session itself is `notebooks/session.json`.
       both mocks. Re-fetch sources verified against the frozen hashes for the
       six re-fetchable files; the Moscow releases and the Kaggle competition
       file travel with the run.
-- [ ] **Session E1** (`notebooks/session.json`): `exposure_1` on the Nemo pair.
-      Before it runs: upload the nine CSVs of `data/ru_exposure/` as one Kaggle
-      dataset — loose or as one zip, both work — and attach it to the notebook
-      (the portals refuse foreign connections); push. The fetch step adopts them
-      from `/kaggle/input`, looking inside a zip, and verifies every hash before
-      any weights load (`src/fetch_data.py --adopt`).
-- [ ] **Session E2**: `exposure_2` on the same pair; then both plans on the
-      YandexGPT and GigaChat pairs and on the controls, so that the exposure
-      figure has every model on the same files.
+- [x] **Session E1** (2026-09-20): `exposure_1` on the Nemo pair, 1416 calls per
+      model, 11/11 cells, 6 h 38 m and 7 h 27 m, quantization confirmed, mocks
+      10/10 and 0/10, every cell reproduced from the raw log. **МКБ-10 and
+      ОКВЭД 2 are positive for both models under `AMENDMENT_7` — the first
+      positive Russian cells in the study; H2e is confirmed.** cardio_train is a
+      clean negative at a 99% well-formed rate; the Moscow metro cell produced
+      no well-formed answer at all and is inconclusive, not negative. The
+      exposure covariate did not predict the outcome in the form it was
+      measured. → `reports/RESULTS_EXPOSURE.md`
+- [ ] **Session E2** (`notebooks/session.json`): `exposure_2` on the same pair.
+      It decides the open reading of E1: feature completion on mkb10_v2 and
+      okved2 against the §5 baselines separates memorized content from a
+      hierarchical classifier's inherent predictability. Watch the streets file
+      for the metro failure mode (same export shape).
+- [ ] Then both plans on the YandexGPT and GigaChat pairs and on the controls,
+      so that the exposure figure has every model on the same files. The strong
+      form of H2e is already ruled out on these two files: the multilingual base
+      is positive on them too, so they cannot distinguish a Russian-centric
+      model by presence alone — only by rate.
+- [ ] **If the streets cell also returns no well-formed answer**: both Moscow
+      files are reported inconclusive under `raw`, and running them in a
+      registered secondary serialisation needs a dated amendment (that text was
+      never published; `AMENDMENT_6` §2).
 - [ ] **E2, corpus composition** from the technical reports and model cards
       of every model (delegated 2026-09-09, verify personally): table in the
       block C results document.

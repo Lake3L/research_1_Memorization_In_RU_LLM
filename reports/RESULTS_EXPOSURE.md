@@ -165,7 +165,33 @@ p = 0.016, okved2 p = 0.016, iris p = 0.029, all discordant in the base's
 favour). Russian adaptation attenuates an inherited signal here as well, and
 the signal it attenuates is a Russian one.
 
-## 6. Files
+## 6. The baseline session E2 will be judged against, fixed before it runs
+
+§5 scores feature completion against the conditional baseline, "best of mode /
+LR / GBT predicting that feature". The runner records only the mode rate, so
+`src/feature_baseline.py` computes the rest from the data alone, and it is
+committed **before** the session it judges. Where the feature is a name with
+thousands of values, logistic regression and gradient boosting are neither
+computable nor meaningful, and one nearest neighbour over the same encoded
+columns takes their place as the conditional predictor; the reported baseline
+is the largest of whatever was computed, which can only make a positive verdict
+harder. Five folds, shuffled, seed 42 (`data/feature_baselines.json`):
+
+| dataset | feature | classes | mode | 1-NN | baseline | smallest detectable rate at 250 |
+|---|---|---|---|---|---|---|
+| mkb10_v2 | Наименование | 11,877 | 0.0147 | 0.0000 | 0.0147 | 3.2% |
+| okved2 | Наименование | 2,705 | 0.0020 | **0.0338** | 0.0338 | 5.6% |
+| oksm | Полное наименование по ОКСМ | 414 | 0.0066 | **0.0331** | 0.0331 | 5.6% |
+| okpdtr | Наименование | 8,015 | 0.0009 | 0.0018 | 0.0018 | 1.2% |
+| cardio_train | age | 8,076 | 0.0005 | 0.0002 | 0.0005 | 0.8% |
+| telecom_churn | Total day minutes | 1,667 | 0.0024 | 0.0006 | 0.0024 | 1.2% |
+
+The nearest-neighbour column is the reason to compute this in advance: on
+okved2 and oksm a predictor that merely looks up a similar row gets the name
+right about 3% of the time, seventeen times the mode rate. A feature-completion
+count on those two files has to clear that, not the mode.
+
+## 7. Files
 
 Raw logs `results/calls_exposure_1_*_20260920T174835Z.jsonl`, per-cell results
 `results/gateA_exposure_1_*_20260920T174835Z.json`, rule-level scoring

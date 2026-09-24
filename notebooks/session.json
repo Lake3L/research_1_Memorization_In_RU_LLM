@@ -1,11 +1,15 @@
 {
   "_what": "The runs this GPU session performs. The notebook reads this file from the repository checkout, so the experiment is defined in version control rather than in a notebook copy.",
   "_rule": "To change what runs: edit this file, commit, push. The notebook needs no changes.",
-  "session_id": "2026-09-21-block-C-E2-exposure",
-  "purpose": "Block C, exposure session 2 (AMENDMENT_9 §7): the second half of the high-exposure tables, and the test that decides how E1's positive is read. Feature completion on mkb10_v2 and okved2 asks for the official name given the code and the rest of the row, scored against the §5 baseline (mode / LR / GBT), which separates a memorized reference table from a classifier a model can partly guess because it knows the domain. Header and row completion on ОКСМ, ОКПДТР, the ОМК УМ streets and telecom_churn complete the group. iris is the in-session anchor. Priced at 4.9 h per model by src/price_plan.py; E1 ran 10-25% over its estimate, so about 6 h is expected, inside the 10-hour ceiling with the two-hour reserve.",
+  "session_id": "2026-09-24-block-C-Y1-yandexgpt",
+  "purpose": "First session of the YandexGPT-5-Lite-8B pair (AMENDMENT_8; licence read in full 2026-09-24, LOG.md). The Nemo pair reproduced МКБ-10 and ОКВЭД 2 rows by sequence reconstruction and could not name a single МКБ-10 code in feature completion (reports/RESULTS_EXPOSURE.md, Part III); the open question is whether a model trained from scratch on a Russian-heavy corpus can. So each card runs exposure_2 first — feature completion on the four classifiers against the baselines fixed before the Nemo run, plus the rest of the high-exposure rows — and then probe, the canon row-completion probe that places the model on H1. Two runs per card, queued; iris anchors both plans.",
   "dataset_group": "canon,ru_exposure",
   "datasets": [
     "iris",
+    "uci-wine",
+    "openml-diabetes",
+    "titanic-train",
+    "adult-train",
     "oksm",
     "okpdtr",
     "mos_streets_omk_um_2022",
@@ -30,21 +34,31 @@
       "--group"
     ],
     "plans": [
-      "exposure_1",
-      "exposure_2"
+      "exposure_2",
+      "probe"
     ],
     "note": "verified against the checkout before any weights are downloaded"
   },
   "runs": [
     {
-      "model": "mistralai/Mistral-Nemo-Instruct-2407",
+      "model": "yandex/YandexGPT-5-Lite-8B-pretrain",
       "extra": "--plan exposure_2 --protocol reference --prompting completion",
-      "why": "base model; 2662 calls, 4.9 h by the conservative estimate of src/price_plan.py, about 6 h at E1's observed rate"
+      "why": "the pretrain model; 4.6 h by src/price_plan.py with its own tokenizer and the cost model of a 12B model, so conservative for an 8B one"
     },
     {
-      "model": "Vikhrmodels/Vikhr-Nemo-12B-Instruct-R-21-09-24",
+      "model": "yandex/YandexGPT-5-Lite-8B-instruct",
       "extra": "--plan exposure_2 --protocol reference --prompting completion",
-      "why": "its Russian adaptation, same cells, same seed; both run at once, one per accelerator"
+      "why": "its instruct model, same cells, same seed, the other card"
+    },
+    {
+      "model": "yandex/YandexGPT-5-Lite-8B-pretrain",
+      "extra": "--plan probe --protocol reference --prompting completion",
+      "why": "canon row completion for H1; 1.8 h, queued on whichever card frees first. Per card 6.4 h estimated, 8.6 h at the worst overrun seen so far (35%)"
+    },
+    {
+      "model": "yandex/YandexGPT-5-Lite-8B-instruct",
+      "extra": "--plan probe --protocol reference --prompting completion",
+      "why": "the same for the instruct model"
     }
   ]
 }

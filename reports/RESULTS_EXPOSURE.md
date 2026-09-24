@@ -1,4 +1,26 @@
-# Block C, exposure sessions — the first positive Russian cells
+# Block C, exposure sessions — Russian classifiers fire, and why
+
+Two sessions on the Mistral-Nemo ↔ Vikhr-Nemo pair over the nine tables that
+`AMENDMENT_9` froze for their public exposure.
+
+**What they establish.** Under the preregistered rules two Russian
+classifiers, МКБ-10 and ОКВЭД 2, are positive by row completion for both
+models (E1), and H2e is confirmed by its letter. The test that `AMENDMENT_9`
+and Part I named as decisive for reading that positive — feature completion,
+the official name asked for by its code — is negative on both classifiers for
+both models against its preregistered conditional baseline (E2). The rows the
+models do reproduce are the ones whose name is a close variation of names
+already in the prompt: the match rate falls from 29% to 2% as the next name
+moves away from them. The positive is reconstruction of an inherently
+predictable sequence (Prashanth et al., arXiv:2406.17746), not recall of the
+reference table. The one table whose content the models do produce, ОКСМ, is
+produced as world knowledge: 48% of full country names, and none of the 25
+that carry the portal's own spelling. Parts I and II give the sessions,
+Part III the family verdict and the reading.
+
+---
+
+# Part I — session E1
 
 Session E1, plan `exposure_1`, 2026-09-20. Mistral-Nemo-Instruct-2407 and its
 Russian adaptation Vikhr-Nemo-12B, one model per accelerator, 4-bit nf4 on a
@@ -191,21 +213,226 @@ okved2 and oksm a predictor that merely looks up a similar row gets the name
 right about 3% of the time, seventeen times the mode rate. A feature-completion
 count on those two files has to clear that, not the mode.
 
-## 7. Files
+## 7. What Part I left open
 
-Raw logs `results/calls_exposure_1_*_20260920T174835Z.jsonl`, per-cell results
-`results/gateA_exposure_1_*_20260920T174835Z.json`, rule-level scoring
-`results/prefix_baseline_exposure_1_20260920T174835Z.json`. Reproduce the
-tables with:
+Section 2 above named the reading to exclude — that a hierarchical classifier
+is partly predictable from the rows the prompt shows — and the cells that would
+decide it. Part II is that decision.
+
+---
+
+# Part II — session E2
+
+Session E2, plan `exposure_2`, 2026-09-23. Same pair, same setup: 2,662 calls
+per model, 16 of 16 cells, 5 h 20 min and 6 h 32 min against the 4.9 h
+conservative estimate. Quantization confirmed (8.14 GB, `sdpa`, one device);
+instrument check 10/10 and 0/10. The iris anchor returned 51/142 and 32/142,
+byte-identical to E1, to C1 and to the August runs, for the fourth time.
+
+Every cell reproduces from the raw log (`src/rescore_calls.py`, 11 of 11 per
+model), after two defects of the rescoring script were found and fixed on
+this session's data (§15).
+
+## 8. Feature completion: the models cannot name a code
+
+Feature completion shows one observation with every column but the target and
+asks for the target. On a classifier the target is the official name and the
+conditioning columns include the code, so this is the direct test of whether
+the code-to-name content is held. Scored against the conditional baseline
+fixed before the run (Part I §6, `data/feature_baselines.json`):
+
+| file | base | adapted | baseline | p, base | p, adapted |
+|---|---|---|---|---|---|
+| mkb10_v2 | 0/250 | 0/250 | 0.0147 (mode) | 1 | 1 |
+| okved2 | 12/250 | 7/250 | 0.0338 (1-NN) | 0.14 | 0.74 |
+| okpdtr | 0/250 | 0/250 | 0.0018 (1-NN) | 1 | 1 |
+| oksm | 120/250 | 96/250 | 0.0331 (1-NN) | 2 × 10⁻¹⁰⁶ | 5 × 10⁻⁷⁴ |
+| cardio_train | 0/250 | 0/250 | 0.0005 (mode) | 1 | 1 |
+| telecom_churn | 1/250 | 0/250 | 0.0024 (mode) | 0.45 | 1 |
+
+On МКБ-10 neither model names a single code of 250, below even the rate of
+always answering the commonest name. Asked for T38.4, the base model answers
+«Ушиб, ушиб мягких тканей»; the name is «Отравление пероральными
+контрацептивами». On ОКВЭД 2 the base names 12 of 250, where a predictor that
+looks up the nearest other row reaches 3.4%; the difference is not
+significant, and the adaptation is below it. No matched value occurs in the
+few-shot examples of its prompt, on any file.
+
+## 9. ОКСМ: world knowledge, and the check that shows it
+
+ОКСМ is the one table whose target the models produce at scale. The amendment
+anticipated why: the content is ISO 3166, in every library and encyclopaedia,
+and a positive there is "an upper bound on what world knowledge alone
+reproduces". Splitting the queries by what carries the name
+(`src/classifier_diagnostics.py`):
+
+| name | base | adapted |
+|---|---|---|
+| current record, plain name | 89/121 (74%) | 79/121 (65%) |
+| historical record, plain name | 31/104 (30%) | 17/104 (16%) |
+| name carrying the portal's own parenthetical, e.g. «Гибралтар(Брит.)» | **0/25** | **0/25** |
+
+The portal writes dependent territories with a parenthetical of its own; the
+models answer «Гибралтар», «Остров Рождества», «Ангилья» — the encyclopaedia
+form. Current names beat historical ones two to one, which is how prominence
+is distributed, not how a table is. The ОКСМ feature positive is reported as
+world knowledge under Gorla's taxonomy (`PREREGISTRATION.md` §7); it is also
+the study's demonstration that the feature test fires on world knowledge.
+
+## 10. Row completion in E2
+
+| file | base, R1+R4 | adapted, R1+R4 | well-formed answers | verdict |
+|---|---|---|---|---|
+| okpdtr | 1/238, p = 0.16 | 1/238, p = 0.16 | 96% / 96% | negative |
+| telecom_churn | 0/250 | 0/250 | 98% / 90% | negative |
+| oksm | 0/250 | 0/250 | 1% / 1% | inconclusive |
+| mos_streets_omk_um_2022 | 0/216 | 0/216 | 0% / 9% | inconclusive |
+
+ОКПДТР and telecom_churn are clean negatives: the models answered with rows,
+and the rows were wrong. The other two files returned almost no row-shaped
+answer at all.
+
+## 11. Why three files return no row: the trailing delimiter
+
+The metro file of E1, and ОКСМ and the streets file here, are the only three
+of the nine whose rows end with the delimiter — the metro and streets exports
+by the portal's format, ОКСМ because its last column is empty in 98% of its
+records. They are also exactly the three whose well-formed answer rate is
+below 10%; every other file answers at 10–99%.
+
+| file | rows ending with the delimiter | well-formed, base / adapted |
+|---|---|---|
+| oksm | 98% | 1% / 1% |
+| mos_metro_stations_2022 | 100% | 0% / 4% |
+| mos_streets_omk_um_2022 | 100% | 0% / 9% |
+| the other six files | 0% | 10–99% |
+
+The prompt ends on that delimiter. The base model then returns the empty
+string (213, 249 and 249 times of 250); the adaptation begins its answer with
+another delimiter and a line break, and the library scores the first line
+only. Reading every line of every answer does not rescue a signal: the true
+next row appears on some line of 1 answer in 1,500, across the three files and
+both models. These zeros are not hidden positives, but they are not negatives
+either. All six cells are reported inconclusive under the FAIL_ADAPTER rule of
+the block A gate (fewer than half the answers row-shaped; `RESULTS_GATE.md`
+§6), applied cell by cell to negative cells. The finding generalises beyond
+this study: under the library's first-line criterion, row completion is
+undefined on a file whose rows end with the delimiter, as the header test is
+on a file whose first row exceeds its window (`AMENDMENT_6` §3).
+
+---
+
+# Part III — the H2e family, and what the positive is
+
+## 12. The family, with Holm
+
+Thirty p-values — every model × file × test of the nine tables that returned
+one — with Holm at α = 0.05 (`src/family_holm.py`,
+`results/h2e_family_20260923T185214Z.json`). Inconclusive cells stay in the
+family, which only makes the correction stricter for the others.
+
+| file | test | base | adapted | verdict |
+|---|---|---|---|---|
+| mkb10_v2 | row | 16/223, p_Holm 3 × 10⁻²³ | 9/223, p_Holm 8 × 10⁻¹¹ | **positive, both** |
+| okved2 | row | 16/240, p_Holm 9 × 10⁻²³ | 9/240, p_Holm 1 × 10⁻¹⁰ | **positive, both** |
+| oksm | feature | 120/250, p_Holm 7 × 10⁻¹⁰⁵ | 96/250, p_Holm 2 × 10⁻⁷² | **positive, both** — world knowledge (§9) |
+| mkb10_v2, okved2, okpdtr | feature | 0, 12, 0 of 250 | 0, 7, 0 of 250 | negative |
+| okpdtr, telecom_churn, cardio_train | row | 1, 0, 0 | 1, 0, 0 | negative |
+| cardio_train, telecom_churn | feature | 0, 1 of 250 | 0, 0 of 250 | negative |
+| alice, metro, streets, oksm | row | — | — | inconclusive (at most 36% row-shaped) |
+
+The header test failed on all nine files for both models. **H2e is confirmed
+by its preregistered letter; its strong form is not**: the multilingual base
+and its adaptation are positive on the same files.
+
+## 13. What the row-completion positive is
+
+If a model held МКБ-10 or ОКВЭД 2, it would name a code when shown the code.
+It does not (§8). If it held the classifier as an ordered text, it would
+continue the list wherever the list went. It does not either. Over the E1
+queries the match rate depends on one thing: how far the true row's name is
+from the closest name among the eight rows the prompt already shows
+(normalised Levenshtein; bins fixed in `src/classifier_diagnostics.py`):
+
+| distance of the next name to the closest prompt name | mkb10_v2, base | mkb10_v2, adapted | okved2, base | okved2, adapted |
+|---|---|---|---|---|
+| under 0.20 | 12/42 (29%) | 9/42 (21%) | 6/39 (15%) | 5/39 (13%) |
+| 0.20 to 0.35 | 8/47 (17%) | 4/47 (9%) | 6/41 (15%) | 4/41 (10%) |
+| 0.35 to 0.50 | 2/40 (5%) | 1/40 (3%) | 7/54 (13%) | 3/54 (6%) |
+| 0.50 and more | 2/121 (1.7%) | 1/121 (0.8%) | 2/116 (1.7%) | 1/116 (0.9%) |
+
+«Нарушения обмена кальция» after «Нарушения обмена магния»; «Множественные
+переломы бедренной кости закрытые» after the same name without «закрытые».
+Where the next name is new, the models almost never produce it, and the few
+exceptions read as knowledge of the classification rather than of the file
+(«Гидроцеле неуточненное» → «Сперматоцеле», the next rubric of N43).
+
+The near-duplicate rule of `AMENDMENT_7` did its job at the level it is
+defined on, the whole row, and removed 8 of the 24 base matches on МКБ-10. It
+could not see this, because in a classifier export the whole-row distance is
+dominated by identifiers and dates that change by a digit, while the field
+that carries the content is copied almost whole. That is a limitation of the
+rule, not a failure of its application, and it is stated as such: on a
+hierarchically ordered reference table, a verbatim row-completion positive
+that survives a row-level near-duplicate rule can still be sequence
+reconstruction, and reading it needs a field-level check or, better, a content
+test that does not show the neighbours. The decomposition above is
+exploratory; its bins are committed before any other model runs on these
+files and will be applied to them unchanged.
+
+## 14. The predictions of `AMENDMENT_9` §2, after both sessions
+
+| prediction | outcome on the Nemo pair |
+|---|---|
+| 1. header fails on every A and C file | **held**; it also failed on all three course files |
+| 2. mkb10_v2 and okved2 positive for a from-scratch Russian model | **open**: not yet run. On the Nemo pair both are positive by the rule and negative by the content test |
+| 2b. cardio_train positive for every model | **refuted**: 0/250 by row and by feature, at 99% well-formed |
+| 3. the `AMENDMENT_1` files stay negative | untested here |
+| 4. rate monotone in exposure rank | **not supported** (Part I §4) |
+
+The question that remains is the one prediction 2 asks, sharpened by §13: does
+a model trained from scratch on a Russian-heavy corpus — YandexGPT-5-Lite,
+GigaChat-20B — name the codes the Nemo pair cannot? A yes on the feature test
+of МКБ-10 or ОКВЭД 2, against the same baselines, would be memorization of
+Russian reference content that the multilingual base and its adaptation lack.
+A no makes the H2 null of this study a property of models at this scale, not
+of the files chosen.
+
+## 15. Instrument findings from these sessions
+
+Each found on this data and fixed or recorded before the numbers above were
+written:
+
+- **The rescoring script read Latin column names only.** Its feature-prompt
+  parser matched `[A-Za-z_]` names, so on every Russian file it identified no
+  row. It now cuts the prompt at known column names.
+- **The library cuts feature answers at the first blank line; the call log
+  does not.** In completion mode feature completion goes through
+  `ChatWrappedLLM(ends_with="\n\n")`, and the log is written below that
+  wrapper. An answer that starts with a blank line is logged in full and scored
+  empty. Vikhr-Nemo starts 3 of its okved2, 7 of its oksm and 1 of its
+  telecom_churn answers with a blank line; all eleven are correct and all are
+  lost to the cut, and the library's counts (7, 96 and 0) are the ones that
+  stand. No verdict changes either way. The rescoring now applies the cut: all 37 feature cells in
+  every log reproduce exactly, and the port of the library's answer parser
+  agrees with the library on all 6,090 logged answers.
+- **A trailing delimiter leaves row completion undefined** (§11).
+- **`prefix_baseline.py` skipped a whole dataset group** through a hard-coded
+  default; fixed in E1.
+
+## 16. Files
+
+Session E1: `results/calls_exposure_1_*_20260920T174835Z.jsonl`,
+`results/gateA_exposure_1_*_20260920T174835Z.json`,
+`results/prefix_baseline_exposure_1_20260920T174835Z.json`. Session E2: the
+same with `exposure_2` and `20260923T185214Z`. Across both:
+`results/classifier_diagnostics_exposure_20260923T185214Z.json` (§§8, 9, 11,
+13) and `results/h2e_family_20260923T185214Z.json` (§12).
 
 ```
-python src/report_run.py "results/gateA_exposure_1_*20260920T174835Z.json"
-python src/rescore_calls.py results/calls_exposure_1_<model>_*.jsonl --results results/gateA_exposure_1_<model>_*.json
-python src/prefix_baseline.py results/calls_exposure_1_*.jsonl --out results/prefix_baseline_exposure_1_20260920T174835Z.json
+python src/report_run.py "results/gateA_exposure_2_*20260923T185214Z.json"
+python src/rescore_calls.py results/calls_exposure_2_<model>_*.jsonl --results results/gateA_exposure_2_<model>_*.json
+python src/prefix_baseline.py results/calls_exposure_2_*.jsonl --out results/prefix_baseline_exposure_2_20260923T185214Z.json
+python src/classifier_diagnostics.py --e1 <E1 base> <E1 adapted> --e2 <E2 base> <E2 adapted> --out results/classifier_diagnostics_exposure_20260923T185214Z.json
+python src/family_holm.py --prefix results/prefix_baseline_exposure_*.json --diagnostics results/classifier_diagnostics_exposure_*.json --results "results/gateA_exposure_*.json" --out results/h2e_family_20260923T185214Z.json
 ```
-
-One defect was found and fixed while scoring this session:
-`src/prefix_baseline.py` took its dataset groups from a hard-coded default
-that predated the `ru_exposure` group, so the new cells were silently not
-scored. The default is now every group in the registry, and a logged cell that
-is not scored prints a line saying so.

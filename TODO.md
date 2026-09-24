@@ -219,11 +219,27 @@ session itself is `notebooks/session.json`.
       no well-formed answer at all and is inconclusive, not negative. The
       exposure covariate did not predict the outcome in the form it was
       measured. → `reports/RESULTS_EXPOSURE.md`
-- [ ] **Session E2** (`notebooks/session.json`): `exposure_2` on the same pair.
-      It decides the open reading of E1: feature completion on mkb10_v2 and
-      okved2 against the §5 baselines separates memorized content from a
-      hierarchical classifier's inherent predictability. Watch the streets file
-      for the metro failure mode (same export shape).
+- [x] **Session E2** (2026-09-23): `exposure_2` on the Nemo pair, 16/16 cells,
+      every cell reproduced from the raw log. **Feature completion is negative
+      on the classifiers** (МКБ-10 0/250 both; ОКВЭД 12 and 7 of 250 against a
+      3.4% lookup baseline): the models cannot name a code. The E1 row positive
+      is sequence reconstruction — the match rate falls from 29% to 2% as the
+      next name moves away from the prompt's names. ОКСМ feature is positive as
+      world knowledge (0/25 portal-specific names). Rows ending with the
+      delimiter leave row completion undefined (metro, streets, ОКСМ:
+      inconclusive). H2e family with Holm: confirmed by its letter, strong form
+      not. → `reports/RESULTS_EXPOSURE.md` Parts II–III
+- [x] Read the YandexGPT licence in full (2026-09-24, LOG.md): research use
+      free and unrestricted for this study; name the model with its copyright
+      notice in the paper.
+- [ ] **Session Y1** (`notebooks/session.json`): the YandexGPT-5-Lite-8B pair,
+      `exposure_2` then `probe` on each card (6.4 h estimated). The decisive
+      question after E2: does a from-scratch Russian model name МКБ-10 and
+      ОКВЭД codes by feature completion, against the same baselines? Score with
+      `src/prefix_baseline.py`, `src/classifier_diagnostics.py` (bins frozen)
+      and `src/family_holm.py`.
+- [ ] Then: `exposure_1` and `ru_probe` on the YandexGPT pair; C2
+      `ru_probe_long` on the Nemo pair; OLMo; GigaChat after its smoke test.
 - [ ] Then both plans on the YandexGPT and GigaChat pairs and on the controls,
       so that the exposure figure has every model on the same files. The strong
       form of H2e is already ruled out on these two files: the multilingual base
@@ -243,9 +259,9 @@ session itself is `notebooks/session.json`.
       `ДатаВклМСП`, legal entities), and a data.mos.ru set via a free API key,
       to be checked from a Russian address. Author chooses; register source,
       schema, collection date and hash before any model runs on it.
-- [ ] Read the YandexGPT licence in full and the GigaChat custom code before
-      the first Kaggle preflight; GigaChat smoke test at full size on a T4 before
-      pricing any plan.
+- [ ] Read the GigaChat custom code before the first Kaggle preflight; GigaChat
+      smoke test at full size on a T4 before pricing any plan. (The YandexGPT
+      licence is read, 2026-09-24.)
 - [ ] Write the block C1 results document (`src/report_run.py`,
       `src/prefix_baseline.py`, `src/compare_pair.py`, E2 table).
 - [x] First token on the Russian datasets: the library's own pre-check (the

@@ -1,0 +1,459 @@
+{
+  "_what": "Exploratory diagnostics of the exposure sessions (reports/RESULTS_EXPOSURE.md).",
+  "models": {
+    "mistralai/Mistral-Nemo-Instruct-2407": {
+      "gradient": {
+        "mkb10_v2.csv": [
+          {
+            "distance": "[0.00, 0.20)",
+            "matches": 12,
+            "n": 42,
+            "rate": 0.2857
+          },
+          {
+            "distance": "[0.20, 0.35)",
+            "matches": 8,
+            "n": 47,
+            "rate": 0.1702
+          },
+          {
+            "distance": "[0.35, 0.50)",
+            "matches": 2,
+            "n": 40,
+            "rate": 0.05
+          },
+          {
+            "distance": "[0.50, 1.01)",
+            "matches": 2,
+            "n": 121,
+            "rate": 0.0165
+          }
+        ],
+        "okved2.csv": [
+          {
+            "distance": "[0.00, 0.20)",
+            "matches": 6,
+            "n": 39,
+            "rate": 0.1538
+          },
+          {
+            "distance": "[0.20, 0.35)",
+            "matches": 6,
+            "n": 41,
+            "rate": 0.1463
+          },
+          {
+            "distance": "[0.35, 0.50)",
+            "matches": 7,
+            "n": 54,
+            "rate": 0.1296
+          },
+          {
+            "distance": "[0.50, 1.01)",
+            "matches": 2,
+            "n": 116,
+            "rate": 0.0172
+          }
+        ]
+      },
+      "feature": [
+        {
+          "dataset": "mkb10_v2.csv",
+          "feature": "Наименование",
+          "matches": 0,
+          "n": 250,
+          "unidentified": 0,
+          "matches_with_value_in_few_shot": 0,
+          "baseline": 0.01469,
+          "baseline_from": "mode",
+          "p": 1.0
+        },
+        {
+          "dataset": "okved2.csv",
+          "feature": "Наименование",
+          "matches": 12,
+          "n": 250,
+          "unidentified": 0,
+          "matches_with_value_in_few_shot": 0,
+          "baseline": 0.033825,
+          "baseline_from": "nn1",
+          "p": 0.14392411261217714
+        },
+        {
+          "dataset": "oksm.csv",
+          "feature": "Полное наименование по ОКСМ",
+          "matches": 120,
+          "n": 250,
+          "unidentified": 0,
+          "matches_with_value_in_few_shot": 0,
+          "baseline": 0.033113,
+          "baseline_from": "nn1",
+          "p": 2.445893724533538e-106
+        },
+        {
+          "dataset": "okpdtr.csv",
+          "feature": "Наименование",
+          "matches": 0,
+          "n": 250,
+          "unidentified": 0,
+          "matches_with_value_in_few_shot": 0,
+          "baseline": 0.001833,
+          "baseline_from": "nn1",
+          "p": 1.0
+        },
+        {
+          "dataset": "cardio_train.csv",
+          "feature": "age",
+          "matches": 0,
+          "n": 250,
+          "unidentified": 0,
+          "matches_with_value_in_few_shot": 0,
+          "baseline": 0.000457,
+          "baseline_from": "mode",
+          "p": 1.0
+        },
+        {
+          "dataset": "telecom_churn.csv",
+          "feature": "Total day minutes",
+          "matches": 1,
+          "n": 250,
+          "unidentified": 0,
+          "matches_with_value_in_few_shot": 0,
+          "baseline": 0.0024,
+          "baseline_from": "mode",
+          "p": 0.45158399898110113
+        }
+      ],
+      "portal_form": {
+        "portal parenthetical": {
+          "matches": 0,
+          "n": 25,
+          "examples": [
+            [
+              "Гибралтар(Брит.)",
+              "Гибралтар"
+            ],
+            [
+              "Остров Рождества(Австралия)",
+              "Остров Рождества"
+            ],
+            [
+              "Ангилья(Брит.)",
+              "Ангилья"
+            ],
+            [
+              "Вьетнам Южный (Кохинхин)",
+              "Вьетнам Южный"
+            ],
+            [
+              "Тайвань(в составе Китая)",
+              "Китайская Республика"
+            ]
+          ]
+        },
+        "current, plain": {
+          "matches": 89,
+          "n": 121,
+          "examples": [
+            [
+              "Республика Мозамбик",
+              "Мозамбикская Республика"
+            ],
+            [
+              "Папский Престол (Государство-Город Ватикан)",
+              "Государство-город Ватикан"
+            ],
+            [
+              "Султанат Оман",
+              "Оман"
+            ],
+            [
+              "Республика Экваториальная Гвинея",
+              "Экваториальная Гвинея"
+            ],
+            [
+              "Соединенное Королевство Великобритании и Северной Ирландии",
+              "Соединенное Королевство"
+            ]
+          ]
+        },
+        "historical, plain": {
+          "matches": 31,
+          "n": 104,
+          "examples": [
+            [
+              "Федерация Сент-Китс и Невис",
+              "Сент-Китс и Невис"
+            ],
+            [
+              "Чешская и Словацкая Федеративная Республика",
+              "Чешская Республика и Словацкая Республика"
+            ],
+            [
+              "Нидерландские Антильские Острова",
+              "Антильские острова"
+            ],
+            [
+              "Республика Кот Д’Ивуар",
+              "Республика Кот д'Ивуар"
+            ],
+            [
+              "Буркина-Фасо",
+              "Верхняя Вольта"
+            ]
+          ]
+        }
+      },
+      "trailing": [
+        {
+          "dataset": "oksm.csv",
+          "n": 250,
+          "empty": 213,
+          "first_line_is_row": 0,
+          "row_on_any_line": 0
+        },
+        {
+          "dataset": "mos_metro_stations_2022.csv",
+          "n": 250,
+          "empty": 249,
+          "first_line_is_row": 0,
+          "row_on_any_line": 0
+        },
+        {
+          "dataset": "mos_streets_omk_um_2022.csv",
+          "n": 250,
+          "empty": 249,
+          "first_line_is_row": 0,
+          "row_on_any_line": 0
+        }
+      ]
+    },
+    "Vikhrmodels/Vikhr-Nemo-12B-Instruct-R-21-09-24": {
+      "gradient": {
+        "mkb10_v2.csv": [
+          {
+            "distance": "[0.00, 0.20)",
+            "matches": 9,
+            "n": 42,
+            "rate": 0.2143
+          },
+          {
+            "distance": "[0.20, 0.35)",
+            "matches": 4,
+            "n": 47,
+            "rate": 0.0851
+          },
+          {
+            "distance": "[0.35, 0.50)",
+            "matches": 1,
+            "n": 40,
+            "rate": 0.025
+          },
+          {
+            "distance": "[0.50, 1.01)",
+            "matches": 1,
+            "n": 121,
+            "rate": 0.0083
+          }
+        ],
+        "okved2.csv": [
+          {
+            "distance": "[0.00, 0.20)",
+            "matches": 5,
+            "n": 39,
+            "rate": 0.1282
+          },
+          {
+            "distance": "[0.20, 0.35)",
+            "matches": 4,
+            "n": 41,
+            "rate": 0.0976
+          },
+          {
+            "distance": "[0.35, 0.50)",
+            "matches": 3,
+            "n": 54,
+            "rate": 0.0556
+          },
+          {
+            "distance": "[0.50, 1.01)",
+            "matches": 1,
+            "n": 116,
+            "rate": 0.0086
+          }
+        ]
+      },
+      "feature": [
+        {
+          "dataset": "mkb10_v2.csv",
+          "feature": "Наименование",
+          "matches": 0,
+          "n": 250,
+          "unidentified": 0,
+          "matches_with_value_in_few_shot": 0,
+          "baseline": 0.01469,
+          "baseline_from": "mode",
+          "p": 1.0
+        },
+        {
+          "dataset": "okved2.csv",
+          "feature": "Наименование",
+          "matches": 7,
+          "n": 250,
+          "unidentified": 0,
+          "matches_with_value_in_few_shot": 0,
+          "baseline": 0.033825,
+          "baseline_from": "nn1",
+          "p": 0.7436910086018484
+        },
+        {
+          "dataset": "oksm.csv",
+          "feature": "Полное наименование по ОКСМ",
+          "matches": 96,
+          "n": 250,
+          "unidentified": 0,
+          "matches_with_value_in_few_shot": 0,
+          "baseline": 0.033113,
+          "baseline_from": "nn1",
+          "p": 5.1911689379841255e-74
+        },
+        {
+          "dataset": "okpdtr.csv",
+          "feature": "Наименование",
+          "matches": 0,
+          "n": 250,
+          "unidentified": 0,
+          "matches_with_value_in_few_shot": 0,
+          "baseline": 0.001833,
+          "baseline_from": "nn1",
+          "p": 1.0
+        },
+        {
+          "dataset": "cardio_train.csv",
+          "feature": "age",
+          "matches": 0,
+          "n": 250,
+          "unidentified": 0,
+          "matches_with_value_in_few_shot": 0,
+          "baseline": 0.000457,
+          "baseline_from": "mode",
+          "p": 1.0
+        },
+        {
+          "dataset": "telecom_churn.csv",
+          "feature": "Total day minutes",
+          "matches": 0,
+          "n": 250,
+          "unidentified": 0,
+          "matches_with_value_in_few_shot": 0,
+          "baseline": 0.0024,
+          "baseline_from": "mode",
+          "p": 1.0
+        }
+      ],
+      "portal_form": {
+        "portal parenthetical": {
+          "matches": 0,
+          "n": 25,
+          "examples": [
+            [
+              "Гибралтар(Брит.)",
+              "Гибралтар"
+            ],
+            [
+              "Остров Рождества(Австралия)",
+              "Остров Рождества"
+            ],
+            [
+              "Ангилья(Брит.)",
+              null
+            ],
+            [
+              "Вьетнам Южный (Кохинхин)",
+              "Южный Вьетнам"
+            ],
+            [
+              "Тайвань(в составе Китая)",
+              "Провинция Тайвань"
+            ]
+          ]
+        },
+        "current, plain": {
+          "matches": 79,
+          "n": 121,
+          "examples": [
+            [
+              "Республика Мозамбик",
+              "Мозамбикская Республика"
+            ],
+            [
+              "Папский Престол (Государство-Город Ватикан)",
+              "Государство-город Ватикан"
+            ],
+            [
+              "Независимое Государство Папуа Новая Гвинея",
+              "Независимое Государство Папуа-Новая Гвинея"
+            ],
+            [
+              "Сент-Китс и Невис",
+              "Федерация Сент-Китс и Невис"
+            ],
+            [
+              "Острова Мидуэй",
+              null
+            ]
+          ]
+        },
+        "historical, plain": {
+          "matches": 17,
+          "n": 104,
+          "examples": [
+            [
+              "Федерация Сент-Китс и Невис",
+              null
+            ],
+            [
+              "Чешская и Словацкая Федеративная Республика",
+              null
+            ],
+            [
+              "Нидерландские Антильские Острова",
+              null
+            ],
+            [
+              "Республика Кот Д’Ивуар",
+              "Республика Кот д'Ивуар"
+            ],
+            [
+              "Буркина-Фасо",
+              "Верхняя Вольта (ныне Буркина-Фасо)"
+            ]
+          ]
+        }
+      },
+      "trailing": [
+        {
+          "dataset": "oksm.csv",
+          "n": 250,
+          "empty": 0,
+          "first_line_is_row": 0,
+          "row_on_any_line": 1
+        },
+        {
+          "dataset": "mos_metro_stations_2022.csv",
+          "n": 250,
+          "empty": 0,
+          "first_line_is_row": 0,
+          "row_on_any_line": 0
+        },
+        {
+          "dataset": "mos_streets_omk_um_2022.csv",
+          "n": 250,
+          "empty": 0,
+          "first_line_is_row": 0,
+          "row_on_any_line": 0
+        }
+      ]
+    }
+  }
+}

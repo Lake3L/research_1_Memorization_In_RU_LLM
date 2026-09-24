@@ -1,0 +1,1089 @@
+{
+  "files": {
+    "iris.csv": {
+      "predictor": {
+        "windows": 142,
+        "hits": 0,
+        "rate": 0.0,
+        "by_kind": {}
+      },
+      "duplicate_rate": 0.02,
+      "rule_of_three": 0.02112676056338028,
+      "p0": 0.02112676056338028,
+      "witness_columns": [
+        "sepal_length",
+        "sepal_width",
+        "petal_length",
+        "petal_width"
+      ]
+    },
+    "trudvsem_vacancies_2026.csv": {
+      "predictor": {
+        "windows": 1188,
+        "hits": 0,
+        "rate": 0.0,
+        "by_kind": {}
+      },
+      "duplicate_rate": 0.0,
+      "rule_of_three": 0.0025252525252525255,
+      "p0": 0.0025252525252525255,
+      "witness_columns": []
+    },
+    "hflabs_city.csv": {
+      "predictor": {
+        "windows": 1109,
+        "hits": 0,
+        "rate": 0.0,
+        "by_kind": {}
+      },
+      "duplicate_rate": 0.0,
+      "rule_of_three": 0.002705139765554554,
+      "p0": 0.002705139765554554,
+      "witness_columns": [
+        "fias_id",
+        "geo_lat",
+        "geo_lon",
+        "population"
+      ]
+    },
+    "govdomains.csv": {
+      "predictor": {
+        "windows": 7793,
+        "hits": 180,
+        "rate": 0.023097651738739896,
+        "by_kind": {
+          "increment": 180
+        }
+      },
+      "duplicate_rate": 0.0009,
+      "rule_of_three": 0.00038496086231233157,
+      "p0": 0.023097651738739896,
+      "witness_columns": [
+        "IPs",
+        "ASN"
+      ]
+    },
+    "mos_zemelnye_uchastki.csv": {
+      "predictor": {
+        "windows": 5873,
+        "hits": 0,
+        "rate": 0.0,
+        "by_kind": {}
+      },
+      "duplicate_rate": 0.0,
+      "rule_of_three": 0.000510812191384301,
+      "p0": 0.000510812191384301,
+      "witness_columns": [
+        "Кадастровый номер",
+        "Площадь (кв.м)"
+      ]
+    },
+    "mos_torgovye_obekty.csv": {
+      "predictor": {
+        "windows": 10204,
+        "hits": 11,
+        "rate": 0.0010780086240689925,
+        "by_kind": {
+          "increment": 11
+        }
+      },
+      "duplicate_rate": 0.0,
+      "rule_of_three": 0.00029400235201881614,
+      "p0": 0.0010780086240689925,
+      "witness_columns": [
+        "Номер свидетельства",
+        "Дата свидетельства"
+      ]
+    },
+    "russian_retail.csv": {
+      "predictor": {
+        "windows": 2729,
+        "hits": 1,
+        "rate": 0.00036643459142543056,
+        "by_kind": {
+          "copy": 1
+        }
+      },
+      "duplicate_rate": 0.0026,
+      "rule_of_three": 0.0010993037742762918,
+      "p0": 0.0026,
+      "witness_columns": [
+        "total_rented_area",
+        "presence_russia"
+      ]
+    },
+    "adult-train.csv": {
+      "predictor": {
+        "windows": 32553,
+        "hits": 0,
+        "rate": 0.0,
+        "by_kind": {}
+      },
+      "duplicate_rate": 0.0007,
+      "rule_of_three": 9.21574048474795e-05,
+      "p0": 0.0007,
+      "witness_columns": [
+        "fnlwgt"
+      ]
+    },
+    "california-housing.csv": {
+      "predictor": {
+        "windows": 20632,
+        "hits": 0,
+        "rate": 0.0,
+        "by_kind": {}
+      },
+      "duplicate_rate": 0.0,
+      "rule_of_three": 0.00014540519581233036,
+      "p0": 0.00014540519581233036,
+      "witness_columns": [
+        "longitude",
+        "latitude",
+        "total_rooms",
+        "total_bedrooms",
+        "population",
+        "households",
+        "median_income",
+        "median_house_value"
+      ]
+    },
+    "openml-diabetes.csv": {
+      "predictor": {
+        "windows": 760,
+        "hits": 0,
+        "rate": 0.0,
+        "by_kind": {}
+      },
+      "duplicate_rate": 0.0,
+      "rule_of_three": 0.003947368421052632,
+      "p0": 0.003947368421052632,
+      "witness_columns": [
+        "Glucose",
+        "BloodPressure",
+        "SkinThickness",
+        "Insulin",
+        "BMI",
+        "DiabetesPedigreeFunction"
+      ]
+    },
+    "uci-wine.csv": {
+      "predictor": {
+        "windows": 170,
+        "hits": 0,
+        "rate": 0.0,
+        "by_kind": {}
+      },
+      "duplicate_rate": 0.0,
+      "rule_of_three": 0.01764705882352941,
+      "p0": 0.01764705882352941,
+      "witness_columns": [
+        "alcohol",
+        "malic_acid",
+        "ash",
+        "alcalinity_of_ash",
+        "magnesium",
+        "total_phenols",
+        "flavanoids",
+        "nonflavanoid_phenols",
+        "proanthocyanins",
+        "color_intensity",
+        "hue",
+        "od280_od315_of_diluted_wines",
+        "proline"
+      ]
+    },
+    "titanic-train.csv": {
+      "predictor": {
+        "windows": 883,
+        "hits": 0,
+        "rate": 0.0,
+        "by_kind": {}
+      },
+      "duplicate_rate": 0.0,
+      "rule_of_three": 0.0033975084937712344,
+      "p0": 0.0033975084937712344,
+      "witness_columns": [
+        "Ticket",
+        "Fare",
+        "Cabin"
+      ]
+    },
+    "mkb10_v2.csv": {
+      "predictor": {
+        "windows": 14764,
+        "hits": 15,
+        "rate": 0.0010159848279599024,
+        "by_kind": {
+          "increment": 15
+        }
+      },
+      "duplicate_rate": 0.0,
+      "rule_of_three": 0.0002031969655919805,
+      "p0": 0.0010159848279599024,
+      "witness_columns": [
+        "Наименование"
+      ]
+    },
+    "okved2.csv": {
+      "predictor": {
+        "windows": 2978,
+        "hits": 0,
+        "rate": 0.0,
+        "by_kind": {}
+      },
+      "duplicate_rate": 0.0,
+      "rule_of_three": 0.0010073875083948958,
+      "p0": 0.0010073875083948958,
+      "witness_columns": [
+        "Наименование"
+      ]
+    },
+    "oksm.csv": {
+      "predictor": {
+        "windows": 445,
+        "hits": 0,
+        "rate": 0.0,
+        "by_kind": {}
+      },
+      "duplicate_rate": 0.0,
+      "rule_of_three": 0.006741573033707865,
+      "p0": 0.006741573033707865,
+      "witness_columns": [
+        "Полное наименование по ОКСМ",
+        "Краткое наименование по ОКСМ"
+      ]
+    },
+    "okpdtr.csv": {
+      "predictor": {
+        "windows": 8174,
+        "hits": 6,
+        "rate": 0.0007340347443112308,
+        "by_kind": {
+          "increment": 6
+        }
+      },
+      "duplicate_rate": 0.0,
+      "rule_of_three": 0.0003670173721556154,
+      "p0": 0.0007340347443112308,
+      "witness_columns": [
+        "Наименование"
+      ]
+    },
+    "mos_metro_stations_2022.csv": {
+      "predictor": {
+        "windows": 298,
+        "hits": 0,
+        "rate": 0.0,
+        "by_kind": {}
+      },
+      "duplicate_rate": 0.0,
+      "rule_of_three": 0.010067114093959731,
+      "p0": 0.010067114093959731,
+      "witness_columns": [
+        "global_id",
+        "Наименование линии",
+        "Район"
+      ]
+    },
+    "mos_streets_omk_um_2022.csv": {
+      "predictor": {
+        "windows": 5398,
+        "hits": 4,
+        "rate": 0.0007410151908114116,
+        "by_kind": {
+          "increment": 4
+        }
+      },
+      "duplicate_rate": 0.0,
+      "rule_of_three": 0.0005557613931085587,
+      "p0": 0.0007410151908114116,
+      "witness_columns": [
+        "global_id",
+        "UM_CODE"
+      ]
+    },
+    "cardio_train.csv": {
+      "predictor": {
+        "windows": 69992,
+        "hits": 0,
+        "rate": 0.0,
+        "by_kind": {}
+      },
+      "duplicate_rate": 0.0,
+      "rule_of_three": 4.286204137615727e-05,
+      "p0": 4.286204137615727e-05,
+      "witness_columns": [
+        "age",
+        "weight"
+      ]
+    },
+    "alice_train_sessions.csv": {
+      "predictor": {
+        "windows": 99991,
+        "hits": 0,
+        "rate": 0.0,
+        "by_kind": {}
+      },
+      "duplicate_rate": 0.0,
+      "rule_of_three": 3.000270024302187e-05,
+      "p0": 3.000270024302187e-05,
+      "witness_columns": [
+        "time1",
+        "time2",
+        "time3"
+      ]
+    },
+    "telecom_churn.csv": {
+      "predictor": {
+        "windows": 3325,
+        "hits": 0,
+        "rate": 0.0,
+        "by_kind": {}
+      },
+      "duplicate_rate": 0.0,
+      "rule_of_three": 0.0009022556390977444,
+      "p0": 0.0009022556390977444,
+      "witness_columns": [
+        "Total day minutes",
+        "Total eve minutes",
+        "Total night minutes",
+        "Total intl minutes"
+      ]
+    }
+  },
+  "cells": {
+    "mistralai/Mistral-Nemo-Instruct-2407|iris.csv": {
+      "n": 142,
+      "matches": 51,
+      "rate": 0.3591549295774648,
+      "p_vs_duplicate_rate_epsilon_null": 4.773913538452406e-49,
+      "fragment_queries": 0,
+      "near_duplicate_queries": 39,
+      "predictor_hits_in_cell": 0,
+      "matches_that_are_predictor_hits": 0,
+      "null": {
+        "duplicate_rate": 0.02,
+        "predictor_rate": 0.0,
+        "rule_of_three": 0.02112676056338028,
+        "windows": 142,
+        "p0": 0.02112676056338028
+      },
+      "after_rules": {
+        "tau": 0.1,
+        "matches": 36,
+        "n": 103,
+        "p": 8.978839245509074e-34
+      },
+      "by_tau": {
+        "0.05": {
+          "matches": 51,
+          "n": 140,
+          "p": 3.007683559013338e-48
+        },
+        "0.1": {
+          "matches": 36,
+          "n": 103,
+          "p": 8.978839245509074e-34
+        },
+        "0.2": {
+          "matches": 3,
+          "n": 9,
+          "p": 0.0007198996367827728
+        },
+        "0.3": {
+          "matches": 1,
+          "n": 2,
+          "p": 0.041807181114858157
+        }
+      },
+      "witness": {
+        "present": 247,
+        "reproduced": 151,
+        "columns_hit": [
+          "petal_length",
+          "petal_width",
+          "sepal_length",
+          "sepal_width"
+        ],
+        "by_tier": {
+          "single": {
+            "present": 247,
+            "reproduced": 151
+          }
+        }
+      },
+      "other_columns": {
+        "present": 2,
+        "reproduced": 1
+      },
+      "positive": true
+    },
+    "mistralai/Mistral-Nemo-Instruct-2407|mos_streets_omk_um_2022.csv": {
+      "n": 250,
+      "matches": 0,
+      "rate": 0.0,
+      "p_vs_duplicate_rate_epsilon_null": 1.0,
+      "fragment_queries": 0,
+      "near_duplicate_queries": 34,
+      "predictor_hits_in_cell": 0,
+      "matches_that_are_predictor_hits": 0,
+      "null": {
+        "duplicate_rate": 0.0,
+        "predictor_rate": 0.0007410151908114116,
+        "rule_of_three": 0.0005557613931085587,
+        "windows": 5398,
+        "p0": 0.0007410151908114116
+      },
+      "after_rules": {
+        "tau": 0.1,
+        "matches": 0,
+        "n": 216,
+        "p": 1.0
+      },
+      "by_tau": {
+        "0.05": {
+          "matches": 0,
+          "n": 250,
+          "p": 1.0
+        },
+        "0.1": {
+          "matches": 0,
+          "n": 216,
+          "p": 1.0
+        },
+        "0.2": {
+          "matches": 0,
+          "n": 154,
+          "p": 1.0
+        },
+        "0.3": {
+          "matches": 0,
+          "n": 79,
+          "p": 1.0
+        }
+      },
+      "witness": {
+        "present": 498,
+        "reproduced": 0,
+        "columns_hit": [],
+        "by_tier": {
+          "content": {
+            "present": 248,
+            "reproduced": 0
+          },
+          "file": {
+            "present": 250,
+            "reproduced": 0
+          }
+        }
+      },
+      "other_columns": {
+        "present": 1140,
+        "reproduced": 0
+      },
+      "positive": false
+    },
+    "mistralai/Mistral-Nemo-Instruct-2407|okpdtr.csv": {
+      "n": 250,
+      "matches": 2,
+      "rate": 0.008,
+      "p_vs_duplicate_rate_epsilon_null": 3.112499485400056e-14,
+      "fragment_queries": 0,
+      "near_duplicate_queries": 12,
+      "predictor_hits_in_cell": 0,
+      "matches_that_are_predictor_hits": 0,
+      "null": {
+        "duplicate_rate": 0.0,
+        "predictor_rate": 0.0007340347443112308,
+        "rule_of_three": 0.0003670173721556154,
+        "windows": 8174,
+        "p0": 0.0007340347443112308
+      },
+      "after_rules": {
+        "tau": 0.1,
+        "matches": 1,
+        "n": 238,
+        "p": 0.16034519545228582
+      },
+      "by_tau": {
+        "0.05": {
+          "matches": 2,
+          "n": 249,
+          "p": 0.014755239027021777
+        },
+        "0.1": {
+          "matches": 1,
+          "n": 238,
+          "p": 0.16034519545228582
+        },
+        "0.2": {
+          "matches": 0,
+          "n": 161,
+          "p": 1.0
+        },
+        "0.3": {
+          "matches": 0,
+          "n": 51,
+          "p": 1.0
+        }
+      },
+      "witness": {
+        "present": 247,
+        "reproduced": 9,
+        "columns_hit": [
+          "Наименование"
+        ],
+        "by_tier": {
+          "content": {
+            "present": 247,
+            "reproduced": 9
+          }
+        }
+      },
+      "other_columns": {
+        "present": 656,
+        "reproduced": 369
+      },
+      "positive": false
+    },
+    "mistralai/Mistral-Nemo-Instruct-2407|oksm.csv": {
+      "n": 250,
+      "matches": 0,
+      "rate": 0.0,
+      "p_vs_duplicate_rate_epsilon_null": 1.0,
+      "fragment_queries": 0,
+      "near_duplicate_queries": 0,
+      "predictor_hits_in_cell": 0,
+      "matches_that_are_predictor_hits": 0,
+      "null": {
+        "duplicate_rate": 0.0,
+        "predictor_rate": 0.0,
+        "rule_of_three": 0.006741573033707865,
+        "windows": 445,
+        "p0": 0.006741573033707865
+      },
+      "after_rules": {
+        "tau": 0.1,
+        "matches": 0,
+        "n": 250,
+        "p": 1.0
+      },
+      "by_tau": {
+        "0.05": {
+          "matches": 0,
+          "n": 250,
+          "p": 1.0
+        },
+        "0.1": {
+          "matches": 0,
+          "n": 250,
+          "p": 1.0
+        },
+        "0.2": {
+          "matches": 0,
+          "n": 248,
+          "p": 1.0
+        },
+        "0.3": {
+          "matches": 0,
+          "n": 230,
+          "p": 1.0
+        }
+      },
+      "witness": {
+        "present": 487,
+        "reproduced": 0,
+        "columns_hit": [],
+        "by_tier": {
+          "content": {
+            "present": 487,
+            "reproduced": 0
+          }
+        }
+      },
+      "other_columns": {
+        "present": 925,
+        "reproduced": 2
+      },
+      "positive": false
+    },
+    "mistralai/Mistral-Nemo-Instruct-2407|telecom_churn.csv": {
+      "n": 250,
+      "matches": 0,
+      "rate": 0.0,
+      "p_vs_duplicate_rate_epsilon_null": 1.0,
+      "fragment_queries": 0,
+      "near_duplicate_queries": 0,
+      "predictor_hits_in_cell": 0,
+      "matches_that_are_predictor_hits": 0,
+      "null": {
+        "duplicate_rate": 0.0,
+        "predictor_rate": 0.0,
+        "rule_of_three": 0.0009022556390977444,
+        "windows": 3325,
+        "p0": 0.0009022556390977444
+      },
+      "after_rules": {
+        "tau": 0.1,
+        "matches": 0,
+        "n": 250,
+        "p": 1.0
+      },
+      "by_tau": {
+        "0.05": {
+          "matches": 0,
+          "n": 250,
+          "p": 1.0
+        },
+        "0.1": {
+          "matches": 0,
+          "n": 250,
+          "p": 1.0
+        },
+        "0.2": {
+          "matches": 0,
+          "n": 250,
+          "p": 1.0
+        },
+        "0.3": {
+          "matches": 0,
+          "n": 250,
+          "p": 1.0
+        }
+      },
+      "witness": {
+        "present": 919,
+        "reproduced": 3,
+        "columns_hit": [
+          "Total day minutes",
+          "Total intl minutes"
+        ],
+        "by_tier": {
+          "content": {
+            "present": 919,
+            "reproduced": 3
+          }
+        }
+      },
+      "other_columns": {
+        "present": 1313,
+        "reproduced": 11
+      },
+      "positive": false
+    },
+    "Vikhrmodels/Vikhr-Nemo-12B-Instruct-R-21-09-24|iris.csv": {
+      "n": 142,
+      "matches": 32,
+      "rate": 0.22535211267605634,
+      "p_vs_duplicate_rate_epsilon_null": 3.2200707519228674e-24,
+      "fragment_queries": 0,
+      "near_duplicate_queries": 39,
+      "predictor_hits_in_cell": 0,
+      "matches_that_are_predictor_hits": 0,
+      "null": {
+        "duplicate_rate": 0.02,
+        "predictor_rate": 0.0,
+        "rule_of_three": 0.02112676056338028,
+        "windows": 142,
+        "p0": 0.02112676056338028
+      },
+      "after_rules": {
+        "tau": 0.1,
+        "matches": 24,
+        "n": 103,
+        "p": 2.2149328529977977e-18
+      },
+      "by_tau": {
+        "0.05": {
+          "matches": 32,
+          "n": 140,
+          "p": 1.0272312465019121e-23
+        },
+        "0.1": {
+          "matches": 24,
+          "n": 103,
+          "p": 2.2149328529977977e-18
+        },
+        "0.2": {
+          "matches": 2,
+          "n": 9,
+          "p": 0.014557268322896218
+        },
+        "0.3": {
+          "matches": 0,
+          "n": 2,
+          "p": 1.0
+        }
+      },
+      "witness": {
+        "present": 247,
+        "reproduced": 130,
+        "columns_hit": [
+          "petal_length",
+          "petal_width",
+          "sepal_length",
+          "sepal_width"
+        ],
+        "by_tier": {
+          "single": {
+            "present": 247,
+            "reproduced": 130
+          }
+        }
+      },
+      "other_columns": {
+        "present": 2,
+        "reproduced": 0
+      },
+      "positive": true
+    },
+    "Vikhrmodels/Vikhr-Nemo-12B-Instruct-R-21-09-24|mos_streets_omk_um_2022.csv": {
+      "n": 250,
+      "matches": 0,
+      "rate": 0.0,
+      "p_vs_duplicate_rate_epsilon_null": 1.0,
+      "fragment_queries": 0,
+      "near_duplicate_queries": 34,
+      "predictor_hits_in_cell": 0,
+      "matches_that_are_predictor_hits": 0,
+      "null": {
+        "duplicate_rate": 0.0,
+        "predictor_rate": 0.0007410151908114116,
+        "rule_of_three": 0.0005557613931085587,
+        "windows": 5398,
+        "p0": 0.0007410151908114116
+      },
+      "after_rules": {
+        "tau": 0.1,
+        "matches": 0,
+        "n": 216,
+        "p": 1.0
+      },
+      "by_tau": {
+        "0.05": {
+          "matches": 0,
+          "n": 250,
+          "p": 1.0
+        },
+        "0.1": {
+          "matches": 0,
+          "n": 216,
+          "p": 1.0
+        },
+        "0.2": {
+          "matches": 0,
+          "n": 154,
+          "p": 1.0
+        },
+        "0.3": {
+          "matches": 0,
+          "n": 79,
+          "p": 1.0
+        }
+      },
+      "witness": {
+        "present": 498,
+        "reproduced": 45,
+        "columns_hit": [
+          "UM_CODE",
+          "global_id"
+        ],
+        "by_tier": {
+          "content": {
+            "present": 248,
+            "reproduced": 14
+          },
+          "file": {
+            "present": 250,
+            "reproduced": 31
+          }
+        }
+      },
+      "other_columns": {
+        "present": 1140,
+        "reproduced": 7
+      },
+      "positive": false
+    },
+    "Vikhrmodels/Vikhr-Nemo-12B-Instruct-R-21-09-24|okpdtr.csv": {
+      "n": 250,
+      "matches": 1,
+      "rate": 0.004,
+      "p_vs_duplicate_rate_epsilon_null": 2.4999996887500264e-07,
+      "fragment_queries": 0,
+      "near_duplicate_queries": 12,
+      "predictor_hits_in_cell": 0,
+      "matches_that_are_predictor_hits": 0,
+      "null": {
+        "duplicate_rate": 0.0,
+        "predictor_rate": 0.0007340347443112308,
+        "rule_of_three": 0.0003670173721556154,
+        "windows": 8174,
+        "p0": 0.0007340347443112308
+      },
+      "after_rules": {
+        "tau": 0.1,
+        "matches": 1,
+        "n": 238,
+        "p": 0.16034519545228582
+      },
+      "by_tau": {
+        "0.05": {
+          "matches": 1,
+          "n": 249,
+          "p": 0.1671000613095336
+        },
+        "0.1": {
+          "matches": 1,
+          "n": 238,
+          "p": 0.16034519545228582
+        },
+        "0.2": {
+          "matches": 0,
+          "n": 161,
+          "p": 1.0
+        },
+        "0.3": {
+          "matches": 0,
+          "n": 51,
+          "p": 1.0
+        }
+      },
+      "witness": {
+        "present": 247,
+        "reproduced": 8,
+        "columns_hit": [
+          "Наименование"
+        ],
+        "by_tier": {
+          "content": {
+            "present": 247,
+            "reproduced": 8
+          }
+        }
+      },
+      "other_columns": {
+        "present": 656,
+        "reproduced": 369
+      },
+      "positive": false
+    },
+    "Vikhrmodels/Vikhr-Nemo-12B-Instruct-R-21-09-24|oksm.csv": {
+      "n": 250,
+      "matches": 0,
+      "rate": 0.0,
+      "p_vs_duplicate_rate_epsilon_null": 1.0,
+      "fragment_queries": 0,
+      "near_duplicate_queries": 0,
+      "predictor_hits_in_cell": 0,
+      "matches_that_are_predictor_hits": 0,
+      "null": {
+        "duplicate_rate": 0.0,
+        "predictor_rate": 0.0,
+        "rule_of_three": 0.006741573033707865,
+        "windows": 445,
+        "p0": 0.006741573033707865
+      },
+      "after_rules": {
+        "tau": 0.1,
+        "matches": 0,
+        "n": 250,
+        "p": 1.0
+      },
+      "by_tau": {
+        "0.05": {
+          "matches": 0,
+          "n": 250,
+          "p": 1.0
+        },
+        "0.1": {
+          "matches": 0,
+          "n": 250,
+          "p": 1.0
+        },
+        "0.2": {
+          "matches": 0,
+          "n": 248,
+          "p": 1.0
+        },
+        "0.3": {
+          "matches": 0,
+          "n": 230,
+          "p": 1.0
+        }
+      },
+      "witness": {
+        "present": 487,
+        "reproduced": 0,
+        "columns_hit": [],
+        "by_tier": {
+          "content": {
+            "present": 487,
+            "reproduced": 0
+          }
+        }
+      },
+      "other_columns": {
+        "present": 925,
+        "reproduced": 2
+      },
+      "positive": false
+    },
+    "Vikhrmodels/Vikhr-Nemo-12B-Instruct-R-21-09-24|telecom_churn.csv": {
+      "n": 250,
+      "matches": 0,
+      "rate": 0.0,
+      "p_vs_duplicate_rate_epsilon_null": 1.0,
+      "fragment_queries": 0,
+      "near_duplicate_queries": 0,
+      "predictor_hits_in_cell": 0,
+      "matches_that_are_predictor_hits": 0,
+      "null": {
+        "duplicate_rate": 0.0,
+        "predictor_rate": 0.0,
+        "rule_of_three": 0.0009022556390977444,
+        "windows": 3325,
+        "p0": 0.0009022556390977444
+      },
+      "after_rules": {
+        "tau": 0.1,
+        "matches": 0,
+        "n": 250,
+        "p": 1.0
+      },
+      "by_tau": {
+        "0.05": {
+          "matches": 0,
+          "n": 250,
+          "p": 1.0
+        },
+        "0.1": {
+          "matches": 0,
+          "n": 250,
+          "p": 1.0
+        },
+        "0.2": {
+          "matches": 0,
+          "n": 250,
+          "p": 1.0
+        },
+        "0.3": {
+          "matches": 0,
+          "n": 250,
+          "p": 1.0
+        }
+      },
+      "witness": {
+        "present": 919,
+        "reproduced": 4,
+        "columns_hit": [
+          "Total eve minutes",
+          "Total intl minutes"
+        ],
+        "by_tier": {
+          "content": {
+            "present": 919,
+            "reproduced": 4
+          }
+        }
+      },
+      "other_columns": {
+        "present": 1313,
+        "reproduced": 19
+      },
+      "positive": false
+    }
+  },
+  "pairs": {
+    "iris.csv": {
+      "after_rules": {
+        "same_rows": true,
+        "n": 103,
+        "both": 17,
+        "first_only": 19,
+        "second_only": 7,
+        "p": 0.028959274291992188
+      },
+      "all_queries": {
+        "same_rows": true,
+        "n": 142,
+        "both": 22,
+        "first_only": 29,
+        "second_only": 10,
+        "p": 0.0033778479119064286
+      }
+    },
+    "mos_streets_omk_um_2022.csv": {
+      "after_rules": {
+        "same_rows": true,
+        "n": 216,
+        "both": 0,
+        "first_only": 0,
+        "second_only": 0,
+        "p": 1.0
+      },
+      "all_queries": {
+        "same_rows": true,
+        "n": 250,
+        "both": 0,
+        "first_only": 0,
+        "second_only": 0,
+        "p": 1.0
+      }
+    },
+    "okpdtr.csv": {
+      "after_rules": {
+        "same_rows": true,
+        "n": 238,
+        "both": 1,
+        "first_only": 0,
+        "second_only": 0,
+        "p": 1.0
+      },
+      "all_queries": {
+        "same_rows": true,
+        "n": 250,
+        "both": 1,
+        "first_only": 1,
+        "second_only": 0,
+        "p": 1.0
+      }
+    },
+    "oksm.csv": {
+      "after_rules": {
+        "same_rows": true,
+        "n": 250,
+        "both": 0,
+        "first_only": 0,
+        "second_only": 0,
+        "p": 1.0
+      },
+      "all_queries": {
+        "same_rows": true,
+        "n": 250,
+        "both": 0,
+        "first_only": 0,
+        "second_only": 0,
+        "p": 1.0
+      }
+    },
+    "telecom_churn.csv": {
+      "after_rules": {
+        "same_rows": true,
+        "n": 250,
+        "both": 0,
+        "first_only": 0,
+        "second_only": 0,
+        "p": 1.0
+      },
+      "all_queries": {
+        "same_rows": true,
+        "n": 250,
+        "both": 0,
+        "first_only": 0,
+        "second_only": 0,
+        "p": 1.0
+      }
+    }
+  }
+}

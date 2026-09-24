@@ -1,0 +1,449 @@
+{
+  "_what": "The H2e family of AMENDMENT_9, with the Holm correction of §5.",
+  "alpha": 0.05,
+  "well_formed_floor": 0.5,
+  "cells": [
+    {
+      "model": "Vikhrmodels/Vikhr-Nemo-12B-Instruct-R-21-09-24",
+      "dataset": "alice_train_sessions.csv",
+      "test": "row",
+      "count": "0/250",
+      "p": 1.0,
+      "witness": "0/738",
+      "witness_ok": false,
+      "well_formed": 0.1,
+      "p_holm": 1.0,
+      "verdict": "inconclusive"
+    },
+    {
+      "model": "mistralai/Mistral-Nemo-Instruct-2407",
+      "dataset": "alice_train_sessions.csv",
+      "test": "row",
+      "count": "0/250",
+      "p": 1.0,
+      "witness": "0/738",
+      "witness_ok": false,
+      "well_formed": 0.356,
+      "p_holm": 1.0,
+      "verdict": "inconclusive"
+    },
+    {
+      "model": "Vikhrmodels/Vikhr-Nemo-12B-Instruct-R-21-09-24",
+      "dataset": "cardio_train.csv",
+      "test": "feature",
+      "count": "0/250",
+      "p": 1.0,
+      "baseline": "0.0005 [mode]",
+      "witness_ok": true,
+      "well_formed": null,
+      "p_holm": 1.0,
+      "verdict": "negative"
+    },
+    {
+      "model": "mistralai/Mistral-Nemo-Instruct-2407",
+      "dataset": "cardio_train.csv",
+      "test": "feature",
+      "count": "0/250",
+      "p": 1.0,
+      "baseline": "0.0005 [mode]",
+      "witness_ok": true,
+      "well_formed": null,
+      "p_holm": 1.0,
+      "verdict": "negative"
+    },
+    {
+      "model": "Vikhrmodels/Vikhr-Nemo-12B-Instruct-R-21-09-24",
+      "dataset": "cardio_train.csv",
+      "test": "row",
+      "count": "0/250",
+      "p": 1.0,
+      "witness": "5/461",
+      "witness_ok": true,
+      "well_formed": 0.976,
+      "p_holm": 1.0,
+      "verdict": "negative"
+    },
+    {
+      "model": "mistralai/Mistral-Nemo-Instruct-2407",
+      "dataset": "cardio_train.csv",
+      "test": "row",
+      "count": "0/250",
+      "p": 1.0,
+      "witness": "4/461",
+      "witness_ok": true,
+      "well_formed": 0.988,
+      "p_holm": 1.0,
+      "verdict": "negative"
+    },
+    {
+      "model": "Vikhrmodels/Vikhr-Nemo-12B-Instruct-R-21-09-24",
+      "dataset": "mkb10_v2.csv",
+      "test": "feature",
+      "count": "0/250",
+      "p": 1.0,
+      "baseline": "0.0147 [mode]",
+      "witness_ok": true,
+      "well_formed": null,
+      "p_holm": 1.0,
+      "verdict": "negative"
+    },
+    {
+      "model": "mistralai/Mistral-Nemo-Instruct-2407",
+      "dataset": "mkb10_v2.csv",
+      "test": "feature",
+      "count": "0/250",
+      "p": 1.0,
+      "baseline": "0.0147 [mode]",
+      "witness_ok": true,
+      "well_formed": null,
+      "p_holm": 1.0,
+      "verdict": "negative"
+    },
+    {
+      "model": "Vikhrmodels/Vikhr-Nemo-12B-Instruct-R-21-09-24",
+      "dataset": "mkb10_v2.csv",
+      "test": "row",
+      "count": "9/223",
+      "p": 3.0269888679670814e-12,
+      "witness": "20/248",
+      "witness_ok": true,
+      "well_formed": 0.7,
+      "p_holm": 7.870171056714411e-11,
+      "verdict": "POSITIVE"
+    },
+    {
+      "model": "mistralai/Mistral-Nemo-Instruct-2407",
+      "dataset": "mkb10_v2.csv",
+      "test": "row",
+      "count": "16/223",
+      "p": 1.0893493225211764e-24,
+      "witness": "28/248",
+      "witness_ok": true,
+      "well_formed": 0.732,
+      "p_holm": 3.050178103059294e-23,
+      "verdict": "POSITIVE"
+    },
+    {
+      "model": "Vikhrmodels/Vikhr-Nemo-12B-Instruct-R-21-09-24",
+      "dataset": "mos_metro_stations_2022.csv",
+      "test": "row",
+      "count": "0/245",
+      "p": 1.0,
+      "witness": "23/250",
+      "witness_ok": true,
+      "well_formed": 0.036,
+      "p_holm": 1.0,
+      "verdict": "inconclusive"
+    },
+    {
+      "model": "mistralai/Mistral-Nemo-Instruct-2407",
+      "dataset": "mos_metro_stations_2022.csv",
+      "test": "row",
+      "count": "0/245",
+      "p": 1.0,
+      "witness": "0/250",
+      "witness_ok": false,
+      "well_formed": 0.0,
+      "p_holm": 1.0,
+      "verdict": "inconclusive"
+    },
+    {
+      "model": "Vikhrmodels/Vikhr-Nemo-12B-Instruct-R-21-09-24",
+      "dataset": "mos_streets_omk_um_2022.csv",
+      "test": "row",
+      "count": "0/216",
+      "p": 1.0,
+      "witness": "45/498",
+      "witness_ok": true,
+      "well_formed": 0.092,
+      "p_holm": 1.0,
+      "verdict": "inconclusive"
+    },
+    {
+      "model": "mistralai/Mistral-Nemo-Instruct-2407",
+      "dataset": "mos_streets_omk_um_2022.csv",
+      "test": "row",
+      "count": "0/216",
+      "p": 1.0,
+      "witness": "0/498",
+      "witness_ok": false,
+      "well_formed": 0.0,
+      "p_holm": 1.0,
+      "verdict": "inconclusive"
+    },
+    {
+      "model": "Vikhrmodels/Vikhr-Nemo-12B-Instruct-R-21-09-24",
+      "dataset": "okpdtr.csv",
+      "test": "feature",
+      "count": "0/250",
+      "p": 1.0,
+      "baseline": "0.0018 [nn1]",
+      "witness_ok": true,
+      "well_formed": null,
+      "p_holm": 1.0,
+      "verdict": "negative"
+    },
+    {
+      "model": "mistralai/Mistral-Nemo-Instruct-2407",
+      "dataset": "okpdtr.csv",
+      "test": "feature",
+      "count": "0/250",
+      "p": 1.0,
+      "baseline": "0.0018 [nn1]",
+      "witness_ok": true,
+      "well_formed": null,
+      "p_holm": 1.0,
+      "verdict": "negative"
+    },
+    {
+      "model": "Vikhrmodels/Vikhr-Nemo-12B-Instruct-R-21-09-24",
+      "dataset": "okpdtr.csv",
+      "test": "row",
+      "count": "1/238",
+      "p": 0.16034519545228582,
+      "witness": "8/247",
+      "witness_ok": true,
+      "well_formed": 0.96,
+      "p_holm": 1.0,
+      "verdict": "negative"
+    },
+    {
+      "model": "mistralai/Mistral-Nemo-Instruct-2407",
+      "dataset": "okpdtr.csv",
+      "test": "row",
+      "count": "1/238",
+      "p": 0.16034519545228582,
+      "witness": "9/247",
+      "witness_ok": true,
+      "well_formed": 0.964,
+      "p_holm": 1.0,
+      "verdict": "negative"
+    },
+    {
+      "model": "Vikhrmodels/Vikhr-Nemo-12B-Instruct-R-21-09-24",
+      "dataset": "oksm.csv",
+      "test": "feature",
+      "count": "96/250",
+      "p": 5.1911689379841255e-74,
+      "baseline": "0.0331 [nn1]",
+      "witness_ok": true,
+      "well_formed": null,
+      "p_holm": 1.5054389920153964e-72,
+      "verdict": "POSITIVE"
+    },
+    {
+      "model": "mistralai/Mistral-Nemo-Instruct-2407",
+      "dataset": "oksm.csv",
+      "test": "feature",
+      "count": "120/250",
+      "p": 2.445893724533538e-106,
+      "baseline": "0.0331 [nn1]",
+      "witness_ok": true,
+      "well_formed": null,
+      "p_holm": 7.337681173600615e-105,
+      "verdict": "POSITIVE"
+    },
+    {
+      "model": "Vikhrmodels/Vikhr-Nemo-12B-Instruct-R-21-09-24",
+      "dataset": "oksm.csv",
+      "test": "row",
+      "count": "0/250",
+      "p": 1.0,
+      "witness": "0/487",
+      "witness_ok": false,
+      "well_formed": 0.008,
+      "p_holm": 1.0,
+      "verdict": "inconclusive"
+    },
+    {
+      "model": "mistralai/Mistral-Nemo-Instruct-2407",
+      "dataset": "oksm.csv",
+      "test": "row",
+      "count": "0/250",
+      "p": 1.0,
+      "witness": "0/487",
+      "witness_ok": false,
+      "well_formed": 0.008,
+      "p_holm": 1.0,
+      "verdict": "inconclusive"
+    },
+    {
+      "model": "Vikhrmodels/Vikhr-Nemo-12B-Instruct-R-21-09-24",
+      "dataset": "okved2.csv",
+      "test": "feature",
+      "count": "7/250",
+      "p": 0.7436910086018484,
+      "baseline": "0.0338 [nn1]",
+      "witness_ok": true,
+      "well_formed": null,
+      "p_holm": 1.0,
+      "verdict": "negative"
+    },
+    {
+      "model": "mistralai/Mistral-Nemo-Instruct-2407",
+      "dataset": "okved2.csv",
+      "test": "feature",
+      "count": "12/250",
+      "p": 0.14392411261217714,
+      "baseline": "0.0338 [nn1]",
+      "witness_ok": true,
+      "well_formed": null,
+      "p_holm": 1.0,
+      "verdict": "negative"
+    },
+    {
+      "model": "Vikhrmodels/Vikhr-Nemo-12B-Instruct-R-21-09-24",
+      "dataset": "okved2.csv",
+      "test": "row",
+      "count": "9/240",
+      "p": 5.420994377886942e-12,
+      "witness": "17/228",
+      "witness_ok": true,
+      "well_formed": 0.312,
+      "p_holm": 1.3552485944717356e-10,
+      "verdict": "POSITIVE"
+    },
+    {
+      "model": "mistralai/Mistral-Nemo-Instruct-2407",
+      "dataset": "okved2.csv",
+      "test": "row",
+      "count": "16/240",
+      "p": 3.159955259757313e-24,
+      "witness": "28/228",
+      "witness_ok": true,
+      "well_formed": 0.388,
+      "p_holm": 8.531879201344745e-23,
+      "verdict": "POSITIVE"
+    },
+    {
+      "model": "Vikhrmodels/Vikhr-Nemo-12B-Instruct-R-21-09-24",
+      "dataset": "telecom_churn.csv",
+      "test": "feature",
+      "count": "0/250",
+      "p": 1.0,
+      "baseline": "0.0024 [mode]",
+      "witness_ok": true,
+      "well_formed": null,
+      "p_holm": 1.0,
+      "verdict": "negative"
+    },
+    {
+      "model": "mistralai/Mistral-Nemo-Instruct-2407",
+      "dataset": "telecom_churn.csv",
+      "test": "feature",
+      "count": "1/250",
+      "p": 0.45158399898110113,
+      "baseline": "0.0024 [mode]",
+      "witness_ok": true,
+      "well_formed": null,
+      "p_holm": 1.0,
+      "verdict": "negative"
+    },
+    {
+      "model": "Vikhrmodels/Vikhr-Nemo-12B-Instruct-R-21-09-24",
+      "dataset": "telecom_churn.csv",
+      "test": "row",
+      "count": "0/250",
+      "p": 1.0,
+      "witness": "4/919",
+      "witness_ok": true,
+      "well_formed": 0.896,
+      "p_holm": 1.0,
+      "verdict": "negative"
+    },
+    {
+      "model": "mistralai/Mistral-Nemo-Instruct-2407",
+      "dataset": "telecom_churn.csv",
+      "test": "row",
+      "count": "0/250",
+      "p": 1.0,
+      "witness": "3/919",
+      "witness_ok": true,
+      "well_formed": 0.984,
+      "p_holm": 1.0,
+      "verdict": "negative"
+    }
+  ],
+  "header": [
+    {
+      "model": "Vikhrmodels/Vikhr-Nemo-12B-Instruct-R-21-09-24",
+      "dataset": "mkb10_v2.csv",
+      "verdict": "fail"
+    },
+    {
+      "model": "Vikhrmodels/Vikhr-Nemo-12B-Instruct-R-21-09-24",
+      "dataset": "cardio_train.csv",
+      "verdict": "fail"
+    },
+    {
+      "model": "Vikhrmodels/Vikhr-Nemo-12B-Instruct-R-21-09-24",
+      "dataset": "alice_train_sessions.csv",
+      "verdict": "fail"
+    },
+    {
+      "model": "Vikhrmodels/Vikhr-Nemo-12B-Instruct-R-21-09-24",
+      "dataset": "mos_metro_stations_2022.csv",
+      "verdict": "fail"
+    },
+    {
+      "model": "mistralai/Mistral-Nemo-Instruct-2407",
+      "dataset": "mkb10_v2.csv",
+      "verdict": "fail"
+    },
+    {
+      "model": "mistralai/Mistral-Nemo-Instruct-2407",
+      "dataset": "cardio_train.csv",
+      "verdict": "fail"
+    },
+    {
+      "model": "mistralai/Mistral-Nemo-Instruct-2407",
+      "dataset": "alice_train_sessions.csv",
+      "verdict": "fail"
+    },
+    {
+      "model": "mistralai/Mistral-Nemo-Instruct-2407",
+      "dataset": "mos_metro_stations_2022.csv",
+      "verdict": "fail"
+    },
+    {
+      "model": "Vikhrmodels/Vikhr-Nemo-12B-Instruct-R-21-09-24",
+      "dataset": "oksm.csv",
+      "verdict": "fail"
+    },
+    {
+      "model": "Vikhrmodels/Vikhr-Nemo-12B-Instruct-R-21-09-24",
+      "dataset": "okpdtr.csv",
+      "verdict": "fail"
+    },
+    {
+      "model": "Vikhrmodels/Vikhr-Nemo-12B-Instruct-R-21-09-24",
+      "dataset": "mos_streets_omk_um_2022.csv",
+      "verdict": "fail"
+    },
+    {
+      "model": "Vikhrmodels/Vikhr-Nemo-12B-Instruct-R-21-09-24",
+      "dataset": "telecom_churn.csv",
+      "verdict": "fail"
+    },
+    {
+      "model": "mistralai/Mistral-Nemo-Instruct-2407",
+      "dataset": "oksm.csv",
+      "verdict": "fail"
+    },
+    {
+      "model": "mistralai/Mistral-Nemo-Instruct-2407",
+      "dataset": "okpdtr.csv",
+      "verdict": "fail"
+    },
+    {
+      "model": "mistralai/Mistral-Nemo-Instruct-2407",
+      "dataset": "mos_streets_omk_um_2022.csv",
+      "verdict": "fail"
+    },
+    {
+      "model": "mistralai/Mistral-Nemo-Instruct-2407",
+      "dataset": "telecom_churn.csv",
+      "verdict": "fail"
+    }
+  ]
+}

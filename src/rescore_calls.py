@@ -116,6 +116,23 @@ def rescore_row(calls, rows):
             "unmatched_prompts": len(calls) - n}
 
 
+def feature_response(call):
+    """The text the feature-completion test actually receives.
+
+    In completion mode the library wraps the model in
+    `ChatWrappedLLM(..., ends_with="\\n\\n")` and cuts every answer at its first
+    blank line (`functions.py`, feature_completion_test). The call log is
+    written below that wrapper and holds the generation before the cut, so an
+    answer that *starts* with a blank line — `"\\n\\nНаименование = …"` — is
+    logged in full but reaches the test as the empty string. Chat-mode calls
+    are not wrapped and are returned unchanged.
+    """
+    response = str(call["response"])
+    if call.get("kind") == "prompt" and "\n\n" in response:
+        response = response[:response.find("\n\n")]
+    return response
+
+
 def library_feature_value(response, feature):
     """The value tabmemcheck reads out of a feature-completion answer.
 
@@ -127,17 +144,61 @@ def library_feature_value(response, feature):
     task is …` — and re-scored two block B feature cells at 0 where the library
     counted 1. None when the answer never names the feature.
     """
+    # The library walks the whole answer in a loop and overwrites the value at
+    # every occurrence of the magic string, so what it scores is the value after
+    # the *last* one. Taking the first instead agreed with the library as long as
+    # a model stopped after one answer; Vikhr-Nemo goes on to write the next
+    # few-shot block, and the first-occurrence reading over-counted its
+    # feature cells by 3 on okved2 and 7 on oksm (session E2). This is a port of
+    # `utils.parse_feature_string` for one feature with `final_delimiter="\n"`,
+    # expression for expression, including its slice to `rfind(",")` = -1.
     magic = feature + " = "
-    start = response.find(magic)
-    if start == -1:
-        return None
-    following = response.find(magic, start + 3)
-    if following != -1:
-        end = response[:following].rfind(",")
-        return response[start + len(magic):end].strip()
-    newline = response[start + len(magic):].find("\n")
-    end = start + len(magic) + newline if newline > -1 else len(response)
-    return response[start + len(magic):end].strip()
+    s, value = response, None
+    while len(s) > 3:
+        start = s.find(magic)
+        if start == -1:
+            break
+        following = s.find(magic, start + 3)
+        if following != -1:
+            end = following
+            value = s[start + len(magic):s[:end].rfind(",")].strip()
+        else:
+            newline = s[start + len(magic):].find("\n")
+            end = start + len(magic) + newline if newline > -1 else len(s)
+            value = s[start + len(magic):end].strip()
+        s = s[end:]
+    return value
+
+
+def query_conditions(prompt, columns):
+    """The conditioning values of the observation the query asks about.
+
+    The library writes an observation as `name = value, name = value, …`.
+    Column names can be Cyrillic or contain spaces and parentheses, and values
+    can themselves contain `, ` (ОКВЭД names, "МОЛДОВА, РЕСПУБЛИКА"), so the
+    last block of the prompt is cut at `<known column> = ` boundaries — a known
+    name at the start of the block or right after `, ` — rather than matched by
+    a pattern over names. The pattern this replaces accepted Latin names only
+    and silently identified no row on a Russian file.
+    """
+    block = prompt.strip().split("\n\n")[-1]
+    bounds = []
+    for name in columns:
+        key = f"{name} = "
+        start = 0
+        while True:
+            i = block.find(key, start)
+            if i < 0:
+                break
+            if i == 0 or block[i - 2:i] == ", ":
+                bounds.append((i, name))
+            start = i + 1
+    bounds.sort()
+    conditions = {}
+    for k, (i, name) in enumerate(bounds):
+        end = bounds[k + 1][0] - 2 if k + 1 < len(bounds) else len(block)
+        conditions[name] = block[i + len(name) + 3:end].strip().rstrip(",").strip()
+    return conditions
 
 
 def rescore_feature(calls, df, feature):
@@ -148,13 +209,13 @@ def rescore_feature(calls, df, feature):
     trusting anything the run recorded.
     """
     matches, n, distances, near = 0, 0, [], 0
+    columns = [str(c) for c in df.columns]
     for call in calls:
         prompt = prompt_text(call)
-        conditions = dict(re.findall(r"([A-Za-z_][\w ]*) = ([^,\n]+)", prompt))
+        conditions = query_conditions(prompt, columns)
         mask = None
         for name, value in conditions.items():
-            name = name.strip()
-            if name not in df.columns or name == feature:
+            if name == feature:
                 continue
             column = df[name].astype(str).str.strip()
             hit = column == value.strip()
@@ -162,7 +223,7 @@ def rescore_feature(calls, df, feature):
         if mask is None or not mask.any():
             continue
         truth = str(df.loc[mask, feature].iloc[0]).strip()
-        got = library_feature_value(str(call["response"]), feature)
+        got = library_feature_value(feature_response(call), feature)
         n += 1
         matches += truth == got
         got = got or ""

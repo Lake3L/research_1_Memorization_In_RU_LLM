@@ -58,6 +58,41 @@ from run_repro import PLANS, PAPER, PROTOCOL, dataset_key, run_one  # noqa: E402
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
+
+def ensure_sentencepiece():
+    """Install SentencePiece before transformers is imported, if it is missing.
+
+    YandexGPT-5-Lite ships its tokenizer only as `tokenizer.model`, which
+    transformers 5 cannot read without the `sentencepiece` package: it falls
+    back to a TikToken extractor that fails on the file. transformers decides
+    whether the package exists once, when it is imported, so it has to be there
+    before that; and the notebook's install cell belongs to whichever copy of
+    the .ipynb the hosted service imported, while this module comes from the
+    checkout. Two runs start side by side, one per card, so the install is
+    guarded by a lock file and the second run waits for the first.
+    """
+    import importlib.util
+    import subprocess
+    import tempfile
+    if importlib.util.find_spec("sentencepiece") is not None:
+        return
+    lock = os.path.join(tempfile.gettempdir(), "sentencepiece-install.lock")
+    try:
+        handle = os.open(lock, os.O_CREAT | os.O_EXCL)
+    except FileExistsError:
+        for _ in range(180):
+            importlib.invalidate_caches()
+            if importlib.util.find_spec("sentencepiece") is not None:
+                return
+            time.sleep(2)
+        return
+    try:
+        print("[env] installing sentencepiece and protobuf", flush=True)
+        subprocess.run([sys.executable, "-m", "pip", "install", "-q", "sentencepiece", "protobuf"],
+                       check=True)
+    finally:
+        os.close(handle)
+
 # Our own GPT-4-0613 numbers from the first half of the gate (RESULTS_GATE.md
 # §2), measured with this same code. They are the closer comparison than the
 # paper's, because they share our sample sizes and our scoring.
@@ -326,6 +361,7 @@ def main():
             llm.chat_mode = args.prompting == "chat"
         model_label = f"mock:{args.mock}"
     else:
+        ensure_sentencepiece()      # before transformers is imported below
         import torch
         from hf_llm import HFLLM
         if revision is None:

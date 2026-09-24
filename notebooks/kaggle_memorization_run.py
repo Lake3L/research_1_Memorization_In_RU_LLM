@@ -74,7 +74,7 @@ def sh(cmd):
     return process.wait()
 
 sh(f"{sys.executable} -m pip install -q 'pandas<3' 'tabmemcheck==0.1.6' "
-   f"transformers accelerate bitsandbytes jellyfish xgboost scipy")
+   f"transformers accelerate bitsandbytes jellyfish xgboost scipy sentencepiece protobuf")
 
 # %% [markdown]
 # ## Repository and session

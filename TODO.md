@@ -232,12 +232,19 @@ session itself is `notebooks/session.json`.
 - [x] Read the YandexGPT licence in full (2026-09-24, LOG.md): research use
       free and unrestricted for this study; name the model with its copyright
       notice in the paper.
-- [ ] **Session Y1** (`notebooks/session.json`): the YandexGPT-5-Lite-8B pair,
-      `exposure_2` then `probe` on each card (6.4 h estimated). The decisive
-      question after E2: does a from-scratch Russian model name МКБ-10 and
-      ОКВЭД codes by feature completion, against the same baselines? Score with
+- [ ] **Session Y1** (`notebooks/session.json`, retry): the YandexGPT-5-Lite-8B
+      pair, `exposure_2` then `probe` on each card (6.4 h estimated). Two
+      attempts on 2026-09-24/25 are void: transformers 5.0.0 decoded every
+      answer with a space between tokens (LOG.md 2026-09-27); the runner now
+      enforces 5.14.1, self-tests the tokenizer and collects the run logs. Both
+      attempts also stopped after ~65 min with no file from the instruct model
+      — cause unknown until the notebook log is seen; run with "Save & Run All"
+      on the T4 x2 accelerator. The decisive question after E2: does a
+      from-scratch Russian model name МКБ-10 and ОКВЭД codes by feature
+      completion, against the same baselines? Score with
       `src/prefix_baseline.py`, `src/classifier_diagnostics.py` (bins frozen)
-      and `src/family_holm.py`.
+      and `src/family_holm.py`. Check first that the iris anchor of the next
+      Nemo session reproduces 51/142 on the new transformers version.
 - [ ] Then: `exposure_1` and `ru_probe` on the YandexGPT pair; C2
       `ru_probe_long` on the Nemo pair; OLMo; GigaChat after its smoke test.
 - [ ] Then both plans on the YandexGPT and GigaChat pairs and on the controls,

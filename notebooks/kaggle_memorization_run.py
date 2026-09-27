@@ -46,11 +46,14 @@ REPO_URL = "https://github.com/Lake3L/research_1_Memorization_In_RU_LLM.git"
 # and both `first_token_test` and `feature_completion_test` stop working, which
 # would silently remove two of the four instruments.
 #
-# `transformers` is deliberately unpinned. Hosted images ship their own torch, and
-# pinning against it is a frequent cause of an environment that will not resolve.
-# The backend supports both the 4.x and 5.x APIs, and the resolved version of every
-# package is recorded in the results file — which is what reproducibility requires:
-# knowing exactly what ran.
+# `transformers` is pinned to 5.14.1 and `torch` is not: hosted images ship their
+# own torch, and pinning against it is a frequent cause of an environment that will
+# not resolve, while the transformers version decides how a tokenizer decodes —
+# 5.0.0, the version the image resolves to on its own, returned every YandexGPT
+# answer with a space between tokens (session Y1). The runner enforces the same
+# version itself before it imports transformers, because this cell is a copy that
+# the hosted service keeps from the day the notebook was imported. The resolved
+# version of every package is recorded in the results file.
 
 # %% install
 import subprocess, sys, os
@@ -74,7 +77,7 @@ def sh(cmd):
     return process.wait()
 
 sh(f"{sys.executable} -m pip install -q 'pandas<3' 'tabmemcheck==0.1.6' "
-   f"transformers accelerate bitsandbytes jellyfish xgboost scipy sentencepiece protobuf")
+   f"transformers==5.14.1 accelerate bitsandbytes jellyfish xgboost scipy sentencepiece protobuf")
 
 # %% [markdown]
 # ## Repository and session
@@ -228,10 +231,16 @@ TARGET = "/kaggle/working" if os.path.isdir("/kaggle/working") else "."
 
 
 def collect():
-    """Copy this session's artefacts out and return what it has produced."""
+    """Copy this session's artefacts out and return what it has produced.
+
+    The per-run logs travel too: session Y1 stopped twice at the same point
+    with nothing in the results to say why, and the logs that would have said
+    it stayed in the checkout. They are copied on every call, so whatever
+    the session wrote last is in the output even if it is killed.
+    """
     produced = sorted((set(glob.glob("results/gateA_*.json"))
                        | set(glob.glob("results/calls_*.jsonl"))) - PRE_EXISTING)
-    for path in produced:
+    for path in produced + sorted(glob.glob("run*_gpu*.log")):
         if os.path.abspath(os.path.dirname(path)) != os.path.abspath(TARGET):
             shutil.copy(path, TARGET)
     return produced

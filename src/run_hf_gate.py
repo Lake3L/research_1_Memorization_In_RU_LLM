@@ -59,39 +59,65 @@ from run_repro import PLANS, PAPER, PROTOCOL, dataset_key, run_one  # noqa: E402
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 
-def ensure_sentencepiece():
-    """Install SentencePiece before transformers is imported, if it is missing.
+TRANSFORMERS_REQUIRED = "5.14.1"
 
-    YandexGPT-5-Lite ships its tokenizer only as `tokenizer.model`, which
-    transformers 5 cannot read without the `sentencepiece` package: it falls
-    back to a TikToken extractor that fails on the file. transformers decides
-    whether the package exists once, when it is imported, so it has to be there
-    before that; and the notebook's install cell belongs to whichever copy of
-    the .ipynb the hosted service imported, while this module comes from the
-    checkout. Two runs start side by side, one per card, so the install is
+
+def ensure_environment():
+    """Put the two packages the tokenizers need in place before transformers
+    is imported, whatever the notebook's install cell did.
+
+    Two lessons from session Y1 (2026-09-24), both about the hosted image:
+    - transformers 5.0.0, the version Kaggle resolves to when left unpinned,
+      converts YandexGPT-5-Lite's SentencePiece tokenizer into one that decodes
+      every answer with a space between tokens and mangles Cyrillic ("7 . 3 ,
+      2 . 9 , … Ir is - vir gi ni ca" for a correct iris row), so 622 answers
+      counted zero; 5.14.1 decodes them exactly, and `use_fast=False` is no
+      escape in 5.0.0 (reproduced here, LOG.md 2026-09-27). The version is
+      therefore required, not requested.
+    - that tokenizer needs the `sentencepiece` package, which transformers
+      checks for once, at import.
+    The notebook's install cell belongs to whichever copy of the .ipynb the
+    hosted service imported, while this module comes from the checkout, so the
+    guarantee has to live here, before the import below. Each run is its own
+    interpreter, and two start side by side, one per card, so the install is
     guarded by a lock file and the second run waits for the first.
     """
     import importlib.util
     import subprocess
     import tempfile
-    if importlib.util.find_spec("sentencepiece") is not None:
+    from importlib import metadata
+
+    def satisfied():
+        importlib.invalidate_caches()
+        try:
+            version = metadata.version("transformers")
+        except metadata.PackageNotFoundError:
+            return False
+        return version == TRANSFORMERS_REQUIRED and importlib.util.find_spec("sentencepiece") is not None
+
+    if satisfied():
         return
-    lock = os.path.join(tempfile.gettempdir(), "sentencepiece-install.lock")
+    lock = os.path.join(tempfile.gettempdir(), "memorization-env-install.lock")
     try:
         handle = os.open(lock, os.O_CREAT | os.O_EXCL)
     except FileExistsError:
-        for _ in range(180):
-            importlib.invalidate_caches()
-            if importlib.util.find_spec("sentencepiece") is not None:
+        for _ in range(300):
+            if satisfied():
                 return
             time.sleep(2)
         return
     try:
-        print("[env] installing sentencepiece and protobuf", flush=True)
-        subprocess.run([sys.executable, "-m", "pip", "install", "-q", "sentencepiece", "protobuf"],
+        print(f"[env] installing transformers=={TRANSFORMERS_REQUIRED}, sentencepiece, protobuf",
+              flush=True)
+        subprocess.run([sys.executable, "-m", "pip", "install", "-q",
+                        f"transformers=={TRANSFORMERS_REQUIRED}", "sentencepiece", "protobuf"],
                        check=True)
     finally:
         os.close(handle)
+        try:
+            os.remove(lock)
+        except OSError:
+            pass
 
 # Our own GPT-4-0613 numbers from the first half of the gate (RESULTS_GATE.md
 # §2), measured with this same code. They are the closer comparison than the
@@ -361,7 +387,7 @@ def main():
             llm.chat_mode = args.prompting == "chat"
         model_label = f"mock:{args.mock}"
     else:
-        ensure_sentencepiece()      # before transformers is imported below
+        ensure_environment()        # before transformers is imported below
         import torch
         from hf_llm import HFLLM
         if revision is None:
@@ -547,8 +573,8 @@ def versions():
     import platform
     from importlib import metadata
     out = {"python": platform.python_version(), "platform": platform.platform()}
-    for package in ("numpy", "pandas", "scipy", "torch", "transformers",
-                    "tabmemcheck", "jellyfish", "accelerate", "bitsandbytes"):
+    for package in ("numpy", "pandas", "scipy", "torch", "transformers", "tokenizers",
+                    "sentencepiece", "tabmemcheck", "jellyfish", "accelerate", "bitsandbytes"):
         try:  # not every package exposes __version__, but all expose metadata
             out[package] = metadata.version(package)
         except Exception:

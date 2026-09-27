@@ -32,6 +32,54 @@ from transformers import AutoModelForCausalLM, AutoTokenizer
 
 import tabmemcheck
 
+# What every answer has to survive on its way back from the model: digits,
+# punctuation, Latin, Cyrillic, a decimal, a newline. If the tokenizer cannot
+# carry this string through encode and decode unchanged, no verbatim count
+# taken through it means anything.
+ROUNDTRIP_PROBE = "\n7.3,2.9,6.3,1.8,Iris-virginica\n494,460,Малайзийская,МАЛАЙЗИЙСКАЯ,MY,MYS,,1963-01-01"
+
+
+def roundtrip(tokenizer) -> tuple:
+    ids = tokenizer(ROUNDTRIP_PROBE, add_special_tokens=False)["input_ids"]
+    text = tokenizer.decode(ids, skip_special_tokens=True)
+    return text == ROUNDTRIP_PROBE, text
+
+
+def load_tokenizer(model_name, revision):
+    """Load the tokenizer and prove it round-trips, or refuse to run.
+
+    Session Y1 (2026-09-24, transformers 5.0.0 on Kaggle) loaded
+    YandexGPT-5-Lite's SentencePiece tokenizer into something that decoded
+    every answer with a space between tokens and mangled Cyrillic — "7 . 3 ,
+    2 . 9 , … Ir is - vir gi ni ca" for a correct iris row — so 622 calls
+    counted zero and the same tokenizer on this machine under 5.14.1 decoded
+    them exactly. The load itself raises nothing in either case. So the
+    tokenizer is tested here on a probe string; if the default load fails the
+    test, the slow SentencePiece class is tried (`use_fast=False`), and if
+    that fails too the run stops before a single query, with both decodings in
+    the message. What was loaded, and that it passed, is written into the load
+    report of every results file.
+    """
+    tried = []
+    for label, kwargs in (("default", {}), ("slow", {"use_fast": False})):
+        try:
+            tokenizer = AutoTokenizer.from_pretrained(model_name, revision=revision, **kwargs)
+        except Exception as error:  # noqa: BLE001 — recorded, then the next path
+            tried.append({"load": label, "error": f"{type(error).__name__}: {error}"[:300]})
+            continue
+        ok, text = roundtrip(tokenizer)
+        entry = {"load": label, "class": type(tokenizer).__name__,
+                 "is_fast": bool(getattr(tokenizer, "is_fast", False)), "roundtrip": ok}
+        tried.append(entry)
+        if ok:
+            print(f"[model] tokenizer {entry['class']} ({label}) round-trips the probe", flush=True)
+            return tokenizer, {"attempts": tried, **entry}
+        entry["decoded_probe"] = text[:200]
+        print(f"[model] tokenizer {entry['class']} ({label}) does NOT round-trip: {text[:120]!r}",
+              flush=True)
+    raise RuntimeError(f"no tokenizer of {model_name} round-trips the probe string; "
+                       f"a verbatim count through it would be void. Attempts: {tried}")
+
 
 @dataclass
 class HFLLM(tabmemcheck.LLM_Interface):
@@ -54,9 +102,8 @@ class HFLLM(tabmemcheck.LLM_Interface):
     context: dict = field(default_factory=dict)  # tags written into every log line
 
     def __post_init__(self):
-        self.tokenizer = AutoTokenizer.from_pretrained(
-            self.model_name, revision=self.revision
-        )
+        self.tokenizer, self.load_report["tokenizer"] = load_tokenizer(
+            self.model_name, self.revision)
         kwargs = {"revision": self.revision}
         requested_dtype = self.dtype if self.dtype is not None else "auto"
         if self.quantization_config is not None:

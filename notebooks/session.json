@@ -1,22 +1,16 @@
 {
   "_what": "The runs this GPU session performs. The notebook reads this file from the repository checkout, so the experiment is defined in version control rather than in a notebook copy.",
   "_rule": "To change what runs: edit this file, commit, push. The notebook needs no changes.",
-  "session_id": "2026-09-27-block-C-Y1-yandexgpt-retry",
-  "purpose": "Retry of session Y1. The 2026-09-24 and 09-25 attempts are void: transformers 5.0.0, which the image resolves to on its own, decoded every YandexGPT answer with a space between tokens, and both attempts stopped after about 65 minutes with the instruct model never producing a file (reports/RESULTS_EXPOSURE.md, LOG.md 2026-09-27). The runner now enforces transformers 5.14.1 and SentencePiece before it imports transformers, tests every tokenizer on a probe string and refuses to run if it does not round-trip, and the per-run logs are collected with the results. Same plan as before: each card runs exposure_2 first — feature completion on the four classifiers against the baselines fixed before the Nemo run, plus the rest of the high-exposure rows — then probe, the canon row-completion probe that places the model on H1. iris anchors both plans and must return 51/142 for Mistral-Nemo in any later session on the new transformers version before its numbers are compared with the old.",
+  "session_id": "2026-09-28-block-C-Y2-yandexgpt-exposure_1",
+  "purpose": "Session Y2: plan exposure_1 on the YandexGPT-5-Lite-8B pair, one model per card. Y1 (2026-09-27/28) found the pair naming ОКВЭД 2 codes by feature completion (32 and 28 of 250 against a 3.4% baseline) and not naming МКБ-10 (reports/RESULTS_EXPOSURE.md Part IV). exposure_1 adds the row-completion side of the same two classifiers, scored with the distance bins frozen in src/classifier_diagnostics.py, plus header and row on cardio_train, alice_train_sessions and the Moscow metro export; with it the H2e family of the pair is complete and gets its Holm verdict. iris anchors the plan: 76/142 for the pretrain model and 53/142 for the instruct model in both Y1 plans. The runner enforces transformers 5.14.1 and SentencePiece and tests the tokenizer on a probe string; the results files must now carry the round-trip report under load.tokenizer.",
   "dataset_group": "canon,ru_exposure",
   "datasets": [
     "iris",
-    "uci-wine",
-    "openml-diabetes",
-    "titanic-train",
-    "adult-train",
-    "oksm",
-    "okpdtr",
-    "mos_streets_omk_um_2022",
-    "telecom_churn",
     "mkb10_v2",
     "okved2",
-    "cardio_train"
+    "cardio_train",
+    "alice_train_sessions",
+    "mos_metro_stations_2022"
   ],
   "attached_input": "the nine ru_exposure CSVs, attached as one Kaggle dataset (loose or zipped); the fetch step adopts them from /kaggle/input, looks inside zips, and verifies every hash before any weights load",
   "variant": "raw",
@@ -34,31 +28,20 @@
       "--group"
     ],
     "plans": [
-      "exposure_2",
-      "probe"
+      "exposure_1"
     ],
     "note": "verified against the checkout before any weights are downloaded"
   },
   "runs": [
     {
       "model": "yandex/YandexGPT-5-Lite-8B-pretrain",
-      "extra": "--plan exposure_2 --protocol reference --prompting completion",
-      "why": "the pretrain model; 4.6 h by src/price_plan.py with its own tokenizer, 5.7 h at the worst overrun seen so far"
+      "extra": "--plan exposure_1 --protocol reference --prompting completion",
+      "why": "the pretrain model; 5.7 h by src/price_plan.py with its own tokenizer, which priced Y1 exactly; 7.7 h at the worst overrun seen (35%)"
     },
     {
       "model": "yandex/YandexGPT-5-Lite-8B-instruct",
-      "extra": "--plan exposure_2 --protocol reference --prompting completion",
-      "why": "its instruct model, same cells, same seed, the other card"
-    },
-    {
-      "model": "yandex/YandexGPT-5-Lite-8B-pretrain",
-      "extra": "--plan probe --protocol reference --prompting completion",
-      "why": "canon row completion for H1; 1.8 h, queued on whichever card frees first. Per card 6.4 h estimated, 8.6 h at the worst overrun (35%). Needs the T4 x2 accelerator: on one card the four runs go one after another and cannot finish in twelve hours"
-    },
-    {
-      "model": "yandex/YandexGPT-5-Lite-8B-instruct",
-      "extra": "--plan probe --protocol reference --prompting completion",
-      "why": "the same for the instruct model"
+      "extra": "--plan exposure_1 --protocol reference --prompting completion",
+      "why": "its instruct model, same cells, same seed, the other card. Needs the T4 x2 accelerator; ru_probe (6.1 h) is not added because the two plans together exceed the 10 h session ceiling of AMENDMENT_9 §7"
     }
   ]
 }

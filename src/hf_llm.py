@@ -155,7 +155,10 @@ class HFLLM(tabmemcheck.LLM_Interface):
             self.model = self.model.to(self.device)
         self.model.eval()
         self.loaded_revision = getattr(self.model.config, "_commit_hash", None)
-        self.load_report = self._describe_load()
+        # keep the tokenizer's round-trip report from __post_init__: session Y1's
+        # retry ran the test but the results files did not show it, because this
+        # assignment replaced the dict
+        self.load_report = {**self._describe_load(), "tokenizer": self.load_report.get("tokenizer")}
         if self.quantization_config is not None and not self.load_report["quantized"]:
             raise RuntimeError(
                 "quantization was requested but the loaded model is not quantized "

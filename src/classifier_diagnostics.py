@@ -16,7 +16,13 @@ alone do not show. Four tables:
   feature      feature completion against the conditional baseline of
                data/feature_baselines.json (best of mode / LR / GBT / 1-NN),
                one-sided exact binomial, with the library's own counts
-               re-derived from the call log.
+               re-derived from the call log — and the number of answers that
+               parsed as "<feature> = value" at all. YandexGPT-5-Lite-8B-pretrain
+               (session Y1) answers the feature prompt of МКБ-10, ОКПДТР,
+               cardio_train and telecom_churn with a blank line and a new
+               record, 249–250 times of 250, so its zeros there are format
+               failures, not negatives; the share is what family_holm.py applies
+               the FAIL_ADAPTER floor to.
   portal_form  ОКСМ feature completion split by what only this table carries —
                the portal's parenthetical ("Гибралтар(Брит.)") and historical
                records — against what any encyclopaedia carries.
@@ -29,6 +35,10 @@ Usage:
   python src/classifier_diagnostics.py --e1 <calls_exposure_1 base> <calls_exposure_1 adapted>
                                        --e2 <calls_exposure_2 base> <calls_exposure_2 adapted>
                                        --out results/classifier_diagnostics_<stamp>.json
+
+`--e1` may be left out when a pair has run `exposure_2` only: the gradient and
+the metro row of `trailing` need the `exposure_1` log and are then skipped;
+the feature, ОКСМ and remaining trailing tables come from `exposure_2` alone.
 """
 
 import argparse
@@ -116,7 +126,12 @@ def feature_rows(calls, dataset, feature):
         row = df.loc[mask].iloc[0]
         truth = str(row[feature]).strip()
         answer = library_feature_value(feature_response(c), feature)
+        # the same answer read without the library's cut at the first blank
+        # line: an answer that begins with a blank line is scored empty by the
+        # library (Part II §15) and is read here from its first non-empty line
+        uncut = library_feature_value(str(c["response"]).lstrip("\n").split("\n")[0], feature)
         out.append({"truth": truth, "answer": answer, "match": answer is not None and truth == answer,
+                    "uncut_answer": uncut, "uncut_match": uncut is not None and truth == uncut,
                     "status": str(row.get("Статус", "")),
                     "value_in_prompt": f"{feature} = {truth}" in c["prompt"].rsplit("\n\n", 1)[0]})
     return out
@@ -137,6 +152,9 @@ def feature_table(calls, baselines):
         b = baselines[dataset[:-4]]
         out.append({"dataset": dataset, "feature": feature, "matches": k, "n": n,
                     "unidentified": len(rows) - n,
+                    "answered": sum(r["answer"] is not None for r in found),
+                    "uncut_answered": sum(r["uncut_answer"] is not None for r in found),
+                    "uncut_matches": sum(r["uncut_match"] for r in found),
                     "matches_with_value_in_few_shot": sum(r["match"] and r["value_in_prompt"] for r in found),
                     "baseline": b["baseline"], "baseline_from": b["baseline_from"],
                     "p": float(stats.binomtest(k, n, b["baseline"], alternative="greater").pvalue) if n else None})
@@ -182,33 +200,40 @@ def trailing(calls, dataset):
 
 def main():
     ap = argparse.ArgumentParser()
-    ap.add_argument("--e1", nargs=2, required=True, metavar=("BASE", "ADAPTED"))
+    ap.add_argument("--e1", nargs=2, default=None, metavar=("BASE", "ADAPTED"))
     ap.add_argument("--e2", nargs=2, required=True, metavar=("BASE", "ADAPTED"))
     ap.add_argument("--out", required=True)
     args = ap.parse_args()
     baselines = json.load(open(os.path.join(ROOT, "data", "feature_baselines.json"), encoding="utf-8"))
 
     result = {"_what": __doc__.split("\n\n")[0], "models": {}}
-    for e1, e2 in zip(args.e1, args.e2):
-        c1, c2 = calls_of(e1), calls_of(e2)
-        model = model_of(c1)
+    for e1, e2 in zip(args.e1 or [None] * len(args.e2), args.e2):
+        c2 = calls_of(e2)
+        c1 = calls_of(e1) if e1 else None
+        model = model_of(c2)
         entry = {
-            "gradient": {d: gradient(c1, d) for d in ("mkb10_v2.csv", "okved2.csv")},
+            "gradient": ({d: gradient(c1, d) for d in ("mkb10_v2.csv", "okved2.csv")}
+                         if c1 else None),
             "feature": feature_table(c2, baselines),
             "portal_form": portal_form(c2),
-            "trailing": [trailing(c1 if d == "mos_metro_stations_2022.csv" else c2, d) for d in TRAILING],
+            "trailing": [trailing(c1 if d == "mos_metro_stations_2022.csv" else c2, d)
+                         for d in TRAILING if c1 or d != "mos_metro_stations_2022.csv"],
         }
         result["models"][model] = entry
 
         print(f"\n{model}")
-        print("  row completion, match rate by distance of the true name to the closest prompt name")
-        for d, g in entry["gradient"].items():
-            print(f"    {d:14s} " + "  ".join(f"{x['distance']} {x['matches']:>3d}/{x['n']:<3d}" for x in g))
+        if entry["gradient"]:
+            print("  row completion, match rate by distance of the true name to the closest prompt name")
+            for d, g in entry["gradient"].items():
+                print(f"    {d:14s} " + "  ".join(f"{x['distance']} {x['matches']:>3d}/{x['n']:<3d}" for x in g))
+        else:
+            print("  (no exposure_1 log given: gradient and the metro row skipped)")
         print("  feature completion against the conditional baseline")
         for f in entry["feature"]:
             print(f"    {f['dataset']:18s} {f['matches']:>3d}/{f['n']:<3d} baseline {f['baseline']:.4f} "
-                  f"[{f['baseline_from']}]  p = {f['p']:.2e}  (value in few-shot: "
-                  f"{f['matches_with_value_in_few_shot']}, unidentified {f['unidentified']})")
+                  f"[{f['baseline_from']}]  p = {f['p']:.2e}  (answered {f['answered']}; uncut: "
+                  f"answered {f['uncut_answered']}, matches {f['uncut_matches']}; value in "
+                  f"few-shot: {f['matches_with_value_in_few_shot']}, unidentified {f['unidentified']})")
         print("  ОКСМ feature completion by what carries the name")
         for g, v in entry["portal_form"].items():
             print(f"    {g:22s} {v['matches']:>3d}/{v['n']}")

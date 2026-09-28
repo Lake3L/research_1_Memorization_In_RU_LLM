@@ -11,14 +11,17 @@ and states each cell's verdict:
             LR / GBT / 1-NN, data/feature_baselines.json). From
             results/classifier_diagnostics_<run>.json.
 
-A negative cell in which fewer than half the row answers even have the shape
-of a CSV row is reported **inconclusive**, not negative: it cannot tell a
+A negative cell in which fewer than half the answers even have the shape the
+test scores — a CSV row for row completion, "<feature> = value" for feature
+completion — is reported **inconclusive**, not negative: it cannot tell a
 model that does not remember from one that did not answer. This is the
 FAIL_ADAPTER rule of the block A gate (reports/RESULTS_GATE.md §6, written
 before that run), applied cell by cell and only to negatives — a significant
-cell consists of row-shaped matches by construction. Inconclusive cells stay
-in the family, which only makes the correction stricter for the rest. The
-header test gives a verdict, not a p-value (§5), and is listed apart.
+cell consists of well-shaped matches by construction. It reached the feature
+test with session Y1, where the pretrain model answered four files' feature
+prompts with a new record instead of a value. Inconclusive cells stay in the
+family, which only makes the correction stricter for the rest. The header
+test gives a verdict, not a p-value (§5), and is listed apart.
 
 Usage:
   python src/family_holm.py --prefix results/prefix_baseline_exposure_1_*.json results/prefix_baseline_exposure_2_*.json
@@ -47,8 +50,15 @@ def holm(pvalues):
     return adjusted
 
 
+# The adapted (or instruction-tuned) member of each pair; everything else is
+# the base. Mistral-Nemo-Instruct-2407 is the *base* of the Nemo pair, so the
+# word "instruct" alone cannot decide.
+ADAPTED_MARKERS = ("vikhr", "yandexgpt-5-lite-8b-instruct", "gigachat-20b-a3b-instruct")
+
+
 def short(model):
-    return "adapted" if "vikhr" in model.lower() else "base"
+    name = model.lower()
+    return "adapted" if any(marker in name for marker in ADAPTED_MARKERS) else "base"
 
 
 def main():
@@ -95,18 +105,20 @@ def main():
             for f in entry["feature"]:
                 if f["dataset"] not in members:
                     continue
+                answered = f.get("answered")
                 cells.append({"model": model, "dataset": f["dataset"], "test": "feature",
                               "count": f"{f['matches']}/{f['n']}", "p": f["p"],
                               "baseline": f"{f['baseline']:.4f} [{f['baseline_from']}]",
-                              "witness_ok": True, "well_formed": None})
+                              "witness_ok": True,
+                              "well_formed": (answered / f["n"]
+                                              if answered is not None and f["n"] else None)})
 
     for c, adj in zip(cells, holm([c["p"] for c in cells])):
         c["p_holm"] = adj
         significant = adj < ALPHA
         if significant and c["witness_ok"]:
             c["verdict"] = "POSITIVE"
-        elif (c["test"] == "row" and c["well_formed"] is not None
-              and c["well_formed"] < WELL_FORMED_FLOOR):
+        elif c["well_formed"] is not None and c["well_formed"] < WELL_FORMED_FLOOR:
             c["verdict"] = "inconclusive"
         else:
             c["verdict"] = "negative"

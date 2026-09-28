@@ -35,7 +35,7 @@
       "p": 1.0,
       "baseline": "0.0005 [mode]",
       "witness_ok": true,
-      "well_formed": null,
+      "well_formed": 1.0,
       "p_holm": 1.0,
       "verdict": "negative"
     },
@@ -47,7 +47,7 @@
       "p": 1.0,
       "baseline": "0.0005 [mode]",
       "witness_ok": true,
-      "well_formed": null,
+      "well_formed": 1.0,
       "p_holm": 1.0,
       "verdict": "negative"
     },
@@ -83,9 +83,9 @@
       "p": 1.0,
       "baseline": "0.0147 [mode]",
       "witness_ok": true,
-      "well_formed": null,
+      "well_formed": 0.308,
       "p_holm": 1.0,
-      "verdict": "negative"
+      "verdict": "inconclusive"
     },
     {
       "model": "mistralai/Mistral-Nemo-Instruct-2407",
@@ -95,7 +95,7 @@
       "p": 1.0,
       "baseline": "0.0147 [mode]",
       "witness_ok": true,
-      "well_formed": null,
+      "well_formed": 0.98,
       "p_holm": 1.0,
       "verdict": "negative"
     },
@@ -179,9 +179,9 @@
       "p": 1.0,
       "baseline": "0.0018 [nn1]",
       "witness_ok": true,
-      "well_formed": null,
+      "well_formed": 0.148,
       "p_holm": 1.0,
-      "verdict": "negative"
+      "verdict": "inconclusive"
     },
     {
       "model": "mistralai/Mistral-Nemo-Instruct-2407",
@@ -191,7 +191,7 @@
       "p": 1.0,
       "baseline": "0.0018 [nn1]",
       "witness_ok": true,
-      "well_formed": null,
+      "well_formed": 0.996,
       "p_holm": 1.0,
       "verdict": "negative"
     },
@@ -227,7 +227,7 @@
       "p": 5.1911689379841255e-74,
       "baseline": "0.0331 [nn1]",
       "witness_ok": true,
-      "well_formed": null,
+      "well_formed": 0.8,
       "p_holm": 1.5054389920153964e-72,
       "verdict": "POSITIVE"
     },
@@ -239,7 +239,7 @@
       "p": 2.445893724533538e-106,
       "baseline": "0.0331 [nn1]",
       "witness_ok": true,
-      "well_formed": null,
+      "well_formed": 1.0,
       "p_holm": 7.337681173600615e-105,
       "verdict": "POSITIVE"
     },
@@ -275,7 +275,7 @@
       "p": 0.7436910086018484,
       "baseline": "0.0338 [nn1]",
       "witness_ok": true,
-      "well_formed": null,
+      "well_formed": 0.62,
       "p_holm": 1.0,
       "verdict": "negative"
     },
@@ -287,7 +287,7 @@
       "p": 0.14392411261217714,
       "baseline": "0.0338 [nn1]",
       "witness_ok": true,
-      "well_formed": null,
+      "well_formed": 1.0,
       "p_holm": 1.0,
       "verdict": "negative"
     },
@@ -323,7 +323,7 @@
       "p": 1.0,
       "baseline": "0.0024 [mode]",
       "witness_ok": true,
-      "well_formed": null,
+      "well_formed": 0.78,
       "p_holm": 1.0,
       "verdict": "negative"
     },
@@ -335,7 +335,7 @@
       "p": 0.45158399898110113,
       "baseline": "0.0024 [mode]",
       "witness_ok": true,
-      "well_formed": null,
+      "well_formed": 1.0,
       "p_holm": 1.0,
       "verdict": "negative"
     },

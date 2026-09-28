@@ -232,21 +232,28 @@ session itself is `notebooks/session.json`.
 - [x] Read the YandexGPT licence in full (2026-09-24, LOG.md): research use
       free and unrestricted for this study; name the model with its copyright
       notice in the paper.
-- [ ] **Session Y1** (`notebooks/session.json`, retry): the YandexGPT-5-Lite-8B
-      pair, `exposure_2` then `probe` on each card (6.4 h estimated). Two
-      attempts on 2026-09-24/25 are void: transformers 5.0.0 decoded every
-      answer with a space between tokens (LOG.md 2026-09-27); the runner now
-      enforces 5.14.1, self-tests the tokenizer and collects the run logs. Both
-      attempts also stopped after ~65 min with no file from the instruct model
-      — cause unknown until the notebook log is seen; run with "Save & Run All"
-      on the T4 x2 accelerator. The decisive question after E2: does a
-      from-scratch Russian model name МКБ-10 and ОКВЭД codes by feature
-      completion, against the same baselines? Score with
-      `src/prefix_baseline.py`, `src/classifier_diagnostics.py` (bins frozen)
-      and `src/family_holm.py`. Check first that the iris anchor of the next
-      Nemo session reproduces 51/142 on the new transformers version.
-- [ ] Then: `exposure_1` and `ru_probe` on the YandexGPT pair; C2
-      `ru_probe_long` on the Nemo pair; OLMo; GigaChat after its smoke test.
+- [x] **Session Y1** (2026-09-27/28, third attempt; the 09-24/25 attempts are
+      void — transformers 5.0.0 broke the tokenizer, LOG.md 2026-09-27): the
+      YandexGPT-5-Lite-8B pair, `exposure_2` then `probe`, 32/32 cells, 5 h 41
+      min, every cell reproduced from the raw log, estimates exact with the
+      model's own tokenizer. **ОКВЭД 2 is named by code by both members: 32
+      and 28 of 250 against the 3.4% lookup baseline (p 1.6e-10, 4.1e-8),
+      where the Nemo pair reached 12 and 7** — the first content positive on a
+      Russian classifier, prediction 2 of `AMENDMENT_9` met for ОКВЭД. МКБ-10
+      is not named (10/250 instruct, raw p 0.004). iris 76/142 and 53/142,
+      pretrain > instruct (McNemar p 0.008). The pretrain model answers the
+      feature prompt with a new record on four files — the FAIL_ADAPTER floor
+      now covers feature cells, which re-labels two Vikhr cells of E2
+      inconclusive (no count changed). → `reports/RESULTS_EXPOSURE.md` Part IV
+- [ ] **Session Y2** (`notebooks/session.json`): `exposure_1` on the YandexGPT
+      pair (5.7 h estimated, 7.7 h at the worst overrun): row completion on
+      МКБ-10 and ОКВЭД with the frozen distance bins, cardio, alice, metro.
+      Closes the H2e family for the pair: run `src/family_holm.py` over the
+      Y1 and Y2 scoring files, and `src/classifier_diagnostics.py --e1 --e2`.
+      The results files must now carry `load.tokenizer` (round-trip report).
+- [ ] Then: `ru_probe` on the YandexGPT pair (6.1 h, its own session); C2
+      `ru_probe_long` on the Nemo pair — check the iris anchor 51/142 on
+      transformers 5.14.1 there; OLMo; GigaChat after its smoke test.
 - [ ] Then both plans on the YandexGPT and GigaChat pairs and on the controls,
       so that the exposure figure has every model on the same files. The strong
       form of H2e is already ruled out on these two files: the multilingual base

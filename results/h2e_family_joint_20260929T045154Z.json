@@ -1,0 +1,889 @@
+{
+  "_what": "The H2e family of AMENDMENT_9, with the Holm correction of §5.",
+  "alpha": 0.05,
+  "well_formed_floor": 0.5,
+  "cells": [
+    {
+      "model": "Vikhrmodels/Vikhr-Nemo-12B-Instruct-R-21-09-24",
+      "dataset": "alice_train_sessions.csv",
+      "test": "row",
+      "count": "0/250",
+      "p": 1.0,
+      "witness": "0/738",
+      "witness_ok": false,
+      "well_formed": 0.1,
+      "p_holm": 1.0,
+      "verdict": "inconclusive"
+    },
+    {
+      "model": "mistralai/Mistral-Nemo-Instruct-2407",
+      "dataset": "alice_train_sessions.csv",
+      "test": "row",
+      "count": "0/250",
+      "p": 1.0,
+      "witness": "0/738",
+      "witness_ok": false,
+      "well_formed": 0.356,
+      "p_holm": 1.0,
+      "verdict": "inconclusive"
+    },
+    {
+      "model": "yandex/YandexGPT-5-Lite-8B-instruct",
+      "dataset": "alice_train_sessions.csv",
+      "test": "row",
+      "count": "0/250",
+      "p": 1.0,
+      "witness": "0/738",
+      "witness_ok": false,
+      "well_formed": 0.344,
+      "p_holm": 1.0,
+      "verdict": "inconclusive"
+    },
+    {
+      "model": "yandex/YandexGPT-5-Lite-8B-pretrain",
+      "dataset": "alice_train_sessions.csv",
+      "test": "row",
+      "count": "0/250",
+      "p": 1.0,
+      "witness": "0/738",
+      "witness_ok": false,
+      "well_formed": 0.368,
+      "p_holm": 1.0,
+      "verdict": "inconclusive"
+    },
+    {
+      "model": "Vikhrmodels/Vikhr-Nemo-12B-Instruct-R-21-09-24",
+      "dataset": "cardio_train.csv",
+      "test": "feature",
+      "count": "0/250",
+      "p": 1.0,
+      "baseline": "0.0005 [mode]",
+      "witness_ok": true,
+      "well_formed": 1.0,
+      "p_holm": 1.0,
+      "verdict": "negative"
+    },
+    {
+      "model": "mistralai/Mistral-Nemo-Instruct-2407",
+      "dataset": "cardio_train.csv",
+      "test": "feature",
+      "count": "0/250",
+      "p": 1.0,
+      "baseline": "0.0005 [mode]",
+      "witness_ok": true,
+      "well_formed": 1.0,
+      "p_holm": 1.0,
+      "verdict": "negative"
+    },
+    {
+      "model": "yandex/YandexGPT-5-Lite-8B-instruct",
+      "dataset": "cardio_train.csv",
+      "test": "feature",
+      "count": "0/250",
+      "p": 1.0,
+      "baseline": "0.0005 [mode]",
+      "witness_ok": true,
+      "well_formed": 0.008,
+      "p_holm": 1.0,
+      "verdict": "inconclusive"
+    },
+    {
+      "model": "yandex/YandexGPT-5-Lite-8B-pretrain",
+      "dataset": "cardio_train.csv",
+      "test": "feature",
+      "count": "0/250",
+      "p": 1.0,
+      "baseline": "0.0005 [mode]",
+      "witness_ok": true,
+      "well_formed": 0.0,
+      "p_holm": 1.0,
+      "verdict": "inconclusive"
+    },
+    {
+      "model": "Vikhrmodels/Vikhr-Nemo-12B-Instruct-R-21-09-24",
+      "dataset": "cardio_train.csv",
+      "test": "row",
+      "count": "0/250",
+      "p": 1.0,
+      "witness": "5/461",
+      "witness_ok": true,
+      "well_formed": 0.976,
+      "p_holm": 1.0,
+      "verdict": "negative"
+    },
+    {
+      "model": "mistralai/Mistral-Nemo-Instruct-2407",
+      "dataset": "cardio_train.csv",
+      "test": "row",
+      "count": "0/250",
+      "p": 1.0,
+      "witness": "4/461",
+      "witness_ok": true,
+      "well_formed": 0.988,
+      "p_holm": 1.0,
+      "verdict": "negative"
+    },
+    {
+      "model": "yandex/YandexGPT-5-Lite-8B-instruct",
+      "dataset": "cardio_train.csv",
+      "test": "row",
+      "count": "0/250",
+      "p": 1.0,
+      "witness": "0/461",
+      "witness_ok": false,
+      "well_formed": 0.98,
+      "p_holm": 1.0,
+      "verdict": "negative"
+    },
+    {
+      "model": "yandex/YandexGPT-5-Lite-8B-pretrain",
+      "dataset": "cardio_train.csv",
+      "test": "row",
+      "count": "0/250",
+      "p": 1.0,
+      "witness": "4/461",
+      "witness_ok": true,
+      "well_formed": 0.984,
+      "p_holm": 1.0,
+      "verdict": "negative"
+    },
+    {
+      "model": "Vikhrmodels/Vikhr-Nemo-12B-Instruct-R-21-09-24",
+      "dataset": "mkb10_v2.csv",
+      "test": "feature",
+      "count": "0/250",
+      "p": 1.0,
+      "baseline": "0.0147 [mode]",
+      "witness_ok": true,
+      "well_formed": 0.308,
+      "p_holm": 1.0,
+      "verdict": "inconclusive"
+    },
+    {
+      "model": "mistralai/Mistral-Nemo-Instruct-2407",
+      "dataset": "mkb10_v2.csv",
+      "test": "feature",
+      "count": "0/250",
+      "p": 1.0,
+      "baseline": "0.0147 [mode]",
+      "witness_ok": true,
+      "well_formed": 0.98,
+      "p_holm": 1.0,
+      "verdict": "negative"
+    },
+    {
+      "model": "yandex/YandexGPT-5-Lite-8B-instruct",
+      "dataset": "mkb10_v2.csv",
+      "test": "feature",
+      "count": "10/250",
+      "p": 0.004281458088886348,
+      "baseline": "0.0147 [mode]",
+      "witness_ok": true,
+      "well_formed": 1.0,
+      "p_holm": 0.20122853017765835,
+      "verdict": "negative"
+    },
+    {
+      "model": "yandex/YandexGPT-5-Lite-8B-pretrain",
+      "dataset": "mkb10_v2.csv",
+      "test": "feature",
+      "count": "0/250",
+      "p": 1.0,
+      "baseline": "0.0147 [mode]",
+      "witness_ok": true,
+      "well_formed": 0.0,
+      "p_holm": 1.0,
+      "verdict": "inconclusive"
+    },
+    {
+      "model": "Vikhrmodels/Vikhr-Nemo-12B-Instruct-R-21-09-24",
+      "dataset": "mkb10_v2.csv",
+      "test": "row",
+      "count": "9/223",
+      "p": 3.0269888679670814e-12,
+      "witness": "20/248",
+      "witness_ok": true,
+      "well_formed": 0.7,
+      "p_holm": 1.5437643226632116e-10,
+      "verdict": "POSITIVE"
+    },
+    {
+      "model": "mistralai/Mistral-Nemo-Instruct-2407",
+      "dataset": "mkb10_v2.csv",
+      "test": "row",
+      "count": "16/223",
+      "p": 1.0893493225211764e-24,
+      "witness": "28/248",
+      "witness_ok": true,
+      "well_formed": 0.732,
+      "p_holm": 5.773551409362235e-23,
+      "verdict": "POSITIVE"
+    },
+    {
+      "model": "yandex/YandexGPT-5-Lite-8B-instruct",
+      "dataset": "mkb10_v2.csv",
+      "test": "row",
+      "count": "34/223",
+      "p": 2.3634124049206735e-62,
+      "witness": "56/248",
+      "witness_ok": true,
+      "well_formed": 0.808,
+      "p_holm": 1.323510946755577e-60,
+      "verdict": "POSITIVE"
+    },
+    {
+      "model": "yandex/YandexGPT-5-Lite-8B-pretrain",
+      "dataset": "mkb10_v2.csv",
+      "test": "row",
+      "count": "46/223",
+      "p": 2.254572075494947e-90,
+      "witness": "69/248",
+      "witness_ok": true,
+      "well_formed": 0.796,
+      "p_holm": 1.3076518037870692e-88,
+      "verdict": "POSITIVE"
+    },
+    {
+      "model": "Vikhrmodels/Vikhr-Nemo-12B-Instruct-R-21-09-24",
+      "dataset": "mos_metro_stations_2022.csv",
+      "test": "row",
+      "count": "0/245",
+      "p": 1.0,
+      "witness": "23/250",
+      "witness_ok": true,
+      "well_formed": 0.036,
+      "p_holm": 1.0,
+      "verdict": "inconclusive"
+    },
+    {
+      "model": "mistralai/Mistral-Nemo-Instruct-2407",
+      "dataset": "mos_metro_stations_2022.csv",
+      "test": "row",
+      "count": "0/245",
+      "p": 1.0,
+      "witness": "0/250",
+      "witness_ok": false,
+      "well_formed": 0.0,
+      "p_holm": 1.0,
+      "verdict": "inconclusive"
+    },
+    {
+      "model": "yandex/YandexGPT-5-Lite-8B-instruct",
+      "dataset": "mos_metro_stations_2022.csv",
+      "test": "row",
+      "count": "0/245",
+      "p": 1.0,
+      "witness": "223/250",
+      "witness_ok": true,
+      "well_formed": 1.0,
+      "p_holm": 1.0,
+      "verdict": "negative"
+    },
+    {
+      "model": "yandex/YandexGPT-5-Lite-8B-pretrain",
+      "dataset": "mos_metro_stations_2022.csv",
+      "test": "row",
+      "count": "0/245",
+      "p": 1.0,
+      "witness": "224/250",
+      "witness_ok": true,
+      "well_formed": 1.0,
+      "p_holm": 1.0,
+      "verdict": "negative"
+    },
+    {
+      "model": "Vikhrmodels/Vikhr-Nemo-12B-Instruct-R-21-09-24",
+      "dataset": "mos_streets_omk_um_2022.csv",
+      "test": "row",
+      "count": "0/216",
+      "p": 1.0,
+      "witness": "45/498",
+      "witness_ok": true,
+      "well_formed": 0.092,
+      "p_holm": 1.0,
+      "verdict": "inconclusive"
+    },
+    {
+      "model": "mistralai/Mistral-Nemo-Instruct-2407",
+      "dataset": "mos_streets_omk_um_2022.csv",
+      "test": "row",
+      "count": "0/216",
+      "p": 1.0,
+      "witness": "0/498",
+      "witness_ok": false,
+      "well_formed": 0.0,
+      "p_holm": 1.0,
+      "verdict": "inconclusive"
+    },
+    {
+      "model": "yandex/YandexGPT-5-Lite-8B-instruct",
+      "dataset": "mos_streets_omk_um_2022.csv",
+      "test": "row",
+      "count": "0/216",
+      "p": 1.0,
+      "witness": "403/498",
+      "witness_ok": true,
+      "well_formed": 0.824,
+      "p_holm": 1.0,
+      "verdict": "negative"
+    },
+    {
+      "model": "yandex/YandexGPT-5-Lite-8B-pretrain",
+      "dataset": "mos_streets_omk_um_2022.csv",
+      "test": "row",
+      "count": "2/216",
+      "p": 0.011478803176175171,
+      "witness": "399/498",
+      "witness_ok": true,
+      "well_formed": 0.824,
+      "p_holm": 0.5280249461040578,
+      "verdict": "negative"
+    },
+    {
+      "model": "Vikhrmodels/Vikhr-Nemo-12B-Instruct-R-21-09-24",
+      "dataset": "okpdtr.csv",
+      "test": "feature",
+      "count": "0/250",
+      "p": 1.0,
+      "baseline": "0.0018 [nn1]",
+      "witness_ok": true,
+      "well_formed": 0.148,
+      "p_holm": 1.0,
+      "verdict": "inconclusive"
+    },
+    {
+      "model": "mistralai/Mistral-Nemo-Instruct-2407",
+      "dataset": "okpdtr.csv",
+      "test": "feature",
+      "count": "0/250",
+      "p": 1.0,
+      "baseline": "0.0018 [nn1]",
+      "witness_ok": true,
+      "well_formed": 0.996,
+      "p_holm": 1.0,
+      "verdict": "negative"
+    },
+    {
+      "model": "yandex/YandexGPT-5-Lite-8B-instruct",
+      "dataset": "okpdtr.csv",
+      "test": "feature",
+      "count": "0/250",
+      "p": 1.0,
+      "baseline": "0.0018 [nn1]",
+      "witness_ok": true,
+      "well_formed": 1.0,
+      "p_holm": 1.0,
+      "verdict": "negative"
+    },
+    {
+      "model": "yandex/YandexGPT-5-Lite-8B-pretrain",
+      "dataset": "okpdtr.csv",
+      "test": "feature",
+      "count": "0/250",
+      "p": 1.0,
+      "baseline": "0.0018 [nn1]",
+      "witness_ok": true,
+      "well_formed": 0.0,
+      "p_holm": 1.0,
+      "verdict": "inconclusive"
+    },
+    {
+      "model": "Vikhrmodels/Vikhr-Nemo-12B-Instruct-R-21-09-24",
+      "dataset": "okpdtr.csv",
+      "test": "row",
+      "count": "1/238",
+      "p": 0.16034519545228582,
+      "witness": "8/247",
+      "witness_ok": true,
+      "well_formed": 0.96,
+      "p_holm": 1.0,
+      "verdict": "negative"
+    },
+    {
+      "model": "mistralai/Mistral-Nemo-Instruct-2407",
+      "dataset": "okpdtr.csv",
+      "test": "row",
+      "count": "1/238",
+      "p": 0.16034519545228582,
+      "witness": "9/247",
+      "witness_ok": true,
+      "well_formed": 0.964,
+      "p_holm": 1.0,
+      "verdict": "negative"
+    },
+    {
+      "model": "yandex/YandexGPT-5-Lite-8B-instruct",
+      "dataset": "okpdtr.csv",
+      "test": "row",
+      "count": "0/238",
+      "p": 1.0,
+      "witness": "9/247",
+      "witness_ok": true,
+      "well_formed": 0.96,
+      "p_holm": 1.0,
+      "verdict": "negative"
+    },
+    {
+      "model": "yandex/YandexGPT-5-Lite-8B-pretrain",
+      "dataset": "okpdtr.csv",
+      "test": "row",
+      "count": "1/238",
+      "p": 0.16034519545228582,
+      "witness": "12/247",
+      "witness_ok": true,
+      "well_formed": 0.964,
+      "p_holm": 1.0,
+      "verdict": "negative"
+    },
+    {
+      "model": "Vikhrmodels/Vikhr-Nemo-12B-Instruct-R-21-09-24",
+      "dataset": "oksm.csv",
+      "test": "feature",
+      "count": "96/250",
+      "p": 5.1911689379841255e-74,
+      "baseline": "0.0331 [nn1]",
+      "witness_ok": true,
+      "well_formed": 0.8,
+      "p_holm": 2.9589662946509514e-72,
+      "verdict": "POSITIVE"
+    },
+    {
+      "model": "mistralai/Mistral-Nemo-Instruct-2407",
+      "dataset": "oksm.csv",
+      "test": "feature",
+      "count": "120/250",
+      "p": 2.445893724533538e-106,
+      "baseline": "0.0331 [nn1]",
+      "witness_ok": true,
+      "well_formed": 1.0,
+      "p_holm": 1.4430772974747877e-104,
+      "verdict": "POSITIVE"
+    },
+    {
+      "model": "yandex/YandexGPT-5-Lite-8B-instruct",
+      "dataset": "oksm.csv",
+      "test": "feature",
+      "count": "128/250",
+      "p": 5.233934871534951e-118,
+      "baseline": "0.0331 [nn1]",
+      "witness_ok": true,
+      "well_formed": 1.0,
+      "p_holm": 3.140360922920971e-116,
+      "verdict": "POSITIVE"
+    },
+    {
+      "model": "yandex/YandexGPT-5-Lite-8B-pretrain",
+      "dataset": "oksm.csv",
+      "test": "feature",
+      "count": "12/250",
+      "p": 0.12938464060891497,
+      "baseline": "0.0331 [nn1]",
+      "witness_ok": true,
+      "well_formed": 0.092,
+      "p_holm": 1.0,
+      "verdict": "inconclusive"
+    },
+    {
+      "model": "Vikhrmodels/Vikhr-Nemo-12B-Instruct-R-21-09-24",
+      "dataset": "oksm.csv",
+      "test": "row",
+      "count": "0/250",
+      "p": 1.0,
+      "witness": "0/487",
+      "witness_ok": false,
+      "well_formed": 0.008,
+      "p_holm": 1.0,
+      "verdict": "inconclusive"
+    },
+    {
+      "model": "mistralai/Mistral-Nemo-Instruct-2407",
+      "dataset": "oksm.csv",
+      "test": "row",
+      "count": "0/250",
+      "p": 1.0,
+      "witness": "0/487",
+      "witness_ok": false,
+      "well_formed": 0.008,
+      "p_holm": 1.0,
+      "verdict": "inconclusive"
+    },
+    {
+      "model": "yandex/YandexGPT-5-Lite-8B-instruct",
+      "dataset": "oksm.csv",
+      "test": "row",
+      "count": "1/250",
+      "p": 0.8156833399699578,
+      "witness": "46/487",
+      "witness_ok": true,
+      "well_formed": 0.932,
+      "p_holm": 1.0,
+      "verdict": "negative"
+    },
+    {
+      "model": "yandex/YandexGPT-5-Lite-8B-pretrain",
+      "dataset": "oksm.csv",
+      "test": "row",
+      "count": "4/250",
+      "p": 0.09035778214461612,
+      "witness": "69/487",
+      "witness_ok": true,
+      "well_formed": 0.948,
+      "p_holm": 1.0,
+      "verdict": "negative"
+    },
+    {
+      "model": "Vikhrmodels/Vikhr-Nemo-12B-Instruct-R-21-09-24",
+      "dataset": "okved2.csv",
+      "test": "feature",
+      "count": "7/250",
+      "p": 0.7436910086018484,
+      "baseline": "0.0338 [nn1]",
+      "witness_ok": true,
+      "well_formed": 0.62,
+      "p_holm": 1.0,
+      "verdict": "negative"
+    },
+    {
+      "model": "mistralai/Mistral-Nemo-Instruct-2407",
+      "dataset": "okved2.csv",
+      "test": "feature",
+      "count": "12/250",
+      "p": 0.14392411261217714,
+      "baseline": "0.0338 [nn1]",
+      "witness_ok": true,
+      "well_formed": 1.0,
+      "p_holm": 1.0,
+      "verdict": "negative"
+    },
+    {
+      "model": "yandex/YandexGPT-5-Lite-8B-instruct",
+      "dataset": "okved2.csv",
+      "test": "feature",
+      "count": "28/250",
+      "p": 4.078459635669364e-08,
+      "baseline": "0.0338 [nn1]",
+      "witness_ok": true,
+      "well_formed": 1.0,
+      "p_holm": 1.957660625121295e-06,
+      "verdict": "POSITIVE"
+    },
+    {
+      "model": "yandex/YandexGPT-5-Lite-8B-pretrain",
+      "dataset": "okved2.csv",
+      "test": "feature",
+      "count": "32/250",
+      "p": 1.6007991601078727e-10,
+      "baseline": "0.0338 [nn1]",
+      "witness_ok": true,
+      "well_formed": 0.768,
+      "p_holm": 7.843915884528576e-09,
+      "verdict": "POSITIVE"
+    },
+    {
+      "model": "Vikhrmodels/Vikhr-Nemo-12B-Instruct-R-21-09-24",
+      "dataset": "okved2.csv",
+      "test": "row",
+      "count": "9/240",
+      "p": 5.420994377886942e-12,
+      "witness": "17/228",
+      "witness_ok": true,
+      "well_formed": 0.312,
+      "p_holm": 2.710497188943471e-10,
+      "verdict": "POSITIVE"
+    },
+    {
+      "model": "mistralai/Mistral-Nemo-Instruct-2407",
+      "dataset": "okved2.csv",
+      "test": "row",
+      "count": "16/240",
+      "p": 3.159955259757313e-24,
+      "witness": "28/228",
+      "witness_ok": true,
+      "well_formed": 0.388,
+      "p_holm": 1.6431767350738027e-22,
+      "verdict": "POSITIVE"
+    },
+    {
+      "model": "yandex/YandexGPT-5-Lite-8B-instruct",
+      "dataset": "okved2.csv",
+      "test": "row",
+      "count": "22/240",
+      "p": 7.275604401117232e-36,
+      "witness": "38/228",
+      "witness_ok": true,
+      "well_formed": 0.412,
+      "p_holm": 4.001582420614477e-34,
+      "verdict": "POSITIVE"
+    },
+    {
+      "model": "yandex/YandexGPT-5-Lite-8B-pretrain",
+      "dataset": "okved2.csv",
+      "test": "row",
+      "count": "19/240",
+      "p": 6.166995908183731e-30,
+      "witness": "39/228",
+      "witness_ok": true,
+      "well_formed": 0.432,
+      "p_holm": 3.330177790419215e-28,
+      "verdict": "POSITIVE"
+    },
+    {
+      "model": "Vikhrmodels/Vikhr-Nemo-12B-Instruct-R-21-09-24",
+      "dataset": "telecom_churn.csv",
+      "test": "feature",
+      "count": "0/250",
+      "p": 1.0,
+      "baseline": "0.0024 [mode]",
+      "witness_ok": true,
+      "well_formed": 0.78,
+      "p_holm": 1.0,
+      "verdict": "negative"
+    },
+    {
+      "model": "mistralai/Mistral-Nemo-Instruct-2407",
+      "dataset": "telecom_churn.csv",
+      "test": "feature",
+      "count": "1/250",
+      "p": 0.45158399898110113,
+      "baseline": "0.0024 [mode]",
+      "witness_ok": true,
+      "well_formed": 1.0,
+      "p_holm": 1.0,
+      "verdict": "negative"
+    },
+    {
+      "model": "yandex/YandexGPT-5-Lite-8B-instruct",
+      "dataset": "telecom_churn.csv",
+      "test": "feature",
+      "count": "1/250",
+      "p": 0.45158399898110113,
+      "baseline": "0.0024 [mode]",
+      "witness_ok": true,
+      "well_formed": 0.844,
+      "p_holm": 1.0,
+      "verdict": "negative"
+    },
+    {
+      "model": "yandex/YandexGPT-5-Lite-8B-pretrain",
+      "dataset": "telecom_churn.csv",
+      "test": "feature",
+      "count": "0/250",
+      "p": 1.0,
+      "baseline": "0.0024 [mode]",
+      "witness_ok": true,
+      "well_formed": 0.0,
+      "p_holm": 1.0,
+      "verdict": "inconclusive"
+    },
+    {
+      "model": "Vikhrmodels/Vikhr-Nemo-12B-Instruct-R-21-09-24",
+      "dataset": "telecom_churn.csv",
+      "test": "row",
+      "count": "0/250",
+      "p": 1.0,
+      "witness": "4/919",
+      "witness_ok": true,
+      "well_formed": 0.896,
+      "p_holm": 1.0,
+      "verdict": "negative"
+    },
+    {
+      "model": "mistralai/Mistral-Nemo-Instruct-2407",
+      "dataset": "telecom_churn.csv",
+      "test": "row",
+      "count": "0/250",
+      "p": 1.0,
+      "witness": "3/919",
+      "witness_ok": true,
+      "well_formed": 0.984,
+      "p_holm": 1.0,
+      "verdict": "negative"
+    },
+    {
+      "model": "yandex/YandexGPT-5-Lite-8B-instruct",
+      "dataset": "telecom_churn.csv",
+      "test": "row",
+      "count": "0/250",
+      "p": 1.0,
+      "witness": "5/919",
+      "witness_ok": true,
+      "well_formed": 0.992,
+      "p_holm": 1.0,
+      "verdict": "negative"
+    },
+    {
+      "model": "yandex/YandexGPT-5-Lite-8B-pretrain",
+      "dataset": "telecom_churn.csv",
+      "test": "row",
+      "count": "0/250",
+      "p": 1.0,
+      "witness": "0/919",
+      "witness_ok": false,
+      "well_formed": 1.0,
+      "p_holm": 1.0,
+      "verdict": "negative"
+    }
+  ],
+  "header": [
+    {
+      "model": "Vikhrmodels/Vikhr-Nemo-12B-Instruct-R-21-09-24",
+      "dataset": "mkb10_v2.csv",
+      "verdict": "fail"
+    },
+    {
+      "model": "Vikhrmodels/Vikhr-Nemo-12B-Instruct-R-21-09-24",
+      "dataset": "cardio_train.csv",
+      "verdict": "fail"
+    },
+    {
+      "model": "Vikhrmodels/Vikhr-Nemo-12B-Instruct-R-21-09-24",
+      "dataset": "alice_train_sessions.csv",
+      "verdict": "fail"
+    },
+    {
+      "model": "Vikhrmodels/Vikhr-Nemo-12B-Instruct-R-21-09-24",
+      "dataset": "mos_metro_stations_2022.csv",
+      "verdict": "fail"
+    },
+    {
+      "model": "mistralai/Mistral-Nemo-Instruct-2407",
+      "dataset": "mkb10_v2.csv",
+      "verdict": "fail"
+    },
+    {
+      "model": "mistralai/Mistral-Nemo-Instruct-2407",
+      "dataset": "cardio_train.csv",
+      "verdict": "fail"
+    },
+    {
+      "model": "mistralai/Mistral-Nemo-Instruct-2407",
+      "dataset": "alice_train_sessions.csv",
+      "verdict": "fail"
+    },
+    {
+      "model": "mistralai/Mistral-Nemo-Instruct-2407",
+      "dataset": "mos_metro_stations_2022.csv",
+      "verdict": "fail"
+    },
+    {
+      "model": "yandex/YandexGPT-5-Lite-8B-instruct",
+      "dataset": "mkb10_v2.csv",
+      "verdict": "fail"
+    },
+    {
+      "model": "yandex/YandexGPT-5-Lite-8B-instruct",
+      "dataset": "cardio_train.csv",
+      "verdict": "fail"
+    },
+    {
+      "model": "yandex/YandexGPT-5-Lite-8B-instruct",
+      "dataset": "alice_train_sessions.csv",
+      "verdict": "fail"
+    },
+    {
+      "model": "yandex/YandexGPT-5-Lite-8B-instruct",
+      "dataset": "mos_metro_stations_2022.csv",
+      "verdict": "fail"
+    },
+    {
+      "model": "yandex/YandexGPT-5-Lite-8B-pretrain",
+      "dataset": "mkb10_v2.csv",
+      "verdict": "fail"
+    },
+    {
+      "model": "yandex/YandexGPT-5-Lite-8B-pretrain",
+      "dataset": "cardio_train.csv",
+      "verdict": "fail"
+    },
+    {
+      "model": "yandex/YandexGPT-5-Lite-8B-pretrain",
+      "dataset": "alice_train_sessions.csv",
+      "verdict": "fail"
+    },
+    {
+      "model": "yandex/YandexGPT-5-Lite-8B-pretrain",
+      "dataset": "mos_metro_stations_2022.csv",
+      "verdict": "fail"
+    },
+    {
+      "model": "Vikhrmodels/Vikhr-Nemo-12B-Instruct-R-21-09-24",
+      "dataset": "oksm.csv",
+      "verdict": "fail"
+    },
+    {
+      "model": "Vikhrmodels/Vikhr-Nemo-12B-Instruct-R-21-09-24",
+      "dataset": "okpdtr.csv",
+      "verdict": "fail"
+    },
+    {
+      "model": "Vikhrmodels/Vikhr-Nemo-12B-Instruct-R-21-09-24",
+      "dataset": "mos_streets_omk_um_2022.csv",
+      "verdict": "fail"
+    },
+    {
+      "model": "Vikhrmodels/Vikhr-Nemo-12B-Instruct-R-21-09-24",
+      "dataset": "telecom_churn.csv",
+      "verdict": "fail"
+    },
+    {
+      "model": "mistralai/Mistral-Nemo-Instruct-2407",
+      "dataset": "oksm.csv",
+      "verdict": "fail"
+    },
+    {
+      "model": "mistralai/Mistral-Nemo-Instruct-2407",
+      "dataset": "okpdtr.csv",
+      "verdict": "fail"
+    },
+    {
+      "model": "mistralai/Mistral-Nemo-Instruct-2407",
+      "dataset": "mos_streets_omk_um_2022.csv",
+      "verdict": "fail"
+    },
+    {
+      "model": "mistralai/Mistral-Nemo-Instruct-2407",
+      "dataset": "telecom_churn.csv",
+      "verdict": "fail"
+    },
+    {
+      "model": "yandex/YandexGPT-5-Lite-8B-instruct",
+      "dataset": "oksm.csv",
+      "verdict": "fail"
+    },
+    {
+      "model": "yandex/YandexGPT-5-Lite-8B-instruct",
+      "dataset": "okpdtr.csv",
+      "verdict": "fail"
+    },
+    {
+      "model": "yandex/YandexGPT-5-Lite-8B-instruct",
+      "dataset": "mos_streets_omk_um_2022.csv",
+      "verdict": "fail"
+    },
+    {
+      "model": "yandex/YandexGPT-5-Lite-8B-instruct",
+      "dataset": "telecom_churn.csv",
+      "verdict": "fail"
+    },
+    {
+      "model": "yandex/YandexGPT-5-Lite-8B-pretrain",
+      "dataset": "oksm.csv",
+      "verdict": "fail"
+    },
+    {
+      "model": "yandex/YandexGPT-5-Lite-8B-pretrain",
+      "dataset": "okpdtr.csv",
+      "verdict": "fail"
+    },
+    {
+      "model": "yandex/YandexGPT-5-Lite-8B-pretrain",
+      "dataset": "mos_streets_omk_um_2022.csv",
+      "verdict": "fail"
+    },
+    {
+      "model": "yandex/YandexGPT-5-Lite-8B-pretrain",
+      "dataset": "telecom_churn.csv",
+      "verdict": "fail"
+    }
+  ]
+}

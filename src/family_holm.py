@@ -123,18 +123,21 @@ def main():
         else:
             c["verdict"] = "negative"
 
-    cells.sort(key=lambda c: (c["dataset"], c["test"], short(c["model"])))
+    def who(model):
+        return f"{model.split('/')[-1][:20]} ({short(model)})"
+
+    cells.sort(key=lambda c: (c["dataset"], c["test"], c["model"]))
     print(f"H2e family: {len(cells)} p-values, Holm at alpha = {ALPHA}\n")
-    print(f"{'dataset':28s} {'test':8s} {'model':8s} {'count':>9s} {'p':>10s} {'p (Holm)':>10s} "
+    print(f"{'dataset':28s} {'test':8s} {'model':30s} {'count':>9s} {'p':>10s} {'p (Holm)':>10s} "
           f"{'witness / baseline':>22s} {'wf':>5s}  verdict")
     for c in cells:
         wf = f"{c['well_formed']:.0%}" if isinstance(c["well_formed"], float) else "-"
         extra = c.get("witness") or c.get("baseline", "")
-        print(f"{c['dataset']:28s} {c['test']:8s} {short(c['model']):8s} {c['count']:>9s} "
+        print(f"{c['dataset']:28s} {c['test']:8s} {who(c['model']):30s} {c['count']:>9s} "
               f"{c['p']:10.2e} {c['p_holm']:10.2e} {extra:>22s} {wf:>5s}  {c['verdict']}")
     print("\nheader test (verdicts, outside the family):")
-    for h in sorted(header, key=lambda h: (h["dataset"], short(h["model"]))):
-        print(f"  {h['dataset']:28s} {short(h['model']):8s} {h['verdict']}")
+    for h in sorted(header, key=lambda h: (h["dataset"], h["model"])):
+        print(f"  {h['dataset']:28s} {who(h['model']):30s} {h['verdict']}")
 
     with open(args.out, "w", encoding="utf-8") as f:
         json.dump({"_what": __doc__.split("\n\n")[0], "alpha": ALPHA,

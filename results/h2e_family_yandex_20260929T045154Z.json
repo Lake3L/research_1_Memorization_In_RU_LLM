@@ -1,0 +1,449 @@
+{
+  "_what": "The H2e family of AMENDMENT_9, with the Holm correction of §5.",
+  "alpha": 0.05,
+  "well_formed_floor": 0.5,
+  "cells": [
+    {
+      "model": "yandex/YandexGPT-5-Lite-8B-instruct",
+      "dataset": "alice_train_sessions.csv",
+      "test": "row",
+      "count": "0/250",
+      "p": 1.0,
+      "witness": "0/738",
+      "witness_ok": false,
+      "well_formed": 0.344,
+      "p_holm": 1.0,
+      "verdict": "inconclusive"
+    },
+    {
+      "model": "yandex/YandexGPT-5-Lite-8B-pretrain",
+      "dataset": "alice_train_sessions.csv",
+      "test": "row",
+      "count": "0/250",
+      "p": 1.0,
+      "witness": "0/738",
+      "witness_ok": false,
+      "well_formed": 0.368,
+      "p_holm": 1.0,
+      "verdict": "inconclusive"
+    },
+    {
+      "model": "yandex/YandexGPT-5-Lite-8B-instruct",
+      "dataset": "cardio_train.csv",
+      "test": "feature",
+      "count": "0/250",
+      "p": 1.0,
+      "baseline": "0.0005 [mode]",
+      "witness_ok": true,
+      "well_formed": 0.008,
+      "p_holm": 1.0,
+      "verdict": "inconclusive"
+    },
+    {
+      "model": "yandex/YandexGPT-5-Lite-8B-pretrain",
+      "dataset": "cardio_train.csv",
+      "test": "feature",
+      "count": "0/250",
+      "p": 1.0,
+      "baseline": "0.0005 [mode]",
+      "witness_ok": true,
+      "well_formed": 0.0,
+      "p_holm": 1.0,
+      "verdict": "inconclusive"
+    },
+    {
+      "model": "yandex/YandexGPT-5-Lite-8B-instruct",
+      "dataset": "cardio_train.csv",
+      "test": "row",
+      "count": "0/250",
+      "p": 1.0,
+      "witness": "0/461",
+      "witness_ok": false,
+      "well_formed": 0.98,
+      "p_holm": 1.0,
+      "verdict": "negative"
+    },
+    {
+      "model": "yandex/YandexGPT-5-Lite-8B-pretrain",
+      "dataset": "cardio_train.csv",
+      "test": "row",
+      "count": "0/250",
+      "p": 1.0,
+      "witness": "4/461",
+      "witness_ok": true,
+      "well_formed": 0.984,
+      "p_holm": 1.0,
+      "verdict": "negative"
+    },
+    {
+      "model": "yandex/YandexGPT-5-Lite-8B-instruct",
+      "dataset": "mkb10_v2.csv",
+      "test": "feature",
+      "count": "10/250",
+      "p": 0.004281458088886348,
+      "baseline": "0.0147 [mode]",
+      "witness_ok": true,
+      "well_formed": 1.0,
+      "p_holm": 0.09847353604438601,
+      "verdict": "negative"
+    },
+    {
+      "model": "yandex/YandexGPT-5-Lite-8B-pretrain",
+      "dataset": "mkb10_v2.csv",
+      "test": "feature",
+      "count": "0/250",
+      "p": 1.0,
+      "baseline": "0.0147 [mode]",
+      "witness_ok": true,
+      "well_formed": 0.0,
+      "p_holm": 1.0,
+      "verdict": "inconclusive"
+    },
+    {
+      "model": "yandex/YandexGPT-5-Lite-8B-instruct",
+      "dataset": "mkb10_v2.csv",
+      "test": "row",
+      "count": "34/223",
+      "p": 2.3634124049206735e-62,
+      "witness": "56/248",
+      "witness_ok": true,
+      "well_formed": 0.808,
+      "p_holm": 6.617554733777885e-61,
+      "verdict": "POSITIVE"
+    },
+    {
+      "model": "yandex/YandexGPT-5-Lite-8B-pretrain",
+      "dataset": "mkb10_v2.csv",
+      "test": "row",
+      "count": "46/223",
+      "p": 2.254572075494947e-90,
+      "witness": "69/248",
+      "witness_ok": true,
+      "well_formed": 0.796,
+      "p_holm": 6.538259018935346e-89,
+      "verdict": "POSITIVE"
+    },
+    {
+      "model": "yandex/YandexGPT-5-Lite-8B-instruct",
+      "dataset": "mos_metro_stations_2022.csv",
+      "test": "row",
+      "count": "0/245",
+      "p": 1.0,
+      "witness": "223/250",
+      "witness_ok": true,
+      "well_formed": 1.0,
+      "p_holm": 1.0,
+      "verdict": "negative"
+    },
+    {
+      "model": "yandex/YandexGPT-5-Lite-8B-pretrain",
+      "dataset": "mos_metro_stations_2022.csv",
+      "test": "row",
+      "count": "0/245",
+      "p": 1.0,
+      "witness": "224/250",
+      "witness_ok": true,
+      "well_formed": 1.0,
+      "p_holm": 1.0,
+      "verdict": "negative"
+    },
+    {
+      "model": "yandex/YandexGPT-5-Lite-8B-instruct",
+      "dataset": "mos_streets_omk_um_2022.csv",
+      "test": "row",
+      "count": "0/216",
+      "p": 1.0,
+      "witness": "403/498",
+      "witness_ok": true,
+      "well_formed": 0.824,
+      "p_holm": 1.0,
+      "verdict": "negative"
+    },
+    {
+      "model": "yandex/YandexGPT-5-Lite-8B-pretrain",
+      "dataset": "mos_streets_omk_um_2022.csv",
+      "test": "row",
+      "count": "2/216",
+      "p": 0.011478803176175171,
+      "witness": "399/498",
+      "witness_ok": true,
+      "well_formed": 0.824,
+      "p_holm": 0.25253366987585374,
+      "verdict": "negative"
+    },
+    {
+      "model": "yandex/YandexGPT-5-Lite-8B-instruct",
+      "dataset": "okpdtr.csv",
+      "test": "feature",
+      "count": "0/250",
+      "p": 1.0,
+      "baseline": "0.0018 [nn1]",
+      "witness_ok": true,
+      "well_formed": 1.0,
+      "p_holm": 1.0,
+      "verdict": "negative"
+    },
+    {
+      "model": "yandex/YandexGPT-5-Lite-8B-pretrain",
+      "dataset": "okpdtr.csv",
+      "test": "feature",
+      "count": "0/250",
+      "p": 1.0,
+      "baseline": "0.0018 [nn1]",
+      "witness_ok": true,
+      "well_formed": 0.0,
+      "p_holm": 1.0,
+      "verdict": "inconclusive"
+    },
+    {
+      "model": "yandex/YandexGPT-5-Lite-8B-instruct",
+      "dataset": "okpdtr.csv",
+      "test": "row",
+      "count": "0/238",
+      "p": 1.0,
+      "witness": "9/247",
+      "witness_ok": true,
+      "well_formed": 0.96,
+      "p_holm": 1.0,
+      "verdict": "negative"
+    },
+    {
+      "model": "yandex/YandexGPT-5-Lite-8B-pretrain",
+      "dataset": "okpdtr.csv",
+      "test": "row",
+      "count": "1/238",
+      "p": 0.16034519545228582,
+      "witness": "12/247",
+      "witness_ok": true,
+      "well_formed": 0.964,
+      "p_holm": 1.0,
+      "verdict": "negative"
+    },
+    {
+      "model": "yandex/YandexGPT-5-Lite-8B-instruct",
+      "dataset": "oksm.csv",
+      "test": "feature",
+      "count": "128/250",
+      "p": 5.233934871534951e-118,
+      "baseline": "0.0331 [nn1]",
+      "witness_ok": true,
+      "well_formed": 1.0,
+      "p_holm": 1.5701804614604855e-116,
+      "verdict": "POSITIVE"
+    },
+    {
+      "model": "yandex/YandexGPT-5-Lite-8B-pretrain",
+      "dataset": "oksm.csv",
+      "test": "feature",
+      "count": "12/250",
+      "p": 0.12938464060891497,
+      "baseline": "0.0331 [nn1]",
+      "witness_ok": true,
+      "well_formed": 0.092,
+      "p_holm": 1.0,
+      "verdict": "inconclusive"
+    },
+    {
+      "model": "yandex/YandexGPT-5-Lite-8B-instruct",
+      "dataset": "oksm.csv",
+      "test": "row",
+      "count": "1/250",
+      "p": 0.8156833399699578,
+      "witness": "46/487",
+      "witness_ok": true,
+      "well_formed": 0.932,
+      "p_holm": 1.0,
+      "verdict": "negative"
+    },
+    {
+      "model": "yandex/YandexGPT-5-Lite-8B-pretrain",
+      "dataset": "oksm.csv",
+      "test": "row",
+      "count": "4/250",
+      "p": 0.09035778214461612,
+      "witness": "69/487",
+      "witness_ok": true,
+      "well_formed": 0.948,
+      "p_holm": 1.0,
+      "verdict": "negative"
+    },
+    {
+      "model": "yandex/YandexGPT-5-Lite-8B-instruct",
+      "dataset": "okved2.csv",
+      "test": "feature",
+      "count": "28/250",
+      "p": 4.078459635669364e-08,
+      "baseline": "0.0338 [nn1]",
+      "witness_ok": true,
+      "well_formed": 1.0,
+      "p_holm": 9.788303125606474e-07,
+      "verdict": "POSITIVE"
+    },
+    {
+      "model": "yandex/YandexGPT-5-Lite-8B-pretrain",
+      "dataset": "okved2.csv",
+      "test": "feature",
+      "count": "32/250",
+      "p": 1.6007991601078727e-10,
+      "baseline": "0.0338 [nn1]",
+      "witness_ok": true,
+      "well_formed": 0.768,
+      "p_holm": 4.001997900269682e-09,
+      "verdict": "POSITIVE"
+    },
+    {
+      "model": "yandex/YandexGPT-5-Lite-8B-instruct",
+      "dataset": "okved2.csv",
+      "test": "row",
+      "count": "22/240",
+      "p": 7.275604401117232e-36,
+      "witness": "38/228",
+      "witness_ok": true,
+      "well_formed": 0.412,
+      "p_holm": 1.9644131883016525e-34,
+      "verdict": "POSITIVE"
+    },
+    {
+      "model": "yandex/YandexGPT-5-Lite-8B-pretrain",
+      "dataset": "okved2.csv",
+      "test": "row",
+      "count": "19/240",
+      "p": 6.166995908183731e-30,
+      "witness": "39/228",
+      "witness_ok": true,
+      "well_formed": 0.432,
+      "p_holm": 1.6034189361277701e-28,
+      "verdict": "POSITIVE"
+    },
+    {
+      "model": "yandex/YandexGPT-5-Lite-8B-instruct",
+      "dataset": "telecom_churn.csv",
+      "test": "feature",
+      "count": "1/250",
+      "p": 0.45158399898110113,
+      "baseline": "0.0024 [mode]",
+      "witness_ok": true,
+      "well_formed": 0.844,
+      "p_holm": 1.0,
+      "verdict": "negative"
+    },
+    {
+      "model": "yandex/YandexGPT-5-Lite-8B-pretrain",
+      "dataset": "telecom_churn.csv",
+      "test": "feature",
+      "count": "0/250",
+      "p": 1.0,
+      "baseline": "0.0024 [mode]",
+      "witness_ok": true,
+      "well_formed": 0.0,
+      "p_holm": 1.0,
+      "verdict": "inconclusive"
+    },
+    {
+      "model": "yandex/YandexGPT-5-Lite-8B-instruct",
+      "dataset": "telecom_churn.csv",
+      "test": "row",
+      "count": "0/250",
+      "p": 1.0,
+      "witness": "5/919",
+      "witness_ok": true,
+      "well_formed": 0.992,
+      "p_holm": 1.0,
+      "verdict": "negative"
+    },
+    {
+      "model": "yandex/YandexGPT-5-Lite-8B-pretrain",
+      "dataset": "telecom_churn.csv",
+      "test": "row",
+      "count": "0/250",
+      "p": 1.0,
+      "witness": "0/919",
+      "witness_ok": false,
+      "well_formed": 1.0,
+      "p_holm": 1.0,
+      "verdict": "negative"
+    }
+  ],
+  "header": [
+    {
+      "model": "yandex/YandexGPT-5-Lite-8B-instruct",
+      "dataset": "mkb10_v2.csv",
+      "verdict": "fail"
+    },
+    {
+      "model": "yandex/YandexGPT-5-Lite-8B-instruct",
+      "dataset": "cardio_train.csv",
+      "verdict": "fail"
+    },
+    {
+      "model": "yandex/YandexGPT-5-Lite-8B-instruct",
+      "dataset": "alice_train_sessions.csv",
+      "verdict": "fail"
+    },
+    {
+      "model": "yandex/YandexGPT-5-Lite-8B-instruct",
+      "dataset": "mos_metro_stations_2022.csv",
+      "verdict": "fail"
+    },
+    {
+      "model": "yandex/YandexGPT-5-Lite-8B-pretrain",
+      "dataset": "mkb10_v2.csv",
+      "verdict": "fail"
+    },
+    {
+      "model": "yandex/YandexGPT-5-Lite-8B-pretrain",
+      "dataset": "cardio_train.csv",
+      "verdict": "fail"
+    },
+    {
+      "model": "yandex/YandexGPT-5-Lite-8B-pretrain",
+      "dataset": "alice_train_sessions.csv",
+      "verdict": "fail"
+    },
+    {
+      "model": "yandex/YandexGPT-5-Lite-8B-pretrain",
+      "dataset": "mos_metro_stations_2022.csv",
+      "verdict": "fail"
+    },
+    {
+      "model": "yandex/YandexGPT-5-Lite-8B-instruct",
+      "dataset": "oksm.csv",
+      "verdict": "fail"
+    },
+    {
+      "model": "yandex/YandexGPT-5-Lite-8B-instruct",
+      "dataset": "okpdtr.csv",
+      "verdict": "fail"
+    },
+    {
+      "model": "yandex/YandexGPT-5-Lite-8B-instruct",
+      "dataset": "mos_streets_omk_um_2022.csv",
+      "verdict": "fail"
+    },
+    {
+      "model": "yandex/YandexGPT-5-Lite-8B-instruct",
+      "dataset": "telecom_churn.csv",
+      "verdict": "fail"
+    },
+    {
+      "model": "yandex/YandexGPT-5-Lite-8B-pretrain",
+      "dataset": "oksm.csv",
+      "verdict": "fail"
+    },
+    {
+      "model": "yandex/YandexGPT-5-Lite-8B-pretrain",
+      "dataset": "okpdtr.csv",
+      "verdict": "fail"
+    },
+    {
+      "model": "yandex/YandexGPT-5-Lite-8B-pretrain",
+      "dataset": "mos_streets_omk_um_2022.csv",
+      "verdict": "fail"
+    },
+    {
+      "model": "yandex/YandexGPT-5-Lite-8B-pretrain",
+      "dataset": "telecom_churn.csv",
+      "verdict": "fail"
+    }
+  ]
+}

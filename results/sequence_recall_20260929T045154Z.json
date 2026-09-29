@@ -1,0 +1,824 @@
+{
+  "_what": "Does a model continue a classifier it holds, or one it reconstructs?",
+  "logs": {
+    "yandex_pretrain": "results/calls_exposure_1_yandex_YandexGPT-5-Lite-8B-pretrain_raw_en_completion_20260929T045154Z.jsonl",
+    "yandex_instruct": "results/calls_exposure_1_yandex_YandexGPT-5-Lite-8B-instruct_raw_en_completion_20260929T045154Z.jsonl",
+    "mistral_nemo": "results/calls_exposure_1_mistralai_Mistral-Nemo-Instruct-2407_raw_en_completion_20260920T174835Z.jsonl",
+    "vikhr_nemo": "results/calls_exposure_1_Vikhrmodels_Vikhr-Nemo-12B-Instruct-R-21-09-24_raw_en_completion_20260920T174835Z.jsonl"
+  },
+  "datasets": {
+    "mkb10_v2.csv": {
+      "common_prompts": 250,
+      "bins": {
+        "yandex_pretrain": {
+          "[0.00, 0.20)": {
+            "n": 42,
+            "row": 20,
+            "name": 23
+          },
+          "[0.20, 0.35)": {
+            "n": 47,
+            "row": 11,
+            "name": 11
+          },
+          "[0.35, 0.50)": {
+            "n": 40,
+            "row": 16,
+            "name": 18
+          },
+          "[0.50, 1.01)": {
+            "n": 121,
+            "row": 13,
+            "name": 18
+          }
+        },
+        "yandex_instruct": {
+          "[0.00, 0.20)": {
+            "n": 42,
+            "row": 19,
+            "name": 21
+          },
+          "[0.20, 0.35)": {
+            "n": 47,
+            "row": 6,
+            "name": 8
+          },
+          "[0.35, 0.50)": {
+            "n": 40,
+            "row": 8,
+            "name": 10
+          },
+          "[0.50, 1.01)": {
+            "n": 121,
+            "row": 13,
+            "name": 18
+          }
+        },
+        "mistral_nemo": {
+          "[0.00, 0.20)": {
+            "n": 42,
+            "row": 12,
+            "name": 15
+          },
+          "[0.20, 0.35)": {
+            "n": 47,
+            "row": 8,
+            "name": 9
+          },
+          "[0.35, 0.50)": {
+            "n": 40,
+            "row": 2,
+            "name": 3
+          },
+          "[0.50, 1.01)": {
+            "n": 121,
+            "row": 2,
+            "name": 2
+          }
+        },
+        "vikhr_nemo": {
+          "[0.00, 0.20)": {
+            "n": 42,
+            "row": 9,
+            "name": 11
+          },
+          "[0.20, 0.35)": {
+            "n": 47,
+            "row": 4,
+            "name": 5
+          },
+          "[0.35, 0.50)": {
+            "n": 40,
+            "row": 1,
+            "name": 2
+          },
+          "[0.50, 1.01)": {
+            "n": 121,
+            "row": 1,
+            "name": 3
+          }
+        }
+      },
+      "paired": [
+        {
+          "a": "yandex_pretrain",
+          "b": "mistral_nemo",
+          "bin": "[0.00, 0.20)",
+          "measure": "row",
+          "n": 42,
+          "a_total": 20,
+          "b_total": 12,
+          "a_only": 11,
+          "b_only": 3,
+          "p": 0.057373046875
+        },
+        {
+          "a": "yandex_pretrain",
+          "b": "mistral_nemo",
+          "bin": "[0.00, 0.20)",
+          "measure": "name",
+          "n": 42,
+          "a_total": 23,
+          "b_total": 15,
+          "a_only": 11,
+          "b_only": 3,
+          "p": 0.057373046875
+        },
+        {
+          "a": "yandex_pretrain",
+          "b": "mistral_nemo",
+          "bin": "[0.20, 0.35)",
+          "measure": "row",
+          "n": 47,
+          "a_total": 11,
+          "b_total": 8,
+          "a_only": 6,
+          "b_only": 3,
+          "p": 0.5078125
+        },
+        {
+          "a": "yandex_pretrain",
+          "b": "mistral_nemo",
+          "bin": "[0.20, 0.35)",
+          "measure": "name",
+          "n": 47,
+          "a_total": 11,
+          "b_total": 9,
+          "a_only": 6,
+          "b_only": 4,
+          "p": 0.75390625
+        },
+        {
+          "a": "yandex_pretrain",
+          "b": "mistral_nemo",
+          "bin": "[0.35, 0.50)",
+          "measure": "row",
+          "n": 40,
+          "a_total": 16,
+          "b_total": 2,
+          "a_only": 14,
+          "b_only": 0,
+          "p": 0.0001220703125
+        },
+        {
+          "a": "yandex_pretrain",
+          "b": "mistral_nemo",
+          "bin": "[0.35, 0.50)",
+          "measure": "name",
+          "n": 40,
+          "a_total": 18,
+          "b_total": 3,
+          "a_only": 15,
+          "b_only": 0,
+          "p": 6.103515625e-05
+        },
+        {
+          "a": "yandex_pretrain",
+          "b": "mistral_nemo",
+          "bin": "[0.50, 1.01)",
+          "measure": "row",
+          "n": 121,
+          "a_total": 13,
+          "b_total": 2,
+          "a_only": 11,
+          "b_only": 0,
+          "p": 0.0009765625
+        },
+        {
+          "a": "yandex_pretrain",
+          "b": "mistral_nemo",
+          "bin": "[0.50, 1.01)",
+          "measure": "name",
+          "n": 121,
+          "a_total": 18,
+          "b_total": 2,
+          "a_only": 16,
+          "b_only": 0,
+          "p": 3.0517578125e-05
+        },
+        {
+          "a": "yandex_instruct",
+          "b": "vikhr_nemo",
+          "bin": "[0.00, 0.20)",
+          "measure": "row",
+          "n": 42,
+          "a_total": 19,
+          "b_total": 9,
+          "a_only": 13,
+          "b_only": 3,
+          "p": 0.021270751953125
+        },
+        {
+          "a": "yandex_instruct",
+          "b": "vikhr_nemo",
+          "bin": "[0.00, 0.20)",
+          "measure": "name",
+          "n": 42,
+          "a_total": 21,
+          "b_total": 11,
+          "a_only": 13,
+          "b_only": 3,
+          "p": 0.021270751953125
+        },
+        {
+          "a": "yandex_instruct",
+          "b": "vikhr_nemo",
+          "bin": "[0.20, 0.35)",
+          "measure": "row",
+          "n": 47,
+          "a_total": 6,
+          "b_total": 4,
+          "a_only": 3,
+          "b_only": 1,
+          "p": 0.625
+        },
+        {
+          "a": "yandex_instruct",
+          "b": "vikhr_nemo",
+          "bin": "[0.20, 0.35)",
+          "measure": "name",
+          "n": 47,
+          "a_total": 8,
+          "b_total": 5,
+          "a_only": 5,
+          "b_only": 2,
+          "p": 0.453125
+        },
+        {
+          "a": "yandex_instruct",
+          "b": "vikhr_nemo",
+          "bin": "[0.35, 0.50)",
+          "measure": "row",
+          "n": 40,
+          "a_total": 8,
+          "b_total": 1,
+          "a_only": 7,
+          "b_only": 0,
+          "p": 0.015625
+        },
+        {
+          "a": "yandex_instruct",
+          "b": "vikhr_nemo",
+          "bin": "[0.35, 0.50)",
+          "measure": "name",
+          "n": 40,
+          "a_total": 10,
+          "b_total": 2,
+          "a_only": 8,
+          "b_only": 0,
+          "p": 0.0078125
+        },
+        {
+          "a": "yandex_instruct",
+          "b": "vikhr_nemo",
+          "bin": "[0.50, 1.01)",
+          "measure": "row",
+          "n": 121,
+          "a_total": 13,
+          "b_total": 1,
+          "a_only": 12,
+          "b_only": 0,
+          "p": 0.00048828125
+        },
+        {
+          "a": "yandex_instruct",
+          "b": "vikhr_nemo",
+          "bin": "[0.50, 1.01)",
+          "measure": "name",
+          "n": 121,
+          "a_total": 18,
+          "b_total": 3,
+          "a_only": 15,
+          "b_only": 0,
+          "p": 6.103515625e-05
+        },
+        {
+          "a": "yandex_pretrain",
+          "b": "yandex_instruct",
+          "bin": "[0.00, 0.20)",
+          "measure": "row",
+          "n": 42,
+          "a_total": 20,
+          "b_total": 19,
+          "a_only": 5,
+          "b_only": 4,
+          "p": 1.0
+        },
+        {
+          "a": "yandex_pretrain",
+          "b": "yandex_instruct",
+          "bin": "[0.00, 0.20)",
+          "measure": "name",
+          "n": 42,
+          "a_total": 23,
+          "b_total": 21,
+          "a_only": 6,
+          "b_only": 4,
+          "p": 0.75390625
+        },
+        {
+          "a": "yandex_pretrain",
+          "b": "yandex_instruct",
+          "bin": "[0.20, 0.35)",
+          "measure": "row",
+          "n": 47,
+          "a_total": 11,
+          "b_total": 6,
+          "a_only": 5,
+          "b_only": 0,
+          "p": 0.0625
+        },
+        {
+          "a": "yandex_pretrain",
+          "b": "yandex_instruct",
+          "bin": "[0.20, 0.35)",
+          "measure": "name",
+          "n": 47,
+          "a_total": 11,
+          "b_total": 8,
+          "a_only": 4,
+          "b_only": 1,
+          "p": 0.375
+        },
+        {
+          "a": "yandex_pretrain",
+          "b": "yandex_instruct",
+          "bin": "[0.35, 0.50)",
+          "measure": "row",
+          "n": 40,
+          "a_total": 16,
+          "b_total": 8,
+          "a_only": 10,
+          "b_only": 2,
+          "p": 0.03857421875
+        },
+        {
+          "a": "yandex_pretrain",
+          "b": "yandex_instruct",
+          "bin": "[0.35, 0.50)",
+          "measure": "name",
+          "n": 40,
+          "a_total": 18,
+          "b_total": 10,
+          "a_only": 10,
+          "b_only": 2,
+          "p": 0.03857421875
+        },
+        {
+          "a": "yandex_pretrain",
+          "b": "yandex_instruct",
+          "bin": "[0.50, 1.01)",
+          "measure": "row",
+          "n": 121,
+          "a_total": 13,
+          "b_total": 13,
+          "a_only": 6,
+          "b_only": 6,
+          "p": 1.0
+        },
+        {
+          "a": "yandex_pretrain",
+          "b": "yandex_instruct",
+          "bin": "[0.50, 1.01)",
+          "measure": "name",
+          "n": 121,
+          "a_total": 18,
+          "b_total": 18,
+          "a_only": 7,
+          "b_only": 7,
+          "p": 1.0
+        }
+      ],
+      "file_fields": {
+        "parent_id": {
+          "yandex_pretrain": {
+            "hidden": 11,
+            "field_right": 0,
+            "name_right": 0
+          },
+          "yandex_instruct": {
+            "hidden": 11,
+            "field_right": 0,
+            "name_right": 1
+          },
+          "mistral_nemo": {
+            "hidden": 11,
+            "field_right": 0,
+            "name_right": 0
+          },
+          "vikhr_nemo": {
+            "hidden": 11,
+            "field_right": 0,
+            "name_right": 0
+          }
+        },
+        "record_code_prefix": {
+          "yandex_pretrain": {
+            "hidden": 2,
+            "field_right": 0,
+            "name_right": 0
+          },
+          "yandex_instruct": {
+            "hidden": 2,
+            "field_right": 0,
+            "name_right": 0
+          },
+          "mistral_nemo": {
+            "hidden": 2,
+            "field_right": 0,
+            "name_right": 0
+          },
+          "vikhr_nemo": {
+            "hidden": 2,
+            "field_right": 0,
+            "name_right": 0
+          }
+        }
+      }
+    },
+    "okved2.csv": {
+      "common_prompts": 250,
+      "bins": {
+        "yandex_pretrain": {
+          "[0.00, 0.20)": {
+            "n": 39,
+            "row": 7,
+            "name": 17
+          },
+          "[0.20, 0.35)": {
+            "n": 41,
+            "row": 5,
+            "name": 14
+          },
+          "[0.35, 0.50)": {
+            "n": 54,
+            "row": 6,
+            "name": 12
+          },
+          "[0.50, 1.01)": {
+            "n": 116,
+            "row": 5,
+            "name": 9
+          }
+        },
+        "yandex_instruct": {
+          "[0.00, 0.20)": {
+            "n": 39,
+            "row": 7,
+            "name": 11
+          },
+          "[0.20, 0.35)": {
+            "n": 41,
+            "row": 6,
+            "name": 12
+          },
+          "[0.35, 0.50)": {
+            "n": 54,
+            "row": 8,
+            "name": 15
+          },
+          "[0.50, 1.01)": {
+            "n": 116,
+            "row": 5,
+            "name": 10
+          }
+        },
+        "mistral_nemo": {
+          "[0.00, 0.20)": {
+            "n": 39,
+            "row": 6,
+            "name": 15
+          },
+          "[0.20, 0.35)": {
+            "n": 41,
+            "row": 6,
+            "name": 6
+          },
+          "[0.35, 0.50)": {
+            "n": 54,
+            "row": 7,
+            "name": 9
+          },
+          "[0.50, 1.01)": {
+            "n": 116,
+            "row": 2,
+            "name": 5
+          }
+        },
+        "vikhr_nemo": {
+          "[0.00, 0.20)": {
+            "n": 39,
+            "row": 5,
+            "name": 10
+          },
+          "[0.20, 0.35)": {
+            "n": 41,
+            "row": 4,
+            "name": 6
+          },
+          "[0.35, 0.50)": {
+            "n": 54,
+            "row": 3,
+            "name": 5
+          },
+          "[0.50, 1.01)": {
+            "n": 116,
+            "row": 1,
+            "name": 2
+          }
+        }
+      },
+      "paired": [
+        {
+          "a": "yandex_pretrain",
+          "b": "mistral_nemo",
+          "bin": "[0.00, 0.20)",
+          "measure": "row",
+          "n": 39,
+          "a_total": 7,
+          "b_total": 6,
+          "a_only": 2,
+          "b_only": 1,
+          "p": 1.0
+        },
+        {
+          "a": "yandex_pretrain",
+          "b": "mistral_nemo",
+          "bin": "[0.00, 0.20)",
+          "measure": "name",
+          "n": 39,
+          "a_total": 17,
+          "b_total": 15,
+          "a_only": 5,
+          "b_only": 3,
+          "p": 0.7265625
+        },
+        {
+          "a": "yandex_pretrain",
+          "b": "mistral_nemo",
+          "bin": "[0.20, 0.35)",
+          "measure": "row",
+          "n": 41,
+          "a_total": 5,
+          "b_total": 6,
+          "a_only": 0,
+          "b_only": 1,
+          "p": 1.0
+        },
+        {
+          "a": "yandex_pretrain",
+          "b": "mistral_nemo",
+          "bin": "[0.20, 0.35)",
+          "measure": "name",
+          "n": 41,
+          "a_total": 14,
+          "b_total": 6,
+          "a_only": 9,
+          "b_only": 1,
+          "p": 0.021484375
+        },
+        {
+          "a": "yandex_pretrain",
+          "b": "mistral_nemo",
+          "bin": "[0.35, 0.50)",
+          "measure": "row",
+          "n": 54,
+          "a_total": 6,
+          "b_total": 7,
+          "a_only": 0,
+          "b_only": 1,
+          "p": 1.0
+        },
+        {
+          "a": "yandex_pretrain",
+          "b": "mistral_nemo",
+          "bin": "[0.35, 0.50)",
+          "measure": "name",
+          "n": 54,
+          "a_total": 12,
+          "b_total": 9,
+          "a_only": 3,
+          "b_only": 0,
+          "p": 0.25
+        },
+        {
+          "a": "yandex_pretrain",
+          "b": "mistral_nemo",
+          "bin": "[0.50, 1.01)",
+          "measure": "row",
+          "n": 116,
+          "a_total": 5,
+          "b_total": 2,
+          "a_only": 4,
+          "b_only": 1,
+          "p": 0.375
+        },
+        {
+          "a": "yandex_pretrain",
+          "b": "mistral_nemo",
+          "bin": "[0.50, 1.01)",
+          "measure": "name",
+          "n": 116,
+          "a_total": 9,
+          "b_total": 5,
+          "a_only": 7,
+          "b_only": 3,
+          "p": 0.34375
+        },
+        {
+          "a": "yandex_instruct",
+          "b": "vikhr_nemo",
+          "bin": "[0.00, 0.20)",
+          "measure": "row",
+          "n": 39,
+          "a_total": 7,
+          "b_total": 5,
+          "a_only": 3,
+          "b_only": 1,
+          "p": 0.625
+        },
+        {
+          "a": "yandex_instruct",
+          "b": "vikhr_nemo",
+          "bin": "[0.00, 0.20)",
+          "measure": "name",
+          "n": 39,
+          "a_total": 11,
+          "b_total": 10,
+          "a_only": 4,
+          "b_only": 3,
+          "p": 1.0
+        },
+        {
+          "a": "yandex_instruct",
+          "b": "vikhr_nemo",
+          "bin": "[0.20, 0.35)",
+          "measure": "row",
+          "n": 41,
+          "a_total": 6,
+          "b_total": 4,
+          "a_only": 3,
+          "b_only": 1,
+          "p": 0.625
+        },
+        {
+          "a": "yandex_instruct",
+          "b": "vikhr_nemo",
+          "bin": "[0.20, 0.35)",
+          "measure": "name",
+          "n": 41,
+          "a_total": 12,
+          "b_total": 6,
+          "a_only": 7,
+          "b_only": 1,
+          "p": 0.0703125
+        },
+        {
+          "a": "yandex_instruct",
+          "b": "vikhr_nemo",
+          "bin": "[0.35, 0.50)",
+          "measure": "row",
+          "n": 54,
+          "a_total": 8,
+          "b_total": 3,
+          "a_only": 5,
+          "b_only": 0,
+          "p": 0.0625
+        },
+        {
+          "a": "yandex_instruct",
+          "b": "vikhr_nemo",
+          "bin": "[0.35, 0.50)",
+          "measure": "name",
+          "n": 54,
+          "a_total": 15,
+          "b_total": 5,
+          "a_only": 10,
+          "b_only": 0,
+          "p": 0.001953125
+        },
+        {
+          "a": "yandex_instruct",
+          "b": "vikhr_nemo",
+          "bin": "[0.50, 1.01)",
+          "measure": "row",
+          "n": 116,
+          "a_total": 5,
+          "b_total": 1,
+          "a_only": 4,
+          "b_only": 0,
+          "p": 0.125
+        },
+        {
+          "a": "yandex_instruct",
+          "b": "vikhr_nemo",
+          "bin": "[0.50, 1.01)",
+          "measure": "name",
+          "n": 116,
+          "a_total": 10,
+          "b_total": 2,
+          "a_only": 8,
+          "b_only": 0,
+          "p": 0.0078125
+        },
+        {
+          "a": "yandex_pretrain",
+          "b": "yandex_instruct",
+          "bin": "[0.00, 0.20)",
+          "measure": "row",
+          "n": 39,
+          "a_total": 7,
+          "b_total": 7,
+          "a_only": 1,
+          "b_only": 1,
+          "p": 1.0
+        },
+        {
+          "a": "yandex_pretrain",
+          "b": "yandex_instruct",
+          "bin": "[0.00, 0.20)",
+          "measure": "name",
+          "n": 39,
+          "a_total": 17,
+          "b_total": 11,
+          "a_only": 6,
+          "b_only": 0,
+          "p": 0.03125
+        },
+        {
+          "a": "yandex_pretrain",
+          "b": "yandex_instruct",
+          "bin": "[0.20, 0.35)",
+          "measure": "row",
+          "n": 41,
+          "a_total": 5,
+          "b_total": 6,
+          "a_only": 0,
+          "b_only": 1,
+          "p": 1.0
+        },
+        {
+          "a": "yandex_pretrain",
+          "b": "yandex_instruct",
+          "bin": "[0.20, 0.35)",
+          "measure": "name",
+          "n": 41,
+          "a_total": 14,
+          "b_total": 12,
+          "a_only": 5,
+          "b_only": 3,
+          "p": 0.7265625
+        },
+        {
+          "a": "yandex_pretrain",
+          "b": "yandex_instruct",
+          "bin": "[0.35, 0.50)",
+          "measure": "row",
+          "n": 54,
+          "a_total": 6,
+          "b_total": 8,
+          "a_only": 1,
+          "b_only": 3,
+          "p": 0.625
+        },
+        {
+          "a": "yandex_pretrain",
+          "b": "yandex_instruct",
+          "bin": "[0.35, 0.50)",
+          "measure": "name",
+          "n": 54,
+          "a_total": 12,
+          "b_total": 15,
+          "a_only": 1,
+          "b_only": 4,
+          "p": 0.375
+        },
+        {
+          "a": "yandex_pretrain",
+          "b": "yandex_instruct",
+          "bin": "[0.50, 1.01)",
+          "measure": "row",
+          "n": 116,
+          "a_total": 5,
+          "b_total": 5,
+          "a_only": 3,
+          "b_only": 3,
+          "p": 1.0
+        },
+        {
+          "a": "yandex_pretrain",
+          "b": "yandex_instruct",
+          "bin": "[0.50, 1.01)",
+          "measure": "name",
+          "n": 116,
+          "a_total": 9,
+          "b_total": 10,
+          "a_only": 4,
+          "b_only": 5,
+          "p": 1.0
+        }
+      ],
+      "file_fields": {}
+    }
+  }
+}

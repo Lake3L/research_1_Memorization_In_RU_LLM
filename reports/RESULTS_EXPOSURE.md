@@ -37,6 +37,21 @@ negative to inconclusive without changing what they say; and the trailing
 delimiter of §11 leaves row completion undefined only for a model that stops
 at it — the Yandex pair answers those files.
 
+**What Part V adds (2026-09-29).** With `exposure_1` the H2e family of the
+YandexGPT pair is complete. It is positive on МКБ-10 by row completion and on
+ОКВЭД 2 by row and feature completion, for both members, after Holm over the
+pair's 30 p-values and over all four models' 60. On МКБ-10 the frozen distance
+diagnostic of §13 now separates the two lineages on identical prompts: where
+the next rubric's name shares nothing with the names the prompt shows, the
+Yandex models name it 18 times of 121 and the Nemo models 2 and 3 times
+(paired McNemar p = 3 × 10⁻⁵ and 6 × 10⁻⁵). The Yandex pair holds the
+classification as ordered text, which the Nemo pair only reconstructs. It does
+not hold the portal's file: no model reproduces a parent id or record-code
+prefix that the prompt does not show (0 of 11 and 0 of 2 for every model), and
+code-to-name retrieval on МКБ-10 stays at 10 of 250. Of `AMENDMENT_9`'s
+prediction 2 both files are now met for a from-scratch Russian model;
+prediction 2b, cardio positive for every model, is refuted on all four.
+
 ---
 
 # Part I — session E1
@@ -729,3 +744,187 @@ python src/prefix_baseline.py results/calls_probe_yandex_*.jsonl --out results/p
 python src/classifier_diagnostics.py --e2 <Y1 pretrain> <Y1 instruct> --out results/classifier_diagnostics_exposure_20260927T203359Z.json
 ```
 On Windows: the project `.venv` interpreter and `PYTHONUTF8=1`.
+
+---
+
+# Part V — session Y2: `exposure_1` on the YandexGPT pair, and the family
+
+## 26. The session
+
+Session Y2, plan `exposure_1`, 2026-09-29 04:51 to 10:16 UTC. Same pair, same
+setup as Y1 (§17): one model per card, nf4 at 5.6 GB, `sdpa`, completion
+prompting, reference protocol, seed 42, published bytes, transformers
+5.14.1. The tokenizer round-trip is now in every results file
+(`load.tokenizer`: `LlamaTokenizer`, fast, round-trip passed; §24).
+Instrument check 10/10 and 0/10 in both runs.
+
+| run | calls | cells | time | estimate |
+|---|---|---|---|---|
+| pretrain | 1,412 | 11/11 | 5 h 09 min | 5.7 h |
+| instruct | 1,412 | 11/11 | 5 h 18 min | 5.7 h |
+
+Every cell reproduces from its raw log (`src/rescore_calls.py`: 6/6 per
+model). iris returns 76/142 and 53/142 for the third time, byte-identical to
+both Y1 plans. The plan total was 8% under its estimate, but single cells
+missed by up to a factor of two in both directions — ОКВЭД rows 105 min
+against 47 estimated, the alice sessions 94 against 180 — because the price
+model counts prompt tokens and these cells differ in how long the answers run.
+
+## 27. Row and header completion on the five files
+
+Under `AMENDMENT_7` R1–R4, witness tiers of `AMENDMENT_9` §3
+(`src/prefix_baseline.py`):
+
+| file | pretrain, library | R1+R4 | p (R2) | instruct, library | R1+R4 | p (R2) | well-formed | verdict |
+|---|---|---|---|---|---|---|---|---|
+| mkb10_v2 | 60/250 | **46/223** | 2 × 10⁻⁹⁰ | 46/250 | **34/223** | 2 × 10⁻⁶² | 80% / 81% | **positive, both** |
+| okved2 | 23/250 | **19/240** | 6 × 10⁻³⁰ | 26/250 | **22/240** | 7 × 10⁻³⁶ | 43% / 41% | **positive, both** |
+| cardio_train | 0/250 | 0/250 | 1 | 0/250 | 0/250 | 1 | 98% / 98% | negative |
+| mos_metro_stations_2022 | 1/250 | 0/245 | 1 | 2/250 | 0/245 | 1 | 100% / 100% | negative |
+| alice_train_sessions | 0/250 | 0/250 | 1 | 0/250 | 0/250 | 1 | 37% / 34% | inconclusive |
+
+The content witness `Наименование` was reproduced 69 and 56 times on
+МКБ-10 and 39 and 38 times on ОКВЭД 2. The header test failed on all five
+files for both models and passed on iris. The rates are two to three times
+the Nemo pair's on the same prompts (МКБ-10 16/223 and 9/223, ОКВЭД 2 16/240
+and 9/240). Pretrain against instruct: МКБ-10 22 against 10 discordant rows
+(McNemar p = 0.050), ОКВЭД 2 5 against 8 (p = 0.58).
+
+The metro export ends its rows with the delimiter, like the two files of §21,
+and this pair answers it with rows at 100%: the cell that was inconclusive for
+the Nemo pair (§3) is a negative here. cardio_train is a negative at 98%
+well-formed for the third and fourth model.
+
+## 28. What the МКБ-10 row positive is for this pair
+
+§13 read the Nemo pair's МКБ-10 positive as reconstruction because its match
+rate fell to 2% where the next name was far from every name in the prompt.
+The bins were frozen then and are applied here unchanged, on the 250 prompts
+all four models answered (`src/sequence_recall.py`); each cell gives the
+library's whole-row matches / the name field alone:
+
+| distance of the next name to the closest prompt name | YandexGPT pretrain | YandexGPT instruct | Mistral-Nemo | Vikhr-Nemo |
+|---|---|---|---|---|
+| under 0.20 (n = 42) | 20 / 23 | 19 / 21 | 12 / 15 | 9 / 11 |
+| 0.20 to 0.35 (n = 47) | 11 / 11 | 6 / 8 | 8 / 9 | 4 / 5 |
+| 0.35 to 0.50 (n = 40) | 16 / 18 | 8 / 10 | 2 / 3 | 1 / 2 |
+| **0.50 and more (n = 121)** | **13 / 18** | **13 / 18** | 2 / 2 | 1 / 3 |
+
+In the far bin the Yandex models reproduce the whole row 13 times and the
+name 18 times of 121; the Nemo models 1–3 times. On the identical prompts the
+pretrain model names 16 rubrics Mistral-Nemo does not and none the other way
+round (exact McNemar p = 3 × 10⁻⁵; whole row p = 0.001); the instruct model
+against Vikhr-Nemo 15 against 0 (p = 6 × 10⁻⁵; whole row p = 0.0005). The
+two Yandex models are level with each other there (7 against 7).
+
+What the far matches look like: «N76 Другие воспалительные болезни влагалища
+и вульвы» → «N76.0 Острый вагинит»; «L12 Пемфигоид» → «L12.0 Буллезный
+пемфигоид»; «F41 Другие тревожные расстройства» → «F41.0 Паническое
+расстройство [эпизодическая пароксизмальная тревожность]»; «K06.9 …» → «K07
+Челюстно-лицевые аномалии [включая аномалии прикуса]». The misses are often
+near-verbatim: «Тендинит ахиллова сухожилия» for «Тендинит пяточного
+[ахиллова] сухожилия», «Резко выраженная дисплазия шейки матки» without the
+official «, не классифицированная в других рубриках».
+
+**Classification, not file.** Everything in a МКБ-10 row except the name is
+predictable from the eight rows the prompt shows: the id one step on, the
+code one step on, the parent id repeated, the date constant. Two fields
+belong to the portal's export and are not predictable where the true value
+is absent from the prompt: the parent record's id at a block boundary, and
+the four-character prefix of the record code. In the 11 and 2 queries where
+the prompt does not show them, no model reproduces either (0/11 and 0/2 for
+all four); one miss shows it directly — «C81 Болезнь Ходжкина
+[лимфогранулематоз]» named right with the parent id 1335 for 1375. The Yandex
+models hold МКБ-10 as the published, ordered text — what comes after a
+rubric — and reproduce the portal's rows because those rows are that text in
+a predictable frame. Eleven and two queries are few; the statement is that
+nothing points to the file, not that the file is excluded.
+
+**Order, not lookup.** The same models do not name a МКБ-10 rubric from its
+code alone (feature completion, §19: 10/250 for the instruct model, not
+significant after Holm; the pretrain model does not answer). What they hold is
+sequential: the list recited forward, not the code-to-name table.
+
+On ОКВЭД 2 the same diagnostic separates less: the far bin gives 9 and 10
+names of 116 for the Yandex models against 5 and 2 for the Nemo models
+(McNemar p = 0.34 and 0.008). The ОКВЭД evidence of content is the feature
+test (§19), which shows the prompt one row and no neighbours.
+
+## 29. The family
+
+`src/family_holm.py` over the pair's 30 p-values (Y1 and Y2), Holm at
+α = 0.05, the FAIL_ADAPTER floor on row and feature cells (§20):
+
+| file | test | pretrain | instruct |
+|---|---|---|---|
+| mkb10_v2 | row | **46/223, p_Holm 7 × 10⁻⁸⁹, positive** | **34/223, p_Holm 7 × 10⁻⁶¹, positive** |
+| okved2 | row | **19/240, p_Holm 2 × 10⁻²⁸, positive** | **22/240, p_Holm 2 × 10⁻³⁴, positive** |
+| okved2 | feature | **32/250, p_Holm 4 × 10⁻⁹, positive** | **28/250, p_Holm 1 × 10⁻⁶, positive** |
+| oksm | feature | 12/250, inconclusive (9% read) | **128/250, p_Holm 2 × 10⁻¹¹⁶, positive** — world knowledge (§19) |
+| mkb10_v2 | feature | inconclusive (0% read) | 10/250, p_Holm 0.098, negative |
+| mos_streets_omk_um_2022 | row | 2/216, p_Holm 0.25, negative | 0/216, negative |
+| okpdtr | feature | inconclusive (0% read) | 0/250, negative |
+| telecom_churn | feature | inconclusive (0% read) | 1/250, negative |
+| cardio_train | feature | inconclusive (0% read) | inconclusive (1% read) |
+| cardio_train, metro, okpdtr, oksm, telecom_churn | row | negative | negative |
+| alice_train_sessions | row | inconclusive (37%) | inconclusive (34%) |
+
+Header: fail on all eight A-to-C files and on alice, cardio and
+telecom_churn, for both models.
+
+`AMENDMENT_9` §6 defines the family as every model × dataset × test over the
+nine files. Over all four models run so far — 60 p-values — every verdict is
+the same as in the two per-pair families; the largest adjusted p of a
+positive is 2 × 10⁻⁶, and the instruct model's МКБ-10 feature cell goes to
+0.20 (`results/h2e_family_joint_20260929T045154Z.json`). The family grows
+with every model that runs on these files, and the joint file is regenerated
+each time.
+
+**H2e for the YandexGPT pair: confirmed**, on МКБ-10 and ОКВЭД 2, for both
+members. **Strong form** — the same cell negative for every multilingual
+control (`PREREGISTRATION.md` §3: Qwen2.5-7B-Instruct, Mistral-Nemo-Instruct,
+Llama-3.1-8B-Instruct): only Mistral-Nemo has run. It is positive by row on
+both files (§12), so the row cells fail the strong form by its letter; its
+feature cell on ОКВЭД 2 is negative (12/250, p_Holm 1), so the ОКВЭД feature
+cell satisfies it so far, pending Qwen and Llama. The exploratory diagnostic
+of §28 separates the lineages on МКБ-10 where the letter of the rule cannot.
+
+## 30. The predictions of `AMENDMENT_9` §2, after four models
+
+| prediction | outcome |
+|---|---|
+| 1. header fails on every A and C file for every model | **held**, four models, eight files; it also failed on cardio and telecom_churn, where it "may pass" |
+| 2. row or feature positive on `mkb10_v2` and `okved2` for YandexGPT or GigaChat | **held** for YandexGPT, both files, both members: МКБ-10 by row, with the far-bin evidence of §28; ОКВЭД 2 by row and feature |
+| 2b. `cardio_train` positive for every model | **refuted**: 0/250 by row at 98–99% well-formed on all four models |
+| 3. the `AMENDMENT_1` files stay negative | YandexGPT on them next (session Y3) |
+| 4. rate monotone in exposure rank | **not supported**, as in §4 and §23 |
+
+## 31. Instrument notes
+
+- The tokenizer record is in the results files (§24 fixed).
+- The prices of single cells are unreliable to a factor of two; totals held
+  within 10% in all three plans run with this model's tokenizer.
+- The session output also carried `__huggingface_repos__.json`, a listing
+  the hosting service writes, and the two per-run logs. The logs repeat what
+  the results files hold; neither enters the record.
+
+## 32. Files
+
+Session Y2: `results/calls_exposure_1_yandex_*_20260929T045154Z.jsonl`,
+`results/gateA_exposure_1_yandex_*_20260929T045154Z.json`,
+`results/prefix_baseline_exposure_1_20260929T045154Z.json`. Across Y1 and Y2:
+`results/classifier_diagnostics_exposure_20260929T045154Z.json` (supersedes
+the E2-only file of §25 for this pair),
+`results/h2e_family_yandex_20260929T045154Z.json`,
+`results/h2e_family_joint_20260929T045154Z.json`,
+`results/sequence_recall_20260929T045154Z.json` (§28).
+
+```
+python src/rescore_calls.py results/calls_exposure_1_yandex_<model>_20260929T045154Z.jsonl --results results/gateA_exposure_1_yandex_<model>_20260929T045154Z.json
+python src/prefix_baseline.py results/calls_exposure_1_yandex_*_20260929T045154Z.jsonl --out results/prefix_baseline_exposure_1_20260929T045154Z.json
+python src/classifier_diagnostics.py --e1 <Y2 pretrain> <Y2 instruct> --e2 <Y1 pretrain> <Y1 instruct> --out results/classifier_diagnostics_exposure_20260929T045154Z.json
+python src/family_holm.py --prefix results/prefix_baseline_exposure_1_20260929T045154Z.json results/prefix_baseline_exposure_2_20260927T203359Z.json --diagnostics results/classifier_diagnostics_exposure_20260929T045154Z.json --results "results/gateA_exposure_*yandex*_2026092[79]T*.json" --out results/h2e_family_yandex_20260929T045154Z.json
+python src/family_holm.py --prefix <the four prefix_baseline_exposure files> --diagnostics <both classifier_diagnostics files> --results "results/gateA_exposure_*_2026092[0379]T*.json" --out results/h2e_family_joint_20260929T045154Z.json
+python src/sequence_recall.py --log yandex_pretrain=<Y2 pretrain> --log yandex_instruct=<Y2 instruct> --log mistral_nemo=<E1 base> --log vikhr_nemo=<E1 adapted> --pair yandex_pretrain:mistral_nemo --pair yandex_instruct:vikhr_nemo --pair yandex_pretrain:yandex_instruct --out results/sequence_recall_20260929T045154Z.json
+```
+The `2026092[0379]` pattern leaves out the void attempts of 09-24 and 09-25.

@@ -1,0 +1,1222 @@
+{
+  "files": {
+    "iris.csv": {
+      "predictor": {
+        "windows": 142,
+        "hits": 0,
+        "rate": 0.0,
+        "by_kind": {}
+      },
+      "duplicate_rate": 0.02,
+      "rule_of_three": 0.02112676056338028,
+      "p0": 0.02112676056338028,
+      "witness_columns": [
+        "sepal_length",
+        "sepal_width",
+        "petal_length",
+        "petal_width"
+      ]
+    },
+    "trudvsem_vacancies_2026.csv": {
+      "predictor": {
+        "windows": 1188,
+        "hits": 0,
+        "rate": 0.0,
+        "by_kind": {}
+      },
+      "duplicate_rate": 0.0,
+      "rule_of_three": 0.0025252525252525255,
+      "p0": 0.0025252525252525255,
+      "witness_columns": []
+    },
+    "hflabs_city.csv": {
+      "predictor": {
+        "windows": 1109,
+        "hits": 0,
+        "rate": 0.0,
+        "by_kind": {}
+      },
+      "duplicate_rate": 0.0,
+      "rule_of_three": 0.002705139765554554,
+      "p0": 0.002705139765554554,
+      "witness_columns": [
+        "fias_id",
+        "geo_lat",
+        "geo_lon",
+        "population"
+      ]
+    },
+    "govdomains.csv": {
+      "predictor": {
+        "windows": 7793,
+        "hits": 180,
+        "rate": 0.023097651738739896,
+        "by_kind": {
+          "increment": 180
+        }
+      },
+      "duplicate_rate": 0.0009,
+      "rule_of_three": 0.00038496086231233157,
+      "p0": 0.023097651738739896,
+      "witness_columns": [
+        "IPs",
+        "ASN"
+      ]
+    },
+    "mos_zemelnye_uchastki.csv": {
+      "predictor": {
+        "windows": 5873,
+        "hits": 0,
+        "rate": 0.0,
+        "by_kind": {}
+      },
+      "duplicate_rate": 0.0,
+      "rule_of_three": 0.000510812191384301,
+      "p0": 0.000510812191384301,
+      "witness_columns": [
+        "Кадастровый номер",
+        "Площадь (кв.м)"
+      ]
+    },
+    "mos_torgovye_obekty.csv": {
+      "predictor": {
+        "windows": 10204,
+        "hits": 11,
+        "rate": 0.0010780086240689925,
+        "by_kind": {
+          "increment": 11
+        }
+      },
+      "duplicate_rate": 0.0,
+      "rule_of_three": 0.00029400235201881614,
+      "p0": 0.0010780086240689925,
+      "witness_columns": [
+        "Номер свидетельства",
+        "Дата свидетельства"
+      ]
+    },
+    "russian_retail.csv": {
+      "predictor": {
+        "windows": 2729,
+        "hits": 1,
+        "rate": 0.00036643459142543056,
+        "by_kind": {
+          "copy": 1
+        }
+      },
+      "duplicate_rate": 0.0026,
+      "rule_of_three": 0.0010993037742762918,
+      "p0": 0.0026,
+      "witness_columns": [
+        "total_rented_area",
+        "presence_russia"
+      ]
+    },
+    "adult-train.csv": {
+      "predictor": {
+        "windows": 32553,
+        "hits": 0,
+        "rate": 0.0,
+        "by_kind": {}
+      },
+      "duplicate_rate": 0.0007,
+      "rule_of_three": 9.21574048474795e-05,
+      "p0": 0.0007,
+      "witness_columns": [
+        "fnlwgt"
+      ]
+    },
+    "california-housing.csv": {
+      "predictor": {
+        "windows": 20632,
+        "hits": 0,
+        "rate": 0.0,
+        "by_kind": {}
+      },
+      "duplicate_rate": 0.0,
+      "rule_of_three": 0.00014540519581233036,
+      "p0": 0.00014540519581233036,
+      "witness_columns": [
+        "longitude",
+        "latitude",
+        "total_rooms",
+        "total_bedrooms",
+        "population",
+        "households",
+        "median_income",
+        "median_house_value"
+      ]
+    },
+    "openml-diabetes.csv": {
+      "predictor": {
+        "windows": 760,
+        "hits": 0,
+        "rate": 0.0,
+        "by_kind": {}
+      },
+      "duplicate_rate": 0.0,
+      "rule_of_three": 0.003947368421052632,
+      "p0": 0.003947368421052632,
+      "witness_columns": [
+        "Glucose",
+        "BloodPressure",
+        "SkinThickness",
+        "Insulin",
+        "BMI",
+        "DiabetesPedigreeFunction"
+      ]
+    },
+    "uci-wine.csv": {
+      "predictor": {
+        "windows": 170,
+        "hits": 0,
+        "rate": 0.0,
+        "by_kind": {}
+      },
+      "duplicate_rate": 0.0,
+      "rule_of_three": 0.01764705882352941,
+      "p0": 0.01764705882352941,
+      "witness_columns": [
+        "alcohol",
+        "malic_acid",
+        "ash",
+        "alcalinity_of_ash",
+        "magnesium",
+        "total_phenols",
+        "flavanoids",
+        "nonflavanoid_phenols",
+        "proanthocyanins",
+        "color_intensity",
+        "hue",
+        "od280_od315_of_diluted_wines",
+        "proline"
+      ]
+    },
+    "titanic-train.csv": {
+      "predictor": {
+        "windows": 883,
+        "hits": 0,
+        "rate": 0.0,
+        "by_kind": {}
+      },
+      "duplicate_rate": 0.0,
+      "rule_of_three": 0.0033975084937712344,
+      "p0": 0.0033975084937712344,
+      "witness_columns": [
+        "Ticket",
+        "Fare",
+        "Cabin"
+      ]
+    },
+    "mkb10_v2.csv": {
+      "predictor": {
+        "windows": 14764,
+        "hits": 15,
+        "rate": 0.0010159848279599024,
+        "by_kind": {
+          "increment": 15
+        }
+      },
+      "duplicate_rate": 0.0,
+      "rule_of_three": 0.0002031969655919805,
+      "p0": 0.0010159848279599024,
+      "witness_columns": [
+        "Наименование"
+      ]
+    },
+    "okved2.csv": {
+      "predictor": {
+        "windows": 2978,
+        "hits": 0,
+        "rate": 0.0,
+        "by_kind": {}
+      },
+      "duplicate_rate": 0.0,
+      "rule_of_three": 0.0010073875083948958,
+      "p0": 0.0010073875083948958,
+      "witness_columns": [
+        "Наименование"
+      ]
+    },
+    "oksm.csv": {
+      "predictor": {
+        "windows": 445,
+        "hits": 0,
+        "rate": 0.0,
+        "by_kind": {}
+      },
+      "duplicate_rate": 0.0,
+      "rule_of_three": 0.006741573033707865,
+      "p0": 0.006741573033707865,
+      "witness_columns": [
+        "Полное наименование по ОКСМ",
+        "Краткое наименование по ОКСМ"
+      ]
+    },
+    "okpdtr.csv": {
+      "predictor": {
+        "windows": 8174,
+        "hits": 6,
+        "rate": 0.0007340347443112308,
+        "by_kind": {
+          "increment": 6
+        }
+      },
+      "duplicate_rate": 0.0,
+      "rule_of_three": 0.0003670173721556154,
+      "p0": 0.0007340347443112308,
+      "witness_columns": [
+        "Наименование"
+      ]
+    },
+    "mos_metro_stations_2022.csv": {
+      "predictor": {
+        "windows": 298,
+        "hits": 0,
+        "rate": 0.0,
+        "by_kind": {}
+      },
+      "duplicate_rate": 0.0,
+      "rule_of_three": 0.010067114093959731,
+      "p0": 0.010067114093959731,
+      "witness_columns": [
+        "global_id",
+        "Наименование линии",
+        "Район"
+      ]
+    },
+    "mos_streets_omk_um_2022.csv": {
+      "predictor": {
+        "windows": 5398,
+        "hits": 4,
+        "rate": 0.0007410151908114116,
+        "by_kind": {
+          "increment": 4
+        }
+      },
+      "duplicate_rate": 0.0,
+      "rule_of_three": 0.0005557613931085587,
+      "p0": 0.0007410151908114116,
+      "witness_columns": [
+        "global_id",
+        "UM_CODE"
+      ]
+    },
+    "cardio_train.csv": {
+      "predictor": {
+        "windows": 69992,
+        "hits": 0,
+        "rate": 0.0,
+        "by_kind": {}
+      },
+      "duplicate_rate": 0.0,
+      "rule_of_three": 4.286204137615727e-05,
+      "p0": 4.286204137615727e-05,
+      "witness_columns": [
+        "age",
+        "weight"
+      ]
+    },
+    "alice_train_sessions.csv": {
+      "predictor": {
+        "windows": 99991,
+        "hits": 0,
+        "rate": 0.0,
+        "by_kind": {}
+      },
+      "duplicate_rate": 0.0,
+      "rule_of_three": 3.000270024302187e-05,
+      "p0": 3.000270024302187e-05,
+      "witness_columns": [
+        "time1",
+        "time2",
+        "time3"
+      ]
+    },
+    "telecom_churn.csv": {
+      "predictor": {
+        "windows": 3325,
+        "hits": 0,
+        "rate": 0.0,
+        "by_kind": {}
+      },
+      "duplicate_rate": 0.0,
+      "rule_of_three": 0.0009022556390977444,
+      "p0": 0.0009022556390977444,
+      "witness_columns": [
+        "Total day minutes",
+        "Total eve minutes",
+        "Total night minutes",
+        "Total intl minutes"
+      ]
+    }
+  },
+  "cells": {
+    "yandex/YandexGPT-5-Lite-8B-pretrain|alice_train_sessions.csv": {
+      "n": 250,
+      "matches": 0,
+      "rate": 0.0,
+      "p_vs_duplicate_rate_epsilon_null": 1.0,
+      "fragment_queries": 0,
+      "near_duplicate_queries": 0,
+      "predictor_hits_in_cell": 0,
+      "matches_that_are_predictor_hits": 0,
+      "null": {
+        "duplicate_rate": 0.0,
+        "predictor_rate": 0.0,
+        "rule_of_three": 3.000270024302187e-05,
+        "windows": 99991,
+        "p0": 3.000270024302187e-05
+      },
+      "after_rules": {
+        "tau": 0.1,
+        "matches": 0,
+        "n": 250,
+        "p": 1.0
+      },
+      "by_tau": {
+        "0.05": {
+          "matches": 0,
+          "n": 250,
+          "p": 1.0
+        },
+        "0.1": {
+          "matches": 0,
+          "n": 250,
+          "p": 1.0
+        },
+        "0.2": {
+          "matches": 0,
+          "n": 250,
+          "p": 1.0
+        },
+        "0.3": {
+          "matches": 0,
+          "n": 231,
+          "p": 1.0
+        }
+      },
+      "witness": {
+        "present": 738,
+        "reproduced": 0,
+        "columns_hit": [],
+        "by_tier": {
+          "content": {
+            "present": 738,
+            "reproduced": 0
+          }
+        }
+      },
+      "other_columns": {
+        "present": 3281,
+        "reproduced": 249
+      },
+      "positive": false
+    },
+    "yandex/YandexGPT-5-Lite-8B-pretrain|cardio_train.csv": {
+      "n": 250,
+      "matches": 0,
+      "rate": 0.0,
+      "p_vs_duplicate_rate_epsilon_null": 1.0,
+      "fragment_queries": 0,
+      "near_duplicate_queries": 0,
+      "predictor_hits_in_cell": 0,
+      "matches_that_are_predictor_hits": 0,
+      "null": {
+        "duplicate_rate": 0.0,
+        "predictor_rate": 0.0,
+        "rule_of_three": 4.286204137615727e-05,
+        "windows": 69992,
+        "p0": 4.286204137615727e-05
+      },
+      "after_rules": {
+        "tau": 0.1,
+        "matches": 0,
+        "n": 250,
+        "p": 1.0
+      },
+      "by_tau": {
+        "0.05": {
+          "matches": 0,
+          "n": 250,
+          "p": 1.0
+        },
+        "0.1": {
+          "matches": 0,
+          "n": 250,
+          "p": 1.0
+        },
+        "0.2": {
+          "matches": 0,
+          "n": 209,
+          "p": 1.0
+        },
+        "0.3": {
+          "matches": 0,
+          "n": 14,
+          "p": 1.0
+        }
+      },
+      "witness": {
+        "present": 461,
+        "reproduced": 4,
+        "columns_hit": [
+          "weight"
+        ],
+        "by_tier": {
+          "content": {
+            "present": 461,
+            "reproduced": 4
+          }
+        }
+      },
+      "other_columns": {
+        "present": 466,
+        "reproduced": 177
+      },
+      "positive": false
+    },
+    "yandex/YandexGPT-5-Lite-8B-pretrain|iris.csv": {
+      "n": 142,
+      "matches": 76,
+      "rate": 0.5352112676056338,
+      "p_vs_duplicate_rate_epsilon_null": 5.323276278364352e-89,
+      "fragment_queries": 0,
+      "near_duplicate_queries": 39,
+      "predictor_hits_in_cell": 0,
+      "matches_that_are_predictor_hits": 0,
+      "null": {
+        "duplicate_rate": 0.02,
+        "predictor_rate": 0.0,
+        "rule_of_three": 0.02112676056338028,
+        "windows": 142,
+        "p0": 0.02112676056338028
+      },
+      "after_rules": {
+        "tau": 0.1,
+        "matches": 52,
+        "n": 103,
+        "p": 2.1180526107782583e-58
+      },
+      "by_tau": {
+        "0.05": {
+          "matches": 76,
+          "n": 140,
+          "p": 7.110817602165688e-88
+        },
+        "0.1": {
+          "matches": 52,
+          "n": 103,
+          "p": 2.1180526107782583e-58
+        },
+        "0.2": {
+          "matches": 6,
+          "n": 9,
+          "p": 7.070925973799444e-09
+        },
+        "0.3": {
+          "matches": 1,
+          "n": 2,
+          "p": 0.041807181114858157
+        }
+      },
+      "witness": {
+        "present": 247,
+        "reproduced": 180,
+        "columns_hit": [
+          "petal_length",
+          "petal_width",
+          "sepal_length",
+          "sepal_width"
+        ],
+        "by_tier": {
+          "single": {
+            "present": 247,
+            "reproduced": 180
+          }
+        }
+      },
+      "other_columns": {
+        "present": 2,
+        "reproduced": 1
+      },
+      "positive": true
+    },
+    "yandex/YandexGPT-5-Lite-8B-pretrain|mkb10_v2.csv": {
+      "n": 250,
+      "matches": 60,
+      "rate": 0.24,
+      "p_vs_duplicate_rate_epsilon_null": 0.0,
+      "fragment_queries": 0,
+      "near_duplicate_queries": 27,
+      "predictor_hits_in_cell": 0,
+      "matches_that_are_predictor_hits": 0,
+      "null": {
+        "duplicate_rate": 0.0,
+        "predictor_rate": 0.0010159848279599024,
+        "rule_of_three": 0.0002031969655919805,
+        "windows": 14764,
+        "p0": 0.0010159848279599024
+      },
+      "after_rules": {
+        "tau": 0.1,
+        "matches": 46,
+        "n": 223,
+        "p": 2.254572075494947e-90
+      },
+      "by_tau": {
+        "0.05": {
+          "matches": 55,
+          "n": 240,
+          "p": 1.545661613311557e-110
+        },
+        "0.1": {
+          "matches": 46,
+          "n": 223,
+          "p": 2.254572075494947e-90
+        },
+        "0.2": {
+          "matches": 22,
+          "n": 167,
+          "p": 2.0463796729562294e-39
+        },
+        "0.3": {
+          "matches": 7,
+          "n": 105,
+          "p": 2.3311478833859936e-11
+        }
+      },
+      "witness": {
+        "present": 248,
+        "reproduced": 69,
+        "columns_hit": [
+          "Наименование"
+        ],
+        "by_tier": {
+          "content": {
+            "present": 248,
+            "reproduced": 69
+          }
+        }
+      },
+      "other_columns": {
+        "present": 752,
+        "reproduced": 660
+      },
+      "positive": true
+    },
+    "yandex/YandexGPT-5-Lite-8B-pretrain|mos_metro_stations_2022.csv": {
+      "n": 250,
+      "matches": 1,
+      "rate": 0.004,
+      "p_vs_duplicate_rate_epsilon_null": 2.4999996887500264e-07,
+      "fragment_queries": 0,
+      "near_duplicate_queries": 5,
+      "predictor_hits_in_cell": 0,
+      "matches_that_are_predictor_hits": 0,
+      "null": {
+        "duplicate_rate": 0.0,
+        "predictor_rate": 0.0,
+        "rule_of_three": 0.010067114093959731,
+        "windows": 298,
+        "p0": 0.010067114093959731
+      },
+      "after_rules": {
+        "tau": 0.1,
+        "matches": 0,
+        "n": 245,
+        "p": 1.0
+      },
+      "by_tau": {
+        "0.05": {
+          "matches": 1,
+          "n": 250,
+          "p": 0.9203037337148925
+        },
+        "0.1": {
+          "matches": 0,
+          "n": 245,
+          "p": 1.0
+        },
+        "0.2": {
+          "matches": 0,
+          "n": 203,
+          "p": 1.0
+        },
+        "0.3": {
+          "matches": 0,
+          "n": 94,
+          "p": 1.0
+        }
+      },
+      "witness": {
+        "present": 250,
+        "reproduced": 224,
+        "columns_hit": [
+          "global_id"
+        ],
+        "by_tier": {
+          "file": {
+            "present": 250,
+            "reproduced": 224
+          }
+        }
+      },
+      "other_columns": {
+        "present": 948,
+        "reproduced": 21
+      },
+      "positive": false
+    },
+    "yandex/YandexGPT-5-Lite-8B-pretrain|okved2.csv": {
+      "n": 250,
+      "matches": 23,
+      "rate": 0.092,
+      "p_vs_duplicate_rate_epsilon_null": 1.9355633335387205e-175,
+      "fragment_queries": 0,
+      "near_duplicate_queries": 10,
+      "predictor_hits_in_cell": 0,
+      "matches_that_are_predictor_hits": 0,
+      "null": {
+        "duplicate_rate": 0.0,
+        "predictor_rate": 0.0,
+        "rule_of_three": 0.0010073875083948958,
+        "windows": 2978,
+        "p0": 0.0010073875083948958
+      },
+      "after_rules": {
+        "tau": 0.1,
+        "matches": 19,
+        "n": 240,
+        "p": 6.166995908183731e-30
+      },
+      "by_tau": {
+        "0.05": {
+          "matches": 21,
+          "n": 246,
+          "p": 1.2386377728901755e-33
+        },
+        "0.1": {
+          "matches": 19,
+          "n": 240,
+          "p": 6.166995908183731e-30
+        },
+        "0.2": {
+          "matches": 7,
+          "n": 207,
+          "p": 2.57466981550958e-09
+        },
+        "0.3": {
+          "matches": 4,
+          "n": 168,
+          "p": 2.8902012975086648e-05
+        }
+      },
+      "witness": {
+        "present": 228,
+        "reproduced": 39,
+        "columns_hit": [
+          "Наименование"
+        ],
+        "by_tier": {
+          "content": {
+            "present": 228,
+            "reproduced": 39
+          }
+        }
+      },
+      "other_columns": {
+        "present": 812,
+        "reproduced": 547
+      },
+      "positive": true
+    },
+    "yandex/YandexGPT-5-Lite-8B-instruct|alice_train_sessions.csv": {
+      "n": 250,
+      "matches": 0,
+      "rate": 0.0,
+      "p_vs_duplicate_rate_epsilon_null": 1.0,
+      "fragment_queries": 0,
+      "near_duplicate_queries": 0,
+      "predictor_hits_in_cell": 0,
+      "matches_that_are_predictor_hits": 0,
+      "null": {
+        "duplicate_rate": 0.0,
+        "predictor_rate": 0.0,
+        "rule_of_three": 3.000270024302187e-05,
+        "windows": 99991,
+        "p0": 3.000270024302187e-05
+      },
+      "after_rules": {
+        "tau": 0.1,
+        "matches": 0,
+        "n": 250,
+        "p": 1.0
+      },
+      "by_tau": {
+        "0.05": {
+          "matches": 0,
+          "n": 250,
+          "p": 1.0
+        },
+        "0.1": {
+          "matches": 0,
+          "n": 250,
+          "p": 1.0
+        },
+        "0.2": {
+          "matches": 0,
+          "n": 250,
+          "p": 1.0
+        },
+        "0.3": {
+          "matches": 0,
+          "n": 231,
+          "p": 1.0
+        }
+      },
+      "witness": {
+        "present": 738,
+        "reproduced": 0,
+        "columns_hit": [],
+        "by_tier": {
+          "content": {
+            "present": 738,
+            "reproduced": 0
+          }
+        }
+      },
+      "other_columns": {
+        "present": 3281,
+        "reproduced": 248
+      },
+      "positive": false
+    },
+    "yandex/YandexGPT-5-Lite-8B-instruct|cardio_train.csv": {
+      "n": 250,
+      "matches": 0,
+      "rate": 0.0,
+      "p_vs_duplicate_rate_epsilon_null": 1.0,
+      "fragment_queries": 0,
+      "near_duplicate_queries": 0,
+      "predictor_hits_in_cell": 0,
+      "matches_that_are_predictor_hits": 0,
+      "null": {
+        "duplicate_rate": 0.0,
+        "predictor_rate": 0.0,
+        "rule_of_three": 4.286204137615727e-05,
+        "windows": 69992,
+        "p0": 4.286204137615727e-05
+      },
+      "after_rules": {
+        "tau": 0.1,
+        "matches": 0,
+        "n": 250,
+        "p": 1.0
+      },
+      "by_tau": {
+        "0.05": {
+          "matches": 0,
+          "n": 250,
+          "p": 1.0
+        },
+        "0.1": {
+          "matches": 0,
+          "n": 250,
+          "p": 1.0
+        },
+        "0.2": {
+          "matches": 0,
+          "n": 209,
+          "p": 1.0
+        },
+        "0.3": {
+          "matches": 0,
+          "n": 14,
+          "p": 1.0
+        }
+      },
+      "witness": {
+        "present": 461,
+        "reproduced": 0,
+        "columns_hit": [],
+        "by_tier": {
+          "content": {
+            "present": 461,
+            "reproduced": 0
+          }
+        }
+      },
+      "other_columns": {
+        "present": 466,
+        "reproduced": 174
+      },
+      "positive": false
+    },
+    "yandex/YandexGPT-5-Lite-8B-instruct|iris.csv": {
+      "n": 142,
+      "matches": 53,
+      "rate": 0.3732394366197183,
+      "p_vs_duplicate_rate_epsilon_null": 5.895955573609737e-52,
+      "fragment_queries": 0,
+      "near_duplicate_queries": 39,
+      "predictor_hits_in_cell": 0,
+      "matches_that_are_predictor_hits": 0,
+      "null": {
+        "duplicate_rate": 0.02,
+        "predictor_rate": 0.0,
+        "rule_of_three": 0.02112676056338028,
+        "windows": 142,
+        "p0": 0.02112676056338028
+      },
+      "after_rules": {
+        "tau": 0.1,
+        "matches": 37,
+        "n": 103,
+        "p": 3.5033337129568883e-35
+      },
+      "by_tau": {
+        "0.05": {
+          "matches": 53,
+          "n": 140,
+          "p": 3.9725068331167846e-51
+        },
+        "0.1": {
+          "matches": 37,
+          "n": 103,
+          "p": 3.5033337129568883e-35
+        },
+        "0.2": {
+          "matches": 2,
+          "n": 9,
+          "p": 0.014557268322896218
+        },
+        "0.3": {
+          "matches": 0,
+          "n": 2,
+          "p": 1.0
+        }
+      },
+      "witness": {
+        "present": 247,
+        "reproduced": 145,
+        "columns_hit": [
+          "petal_length",
+          "petal_width",
+          "sepal_length",
+          "sepal_width"
+        ],
+        "by_tier": {
+          "single": {
+            "present": 247,
+            "reproduced": 145
+          }
+        }
+      },
+      "other_columns": {
+        "present": 2,
+        "reproduced": 0
+      },
+      "positive": true
+    },
+    "yandex/YandexGPT-5-Lite-8B-instruct|mkb10_v2.csv": {
+      "n": 250,
+      "matches": 46,
+      "rate": 0.184,
+      "p_vs_duplicate_rate_epsilon_null": 0.0,
+      "fragment_queries": 0,
+      "near_duplicate_queries": 27,
+      "predictor_hits_in_cell": 0,
+      "matches_that_are_predictor_hits": 0,
+      "null": {
+        "duplicate_rate": 0.0,
+        "predictor_rate": 0.0010159848279599024,
+        "rule_of_three": 0.0002031969655919805,
+        "windows": 14764,
+        "p0": 0.0010159848279599024
+      },
+      "after_rules": {
+        "tau": 0.1,
+        "matches": 34,
+        "n": 223,
+        "p": 2.3634124049206735e-62
+      },
+      "by_tau": {
+        "0.05": {
+          "matches": 43,
+          "n": 240,
+          "p": 1.0940728560455613e-81
+        },
+        "0.1": {
+          "matches": 34,
+          "n": 223,
+          "p": 2.3634124049206735e-62
+        },
+        "0.2": {
+          "matches": 16,
+          "n": 167,
+          "p": 9.292250439662696e-27
+        },
+        "0.3": {
+          "matches": 5,
+          "n": 105,
+          "p": 9.60495494070469e-08
+        }
+      },
+      "witness": {
+        "present": 248,
+        "reproduced": 56,
+        "columns_hit": [
+          "Наименование"
+        ],
+        "by_tier": {
+          "content": {
+            "present": 248,
+            "reproduced": 56
+          }
+        }
+      },
+      "other_columns": {
+        "present": 752,
+        "reproduced": 642
+      },
+      "positive": true
+    },
+    "yandex/YandexGPT-5-Lite-8B-instruct|mos_metro_stations_2022.csv": {
+      "n": 250,
+      "matches": 2,
+      "rate": 0.008,
+      "p_vs_duplicate_rate_epsilon_null": 3.112499485400056e-14,
+      "fragment_queries": 0,
+      "near_duplicate_queries": 5,
+      "predictor_hits_in_cell": 0,
+      "matches_that_are_predictor_hits": 0,
+      "null": {
+        "duplicate_rate": 0.0,
+        "predictor_rate": 0.0,
+        "rule_of_three": 0.010067114093959731,
+        "windows": 298,
+        "p0": 0.010067114093959731
+      },
+      "after_rules": {
+        "tau": 0.1,
+        "matches": 0,
+        "n": 245,
+        "p": 1.0
+      },
+      "by_tau": {
+        "0.05": {
+          "matches": 2,
+          "n": 250,
+          "p": 0.7176861075663168
+        },
+        "0.1": {
+          "matches": 0,
+          "n": 245,
+          "p": 1.0
+        },
+        "0.2": {
+          "matches": 0,
+          "n": 203,
+          "p": 1.0
+        },
+        "0.3": {
+          "matches": 0,
+          "n": 94,
+          "p": 1.0
+        }
+      },
+      "witness": {
+        "present": 250,
+        "reproduced": 223,
+        "columns_hit": [
+          "global_id"
+        ],
+        "by_tier": {
+          "file": {
+            "present": 250,
+            "reproduced": 223
+          }
+        }
+      },
+      "other_columns": {
+        "present": 948,
+        "reproduced": 30
+      },
+      "positive": false
+    },
+    "yandex/YandexGPT-5-Lite-8B-instruct|okved2.csv": {
+      "n": 250,
+      "matches": 26,
+      "rate": 0.104,
+      "p_vs_duplicate_rate_epsilon_null": 1.4321865911496711e-199,
+      "fragment_queries": 0,
+      "near_duplicate_queries": 10,
+      "predictor_hits_in_cell": 0,
+      "matches_that_are_predictor_hits": 0,
+      "null": {
+        "duplicate_rate": 0.0,
+        "predictor_rate": 0.0,
+        "rule_of_three": 0.0010073875083948958,
+        "windows": 2978,
+        "p0": 0.0010073875083948958
+      },
+      "after_rules": {
+        "tau": 0.1,
+        "matches": 22,
+        "n": 240,
+        "p": 7.275604401117232e-36
+      },
+      "by_tau": {
+        "0.05": {
+          "matches": 24,
+          "n": 246,
+          "p": 1.1738856043824335e-39
+        },
+        "0.1": {
+          "matches": 22,
+          "n": 240,
+          "p": 7.275604401117232e-36
+        },
+        "0.2": {
+          "matches": 11,
+          "n": 207,
+          "p": 5.172434288291475e-16
+        },
+        "0.3": {
+          "matches": 6,
+          "n": 168,
+          "p": 2.593034854930573e-08
+        }
+      },
+      "witness": {
+        "present": 228,
+        "reproduced": 38,
+        "columns_hit": [
+          "Наименование"
+        ],
+        "by_tier": {
+          "content": {
+            "present": 228,
+            "reproduced": 38
+          }
+        }
+      },
+      "other_columns": {
+        "present": 812,
+        "reproduced": 520
+      },
+      "positive": true
+    }
+  },
+  "pairs": {
+    "alice_train_sessions.csv": {
+      "after_rules": {
+        "same_rows": true,
+        "n": 250,
+        "both": 0,
+        "first_only": 0,
+        "second_only": 0,
+        "p": 1.0
+      },
+      "all_queries": {
+        "same_rows": true,
+        "n": 250,
+        "both": 0,
+        "first_only": 0,
+        "second_only": 0,
+        "p": 1.0
+      }
+    },
+    "cardio_train.csv": {
+      "after_rules": {
+        "same_rows": true,
+        "n": 250,
+        "both": 0,
+        "first_only": 0,
+        "second_only": 0,
+        "p": 1.0
+      },
+      "all_queries": {
+        "same_rows": true,
+        "n": 250,
+        "both": 0,
+        "first_only": 0,
+        "second_only": 0,
+        "p": 1.0
+      }
+    },
+    "iris.csv": {
+      "after_rules": {
+        "same_rows": true,
+        "n": 103,
+        "both": 30,
+        "first_only": 22,
+        "second_only": 7,
+        "p": 0.008130058646202087
+      },
+      "all_queries": {
+        "same_rows": true,
+        "n": 142,
+        "both": 45,
+        "first_only": 31,
+        "second_only": 8,
+        "p": 0.0002940768754342571
+      }
+    },
+    "mkb10_v2.csv": {
+      "after_rules": {
+        "same_rows": true,
+        "n": 223,
+        "both": 24,
+        "first_only": 22,
+        "second_only": 10,
+        "p": 0.050102459732443094
+      },
+      "all_queries": {
+        "same_rows": true,
+        "n": 250,
+        "both": 34,
+        "first_only": 26,
+        "second_only": 12,
+        "p": 0.03355243967962451
+      }
+    },
+    "mos_metro_stations_2022.csv": {
+      "after_rules": {
+        "same_rows": true,
+        "n": 245,
+        "both": 0,
+        "first_only": 0,
+        "second_only": 0,
+        "p": 1.0
+      },
+      "all_queries": {
+        "same_rows": true,
+        "n": 250,
+        "both": 0,
+        "first_only": 1,
+        "second_only": 2,
+        "p": 1.0
+      }
+    },
+    "okved2.csv": {
+      "after_rules": {
+        "same_rows": true,
+        "n": 240,
+        "both": 14,
+        "first_only": 5,
+        "second_only": 8,
+        "p": 0.5810546875
+      },
+      "all_queries": {
+        "same_rows": true,
+        "n": 250,
+        "both": 18,
+        "first_only": 5,
+        "second_only": 8,
+        "p": 0.5810546875
+      }
+    }
+  }
+}

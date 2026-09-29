@@ -245,15 +245,30 @@ session itself is `notebooks/session.json`.
       feature prompt with a new record on four files — the FAIL_ADAPTER floor
       now covers feature cells, which re-labels two Vikhr cells of E2
       inconclusive (no count changed). → `reports/RESULTS_EXPOSURE.md` Part IV
-- [ ] **Session Y2** (`notebooks/session.json`): `exposure_1` on the YandexGPT
-      pair (5.7 h estimated, 7.7 h at the worst overrun): row completion on
-      МКБ-10 and ОКВЭД with the frozen distance bins, cardio, alice, metro.
-      Closes the H2e family for the pair: run `src/family_holm.py` over the
-      Y1 and Y2 scoring files, and `src/classifier_diagnostics.py --e1 --e2`.
-      The results files must now carry `load.tokenizer` (round-trip report).
-- [ ] Then: `ru_probe` on the YandexGPT pair (6.1 h, its own session); C2
-      `ru_probe_long` on the Nemo pair — check the iris anchor 51/142 on
-      transformers 5.14.1 there; OLMo; GigaChat after its smoke test.
+- [x] **Session Y2** (2026-09-29): `exposure_1` on the YandexGPT pair, 11/11
+      cells each, 5 h 09 and 5 h 18 against 5.7 h, all reproduced. МКБ-10 row
+      46/223 and 34/223, ОКВЭД 2 row 19/240 and 22/240 — positive; cardio and
+      metro negative, alice inconclusive. **The frozen distance bins separate
+      the lineages: far from every prompt name the Yandex models name the next
+      МКБ-10 rubric 18/121, the Nemo models 2 and 3 (McNemar p 3e-5, 6e-5)**;
+      no model reproduces a file-specific field the prompt hides (0/11, 0/2) —
+      the classification as ordered text, not the file. H2e family of the pair
+      and joint family of four models: same verdicts; **H2e confirmed for a
+      from-scratch Russian model**; strong form holds so far only for ОКВЭД
+      feature. → `reports/RESULTS_EXPOSURE.md` Part V,
+      `src/sequence_recall.py`
+- [ ] **Session Y3** (`notebooks/session.json`): `ru_probe` on the YandexGPT
+      pair (6.1 h): the `AMENDMENT_1` files + fresh control + iris anchor —
+      prediction 3 of `AMENDMENT_9` and H2 proper on a from-scratch Russian
+      model. Attach `trudvsem_vacancies_2026.csv` as in C1. Score with
+      `prefix_baseline.py`; the H2 family (`AMENDMENT_1` files) is separate
+      from H2e.
+- [ ] Then one session, four models on `ru_probe_long` (russian_retail +
+      iris): C2 on the Nemo pair — check the iris anchor 51/142 and 32/142 on
+      transformers 5.14.1 — beside the Yandex pair (~7.5 h per card). Then
+      OLMo; GigaChat after its smoke test (add its instruct name to
+      `family_holm.ADAPTED_MARKERS`); regenerate the joint H2e family after
+      every model.
 - [ ] Then both plans on the YandexGPT and GigaChat pairs and on the controls,
       so that the exposure figure has every model on the same files. The strong
       form of H2e is already ruled out on these two files: the multilingual base

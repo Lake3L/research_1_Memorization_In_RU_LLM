@@ -23,6 +23,10 @@ a_notes.md
 # experiment outputs (committed selectively via results/)
 outputs/
 wandb/
+# what the hosted session writes beside the results: its own file listing, and
+# per-run console logs that repeat the results files (kept only for a failed run)
+results/__huggingface_repos__.json
+results/run*_gpu*.log
 
 # dataset payloads: registry.json carries provenance and hashes, files are refetched by scripts
 data/*/variants/

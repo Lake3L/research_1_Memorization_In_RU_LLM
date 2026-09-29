@@ -1,18 +1,18 @@
 {
   "_what": "The runs this GPU session performs. The notebook reads this file from the repository checkout, so the experiment is defined in version control rather than in a notebook copy.",
   "_rule": "To change what runs: edit this file, commit, push. The notebook needs no changes.",
-  "session_id": "2026-09-28-block-C-Y2-yandexgpt-exposure_1",
-  "purpose": "Session Y2: plan exposure_1 on the YandexGPT-5-Lite-8B pair, one model per card. Y1 (2026-09-27/28) found the pair naming ОКВЭД 2 codes by feature completion (32 and 28 of 250 against a 3.4% baseline) and not naming МКБ-10 (reports/RESULTS_EXPOSURE.md Part IV). exposure_1 adds the row-completion side of the same two classifiers, scored with the distance bins frozen in src/classifier_diagnostics.py, plus header and row on cardio_train, alice_train_sessions and the Moscow metro export; with it the H2e family of the pair is complete and gets its Holm verdict. iris anchors the plan: 76/142 for the pretrain model and 53/142 for the instruct model in both Y1 plans. The runner enforces transformers 5.14.1 and SentencePiece and tests the tokenizer on a probe string; the results files must now carry the round-trip report under load.tokenizer.",
-  "dataset_group": "canon,ru_exposure",
+  "session_id": "2026-09-29-block-C-Y3-yandexgpt-ru_probe",
+  "purpose": "Session Y3: plan ru_probe on the YandexGPT-5-Lite-8B pair, one model per card — the four Russian pre-cutoff files of AMENDMENT_1 with rows under 200 tokens (hflabs_city, govdomains, mos_zemelnye_uchastki, mos_torgovye_obekty), the fresh control trudvsem_vacancies_2026, and iris as the in-session anchor; header and row completion, the same cells the Nemo pair ran in session C1. It tests prediction 3 of AMENDMENT_9 and H2 proper on a model trained from scratch on Russian: after Y1 and Y2 this pair holds МКБ-10 as ordered text and names ОКВЭД 2 codes (reports/RESULTS_EXPOSURE.md Parts IV-V), where the Nemo pair was negative on every one of these files. iris must return 76/142 and 53/142 as in Y1 and Y2. russian_retail (ru_probe_long) runs in the next session together with the Nemo pair's C2, so that four models meet that file in one session.",
+  "dataset_group": "canon,ru_pre_cutoff,fresh_control",
   "datasets": [
     "iris",
-    "mkb10_v2",
-    "okved2",
-    "cardio_train",
-    "alice_train_sessions",
-    "mos_metro_stations_2022"
+    "hflabs_city",
+    "govdomains",
+    "mos_zemelnye_uchastki",
+    "mos_torgovye_obekty",
+    "trudvsem_vacancies_2026"
   ],
-  "attached_input": "the nine ru_exposure CSVs, attached as one Kaggle dataset (loose or zipped); the fetch step adopts them from /kaggle/input, looks inside zips, and verifies every hash before any weights load",
+  "attached_input": "trudvsem_vacancies_2026.csv — the frozen fresh control, attached as a Kaggle dataset as in session C1; it cannot be re-fetched. The other four Russian files are fetched from their registered sources and hash-checked before any weights load",
   "variant": "raw",
   "prompt_language": "en",
   "load_in_4bit": true,
@@ -28,20 +28,20 @@
       "--group"
     ],
     "plans": [
-      "exposure_1"
+      "ru_probe"
     ],
     "note": "verified against the checkout before any weights are downloaded"
   },
   "runs": [
     {
       "model": "yandex/YandexGPT-5-Lite-8B-pretrain",
-      "extra": "--plan exposure_1 --protocol reference --prompting completion",
-      "why": "the pretrain model; 5.7 h by src/price_plan.py with its own tokenizer, which priced Y1 exactly; 7.7 h at the worst overrun seen (35%)"
+      "extra": "--plan ru_probe --protocol reference --prompting completion",
+      "why": "the pretrain model; 6.1 h by src/price_plan.py with its own tokenizer, which priced the three earlier plans of this model within 10%; the Nemo pair's C1 of the same plan scaled by this model's speed on exposure_1 gives 5.8 h"
     },
     {
       "model": "yandex/YandexGPT-5-Lite-8B-instruct",
-      "extra": "--plan exposure_1 --protocol reference --prompting completion",
-      "why": "its instruct model, same cells, same seed, the other card. Needs the T4 x2 accelerator; ru_probe (6.1 h) is not added because the two plans together exceed the 10 h session ceiling of AMENDMENT_9 §7"
+      "extra": "--plan ru_probe --protocol reference --prompting completion",
+      "why": "its instruct model, same cells, same seed, the other card. Needs the T4 x2 accelerator"
     }
   ]
 }

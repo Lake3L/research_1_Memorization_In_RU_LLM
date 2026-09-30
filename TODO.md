@@ -257,16 +257,21 @@ session itself is `notebooks/session.json`.
       from-scratch Russian model**; strong form holds so far only for ОКВЭД
       feature. → `reports/RESULTS_EXPOSURE.md` Part V,
       `src/sequence_recall.py`
-- [ ] **Session Y3** (`notebooks/session.json`): `ru_probe` on the YandexGPT
-      pair (6.1 h): the `AMENDMENT_1` files + fresh control + iris anchor —
-      prediction 3 of `AMENDMENT_9` and H2 proper on a from-scratch Russian
-      model. Attach `trudvsem_vacancies_2026.csv` as in C1. Score with
-      `prefix_baseline.py`; the H2 family (`AMENDMENT_1` files) is separate
-      from H2e.
-- [ ] Then one session, four models on `ru_probe_long` (russian_retail +
-      iris): C2 on the Nemo pair — check the iris anchor 51/142 and 32/142 on
-      transformers 5.14.1 — beside the Yandex pair (~7.5 h per card). Then
-      OLMo; GigaChat after its smoke test (add its instruct name to
+- [x] **Session Y3** (2026-09-29/30): `ru_probe` on the YandexGPT pair, 12/12
+      cells each, 5 h 19 min against 6.1 h, all reproduced, iris 76 and 53.
+      **Every `AMENDMENT_1` file negative for both members, as for the Nemo
+      pair in C1**: hflabs, land plots, trade objects 0; govdomains 36 and 31
+      by the library, 1/111 after R1+R4 (near-duplicates again); fresh control
+      at zero. Outcome (iii) of `AMENDMENT_8` §3 so far; prediction 3 of
+      `AMENDMENT_9` holds. → `reports/RESULTS_EXPOSURE.md` Part VI
+- [ ] **Session C2** (`notebooks/session.json`): `ru_probe_long`
+      (russian_retail + iris) on four models — the Nemo pair first, then the
+      Yandex pair — 7.5 h per card, `--free-weights-after` so the disk holds
+      at most two checkpoints. Check the Nemo iris anchor 51/142 and 32/142 on
+      transformers 5.14.1 and the `[disk]` lines in the run logs. Then write
+      the H2 family (`family_holm.py --group ru_pre_cutoff`) over the four
+      models.
+- [ ] Then OLMo; GigaChat after its smoke test (add its instruct name to
       `family_holm.ADAPTED_MARKERS`); regenerate the joint H2e family after
       every model.
 - [ ] Then both plans on the YandexGPT and GigaChat pairs and on the controls,

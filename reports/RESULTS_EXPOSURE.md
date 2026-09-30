@@ -52,6 +52,13 @@ code-to-name retrieval on МКБ-10 stays at 10 of 250. Of `AMENDMENT_9`'s
 prediction 2 both files are now met for a from-scratch Russian model;
 prediction 2b, cardio positive for every model, is refuted on all four.
 
+**What Part VI adds (2026-09-30).** On the four `AMENDMENT_1` files of the H2
+family the YandexGPT pair is negative, exactly as the Nemo pair was: 0 rows on
+three files, and on govdomains 36 and 31 library matches that the
+near-duplicate rule reduces to 1 of 111, as it did for the Nemo pair. The
+model that holds МКБ-10 and ОКВЭД 2 holds none of the single-copy files —
+outcome (iii) of `AMENDMENT_8` §3 so far; the fresh control stays at zero.
+
 ---
 
 # Part I — session E1
@@ -928,3 +935,90 @@ python src/family_holm.py --prefix <the four prefix_baseline_exposure files> --d
 python src/sequence_recall.py --log yandex_pretrain=<Y2 pretrain> --log yandex_instruct=<Y2 instruct> --log mistral_nemo=<E1 base> --log vikhr_nemo=<E1 adapted> --pair yandex_pretrain:mistral_nemo --pair yandex_instruct:vikhr_nemo --pair yandex_pretrain:yandex_instruct --out results/sequence_recall_20260929T045154Z.json
 ```
 The `2026092[0379]` pattern leaves out the void attempts of 09-24 and 09-25.
+
+---
+
+# Part VI — session Y3: the `AMENDMENT_1` files on the YandexGPT pair
+
+## 33. The session
+
+Session Y3, plan `ru_probe`, 2026-09-29 18:24 to 23:49 UTC.
+Same pair and setup as Y1 and Y2 (§17, §26); the tokenizer round-trip is
+recorded in both results files. The four Russian pre-cutoff files of
+`AMENDMENT_1` with rows under 200 tokens, the fresh control and the iris
+anchor, header and row completion — the cells the Nemo pair ran in session C1
+(2026-09-08). 12 of 12 cells per model, 5 h 19 min each against 6.1 h
+estimated; every cell reproduces from its raw log (`src/rescore_calls.py`,
+6/6 per model). iris: 76/142 and 53/142 for the fourth time, header passed.
+
+## 34. Four models, one answer
+
+Row completion under `AMENDMENT_7` R1–R4 (`src/prefix_baseline.py`), the
+Nemo pair from C1 beside the Yandex pair on identical prompts:
+
+| file | Mistral-Nemo | Vikhr-Nemo | YandexGPT pretrain | YandexGPT instruct | well-formed | verdict |
+|---|---|---|---|---|---|---|
+| hflabs_city | 0/250 | 0/250 | 0/250 | 0/250 | 73–83% | negative, all four |
+| govdomains | 32 → 2/111 | 19 → 1/111 | 36 → 1/111 | 31 → 1/111 | 84–91% | negative, all four |
+| mos_zemelnye_uchastki | 0/249 | 0/249 | 0/249 | 0/249 | 58–84% | negative, all four |
+| mos_torgovye_obekty | 0/234 | 0/234 | 0/234 | 0/234 | 62–69% | negative, all four |
+| trudvsem_vacancies_2026 (fresh control) | 0/207 | 0/207 | 0/207 | 0/207 | 34–44% | zero, all four |
+
+"32 → 2/111" is the library's count and the count over the queries R1 and
+R4 keep. The header test failed on every file for every model. No witness
+value absent from the prompt was reproduced on any of the four files by
+either Yandex model, except 1 and 2 of 394 on the trade-objects registry
+(`Номер свидетельства`, `Дата свидетельства`), in cells with no row match.
+The smallest raw p of the Yandex pair on these files is 0.93; no correction
+is needed to call them negative.
+
+**govdomains** fires by the library's count for every model, and for the
+same reason: 124 of its 250 queries continue a row within 0.1 of a prompt
+row, and 15 target a line that is not a record. That is the finding C1 made
+on the Nemo pair and that `AMENDMENT_7` was written for; a from-scratch
+Russian model changes nothing about it. After the rules the four models
+reproduce 1–2 rows of 111 against a null of 2.3%.
+
+**The fresh control** stays at zero for all four models, so the instrument
+produced no false positive on a file no model can have seen. Its answers are
+row-shaped only 34–44% of the time — the vacancy texts are long quoted
+fields — so its zero is a check on false positives, not a strong negative;
+the same was true in C1.
+
+## 35. What this says about H2
+
+A model trained from scratch on a Russian-heavy corpus, which holds МКБ-10 as
+ordered text and names ОКВЭД 2 codes (Parts IV–V), reproduces nothing of the
+four `AMENDMENT_1` files that the multilingual pair did not. `AMENDMENT_8` §3
+wrote the three outcomes down before YandexGPT ran; the one that obtains so
+far is (iii): the Russian-centric model at zero on every Russian file of the
+H2 family while it fires on the tables the web repeats. The exposure
+covariate agrees for three of the four files — govdomains, the land-plot and
+the trade-objects registries have no GitHub copy of either fragment row
+(`data/exposure_counts.json`) — and does not for the fourth: hflabs_city has
+26 and 31 hits for its two fragment rows and 36,608 files named `city.csv`,
+and still gives 0 of 250, with none of its 999 absent witness values
+(`fias_id`, coordinates, population) reproduced. Its rows are identifiers and
+coordinates keyed to city names; the names are world knowledge, the
+identifiers are the file, and no model holds the file.
+
+The H2 verdict is not stated yet. The family needs `russian_retail`
+(`ru_probe_long`, next session) and the remaining Russian-centric models —
+GigaChat-20B-A3B, and the two Qwen adaptations (T-lite, ruadapt-Qwen). As it
+stands, H2 is negative on 4 of 5 files for 3 of the 7 Russian-centric models
+(Vikhr-Nemo and the YandexGPT pair; T-lite, ruadapt-Qwen and the GigaChat
+pair to come), with the positive-control gate passed and the fresh control at
+zero: the refutation condition of H2 (`PREREGISTRATION.md` §6) is on course, and prediction
+3 of `AMENDMENT_9` (the `AMENDMENT_1` files stay negative) holds for YandexGPT.
+
+## 36. Files
+
+`results/calls_ru_probe_yandex_*_20260929T182458Z.jsonl`,
+`results/gateA_ru_probe_yandex_*_20260929T182458Z.json`,
+`results/prefix_baseline_ru_probe_20260929T182458Z.json`; the Nemo pair's C1
+cells from `results/prefix_baseline_ru_probe_20260908T121529Z.json`.
+
+```
+python src/rescore_calls.py results/calls_ru_probe_yandex_<model>_20260929T182458Z.jsonl --results results/gateA_ru_probe_yandex_<model>_20260929T182458Z.json
+python src/prefix_baseline.py results/calls_ru_probe_yandex_*_20260929T182458Z.jsonl --out results/prefix_baseline_ru_probe_20260929T182458Z.json
+```

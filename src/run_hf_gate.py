@@ -332,6 +332,11 @@ def main():
                          "'uci-wine.csv:row,adult-train.csv:header'. Lets a session "
                          "repair the cells a previous one lost without paying for the "
                          "whole plan again")
+    ap.add_argument("--free-weights-after", action="store_true",
+                    help="delete this model's files from the Hugging Face cache once "
+                         "a complete run is written, so that a session queueing more "
+                         "models than its disk holds at once can run them one after "
+                         "another; an incomplete run keeps them for its repair")
     ap.add_argument("--out-dir", default=os.path.join(ROOT, "results"))
     args = ap.parse_args()
 
@@ -408,6 +413,14 @@ def main():
             for i in range(torch.cuda.device_count()):
                 total = torch.cuda.get_device_properties(i).total_memory / 1e9
                 print(f"[gpu {i}] {torch.cuda.get_device_name(i)} — {total:.1f} GB")
+        try:  # recorded so that a download that fills the disk is visible as such
+            import shutil
+            from huggingface_hub.constants import HF_HUB_CACHE
+            os.makedirs(HF_HUB_CACHE, exist_ok=True)
+            print(f"[disk] {shutil.disk_usage(HF_HUB_CACHE).free / 1e9:.1f} GB free on the "
+                  f"cache disk ({HF_HUB_CACHE})", flush=True)
+        except Exception:  # noqa: BLE001 — informational only
+            pass
         print(f"[model] loading {args.model} rev={revision} on {device} "
               f"{'in 4-bit' if args.load_in_4bit else 'unquantized'}, "
               f"device_map={device_map}")
@@ -565,7 +578,40 @@ def main():
     print(f"wrote {out_path}")
     if os.path.exists(call_log):
         print(f"wrote {call_log} ({sum(1 for _ in open(call_log, encoding='utf-8'))} calls)")
+    if args.free_weights_after and args.mock == "none":
+        if verdict["complete"]:
+            free_weights(args.model)
+        else:
+            print("[disk] run incomplete: weights kept for the repair run")
     return 0 if verdict["verdict"] == "PASS" else 1
+
+
+def free_weights(model_name):
+    """Delete a model's files from the Hugging Face cache.
+
+    A hosted session has one disk for every model it downloads. The Nemo pair
+    (about 49 GB of checkpoints) fitted beside each other; the Nemo pair
+    followed by the YandexGPT pair (another 32 GB) may not. With this, each
+    model's checkpoint is removed once its run is written, and the next model
+    queued on the card downloads into the space. Never fatal: whatever goes
+    wrong here, the results are already on disk.
+    """
+    import shutil
+    try:
+        from huggingface_hub import scan_cache_dir
+        cache = scan_cache_dir()
+        repos = [r for r in cache.repos if r.repo_id == model_name and r.repo_type == "model"]
+        if not repos:
+            print(f"[disk] {model_name} not found in the cache; nothing freed", flush=True)
+            return
+        strategy = cache.delete_revisions(*(rev.commit_hash for r in repos for rev in r.revisions))
+        strategy.execute()
+        free = shutil.disk_usage(os.path.dirname(str(repos[0].repo_path))).free
+        print(f"[disk] freed {strategy.expected_freed_size / 1e9:.1f} GB of {model_name}; "
+              f"{free / 1e9:.1f} GB free on the cache disk", flush=True)
+    except Exception as error:  # noqa: BLE001 — the run is written; report and move on
+        print(f"[disk] weights of {model_name} not freed: {type(error).__name__}: {error}",
+              flush=True)
 
 
 def versions():

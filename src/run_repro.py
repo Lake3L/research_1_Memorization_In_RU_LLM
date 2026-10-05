@@ -355,12 +355,27 @@ def response_diagnostics(suffixes, responses):
                 return line.strip()
         return ""
 
-    well_formed, distances = 0, []
+    import csv
+
+    def n_fields(line, sep):
+        try:
+            return len(next(csv.reader([line], delimiter=sep)))
+        except (csv.Error, StopIteration):
+            return 0
+
+    # Two readings of "row-shaped". The delimiter count is what the gate rule was
+    # first run with; it miscounts any file whose quoted fields contain the
+    # delimiter (russian_retail: 3.6% against 84% parsed, session C2). The CSV
+    # field count respects quotes and is what the FAIL_ADAPTER floor reads from
+    # 2026-10-04 on (src/row_shape.py recomputes it for earlier logs).
+    well_formed, csv_shaped, distances = 0, 0, []
     for suffix, response in zip(suffixes, responses):
         truth, got = str(suffix).strip(), first_line(response)
         sep = infer_separator(truth)
         if truth.count(sep) > 0 and got.count(sep) == truth.count(sep):
             well_formed += 1
+        if got and n_fields(got, sep) == n_fields(truth, sep):
+            csv_shaped += 1
         if truth or got:
             a, b = normalise_numbers(truth, sep), normalise_numbers(got, sep)
             distances.append(jellyfish.levenshtein_distance(a, b)
@@ -368,6 +383,7 @@ def response_diagnostics(suffixes, responses):
     n = len(distances)
     return {
         "well_formed_rate": round(well_formed / len(responses), 4) if responses else 0.0,
+        "csv_shape_rate": round(csv_shaped / len(responses), 4) if responses else 0.0,
         "mean_normalized_levenshtein": round(sum(distances) / n, 4) if n else None,
         "near_match_rate": round(sum(1 for d in distances if d <= 0.1) / n, 4) if n else None,
     }

@@ -67,21 +67,38 @@ def main():
     ap.add_argument("--diagnostics", nargs="+", required=True)
     ap.add_argument("--results", nargs="+", required=True)
     ap.add_argument("--group", default="ru_exposure")
+    ap.add_argument("--shape", nargs="*", default=[],
+                    help="results/row_shape_<stamp>.json from src/row_shape.py: the row "
+                         "shape read as CSV with quotes respected, which replaces the "
+                         "runner's delimiter count for the FAIL_ADAPTER floor")
     ap.add_argument("--out", required=True)
     args = ap.parse_args()
 
     from dataset_registry import load_registry
     members = {f"{n}.csv" for n, r in load_registry().items() if r["group"] == args.group}
 
-    well_formed, header = {}, []
+    csv_shape = {}
+    for path in args.shape:
+        for c in json.load(open(path, encoding="utf-8"))["cells"]:
+            csv_shape[(c["model"], c["dataset"])] = c["csv_fields_rate"]
+
+    well_formed, header, not_measured = {}, [], []
     for pattern in args.results:
         for path in sorted(glob.glob(pattern)):
             run = json.load(open(path, encoding="utf-8"))
             for c in run["results"]:
                 if c["dataset_key"] not in members:
                     continue
+                if "error" in c:
+                    # a cell the run lost (e.g. CUDA out of memory) has no count;
+                    # whatever calls it logged before failing do not make a cell
+                    not_measured.append({"model": run["model"], "dataset": c["dataset_key"],
+                                         "test": c["test"], "error": c["error"][:120]})
+                    continue
                 if c["test"] == "row":
-                    well_formed[(run["model"], c["dataset_key"])] = c.get("well_formed_rate")
+                    well_formed[(run["model"], c["dataset_key"])] = csv_shape.get(
+                        (run["model"], c["dataset_key"]),
+                        c.get("csv_shape_rate", c.get("well_formed_rate")))
                 elif c["test"] == "header":
                     header.append({"model": run["model"], "dataset": c["dataset_key"],
                                    "verdict": c.get("verdict") or c.get("header_verdict")
@@ -91,7 +108,9 @@ def main():
     for path in args.prefix:
         for key, s in json.load(open(path, encoding="utf-8"))["cells"].items():
             model, dataset = key.split("|")
-            if dataset not in members:
+            if dataset not in members or any(
+                    m["model"] == model and m["dataset"] == dataset and m["test"] == "row"
+                    for m in not_measured):
                 continue
             p = s["after_rules"]["p"]
             cells.append({"model": model, "dataset": dataset, "test": "row",
@@ -127,7 +146,7 @@ def main():
         return f"{model.split('/')[-1][:20]} ({short(model)})"
 
     cells.sort(key=lambda c: (c["dataset"], c["test"], c["model"]))
-    print(f"H2e family: {len(cells)} p-values, Holm at alpha = {ALPHA}\n")
+    print(f"family of group {args.group}: {len(cells)} p-values, Holm at alpha = {ALPHA}\n")
     print(f"{'dataset':28s} {'test':8s} {'model':30s} {'count':>9s} {'p':>10s} {'p (Holm)':>10s} "
           f"{'witness / baseline':>22s} {'wf':>5s}  verdict")
     for c in cells:
@@ -138,10 +157,16 @@ def main():
     print("\nheader test (verdicts, outside the family):")
     for h in sorted(header, key=lambda h: (h["dataset"], h["model"])):
         print(f"  {h['dataset']:28s} {who(h['model']):30s} {h['verdict']}")
+    if not_measured:
+        print("\nnot measured (lost by the run, outside the family):")
+        for m in not_measured:
+            print(f"  {m['dataset']:28s} {m['test']:8s} {who(m['model']):30s} {m['error'][:60]}")
 
     with open(args.out, "w", encoding="utf-8") as f:
         json.dump({"_what": __doc__.split("\n\n")[0], "alpha": ALPHA,
-                   "well_formed_floor": WELL_FORMED_FLOOR, "cells": cells, "header": header},
+                   "well_formed_floor": WELL_FORMED_FLOOR,
+                   "row_shape": "csv fields (src/row_shape.py)" if args.shape else "delimiter count",
+                   "cells": cells, "header": header, "not_measured": not_measured},
                   f, ensure_ascii=False, indent=2)
     print("\nwrote", args.out)
 

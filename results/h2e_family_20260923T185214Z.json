@@ -2,6 +2,7 @@
   "_what": "The H2e family of AMENDMENT_9, with the Holm correction of §5.",
   "alpha": 0.05,
   "well_formed_floor": 0.5,
+  "row_shape": "csv fields (src/row_shape.py)",
   "cells": [
     {
       "model": "Vikhrmodels/Vikhr-Nemo-12B-Instruct-R-21-09-24",
@@ -107,7 +108,7 @@
       "p": 3.0269888679670814e-12,
       "witness": "20/248",
       "witness_ok": true,
-      "well_formed": 0.7,
+      "well_formed": 0.868,
       "p_holm": 7.870171056714411e-11,
       "verdict": "POSITIVE"
     },
@@ -119,7 +120,7 @@
       "p": 1.0893493225211764e-24,
       "witness": "28/248",
       "witness_ok": true,
-      "well_formed": 0.732,
+      "well_formed": 0.856,
       "p_holm": 3.050178103059294e-23,
       "verdict": "POSITIVE"
     },
@@ -155,7 +156,7 @@
       "p": 1.0,
       "witness": "45/498",
       "witness_ok": true,
-      "well_formed": 0.092,
+      "well_formed": 0.096,
       "p_holm": 1.0,
       "verdict": "inconclusive"
     },
@@ -203,7 +204,7 @@
       "p": 0.16034519545228582,
       "witness": "8/247",
       "witness_ok": true,
-      "well_formed": 0.96,
+      "well_formed": 0.996,
       "p_holm": 1.0,
       "verdict": "negative"
     },
@@ -215,7 +216,7 @@
       "p": 0.16034519545228582,
       "witness": "9/247",
       "witness_ok": true,
-      "well_formed": 0.964,
+      "well_formed": 1.0,
       "p_holm": 1.0,
       "verdict": "negative"
     },
@@ -299,7 +300,7 @@
       "p": 5.420994377886942e-12,
       "witness": "17/228",
       "witness_ok": true,
-      "well_formed": 0.312,
+      "well_formed": 0.62,
       "p_holm": 1.3552485944717356e-10,
       "verdict": "POSITIVE"
     },
@@ -311,7 +312,7 @@
       "p": 3.159955259757313e-24,
       "witness": "28/228",
       "witness_ok": true,
-      "well_formed": 0.388,
+      "well_formed": 0.66,
       "p_holm": 8.531879201344745e-23,
       "verdict": "POSITIVE"
     },
@@ -445,5 +446,6 @@
       "dataset": "telecom_churn.csv",
       "verdict": "fail"
     }
-  ]
+  ],
+  "not_measured": []
 }

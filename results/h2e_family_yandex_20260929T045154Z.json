@@ -2,6 +2,7 @@
   "_what": "The H2e family of AMENDMENT_9, with the Holm correction of §5.",
   "alpha": 0.05,
   "well_formed_floor": 0.5,
+  "row_shape": "csv fields (src/row_shape.py)",
   "cells": [
     {
       "model": "yandex/YandexGPT-5-Lite-8B-instruct",
@@ -107,7 +108,7 @@
       "p": 2.3634124049206735e-62,
       "witness": "56/248",
       "witness_ok": true,
-      "well_formed": 0.808,
+      "well_formed": 0.928,
       "p_holm": 6.617554733777885e-61,
       "verdict": "POSITIVE"
     },
@@ -119,7 +120,7 @@
       "p": 2.254572075494947e-90,
       "witness": "69/248",
       "witness_ok": true,
-      "well_formed": 0.796,
+      "well_formed": 0.872,
       "p_holm": 6.538259018935346e-89,
       "verdict": "POSITIVE"
     },
@@ -155,7 +156,7 @@
       "p": 1.0,
       "witness": "403/498",
       "witness_ok": true,
-      "well_formed": 0.824,
+      "well_formed": 0.988,
       "p_holm": 1.0,
       "verdict": "negative"
     },
@@ -167,7 +168,7 @@
       "p": 0.011478803176175171,
       "witness": "399/498",
       "witness_ok": true,
-      "well_formed": 0.824,
+      "well_formed": 0.976,
       "p_holm": 0.25253366987585374,
       "verdict": "negative"
     },
@@ -203,7 +204,7 @@
       "p": 1.0,
       "witness": "9/247",
       "witness_ok": true,
-      "well_formed": 0.96,
+      "well_formed": 0.992,
       "p_holm": 1.0,
       "verdict": "negative"
     },
@@ -215,7 +216,7 @@
       "p": 0.16034519545228582,
       "witness": "12/247",
       "witness_ok": true,
-      "well_formed": 0.964,
+      "well_formed": 1.0,
       "p_holm": 1.0,
       "verdict": "negative"
     },
@@ -251,7 +252,7 @@
       "p": 0.8156833399699578,
       "witness": "46/487",
       "witness_ok": true,
-      "well_formed": 0.932,
+      "well_formed": 0.988,
       "p_holm": 1.0,
       "verdict": "negative"
     },
@@ -263,7 +264,7 @@
       "p": 0.09035778214461612,
       "witness": "69/487",
       "witness_ok": true,
-      "well_formed": 0.948,
+      "well_formed": 0.992,
       "p_holm": 1.0,
       "verdict": "negative"
     },
@@ -299,7 +300,7 @@
       "p": 7.275604401117232e-36,
       "witness": "38/228",
       "witness_ok": true,
-      "well_formed": 0.412,
+      "well_formed": 0.812,
       "p_holm": 1.9644131883016525e-34,
       "verdict": "POSITIVE"
     },
@@ -311,7 +312,7 @@
       "p": 6.166995908183731e-30,
       "witness": "39/228",
       "witness_ok": true,
-      "well_formed": 0.432,
+      "well_formed": 0.764,
       "p_holm": 1.6034189361277701e-28,
       "verdict": "POSITIVE"
     },
@@ -445,5 +446,6 @@
       "dataset": "telecom_churn.csv",
       "verdict": "fail"
     }
-  ]
+  ],
+  "not_measured": []
 }

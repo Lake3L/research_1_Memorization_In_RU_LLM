@@ -1,8 +1,8 @@
 {
   "_what": "The runs this GPU session performs. The notebook reads this file from the repository checkout, so the experiment is defined in version control rather than in a notebook copy.",
   "_rule": "To change what runs: edit this file, commit, push. The notebook needs no changes.",
-  "session_id": "2026-10-04-block-C-O1-olmo-canon-and-qwen-probe",
-  "purpose": "Session O1, step 3 of AMENDMENT_8 §5: OLMo-7B-hf, the method control with published per-dataset verdicts (Bordt et al. Table 3) and a public corpus, on the canon — h1b_rest (header, first token, feature) on one card, probe (row completion) on the other — compared cell by cell with the paper. Qwen2.5-7B-Instruct, the base of both Qwen pairs of block B, runs probe on the second card once OLMo's probe is done: that card is free for three hours of the session anyway, and the base needs the completion-mode canon row probe that the Nemo and Yandex models already have. No Russian file, no new amendment: every cell is preregistered. Priced by the rebuilt src/price_plan.py (every answer to its budget, x 1.15; replayed on all 26 completed runs, none above it): h1b_rest 4.3 h on one card; probe 1.5 h then Qwen probe 1.6 h on the other; neither model has been measured, so both are priced as the slower 12B family. Session about 4.7 h with downloads.",
+  "session_id": "2026-10-06-block-B-B1-olmo-retry-qwen-tlite",
+  "purpose": "Session B1. (1) OLMo-7B-hf again, probe and h1b_rest: session O1's OLMo runs are void — its tokenizer appends <|endoftext|> to every prompt, the model took the document as finished and answered every one of 2,748 queries with the same unrelated text; completion prompts are now sent without that token (src/hf_llm.py encode_prompt; the other five tokenizers are untouched, checked on logged prompts). (2) Block B, the Qwen2.5-7B-Instruct / T-lite-it-1.0 pair: Qwen's h1b_rest (its probe ran in O1: iris 84/142), and T-lite's probe and h1b_rest. ruadapt-Qwen follows in the next session. Planning figures from the validated src/price_plan.py (every answer to its budget, x 1.15; actual/plan 0.71-0.94 over 29 runs): OLMo probe 1.0 h, OLMo h1b_rest 3.0 h, Qwen h1b_rest 3.4 h, T-lite h1b_rest 3.4 h, T-lite probe 1.2 h; 12.0 h over two cards, the longer card 6.8 h by the dispatch order below (7.4 h if the runs fall the other way), about 7.5-8 h of session with downloads; O1's runs took 0.71-0.79 of their figures.",
   "dataset_group": "canon",
   "datasets": [
     "iris",
@@ -19,13 +19,15 @@
   "parallel": true,
   "seed": 42,
   "scale": 1.0,
+  "disk": "at most two checkpoints at once, 42.8 GB at the peak (OLMo 27.6 + one Qwen-family model 15.2): Qwen's only run and OLMo's last run free their weights when written, and T-lite is downloaded only after one of them has",
   "requires": {
     "flags": [
       "--prompting",
       "--protocol",
       "--only-cells",
       "--resume",
-      "--group"
+      "--group",
+      "--free-weights-after"
     ],
     "plans": [
       "probe",
@@ -36,18 +38,28 @@
   "runs": [
     {
       "model": "allenai/OLMo-7B-hf",
-      "extra": "--plan h1b_rest --protocol reference --prompting completion",
-      "why": "header on the six canon files, first token on three, feature on five: the cells of Bordt et al. Table 3 other than row completion; 4.3 h. Context 2048 tokens; the longest query is a header prompt of about 370 tokens with its 1000-token budget"
-    },
-    {
-      "model": "allenai/OLMo-7B-hf",
       "extra": "--plan probe --protocol reference --prompting completion",
-      "why": "row completion on iris, wine, diabetes, titanic, adult; 1.5 h. Same weights as the first run, downloaded once; neither run frees them"
+      "why": "row completion on the canon, the cells of Bordt et al. Table 3; 1.0 h. The load report must show tokenizer.appends_eos = true and the answers must be rows"
     },
     {
       "model": "Qwen/Qwen2.5-7B-Instruct",
+      "extra": "--plan h1b_rest --protocol reference --prompting completion --free-weights-after",
+      "why": "header, first token and feature on the canon for the base of both Qwen pairs; 3.4 h; its only run in this session, so its weights are freed after it"
+    },
+    {
+      "model": "allenai/OLMo-7B-hf",
+      "extra": "--plan h1b_rest --protocol reference --prompting completion --free-weights-after",
+      "why": "header, first token and feature; 3.0 h; queued on the card OLMo's probe frees, the same weights; OLMo's last run, so its weights are freed after it"
+    },
+    {
+      "model": "t-tech/T-lite-it-1.0",
+      "extra": "--plan h1b_rest --protocol reference --prompting completion",
+      "why": "Qwen2.5-7B's Russian adaptation, the same cells as its base; 3.4 h; starts on whichever card frees first, after Qwen's or OLMo's weights are gone"
+    },
+    {
+      "model": "t-tech/T-lite-it-1.0",
       "extra": "--plan probe --protocol reference --prompting completion",
-      "why": "queued on the card OLMo's probe frees; 1.6 h. Disk: OLMo's float32 checkpoint (about 28 GB) and Qwen's (about 15 GB) together are below the 49 GB the Nemo pair occupied in E1 and E2"
+      "why": "row completion on the canon; 1.2 h; the pair's H1b contrast with Qwen's O1 probe on identical prompts. Needs the T4 x2 accelerator"
     }
   ]
 }

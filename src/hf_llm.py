@@ -45,6 +45,34 @@ def roundtrip(tokenizer) -> tuple:
     return text == ROUNDTRIP_PROBE, text
 
 
+def appends_eos(tokenizer) -> bool:
+    """Does encoding a text put the end-of-text token after it?
+
+    OLMo-7B-hf's tokenizer does, on every call (session O1, 2026-10-05). A
+    completion prompt that ends in end-of-text tells a base model that the
+    document is over, and it starts a new one: all 912 of OLMo's row answers
+    began "The first thing you need to do is to find a good and reliable
+    online casino", whatever the table. None of the other models' tokenizers
+    does it (checked on all six: they end on the last character's token).
+    """
+    eos = tokenizer.eos_token_id
+    if eos is None:
+        return False
+    ids = tokenizer("a,b\n1,2")["input_ids"]
+    return bool(ids) and ids[-1] == eos
+
+
+def encode_prompt(tokenizer, prompt, strip_eos):
+    """Tokenize a completion prompt; drop a trailing end-of-text the tokenizer
+    added on its own. Leaves every other tokenizer's ids untouched."""
+    encoded = tokenizer(prompt, return_tensors="pt")
+    if strip_eos and encoded["input_ids"].shape[1] > 1 \
+            and int(encoded["input_ids"][0, -1]) == tokenizer.eos_token_id \
+            and not prompt.endswith(str(tokenizer.eos_token)):
+        encoded = {key: value[:, :-1] for key, value in encoded.items()}
+    return encoded
+
+
 def load_tokenizer(model_name, revision):
     """Load the tokenizer and prove it round-trips, or refuse to run.
 
@@ -73,6 +101,10 @@ def load_tokenizer(model_name, revision):
         tried.append(entry)
         if ok:
             print(f"[model] tokenizer {entry['class']} ({label}) round-trips the probe", flush=True)
+            entry["appends_eos"] = appends_eos(tokenizer)
+            if entry["appends_eos"]:
+                print("[model] tokenizer appends the end-of-text token to every prompt; "
+                      "completion prompts are sent without it", flush=True)
             return tokenizer, {"attempts": tried, **entry}
         entry["decoded_probe"] = text[:200]
         print(f"[model] tokenizer {entry['class']} ({label}) does NOT round-trip: {text[:120]!r}",
@@ -304,7 +336,8 @@ class HFLLM(tabmemcheck.LLM_Interface):
 
     def completion(self, prompt, temperature, max_tokens):
         started = time.time()
-        encoded = self.tokenizer(prompt, return_tensors="pt")
+        encoded = encode_prompt(self.tokenizer, prompt,
+                                bool((self.load_report.get("tokenizer") or {}).get("appends_eos")))
         text, n_input = self._generate(encoded, temperature, max_tokens)
         self._log("prompt", prompt, text, temperature, max_tokens, n_input,
                   time.time() - started)

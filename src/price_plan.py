@@ -59,12 +59,27 @@ COST = {
                  "per_1k_prompt": 1.62, "measured_on": "Mistral-Nemo-Instruct-2407, Vikhr-Nemo-12B"},
     "yandex-8b": {"fixed": 0.37, "per_token": 0.0516, "per_token_per_1k_context": 0.0169,
                   "per_1k_prompt": 0.99, "measured_on": "YandexGPT-5-Lite-8B pretrain and instruct"},
+    # fitted 2026-10-05 on session O1 (912 and 2,748 calls). Their prompts were
+    # canon prompts of 100-900 tokens, too short to identify how the cost per
+    # token grows with the context, so that term is the 8B family's, the
+    # nearest measured on long Russian prompts, rather than the much smaller
+    # value these short prompts gave (0.0015 and 0.0032)
+    "qwen-7b": {"fixed": 0.07, "per_token": 0.0594, "per_token_per_1k_context": 0.0169,
+                "per_1k_prompt": 0.85, "measured_on": "Qwen2.5-7B-Instruct, canon only"},
+    "olmo-7b": {"fixed": 0.0, "per_token": 0.0449, "per_token_per_1k_context": 0.0169,
+                "per_1k_prompt": 2.33, "measured_on": "OLMo-7B-hf, canon only"},
 }
 FAMILY = {
     "mistralai/Mistral-Nemo-Instruct-2407": "nemo-12b",
     "Vikhrmodels/Vikhr-Nemo-12B-Instruct-R-21-09-24": "nemo-12b",
     "yandex/YandexGPT-5-Lite-8B-pretrain": "yandex-8b",
     "yandex/YandexGPT-5-Lite-8B-instruct": "yandex-8b",
+    "Qwen/Qwen2.5-7B-Instruct": "qwen-7b",
+    # the two adaptations share Qwen2.5-7B's architecture; their own first
+    # session replaces this assumption with a measurement
+    "t-tech/T-lite-it-1.0": "qwen-7b",
+    "RefalMachine/ruadapt_qwen2.5_7B_ext_u48_instruct": "qwen-7b",
+    "allenai/OLMo-7B-hf": "olmo-7b",
 }
 # a model never measured is priced as the slowest family measured, and the
 # output says so; its first session corrects the figure

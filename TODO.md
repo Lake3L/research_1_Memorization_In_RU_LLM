@@ -274,11 +274,18 @@ session itself is `notebooks/session.json`.
       verdict changed: row shape read as CSV (`src/row_shape.py`), and
       `src/price_plan.py` rebuilt on the library's real answer budget
       (validated on 26 runs). → `reports/RESULTS_EXPOSURE.md` Part VII
-- [ ] **Session O1** (`notebooks/session.json`): OLMo-7B-hf `h1b_rest` and
-      `probe` on the canon, then Qwen2.5-7B-Instruct `probe` on the freed
-      card; about 4.7 h. Compare OLMo cell by cell with Bordt et al. Table 3;
-      Qwen's probe joins block B. After it, replace the "unmeasured" cost of
-      both models in `price_plan.py` by their measured families.
+- [x] **Session O1** (2026-10-05): Qwen2.5-7B-Instruct `probe` — iris
+      84/142, the strongest of any model, the rest of the canon zero. OLMo-7B-hf
+      void: its tokenizer appends `<|endoftext|>` to every prompt, the model
+      started a new document every time; fixed in `src/hf_llm.py`
+      (`encode_prompt`, no other tokenizer affected). Cost families of Qwen and
+      OLMo added to `price_plan.py`. → `reports/RESULTS_CANON.md`
+- [ ] **Session B1** (`notebooks/session.json`): OLMo `probe` + `h1b_rest`
+      again, Qwen `h1b_rest`, T-lite `probe` + `h1b_rest`; longer card 6.8 h
+      by the planning figure. Check `load.tokenizer.appends_eos = true` for
+      OLMo and row-shaped answers; compare OLMo with Bordt et al. Table 3;
+      Qwen ↔ T-lite McNemar on identical prompts (H1b). Then B2: ruadapt-Qwen
+      `probe` + `h1b_rest` (4.6 h), with whatever else fits under 10 h.
 - [ ] Then GigaChat after its smoke test (add its instruct name to
       `family_holm.ADAPTED_MARKERS`); T-lite and ruadapt-Qwen (block B, and
       H2/H2e as Russian-centric models); Llama-3.1-8B (gated). Price every

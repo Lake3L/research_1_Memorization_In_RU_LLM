@@ -1,0 +1,320 @@
+{
+  "_what": "The H2e family of AMENDMENT_9, with the Holm correction of §5.",
+  "alpha": 0.05,
+  "well_formed_floor": 0.5,
+  "row_shape": "csv fields (src/row_shape.py)",
+  "cells": [
+    {
+      "model": "Vikhrmodels/Vikhr-Nemo-12B-Instruct-R-21-09-24",
+      "dataset": "govdomains.csv",
+      "test": "row",
+      "count": "1/111",
+      "p": 0.9252729144584328,
+      "witness": "0/47",
+      "witness_ok": false,
+      "well_formed": 0.876,
+      "p_holm": 1.0,
+      "verdict": "negative"
+    },
+    {
+      "model": "mistralai/Mistral-Nemo-Instruct-2407",
+      "dataset": "govdomains.csv",
+      "test": "row",
+      "count": "2/111",
+      "p": 0.7291548047617942,
+      "witness": "0/47",
+      "witness_ok": false,
+      "well_formed": 0.952,
+      "p_holm": 1.0,
+      "verdict": "negative"
+    },
+    {
+      "model": "yandex/YandexGPT-5-Lite-8B-instruct",
+      "dataset": "govdomains.csv",
+      "test": "row",
+      "count": "1/111",
+      "p": 0.9252729144584328,
+      "witness": "0/47",
+      "witness_ok": false,
+      "well_formed": 0.92,
+      "p_holm": 1.0,
+      "verdict": "negative"
+    },
+    {
+      "model": "yandex/YandexGPT-5-Lite-8B-pretrain",
+      "dataset": "govdomains.csv",
+      "test": "row",
+      "count": "1/111",
+      "p": 0.9252729144584328,
+      "witness": "0/47",
+      "witness_ok": false,
+      "well_formed": 0.932,
+      "p_holm": 1.0,
+      "verdict": "negative"
+    },
+    {
+      "model": "Vikhrmodels/Vikhr-Nemo-12B-Instruct-R-21-09-24",
+      "dataset": "hflabs_city.csv",
+      "test": "row",
+      "count": "0/250",
+      "p": 1.0,
+      "witness": "0/999",
+      "witness_ok": false,
+      "well_formed": 0.896,
+      "p_holm": 1.0,
+      "verdict": "negative"
+    },
+    {
+      "model": "mistralai/Mistral-Nemo-Instruct-2407",
+      "dataset": "hflabs_city.csv",
+      "test": "row",
+      "count": "0/250",
+      "p": 1.0,
+      "witness": "0/999",
+      "witness_ok": false,
+      "well_formed": 0.996,
+      "p_holm": 1.0,
+      "verdict": "negative"
+    },
+    {
+      "model": "yandex/YandexGPT-5-Lite-8B-instruct",
+      "dataset": "hflabs_city.csv",
+      "test": "row",
+      "count": "0/250",
+      "p": 1.0,
+      "witness": "0/999",
+      "witness_ok": false,
+      "well_formed": 0.92,
+      "p_holm": 1.0,
+      "verdict": "negative"
+    },
+    {
+      "model": "yandex/YandexGPT-5-Lite-8B-pretrain",
+      "dataset": "hflabs_city.csv",
+      "test": "row",
+      "count": "0/250",
+      "p": 1.0,
+      "witness": "0/999",
+      "witness_ok": false,
+      "well_formed": 0.98,
+      "p_holm": 1.0,
+      "verdict": "negative"
+    },
+    {
+      "model": "Vikhrmodels/Vikhr-Nemo-12B-Instruct-R-21-09-24",
+      "dataset": "mos_torgovye_obekty.csv",
+      "test": "row",
+      "count": "0/234",
+      "p": 1.0,
+      "witness": "0/394",
+      "witness_ok": false,
+      "well_formed": 0.624,
+      "p_holm": 1.0,
+      "verdict": "negative"
+    },
+    {
+      "model": "mistralai/Mistral-Nemo-Instruct-2407",
+      "dataset": "mos_torgovye_obekty.csv",
+      "test": "row",
+      "count": "0/234",
+      "p": 1.0,
+      "witness": "0/394",
+      "witness_ok": false,
+      "well_formed": 0.684,
+      "p_holm": 1.0,
+      "verdict": "negative"
+    },
+    {
+      "model": "yandex/YandexGPT-5-Lite-8B-instruct",
+      "dataset": "mos_torgovye_obekty.csv",
+      "test": "row",
+      "count": "0/234",
+      "p": 1.0,
+      "witness": "2/394",
+      "witness_ok": true,
+      "well_formed": 0.676,
+      "p_holm": 1.0,
+      "verdict": "negative"
+    },
+    {
+      "model": "yandex/YandexGPT-5-Lite-8B-pretrain",
+      "dataset": "mos_torgovye_obekty.csv",
+      "test": "row",
+      "count": "0/234",
+      "p": 1.0,
+      "witness": "1/394",
+      "witness_ok": true,
+      "well_formed": 0.692,
+      "p_holm": 1.0,
+      "verdict": "negative"
+    },
+    {
+      "model": "Vikhrmodels/Vikhr-Nemo-12B-Instruct-R-21-09-24",
+      "dataset": "mos_zemelnye_uchastki.csv",
+      "test": "row",
+      "count": "0/249",
+      "p": 1.0,
+      "witness": "0/493",
+      "witness_ok": false,
+      "well_formed": 0.576,
+      "p_holm": 1.0,
+      "verdict": "negative"
+    },
+    {
+      "model": "mistralai/Mistral-Nemo-Instruct-2407",
+      "dataset": "mos_zemelnye_uchastki.csv",
+      "test": "row",
+      "count": "0/249",
+      "p": 1.0,
+      "witness": "0/493",
+      "witness_ok": false,
+      "well_formed": 0.652,
+      "p_holm": 1.0,
+      "verdict": "negative"
+    },
+    {
+      "model": "yandex/YandexGPT-5-Lite-8B-instruct",
+      "dataset": "mos_zemelnye_uchastki.csv",
+      "test": "row",
+      "count": "0/249",
+      "p": 1.0,
+      "witness": "0/493",
+      "witness_ok": false,
+      "well_formed": 0.788,
+      "p_holm": 1.0,
+      "verdict": "negative"
+    },
+    {
+      "model": "yandex/YandexGPT-5-Lite-8B-pretrain",
+      "dataset": "mos_zemelnye_uchastki.csv",
+      "test": "row",
+      "count": "0/249",
+      "p": 1.0,
+      "witness": "0/493",
+      "witness_ok": false,
+      "well_formed": 0.844,
+      "p_holm": 1.0,
+      "verdict": "negative"
+    },
+    {
+      "model": "yandex/YandexGPT-5-Lite-8B-instruct",
+      "dataset": "russian_retail.csv",
+      "test": "row",
+      "count": "0/250",
+      "p": 1.0,
+      "witness": "0/115",
+      "witness_ok": false,
+      "well_formed": 0.672,
+      "p_holm": 1.0,
+      "verdict": "negative"
+    },
+    {
+      "model": "yandex/YandexGPT-5-Lite-8B-pretrain",
+      "dataset": "russian_retail.csv",
+      "test": "row",
+      "count": "0/250",
+      "p": 1.0,
+      "witness": "0/115",
+      "witness_ok": false,
+      "well_formed": 0.24,
+      "p_holm": 1.0,
+      "verdict": "inconclusive"
+    }
+  ],
+  "header": [
+    {
+      "model": "Vikhrmodels/Vikhr-Nemo-12B-Instruct-R-21-09-24",
+      "dataset": "hflabs_city.csv",
+      "verdict": "fail"
+    },
+    {
+      "model": "Vikhrmodels/Vikhr-Nemo-12B-Instruct-R-21-09-24",
+      "dataset": "govdomains.csv",
+      "verdict": "fail"
+    },
+    {
+      "model": "Vikhrmodels/Vikhr-Nemo-12B-Instruct-R-21-09-24",
+      "dataset": "mos_zemelnye_uchastki.csv",
+      "verdict": "fail"
+    },
+    {
+      "model": "Vikhrmodels/Vikhr-Nemo-12B-Instruct-R-21-09-24",
+      "dataset": "mos_torgovye_obekty.csv",
+      "verdict": "fail"
+    },
+    {
+      "model": "mistralai/Mistral-Nemo-Instruct-2407",
+      "dataset": "hflabs_city.csv",
+      "verdict": "fail"
+    },
+    {
+      "model": "mistralai/Mistral-Nemo-Instruct-2407",
+      "dataset": "govdomains.csv",
+      "verdict": "fail"
+    },
+    {
+      "model": "mistralai/Mistral-Nemo-Instruct-2407",
+      "dataset": "mos_zemelnye_uchastki.csv",
+      "verdict": "fail"
+    },
+    {
+      "model": "mistralai/Mistral-Nemo-Instruct-2407",
+      "dataset": "mos_torgovye_obekty.csv",
+      "verdict": "fail"
+    },
+    {
+      "model": "yandex/YandexGPT-5-Lite-8B-instruct",
+      "dataset": "hflabs_city.csv",
+      "verdict": "fail"
+    },
+    {
+      "model": "yandex/YandexGPT-5-Lite-8B-instruct",
+      "dataset": "govdomains.csv",
+      "verdict": "fail"
+    },
+    {
+      "model": "yandex/YandexGPT-5-Lite-8B-instruct",
+      "dataset": "mos_zemelnye_uchastki.csv",
+      "verdict": "fail"
+    },
+    {
+      "model": "yandex/YandexGPT-5-Lite-8B-instruct",
+      "dataset": "mos_torgovye_obekty.csv",
+      "verdict": "fail"
+    },
+    {
+      "model": "yandex/YandexGPT-5-Lite-8B-pretrain",
+      "dataset": "hflabs_city.csv",
+      "verdict": "fail"
+    },
+    {
+      "model": "yandex/YandexGPT-5-Lite-8B-pretrain",
+      "dataset": "govdomains.csv",
+      "verdict": "fail"
+    },
+    {
+      "model": "yandex/YandexGPT-5-Lite-8B-pretrain",
+      "dataset": "mos_zemelnye_uchastki.csv",
+      "verdict": "fail"
+    },
+    {
+      "model": "yandex/YandexGPT-5-Lite-8B-pretrain",
+      "dataset": "mos_torgovye_obekty.csv",
+      "verdict": "fail"
+    }
+  ],
+  "not_measured": [
+    {
+      "model": "Vikhrmodels/Vikhr-Nemo-12B-Instruct-R-21-09-24",
+      "dataset": "russian_retail.csv",
+      "test": "row",
+      "error": "OutOfMemoryError: CUDA out of memory. Tried to allocate 3.06 GiB. GPU 0 has a total capacity of 14.56 GiB of which 2.91 "
+    },
+    {
+      "model": "mistralai/Mistral-Nemo-Instruct-2407",
+      "dataset": "russian_retail.csv",
+      "test": "row",
+      "error": "OutOfMemoryError: CUDA out of memory. Tried to allocate 3.06 GiB. GPU 0 has a total capacity of 14.56 GiB of which 2.91 "
+    }
+  ]
+}

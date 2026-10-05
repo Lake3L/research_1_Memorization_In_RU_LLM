@@ -264,16 +264,26 @@ session itself is `notebooks/session.json`.
       by the library, 1/111 after R1+R4 (near-duplicates again); fresh control
       at zero. Outcome (iii) of `AMENDMENT_8` §3 so far; prediction 3 of
       `AMENDMENT_9` holds. → `reports/RESULTS_EXPOSURE.md` Part VI
-- [ ] **Session C2** (`notebooks/session.json`): `ru_probe_long`
-      (russian_retail + iris) on four models — the Nemo pair first, then the
-      Yandex pair — 7.5 h per card, `--free-weights-after` so the disk holds
-      at most two checkpoints. Check the Nemo iris anchor 51/142 and 32/142 on
-      transformers 5.14.1 and the `[disk]` lines in the run logs. Then write
-      the H2 family (`family_holm.py --group ru_pre_cutoff`) over the four
-      models.
-- [ ] Then OLMo; GigaChat after its smoke test (add its instruct name to
-      `family_holm.ADAPTED_MARKERS`); regenerate the joint H2e family after
-      every model.
+- [x] **Session C2** (2026-10-03): `ru_probe_long` on four models, about
+      10 h against 7.5 h priced. The Nemo pair lost russian_retail to CUDA out
+      of memory (full attention matrix on a T4) — not measurable for 12B on
+      this hardware, and about 20 h if it were; the Yandex pair ran it in
+      9.7 h: 0/250, instruct negative, pretrain inconclusive. Nemo iris
+      answers byte-identical on transformers 5.14.1. H2 family of four models
+      written: 18 p-values, all negative or inconclusive. Two corrections, no
+      verdict changed: row shape read as CSV (`src/row_shape.py`), and
+      `src/price_plan.py` rebuilt on the library's real answer budget
+      (validated on 26 runs). → `reports/RESULTS_EXPOSURE.md` Part VII
+- [ ] **Session O1** (`notebooks/session.json`): OLMo-7B-hf `h1b_rest` and
+      `probe` on the canon, then Qwen2.5-7B-Instruct `probe` on the freed
+      card; about 4.7 h. Compare OLMo cell by cell with Bordt et al. Table 3;
+      Qwen's probe joins block B. After it, replace the "unmeasured" cost of
+      both models in `price_plan.py` by their measured families.
+- [ ] Then GigaChat after its smoke test (add its instruct name to
+      `family_holm.ADAPTED_MARKERS`); T-lite and ruadapt-Qwen (block B, and
+      H2/H2e as Russian-centric models); Llama-3.1-8B (gated). Price every
+      plan with `src/price_plan.py` before queueing; regenerate the joint H2e
+      and the H2 family after every model.
 - [ ] Then both plans on the YandexGPT and GigaChat pairs and on the controls,
       so that the exposure figure has every model on the same files. The strong
       form of H2e is already ruled out on these two files: the multilingual base

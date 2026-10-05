@@ -59,6 +59,17 @@ near-duplicate rule reduces to 1 of 111, as it did for the Nemo pair. The
 model that holds МКБ-10 and ОКВЭД 2 holds none of the single-copy files —
 outcome (iii) of `AMENDMENT_8` §3 so far; the fresh control stays at zero.
 
+**What Part VII adds (2026-10-04).** russian_retail, the fifth file of the H2
+family, is negative for the YandexGPT instruct model, inconclusive for its
+pretrain model, and cannot be measured for the 12B Nemo pair on a T4 (memory,
+and about 20 hours). With it the H2 family of four models is written: 18
+p-values, none below 0.73. The Nemo pair's iris answers are byte-identical on
+transformers 5.14.1 and 5.0.0. Two instrument corrections, neither of which
+changes a published verdict: "row-shaped" is now read as CSV with quotes
+respected, and the price of a plan is now the cost of every answer running to
+the budget the library gives it — the old figure was wrong by a factor of 3.3
+on this session.
+
 ---
 
 # Part I — session E1
@@ -1021,4 +1032,149 @@ cells from `results/prefix_baseline_ru_probe_20260908T121529Z.json`.
 ```
 python src/rescore_calls.py results/calls_ru_probe_yandex_<model>_20260929T182458Z.jsonl --results results/gateA_ru_probe_yandex_<model>_20260929T182458Z.json
 python src/prefix_baseline.py results/calls_ru_probe_yandex_*_20260929T182458Z.jsonl --out results/prefix_baseline_ru_probe_20260929T182458Z.json
+```
+
+---
+
+# Part VII — session C2: russian_retail, the H2 family of four models, and two instrument corrections
+
+## 37. What the session did
+
+Session C2, plan `ru_probe_long` (iris anchor, russian_retail row completion),
+2026-10-03, about 10 hours of the session's 12. It was queued as the Nemo pair
+first, one model per card, then the YandexGPT pair on the cards they freed,
+priced at 7.5 h per card. What ran:
+
+| run | cells | time | what happened |
+|---|---|---|---|
+| Mistral-Nemo | 2 of 3 | 12 min | iris header and row; russian_retail lost to CUDA out of memory on its third query |
+| Vikhr-Nemo | 2 of 3 | 12 min | the same, the same query |
+| YandexGPT pretrain | 3 of 3 | 9 h 42 min | started at 12:46 UTC on the freed card |
+| YandexGPT instruct | 3 of 3 | 9 h 50 min | the same |
+
+The estimate was wrong by a factor of 3.3 for the Yandex runs (§42). By the
+corrected figure the Nemo pair's russian_retail cell alone would have taken
+about 20 hours: had the Nemo runs not failed, the session would have been
+stopped at twelve hours in the middle of that cell, and the Yandex runs would
+never have started. The plan could not have been completed as queued.
+
+## 38. The anchor on transformers 5.14.1
+
+This was the Nemo pair's first session on transformers 5.14.1 (all earlier
+ones ran on 5.0.0, §22). Every one of the 142 iris row answers is
+byte-identical to session C1's, for both models: 51/142 and 32/142, 36/103
+and 24/103 after R1 and R4, McNemar p = 0.029 as before. The version change
+does not move a single answer; numbers from both versions compare directly.
+
+## 39. russian_retail
+
+2,620 of its 2,737 rows end with the delimiter (an empty last column), the
+situation of §11.
+
+**YandexGPT:** 0 of 250 for both members; no witness value of 115 absent from
+the prompt reproduced (`total_rented_area`, `presence_russia`); mean
+normalised distance 0.84 and 0.80, no near match. The answers are rows of the
+right kind — a company, its country, sector, price category, founding year,
+store counts, a description — of companies the file does not contain at that
+place. Read as CSV (§40), 67% of the instruct model's first lines are rows of
+the file's eleven fields: a **negative**. The pretrain model's are 24%:
+**inconclusive**.
+
+**Nemo pair: not measured.** Its two answers before the failure were empty
+strings, as on every file whose rows end with the delimiter (§11), so the cell
+would most likely have been inconclusive; that is a forecast, not a result.
+The failure itself is a property of the hardware. The third prompt is 5,065
+tokens in Mistral-Nemo's tokenizer, and the allocation that failed, 3.06 GiB,
+is exactly one attention-score matrix of 32 heads × 5,065² in float32. With a
+single unpadded sequence transformers 5 passes no mask and asks
+scaled-dot-product attention for grouped-query attention directly
+(`enable_gqa`); on a T4 the memory-efficient kernel does not serve that call
+and PyTorch computes it the plain way, materialising the full matrix. A 12B
+model in nf4 leaves 2.9 GB free on the card. Changing the attention path in
+the middle of the study would change the arithmetic of every later answer
+against the anchors, so it is not changed: russian_retail is recorded as not
+measurable for the 12B models on this hardware, at 20 hours and above the
+card's memory.
+
+## 40. Correction 1: what "row-shaped" means for a file with quoted text
+
+The FAIL_ADAPTER floor reads the share of answers shaped like a CSV row. The
+runner measured it by counting delimiter characters in the answer's first
+line against the true row. A field in quotes that contains the delimiter
+breaks that count: a russian_retail row whose description has seven commas is
+"not row-shaped" against a true row whose description has four, though both
+are rows of eleven fields. `src/row_shape.py` re-reads every row answer of
+blocks B and C both ways (90 cells, `results/row_shape_20261003T124625Z.json`):
+
+| cells where the two readings fall on different sides of 50% | delimiter count | CSV fields | effect |
+|---|---|---|---|
+| okved2 row, all four models | 31–43% | 62–81% | none: all four cells are positive, and the floor applies to negatives only |
+| trudvsem (fresh control), all four models | 34–44% | 83–98% | the fresh control's zero is now a zero over row-shaped answers, not a check on false positives only (§34) |
+| russian_retail, YandexGPT instruct | 4% | 67% | negative instead of inconclusive |
+
+Every other cell agrees within a few points. **No published verdict
+changes**: the three H2e families regenerated with the CSV reading
+(`src/family_holm.py --shape`) give the same verdicts and the same adjusted p
+on every cell. From now on the floor reads the CSV field count; the runner
+records it as `csv_shape_rate` beside the old measure.
+
+## 41. The H2 family, four models
+
+`src/family_holm.py --group ru_pre_cutoff --shape …` over the five
+`AMENDMENT_1` files, Holm at α = 0.05 (`results/h2_family_20261003T124625Z.json`):
+
+| file | Mistral-Nemo | Vikhr-Nemo | YandexGPT pretrain | YandexGPT instruct |
+|---|---|---|---|---|
+| hflabs_city | negative | negative | negative | negative |
+| govdomains | negative (2/111) | negative (1/111) | negative (1/111) | negative (1/111) |
+| mos_zemelnye_uchastki | negative | negative | negative | negative |
+| mos_torgovye_obekty | negative | negative | negative | negative |
+| russian_retail | not measured | not measured | inconclusive | negative |
+
+18 p-values, the smallest raw p 0.73, every adjusted p 1.0. The header test
+failed on all four files that have one, for all four models. **H2, as it
+stands:** of the seven Russian-centric models, three have run; for them, 18
+of 20 file cells are negative, one inconclusive, and Vikhr-Nemo's
+russian_retail cell cannot be measured on this hardware. Positive-control
+gate passed, fresh control at zero over row-shaped answers: the refutation
+condition of `PREREGISTRATION.md` §6 continues to hold for every model run.
+T-lite, ruadapt-Qwen and the GigaChat pair remain.
+
+## 42. Correction 2: the price of a plan
+
+`src/price_plan.py` charged each row query two rows of generation, counted in
+tokens. The library does not ask for a row: it gives the model a budget of
+`1 + len(next row)` tokens — the row's length **in characters** — and a model
+without a stopping condition uses it. For iris that is 29 tokens; for a
+russian_retail row of 1,300 characters it is 1,300 tokens, about six rows,
+and the YandexGPT answers ran to a median of 1,070. The script now:
+
+- fits the cost of a query on every logged call (32,689 calls of three
+  families; totals reproduced to 0.1%): a fixed part, a per-token charge for
+  what is generated that grows with the context, and a charge for the prompt;
+- prices every answer at its full budget, read from the data the way the
+  library sets it, and multiplies by 1.15;
+- replays all 26 completed runs of blocks B and C: none exceeds its figure
+  (largest actual/plan 0.94); the Yandex `ru_probe_long` would have been
+  priced at 11.6 h instead of 3.0, and the Nemo one at 20 h, and the plan
+  split or dropped before it was queued;
+- prices a model it has never measured as the slower family measured (the
+  12B Nemo models), and says so.
+
+## 43. Files
+
+`results/calls_ru_probe_long_*_20261003T122424Z.jsonl` and
+`…_20261003T124625Z.jsonl` with their `gateA_` files,
+`results/prefix_baseline_ru_probe_long_20261003T122424Z.json` and
+`…_20261003T124625Z.json`, `results/row_shape_20261003T124625Z.json`,
+`results/h2_family_20261003T124625Z.json`; the three H2e family files
+regenerated with `--shape` (no change).
+
+```
+python src/rescore_calls.py results/calls_ru_probe_long_<model>_<stamp>.jsonl --results results/gateA_ru_probe_long_<model>_<stamp>.json
+python src/prefix_baseline.py <the two Yandex logs> --out results/prefix_baseline_ru_probe_long_20261003T124625Z.json
+python src/prefix_baseline.py <the two Nemo logs> --out results/prefix_baseline_ru_probe_long_20261003T122424Z.json
+python src/row_shape.py "results/calls_*_completion_2026082[8]T*.jsonl" "results/calls_*_completion_202609{08,20,23,27,28,29}T*.jsonl" "results/calls_*_completion_20261003T*.jsonl" --out results/row_shape_20261003T124625Z.json
+python src/family_holm.py --group ru_pre_cutoff --shape results/row_shape_20261003T124625Z.json --prefix <the four ru_probe and ru_probe_long prefix files> --diagnostics results/classifier_diagnostics_exposure_20260929T045154Z.json --results "results/gateA_ru_probe_*_completion_20260908T*.json" "results/gateA_ru_probe_*_completion_20260929T*.json" "results/gateA_ru_probe_long_*_completion_20261003T*.json" --out results/h2_family_20261003T124625Z.json
+python src/price_plan.py --validate
 ```

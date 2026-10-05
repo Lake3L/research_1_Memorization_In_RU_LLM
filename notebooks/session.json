@@ -1,14 +1,18 @@
 {
   "_what": "The runs this GPU session performs. The notebook reads this file from the repository checkout, so the experiment is defined in version control rather than in a notebook copy.",
   "_rule": "To change what runs: edit this file, commit, push. The notebook needs no changes.",
-  "session_id": "2026-09-30-block-C-C2-ru_probe_long-four-models",
-  "purpose": "Session C2: plan ru_probe_long — russian_retail, the fifth AMENDMENT_1 file, whose rows are three to five times longer than the others', with iris as the anchor — on four models: the Mistral-Nemo / Vikhr-Nemo pair first, one per card, then the YandexGPT-5-Lite-8B pair on whichever card frees first. It completes the H2 family's files for these four models (reports/RESULTS_EXPOSURE.md Part VI) and is the Nemo pair's first session on transformers 5.14.1: iris must return 51/142 and 32/142 as in every earlier session, or the old and new numbers of this pair are not compared directly. Each run deletes its model's weights from the cache once its results are written (--free-weights-after), so that the disk never holds more than the two Nemo checkpoints at once, which it did in E1 and E2.",
-  "dataset_group": "canon,ru_pre_cutoff",
+  "session_id": "2026-10-04-block-C-O1-olmo-canon-and-qwen-probe",
+  "purpose": "Session O1, step 3 of AMENDMENT_8 §5: OLMo-7B-hf, the method control with published per-dataset verdicts (Bordt et al. Table 3) and a public corpus, on the canon — h1b_rest (header, first token, feature) on one card, probe (row completion) on the other — compared cell by cell with the paper. Qwen2.5-7B-Instruct, the base of both Qwen pairs of block B, runs probe on the second card once OLMo's probe is done: that card is free for three hours of the session anyway, and the base needs the completion-mode canon row probe that the Nemo and Yandex models already have. No Russian file, no new amendment: every cell is preregistered. Priced by the rebuilt src/price_plan.py (every answer to its budget, x 1.15; replayed on all 26 completed runs, none above it): h1b_rest 4.3 h on one card; probe 1.5 h then Qwen probe 1.6 h on the other; neither model has been measured, so both are priced as the slower 12B family. Session about 4.7 h with downloads.",
+  "dataset_group": "canon",
   "datasets": [
     "iris",
-    "russian_retail"
+    "uci-wine",
+    "openml-diabetes",
+    "titanic-train",
+    "adult-train",
+    "california-housing"
   ],
-  "attached_input": "none needed: russian_retail is fetched from its Kaggle source and hash-checked (verified from this machine on 2026-09-30); iris comes with the checkout",
+  "attached_input": "none: the canon is fetched and hash-checked from its registered sources",
   "variant": "raw",
   "prompt_language": "en",
   "load_in_4bit": true,
@@ -21,34 +25,29 @@
       "--protocol",
       "--only-cells",
       "--resume",
-      "--group",
-      "--free-weights-after"
+      "--group"
     ],
     "plans": [
-      "ru_probe_long"
+      "probe",
+      "h1b_rest"
     ],
     "note": "verified against the checkout before any weights are downloaded"
   },
   "runs": [
     {
-      "model": "mistralai/Mistral-Nemo-Instruct-2407",
-      "extra": "--plan ru_probe_long --protocol reference --prompting completion --free-weights-after",
-      "why": "base model of the Nemo pair; 4.5 h by src/price_plan.py; also the iris anchor on the new transformers version"
+      "model": "allenai/OLMo-7B-hf",
+      "extra": "--plan h1b_rest --protocol reference --prompting completion",
+      "why": "header on the six canon files, first token on three, feature on five: the cells of Bordt et al. Table 3 other than row completion; 4.3 h. Context 2048 tokens; the longest query is a header prompt of about 370 tokens with its 1000-token budget"
     },
     {
-      "model": "Vikhrmodels/Vikhr-Nemo-12B-Instruct-R-21-09-24",
-      "extra": "--plan ru_probe_long --protocol reference --prompting completion --free-weights-after",
-      "why": "its Russian adaptation, same cells, same seed, the other card; 4.5 h"
+      "model": "allenai/OLMo-7B-hf",
+      "extra": "--plan probe --protocol reference --prompting completion",
+      "why": "row completion on iris, wine, diabetes, titanic, adult; 1.5 h. Same weights as the first run, downloaded once; neither run frees them"
     },
     {
-      "model": "yandex/YandexGPT-5-Lite-8B-pretrain",
-      "extra": "--plan ru_probe_long --protocol reference --prompting completion --free-weights-after",
-      "why": "3.0 h with its own tokenizer, queued on the first card to free. Per card 7.5 h estimated plus two loads; the Nemo runs overran by up to 24% in E1 and E2, which gives 8.6 h at worst"
-    },
-    {
-      "model": "yandex/YandexGPT-5-Lite-8B-instruct",
-      "extra": "--plan ru_probe_long --protocol reference --prompting completion --free-weights-after",
-      "why": "its instruct model, same cells, the other card. Needs the T4 x2 accelerator"
+      "model": "Qwen/Qwen2.5-7B-Instruct",
+      "extra": "--plan probe --protocol reference --prompting completion",
+      "why": "queued on the card OLMo's probe frees; 1.6 h. Disk: OLMo's float32 checkpoint (about 28 GB) and Qwen's (about 15 GB) together are below the 49 GB the Nemo pair occupied in E1 and E2"
     }
   ]
 }

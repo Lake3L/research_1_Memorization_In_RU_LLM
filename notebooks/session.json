@@ -1,25 +1,32 @@
 {
   "_what": "The runs this GPU session performs. The notebook reads this file from the repository checkout, so the experiment is defined in version control rather than in a notebook copy.",
   "_rule": "To change what runs: edit this file, commit, push. The notebook needs no changes.",
-  "session_id": "2026-10-06-block-B-B1-olmo-retry-qwen-tlite",
-  "purpose": "Session B1. (1) OLMo-7B-hf again, probe and h1b_rest: session O1's OLMo runs are void — its tokenizer appends <|endoftext|> to every prompt, the model took the document as finished and answered every one of 2,748 queries with the same unrelated text; completion prompts are now sent without that token (src/hf_llm.py encode_prompt; the other five tokenizers are untouched, checked on logged prompts). (2) Block B, the Qwen2.5-7B-Instruct / T-lite-it-1.0 pair: Qwen's h1b_rest (its probe ran in O1: iris 84/142), and T-lite's probe and h1b_rest. ruadapt-Qwen follows in the next session. Planning figures from the validated src/price_plan.py (every answer to its budget, x 1.15; actual/plan 0.71-0.94 over 29 runs): OLMo probe 1.0 h, OLMo h1b_rest 3.0 h, Qwen h1b_rest 3.4 h, T-lite h1b_rest 3.4 h, T-lite probe 1.2 h; 12.0 h over two cards, the longer card 6.8 h by the dispatch order below (7.4 h if the runs fall the other way), about 7.5-8 h of session with downloads; O1's runs took 0.71-0.79 of their figures.",
-  "dataset_group": "canon",
+  "session_id": "2026-10-23-block-B-B2-ruadapt-qwen-exposure_2",
+  "purpose": "Session B2. (1) Block B, the second Qwen pair: ruadapt_qwen2.5_7B_ext_u48_instruct on probe and h1b_rest, the same prompts on which Qwen2.5-7B-Instruct held iris 84/142 and T-lite 95/142 (B1: the T-lite pair retains, McNemar p = 0.16 after the AMENDMENT_7 rules; reports/RESULTS_CANON.md §6). (2) Qwen2.5-7B-Instruct on exposure_2, the first multilingual Qwen control on the high-exposure files: the strong form of H2e now rests on the OKVED 2 feature cell alone, where the YandexGPT pair named 32 and 28 of 250 codes and Mistral-Nemo did not, and Qwen decides whether it survives a second control. Planning figures from src/price_plan.py, which prices every answer to its budget x 1.15 and is validated on 34 runs (actual/plan 0.71-0.94; B1's five runs 0.71-0.77): Qwen exposure_2 5.7 h, ruadapt probe 1.2 h, ruadapt h1b_rest 3.4 h. The longer card is Qwen's, 5.7 h; the other card is 4.6 h. Qwen's context slope is borrowed from the measured 8B family, because B1's canon prompts were too short to fit it; exposure_2's prompts are 227-1163 tokens, and at three times the borrowed slope the plan is 7.5 h, still inside the session rule.",
+  "dataset_group": "canon,ru_exposure",
   "datasets": [
     "iris",
     "uci-wine",
     "openml-diabetes",
     "titanic-train",
     "adult-train",
-    "california-housing"
+    "california-housing",
+    "oksm",
+    "okpdtr",
+    "mos_streets_omk_um_2022",
+    "telecom_churn",
+    "mkb10_v2",
+    "okved2",
+    "cardio_train"
   ],
-  "attached_input": "none: the canon is fetched and hash-checked from its registered sources",
+  "attached_input": "the nine ru_exposure CSVs, attached as one Kaggle dataset (loose or zipped); the fetch step adopts them from /kaggle/input, looks inside zips, and verifies every hash before any weights load; the canon is fetched and hash-checked from its registered sources",
   "variant": "raw",
   "prompt_language": "en",
   "load_in_4bit": true,
   "parallel": true,
   "seed": 42,
   "scale": 1.0,
-  "disk": "at most two checkpoints at once, 42.8 GB at the peak (OLMo 27.6 + one Qwen-family model 15.2): Qwen's only run and OLMo's last run free their weights when written, and T-lite is downloaded only after one of them has",
+  "disk": "two checkpoints at once, 30.7 GB at the peak (Qwen2.5-7B 15.2 + ruadapt-Qwen 15.5, neither with custom code); each model's last run frees its weights when written",
   "requires": {
     "flags": [
       "--prompting",
@@ -30,6 +37,7 @@
       "--free-weights-after"
     ],
     "plans": [
+      "exposure_2",
       "probe",
       "h1b_rest"
     ],
@@ -37,29 +45,19 @@
   },
   "runs": [
     {
-      "model": "allenai/OLMo-7B-hf",
-      "extra": "--plan probe --protocol reference --prompting completion",
-      "why": "row completion on the canon, the cells of Bordt et al. Table 3; 1.0 h. The load report must show tokenizer.appends_eos = true and the answers must be rows"
-    },
-    {
       "model": "Qwen/Qwen2.5-7B-Instruct",
-      "extra": "--plan h1b_rest --protocol reference --prompting completion --free-weights-after",
-      "why": "header, first token and feature on the canon for the base of both Qwen pairs; 3.4 h; its only run in this session, so its weights are freed after it"
+      "extra": "--plan exposure_2 --protocol reference --prompting completion --free-weights-after",
+      "why": "feature completion on the four classifiers and header and row on the rest of exposure_2, against the baselines fixed before the Nemo run; 5.7 h; the multilingual control for the strong form of H2e. iris anchors the plan (84/142 in O1). Its only run in this session"
     },
     {
-      "model": "allenai/OLMo-7B-hf",
-      "extra": "--plan h1b_rest --protocol reference --prompting completion --free-weights-after",
-      "why": "header, first token and feature; 3.0 h; queued on the card OLMo's probe frees, the same weights; OLMo's last run, so its weights are freed after it"
-    },
-    {
-      "model": "t-tech/T-lite-it-1.0",
-      "extra": "--plan h1b_rest --protocol reference --prompting completion",
-      "why": "Qwen2.5-7B's Russian adaptation, the same cells as its base; 3.4 h; starts on whichever card frees first, after Qwen's or OLMo's weights are gone"
-    },
-    {
-      "model": "t-tech/T-lite-it-1.0",
+      "model": "RefalMachine/ruadapt_qwen2.5_7B_ext_u48_instruct",
       "extra": "--plan probe --protocol reference --prompting completion",
-      "why": "row completion on the canon; 1.2 h; the pair's H1b contrast with Qwen's O1 probe on identical prompts. Needs the T4 x2 accelerator"
+      "why": "row completion on the canon; 1.2 h; the second H1b contrast with Qwen's O1 probe on identical prompts. Its tokenizer extends Qwen's vocabulary, so the load report must show the round-trip passed and appends_eos = false"
+    },
+    {
+      "model": "RefalMachine/ruadapt_qwen2.5_7B_ext_u48_instruct",
+      "extra": "--plan h1b_rest --protocol reference --prompting completion --free-weights-after",
+      "why": "header, first token and feature, the same cells as Qwen and T-lite in B1; 3.4 h; queued on the card ruadapt's probe frees, the same weights. Needs the T4 x2 accelerator"
     }
   ]
 }

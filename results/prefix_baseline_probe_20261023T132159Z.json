@@ -1,0 +1,438 @@
+{
+  "files": {
+    "iris.csv": {
+      "predictor": {
+        "windows": 142,
+        "hits": 0,
+        "rate": 0.0,
+        "by_kind": {}
+      },
+      "duplicate_rate": 0.02,
+      "rule_of_three": 0.02112676056338028,
+      "p0": 0.02112676056338028,
+      "witness_columns": [
+        "sepal_length",
+        "sepal_width",
+        "petal_length",
+        "petal_width"
+      ]
+    },
+    "adult-train.csv": {
+      "predictor": {
+        "windows": 32553,
+        "hits": 0,
+        "rate": 0.0,
+        "by_kind": {}
+      },
+      "duplicate_rate": 0.0007,
+      "rule_of_three": 9.21574048474795e-05,
+      "p0": 0.0007,
+      "witness_columns": [
+        "fnlwgt"
+      ]
+    },
+    "california-housing.csv": {
+      "predictor": {
+        "windows": 20632,
+        "hits": 0,
+        "rate": 0.0,
+        "by_kind": {}
+      },
+      "duplicate_rate": 0.0,
+      "rule_of_three": 0.00014540519581233036,
+      "p0": 0.00014540519581233036,
+      "witness_columns": [
+        "longitude",
+        "latitude",
+        "total_rooms",
+        "total_bedrooms",
+        "population",
+        "households",
+        "median_income",
+        "median_house_value"
+      ]
+    },
+    "openml-diabetes.csv": {
+      "predictor": {
+        "windows": 760,
+        "hits": 0,
+        "rate": 0.0,
+        "by_kind": {}
+      },
+      "duplicate_rate": 0.0,
+      "rule_of_three": 0.003947368421052632,
+      "p0": 0.003947368421052632,
+      "witness_columns": [
+        "Glucose",
+        "BloodPressure",
+        "SkinThickness",
+        "Insulin",
+        "BMI",
+        "DiabetesPedigreeFunction"
+      ]
+    },
+    "uci-wine.csv": {
+      "predictor": {
+        "windows": 170,
+        "hits": 0,
+        "rate": 0.0,
+        "by_kind": {}
+      },
+      "duplicate_rate": 0.0,
+      "rule_of_three": 0.01764705882352941,
+      "p0": 0.01764705882352941,
+      "witness_columns": [
+        "alcohol",
+        "malic_acid",
+        "ash",
+        "alcalinity_of_ash",
+        "magnesium",
+        "total_phenols",
+        "flavanoids",
+        "nonflavanoid_phenols",
+        "proanthocyanins",
+        "color_intensity",
+        "hue",
+        "od280_od315_of_diluted_wines",
+        "proline"
+      ]
+    },
+    "titanic-train.csv": {
+      "predictor": {
+        "windows": 883,
+        "hits": 0,
+        "rate": 0.0,
+        "by_kind": {}
+      },
+      "duplicate_rate": 0.0,
+      "rule_of_three": 0.0033975084937712344,
+      "p0": 0.0033975084937712344,
+      "witness_columns": [
+        "Ticket",
+        "Fare",
+        "Cabin"
+      ]
+    }
+  },
+  "cells": {
+    "allenai/OLMo-7B-hf|adult-train.csv": {
+      "n": 100,
+      "matches": 0,
+      "rate": 0.0,
+      "p_vs_duplicate_rate_epsilon_null": 1.0,
+      "fragment_queries": 0,
+      "near_duplicate_queries": 3,
+      "predictor_hits_in_cell": 0,
+      "matches_that_are_predictor_hits": 0,
+      "null": {
+        "duplicate_rate": 0.0007,
+        "predictor_rate": 0.0,
+        "rule_of_three": 9.21574048474795e-05,
+        "windows": 32553,
+        "p0": 0.0007
+      },
+      "after_rules": {
+        "tau": 0.1,
+        "matches": 0,
+        "n": 97,
+        "p": 1.0
+      },
+      "by_tau": {
+        "0.05": {
+          "matches": 0,
+          "n": 100,
+          "p": 1.0
+        },
+        "0.1": {
+          "matches": 0,
+          "n": 97,
+          "p": 1.0
+        },
+        "0.2": {
+          "matches": 0,
+          "n": 82,
+          "p": 1.0
+        },
+        "0.3": {
+          "matches": 0,
+          "n": 52,
+          "p": 1.0
+        }
+      },
+      "witness": {
+        "present": 100,
+        "reproduced": 0,
+        "columns_hit": [],
+        "by_tier": {
+          "single": {
+            "present": 100,
+            "reproduced": 0
+          }
+        }
+      },
+      "other_columns": {
+        "present": 146,
+        "reproduced": 2
+      },
+      "positive": false
+    },
+    "allenai/OLMo-7B-hf|iris.csv": {
+      "n": 142,
+      "matches": 15,
+      "rate": 0.1056338028169014,
+      "p_vs_duplicate_rate_epsilon_null": 2.0514278079456325e-07,
+      "fragment_queries": 0,
+      "near_duplicate_queries": 39,
+      "predictor_hits_in_cell": 0,
+      "matches_that_are_predictor_hits": 0,
+      "null": {
+        "duplicate_rate": 0.02,
+        "predictor_rate": 0.0,
+        "rule_of_three": 0.02112676056338028,
+        "windows": 142,
+        "p0": 0.02112676056338028
+      },
+      "after_rules": {
+        "tau": 0.1,
+        "matches": 9,
+        "n": 103,
+        "p": 0.0003526194392676214
+      },
+      "by_tau": {
+        "0.05": {
+          "matches": 13,
+          "n": 140,
+          "p": 9.858652300695764e-06
+        },
+        "0.1": {
+          "matches": 9,
+          "n": 103,
+          "p": 0.0003526194392676214
+        },
+        "0.2": {
+          "matches": 0,
+          "n": 9,
+          "p": 1.0
+        },
+        "0.3": {
+          "matches": 0,
+          "n": 2,
+          "p": 1.0
+        }
+      },
+      "witness": {
+        "present": 247,
+        "reproduced": 118,
+        "columns_hit": [
+          "petal_length",
+          "petal_width",
+          "sepal_length",
+          "sepal_width"
+        ],
+        "by_tier": {
+          "single": {
+            "present": 247,
+            "reproduced": 118
+          }
+        }
+      },
+      "other_columns": {
+        "present": 2,
+        "reproduced": 0
+      },
+      "positive": true
+    },
+    "allenai/OLMo-7B-hf|openml-diabetes.csv": {
+      "n": 250,
+      "matches": 0,
+      "rate": 0.0,
+      "p_vs_duplicate_rate_epsilon_null": 1.0,
+      "fragment_queries": 0,
+      "near_duplicate_queries": 0,
+      "predictor_hits_in_cell": 0,
+      "matches_that_are_predictor_hits": 0,
+      "null": {
+        "duplicate_rate": 0.0,
+        "predictor_rate": 0.0,
+        "rule_of_three": 0.003947368421052632,
+        "windows": 760,
+        "p0": 0.003947368421052632
+      },
+      "after_rules": {
+        "tau": 0.1,
+        "matches": 0,
+        "n": 250,
+        "p": 1.0
+      },
+      "by_tau": {
+        "0.05": {
+          "matches": 0,
+          "n": 250,
+          "p": 1.0
+        },
+        "0.1": {
+          "matches": 0,
+          "n": 250,
+          "p": 1.0
+        },
+        "0.2": {
+          "matches": 0,
+          "n": 250,
+          "p": 1.0
+        },
+        "0.3": {
+          "matches": 0,
+          "n": 246,
+          "p": 1.0
+        }
+      },
+      "witness": {
+        "present": 687,
+        "reproduced": 0,
+        "columns_hit": [],
+        "by_tier": {
+          "single": {
+            "present": 687,
+            "reproduced": 0
+          }
+        }
+      },
+      "other_columns": {
+        "present": 0,
+        "reproduced": 0
+      },
+      "positive": false
+    },
+    "allenai/OLMo-7B-hf|titanic-train.csv": {
+      "n": 250,
+      "matches": 0,
+      "rate": 0.0,
+      "p_vs_duplicate_rate_epsilon_null": 1.0,
+      "fragment_queries": 0,
+      "near_duplicate_queries": 0,
+      "predictor_hits_in_cell": 0,
+      "matches_that_are_predictor_hits": 0,
+      "null": {
+        "duplicate_rate": 0.0,
+        "predictor_rate": 0.0,
+        "rule_of_three": 0.0033975084937712344,
+        "windows": 883,
+        "p0": 0.0033975084937712344
+      },
+      "after_rules": {
+        "tau": 0.1,
+        "matches": 0,
+        "n": 250,
+        "p": 1.0
+      },
+      "by_tau": {
+        "0.05": {
+          "matches": 0,
+          "n": 250,
+          "p": 1.0
+        },
+        "0.1": {
+          "matches": 0,
+          "n": 250,
+          "p": 1.0
+        },
+        "0.2": {
+          "matches": 0,
+          "n": 249,
+          "p": 1.0
+        },
+        "0.3": {
+          "matches": 0,
+          "n": 245,
+          "p": 1.0
+        }
+      },
+      "witness": {
+        "present": 484,
+        "reproduced": 1,
+        "columns_hit": [
+          "Fare"
+        ],
+        "by_tier": {
+          "single": {
+            "present": 484,
+            "reproduced": 1
+          }
+        }
+      },
+      "other_columns": {
+        "present": 481,
+        "reproduced": 221
+      },
+      "positive": false
+    },
+    "allenai/OLMo-7B-hf|uci-wine.csv": {
+      "n": 170,
+      "matches": 0,
+      "rate": 0.0,
+      "p_vs_duplicate_rate_epsilon_null": 1.0,
+      "fragment_queries": 0,
+      "near_duplicate_queries": 0,
+      "predictor_hits_in_cell": 0,
+      "matches_that_are_predictor_hits": 0,
+      "null": {
+        "duplicate_rate": 0.0,
+        "predictor_rate": 0.0,
+        "rule_of_three": 0.01764705882352941,
+        "windows": 170,
+        "p0": 0.01764705882352941
+      },
+      "after_rules": {
+        "tau": 0.1,
+        "matches": 0,
+        "n": 170,
+        "p": 1.0
+      },
+      "by_tau": {
+        "0.05": {
+          "matches": 0,
+          "n": 170,
+          "p": 1.0
+        },
+        "0.1": {
+          "matches": 0,
+          "n": 170,
+          "p": 1.0
+        },
+        "0.2": {
+          "matches": 0,
+          "n": 170,
+          "p": 1.0
+        },
+        "0.3": {
+          "matches": 0,
+          "n": 167,
+          "p": 1.0
+        }
+      },
+      "witness": {
+        "present": 1360,
+        "reproduced": 5,
+        "columns_hit": [
+          "alcalinity_of_ash",
+          "color_intensity",
+          "flavanoids",
+          "hue",
+          "malic_acid"
+        ],
+        "by_tier": {
+          "single": {
+            "present": 1360,
+            "reproduced": 5
+          }
+        }
+      },
+      "other_columns": {
+        "present": 0,
+        "reproduced": 0
+      },
+      "positive": false
+    }
+  },
+  "pairs": {}
+}

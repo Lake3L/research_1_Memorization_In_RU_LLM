@@ -208,7 +208,7 @@ def rescore_feature(calls, df, feature):
     identifiable and its true value for the held-out feature is known without
     trusting anything the run recorded.
     """
-    matches, n, distances, near = 0, 0, [], 0
+    matches, n, distances, near, answered = 0, 0, [], 0, 0
     columns = [str(c) for c in df.columns]
     for call in calls:
         prompt = prompt_text(call)
@@ -226,11 +226,14 @@ def rescore_feature(calls, df, feature):
         got = library_feature_value(feature_response(call), feature)
         n += 1
         matches += truth == got
+        # an answer in the feature's shape; under half of them makes a zero
+        # inconclusive (the FAIL_ADAPTER floor on feature cells)
+        answered += got is not None
         got = got or ""
         d = norm_lev(truth, got)
         distances.append(d)
         near += d <= 0.1
-    return {"matches": matches, "n": n, "feature": feature,
+    return {"matches": matches, "n": n, "feature": feature, "answered": answered,
             "mean_normalized_levenshtein": round(sum(distances) / len(distances), 4) if distances else None,
             "near_match_rate": round(near / len(distances), 4) if distances else None,
             "unidentified_rows": len(calls) - n}
@@ -280,8 +283,10 @@ def main():
         else:
             feature, _ = designated_feature(path)
             got = rescore_feature(group, df, feature)
-            note = (f"{got['unidentified_rows']} rows not identified"
-                    if got["unidentified_rows"] else "")
+            note = "; ".join(
+                ([f"{got['unidentified_rows']} rows not identified"] if got["unidentified_rows"] else [])
+                + [f"answered {got['answered']}/{got['n']}"
+                   + (" — under half: inconclusive" if got["answered"] < got["n"] / 2 else "")])
         ref = reported.get((test, dataset), {})
         same = (ref.get("matches") == got["matches"] and ref.get("n") == got["n"])
         lev = got["mean_normalized_levenshtein"]

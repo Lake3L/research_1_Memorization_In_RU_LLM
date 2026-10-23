@@ -79,15 +79,164 @@ The FAIL_ADAPTER rule of block A is what this is for: a zero made of answers
 that are not rows is not a negative. All 19 OLMo cells of O1 are void and are
 rerun in session B1; the logs stay in `results/` as evidence.
 
-## 4. Files
+## 4. Session B1 (2026-10-23)
 
-Session O1: `results/calls_probe_Qwen_Qwen2.5-7B-Instruct_raw_en_completion_20261005T101710Z.jsonl`
-and its `gateA_` file, `results/prefix_baseline_probe_20261005T101710Z.json`;
-void, evidence only: `results/calls_{probe,h1b_rest}_allenai_OLMo-7B-hf_raw_en_completion_20261005T092707Z.jsonl`
-and their `gateA_` files.
+Five runs on two T4s in the dispatch order of `notebooks/session.json`.
+Settings as in O1. Every run is complete, the instrument check gave 10/10
+and 0/10 in all five, and the tokenizer round-trip passed. OLMo's load
+report shows `appends_eos: true`; T-lite and Qwen show `false`. All 25 row
+and feature cells reproduce from their raw logs (`src/rescore_calls.py`).
+
+| run | calls | wall time | planning figure |
+|---|---|---|---|
+| OLMo-7B-hf, `probe` | 912 | 51 min | 1.0 h |
+| OLMo-7B-hf, `h1b_rest` | 1,836 | 2 h 08 min | 3.0 h |
+| Qwen2.5-7B-Instruct, `h1b_rest` | 1,836 | 2 h 38 min | 3.4 h |
+| T-lite-it-1.0, `h1b_rest` | 1,836 | 2 h 31 min | 3.4 h |
+| T-lite-it-1.0, `probe` | 912 | 55 min | 1.2 h |
+
+The longer card ran 5 h 09 min against the 6.8 h planned. By generation time
+the five runs took 0.71–0.77 of their planning figures. `src/price_plan.py
+--validate` now covers 34 runs, and the largest ratio is still 0.94. T-lite
+costs what Qwen costs, so it stays in the qwen-7b family.
+
+## 5. OLMo-7B-hf, the method control, against Bordt et al. Table 3
+
+With the end-of-text token removed, OLMo answers in rows: 98–100% of its row
+answers have the file's field count, against 0% in O1. Scored under
+`AMENDMENT_7` (`results/prefix_baseline_probe_20261023T132159Z.json`):
+
+| file | header (rows recovered) | Bordt, header | row, library | row, R1+R4 | p (R2) | Bordt, row |
+|---|---|---|---|---|---|---|
+| iris | pass (3) | ? | 15/142 | 9/103 | 4 × 10⁻⁴ | ✓ |
+| uci-wine | fail | ✗ | 0/170 | 0/170 | 1 | ✗ |
+| openml-diabetes | fail | ✗ | 0/250 | 0/250 | 1 | ✗ |
+| titanic-train | fail | ? | 0/250 | 0/250 | 1 | ✗ |
+| adult-train | fail | ✗ | 0/100 | 0/97 | 1 | ✗ |
+| california-housing | fail | — | not in `probe` | | | — |
+
+Key to Bordt's symbols:
+- ✓ means evidence of memorization.
+- ✗ means no evidence.
+- ? means an ambiguous result.
+
+They are read off the arXiv HTML of the paper, because the PDF text
+extraction drops them. Table 3 has no California Housing column. Its
+Spaceship Titanic and FICO columns are not in our canon.
+
+The results agree. Bordt et al. give a definite verdict in eight cells, and
+ours is the same in all eight. Their two ambiguous cells split: iris header
+passes with three rows, and titanic header fails.
+
+The two studies differ in method:
+- **Verdicts.** Bordt et al. judge by eye from printed completions; ours are
+  formal tests.
+- **Code and checkpoint.** They ran `allenai/OLMo-7B` through their own code
+  (`AMENDMENT_4` §1). We ran its transformers-native conversion, in nf4.
+
+The method control therefore passes. On the one model of our size class with
+published per-dataset verdicts, three parts of our method together reproduce
+the published pattern: iris rows extractable, the rest of the canon not. The
+three parts are the instrument, the completion protocol and the `AMENDMENT_7`
+rules.
+
+OLMo's iris is the weakest of the study: 15/142, against 32–95 for the other
+six models on the same 142 prompts. Its other tests are in the table of §6:
+- First token on iris is above the data baseline. Diabetes and adult are at
+  baseline.
+- Feature completion is zero on four files.
+- Wine feature is inconclusive. Only 78 of 170 answers are in the feature's
+  shape; in the rest OLMo closes a code block and writes a README
+  (`## License`). This is the `FAIL_ADAPTER` floor, which
+  `src/rescore_calls.py` now counts for every feature cell.
+
+## 6. Qwen2.5-7B-Instruct ↔ T-lite-it-1.0 (H1b)
+
+This is the first Qwen pair. All four tests ran on identical prompts: the same
+seed and plan, with Qwen's probe from O1. Row completion was scored with both
+logs together (`results/prefix_baseline_probe_20261023T162400Z.json`):
+
+| file | Qwen2.5-7B | T-lite | R1+R4, Qwen | R1+R4, T-lite | Qwen only / T-lite only | exact McNemar p |
+|---|---|---|---|---|---|---|
+| iris | 84/142 | **95/142** | 58/103 | **67/103** | 12 / 21 | 0.16 |
+| uci-wine, openml-diabetes, titanic-train, adult-train | 0 | 0 | 0 | 0 | — | — |
+
+Over all 142 iris queries the count is 20 / 31, p = 0.16.
+
+The secondary outcome of `AMENDMENT_3` §2 is the mean normalised distance of
+the row answers:
+
+| | iris | uci-wine | openml-diabetes | titanic-train | adult-train |
+|---|---|---|---|---|---|
+| Qwen2.5-7B | 0.080 | 0.426 | 0.524 | 0.524 | 0.469 |
+| T-lite | 0.055 | 0.426 | 0.519 | 0.540 | 0.432 |
+
+The other three tests, with OLMo alongside. First token is scored against the
+data (`results/first_token_h1b_rest_20261023T160000Z.json`):
+
+| test | file | Qwen2.5-7B | T-lite | OLMo-7B-hf |
+|---|---|---|---|---|
+| header | iris | pass (5 rows) | pass (18 rows) | pass (3 rows) |
+| header | openml-diabetes | pass (2 rows) | fail | fail |
+| header | adult-train | pass (1 row) | fail | fail |
+| header | uci-wine, titanic-train, california-housing | fail | fail | fail |
+| first token | iris (baseline 0.493, previous row) | 121/142, p = 3 × 10⁻¹⁹ | 131/142, p = 3 × 10⁻²⁸ | 95/142, p = 2 × 10⁻⁵ |
+| first token | openml-diabetes (0.280, mode) | 59/250, p = 0.95 | 60/250, p = 0.93 | 34/250, p = 1 |
+| first token | adult-train (0.220, mode) | 59/250, p = 0.29 | 58/250, p = 0.35 | 56/250, p = 0.46 |
+| feature | the five files | 0 everywhere | wine 1/170, titanic 1/250, others 0 | 0; wine inconclusive (78/170 answered) |
+
+The row-conditional bound is a sensitivity check only (`AMENDMENT_6` §1).
+Against it, iris first token keeps Qwen (p = 0.003) and T-lite (p = 2 ×
+10⁻⁷) and loses OLMo (p = 0.99). Every feature cell of Qwen and T-lite has
+all its answers in the feature's shape, so their zeros are negatives.
+
+**Reading.** T-lite reproduces iris at least as well as its base on every
+test. The row difference favours T-lite and is not significant. The
+distances agree to within 0.04 on every file, with no consistent direction.
+
+The header test is one greedy completion per split, so a count of recovered
+rows is not a rate. There, Qwen passes on the first rows of diabetes and
+adult, and T-lite passes on neither.
+
+On the primary outcome, then, this pair retains its base's memorization.
+Neither attenuation nor amplification is shown. The Nemo pair went the other
+way, where Vikhr-Nemo held 32 of Mistral-Nemo's 51 (p = 0.029,
+`RESULTS_PROMPTING_PROBE.md`), so the direction is not common to the two
+adaptations.
+
+These are one cell of H1b, not its test. The confirmatory test is the paired
+Wilcoxon over datasets in the full design (four variants, three seeds). The second Qwen pair, ruadapt-Qwen, runs next on the same prompts.
+
+## 7. Files
+
+Session O1:
+- `results/calls_probe_Qwen_Qwen2.5-7B-Instruct_raw_en_completion_20261005T101710Z.jsonl`
+  and its `gateA_` file.
+- `results/prefix_baseline_probe_20261005T101710Z.json`.
+- Void, evidence only:
+  `results/calls_{probe,h1b_rest}_allenai_OLMo-7B-hf_raw_en_completion_20261005T092707Z.jsonl`
+  and their `gateA_` files.
+
+Session B1:
+- `results/calls_probe_allenai_OLMo-7B-hf_raw_en_completion_20261023T132159Z.jsonl`.
+- `results/calls_h1b_rest_allenai_OLMo-7B-hf_raw_en_completion_20261023T141400Z.jsonl`.
+- `results/calls_h1b_rest_Qwen_Qwen2.5-7B-Instruct_raw_en_completion_20261023T132159Z.jsonl`.
+- `results/calls_h1b_rest_t-tech_T-lite-it-1.0_raw_en_completion_20261023T160000Z.jsonl`.
+- `results/calls_probe_t-tech_T-lite-it-1.0_raw_en_completion_20261023T162400Z.jsonl`.
+- Each of the five call logs above has its `gateA_` file.
+- `results/prefix_baseline_probe_20261023T132159Z.json` (OLMo).
+- `results/prefix_baseline_probe_20261023T162400Z.json` (Qwen and T-lite,
+  paired).
+- `results/first_token_h1b_rest_20261023T160000Z.json`.
 
 ```
 python src/rescore_calls.py results/calls_probe_Qwen_Qwen2.5-7B-Instruct_raw_en_completion_20261005T101710Z.jsonl --results results/gateA_probe_Qwen_Qwen2.5-7B-Instruct_raw_en_completion_20261005T101710Z.json
 python src/prefix_baseline.py results/calls_probe_Qwen_Qwen2.5-7B-Instruct_raw_en_completion_20261005T101710Z.jsonl --out results/prefix_baseline_probe_20261005T101710Z.json
+python src/rescore_calls.py results/calls_h1b_rest_allenai_OLMo-7B-hf_raw_en_completion_20261023T141400Z.jsonl --results results/gateA_h1b_rest_allenai_OLMo-7B-hf_raw_en_completion_20261023T141400Z.json
+python src/prefix_baseline.py results/calls_probe_allenai_OLMo-7B-hf_raw_en_completion_20261023T132159Z.jsonl --group canon --out results/prefix_baseline_probe_20261023T132159Z.json
+python src/prefix_baseline.py results/calls_probe_Qwen_Qwen2.5-7B-Instruct_raw_en_completion_20261005T101710Z.jsonl results/calls_probe_t-tech_T-lite-it-1.0_raw_en_completion_20261023T162400Z.jsonl --group canon --out results/prefix_baseline_probe_20261023T162400Z.json
+python src/rescore_first_token.py results/calls_h1b_rest_Qwen_Qwen2.5-7B-Instruct_raw_en_completion_20261023T132159Z.jsonl results/calls_h1b_rest_t-tech_T-lite-it-1.0_raw_en_completion_20261023T160000Z.jsonl results/calls_h1b_rest_allenai_OLMo-7B-hf_raw_en_completion_20261023T141400Z.jsonl --out results/first_token_h1b_rest_20261023T160000Z.json
+python src/price_plan.py --validate
 ```
-On Windows: the project `.venv` interpreter and `PYTHONUTF8=1`.
+On Windows: the project `.venv` interpreter and `PYTHONUTF8=1`. Every call
+log is rescored the same way as the first, each with its own `gateA_` file.

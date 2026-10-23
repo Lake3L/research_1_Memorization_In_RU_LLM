@@ -280,12 +280,26 @@ session itself is `notebooks/session.json`.
       started a new document every time; fixed in `src/hf_llm.py`
       (`encode_prompt`, no other tokenizer affected). Cost families of Qwen and
       OLMo added to `price_plan.py`. → `reports/RESULTS_CANON.md`
-- [ ] **Session B1** (`notebooks/session.json`): OLMo `probe` + `h1b_rest`
-      again, Qwen `h1b_rest`, T-lite `probe` + `h1b_rest`; longer card 6.8 h
-      by the planning figure. Check `load.tokenizer.appends_eos = true` for
-      OLMo and row-shaped answers; compare OLMo with Bordt et al. Table 3;
-      Qwen ↔ T-lite McNemar on identical prompts (H1b). Then B2: ruadapt-Qwen
-      `probe` + `h1b_rest` (4.6 h), with whatever else fits under 10 h.
+- [x] **Session B1** (2026-10-23): OLMo-7B-hf valid now (`appends_eos`
+      true, 98–100% row-shaped). It matches Bordt et al. Table 3 in all eight
+      definite cells (iris row positive, 9/103 after the rules), so the method
+      control passes. Qwen ↔ T-lite: iris 58/103 against 67/103, McNemar
+      p = 0.16, so the pair retains (the Nemo pair attenuated). Feature
+      negative everywhere; OLMo wine inconclusive (78/170 answered). The
+      longer card took 5 h 09 min against 6.8 h planned. →
+      `reports/RESULTS_CANON.md` §4–7
+- [ ] **Session B2** (`notebooks/session.json`): Qwen2.5-7B `exposure_2`
+      (5.7 h, decides the strong form of H2e on the ОКВЭД feature cell);
+      ruadapt-Qwen `probe` + `h1b_rest` (4.6 h) on the other card. Attach the
+      nine `ru_exposure` CSVs. Then:
+      - score ruadapt with `prefix_baseline.py` paired with Qwen's O1 probe;
+      - rescore first token;
+      - check ruadapt's round-trip and `appends_eos = false`;
+      - run Qwen exposure_2 through `classifier_diagnostics.py`, the
+        sequence-recall bins and the H2e families: H2e cells against Qwen
+        for the strong form;
+      - `price_plan.py --validate`, and fit Qwen's context slope from
+        exposure_2.
 - [ ] Then GigaChat after its smoke test (add its instruct name to
       `family_holm.ADAPTED_MARKERS`); T-lite and ruadapt-Qwen (block B, and
       H2/H2e as Russian-centric models); Llama-3.1-8B (gated). Price every

@@ -70,6 +70,17 @@ respected, and the price of a plan is now the cost of every answer running to
 the budget the library gives it — the old figure was wrong by a factor of 3.3
 on this session.
 
+**What Part VIII adds (2026-10-24).** Qwen2.5-7B-Instruct, the second
+multilingual control, ran `exposure_2`.
+- **ОКВЭД 2 codes.** Qwen names 11 of 250 codes against the 3.4% lookup
+  baseline (p = 0.23), as Mistral-Nemo named 12. The YandexGPT pair named 28
+  and 32. The strong form of H2e therefore holds on that cell against two
+  of the three preregistered controls; Llama-3.1-8B decides it.
+- **Other cells.** ОКСМ is positive again as world knowledge (0 of the 25
+  portal spellings). Every other cell is negative or inconclusive.
+- **The joint family.** It now has 70 p-values, and every earlier verdict
+  stands.
+
 ---
 
 # Part I — session E1
@@ -1177,4 +1188,125 @@ python src/prefix_baseline.py <the two Nemo logs> --out results/prefix_baseline_
 python src/row_shape.py "results/calls_*_completion_2026082[8]T*.jsonl" "results/calls_*_completion_202609{08,20,23,27,28,29}T*.jsonl" "results/calls_*_completion_20261003T*.jsonl" --out results/row_shape_20261003T124625Z.json
 python src/family_holm.py --group ru_pre_cutoff --shape results/row_shape_20261003T124625Z.json --prefix <the four ru_probe and ru_probe_long prefix files> --diagnostics results/classifier_diagnostics_exposure_20260929T045154Z.json --results "results/gateA_ru_probe_*_completion_20260908T*.json" "results/gateA_ru_probe_*_completion_20260929T*.json" "results/gateA_ru_probe_long_*_completion_20261003T*.json" --out results/h2_family_20261003T124625Z.json
 python src/price_plan.py --validate
+```
+
+---
+
+# Part VIII — session B2: Qwen2.5-7B-Instruct on `exposure_2`, the second multilingual control
+
+## 44. The session
+
+Qwen2.5-7B-Instruct ran plan `exposure_2` on 2026-10-23, on one card of
+session B2. The other card ran ruadapt-Qwen on the canon
+(`RESULTS_CANON.md` §7).
+
+| what | value |
+|---|---|
+| calls | 2,662 |
+| cells | 16 of 16 |
+| wall time | 4 h 20 min |
+| planning figure | 5.7 h (0.75 of it by generation time) |
+| instrument check | 10/10 and 0/10 |
+| tokenizer round-trip | passed |
+| transformers | 5.14.1 |
+| iris anchor | 84/142, byte for byte the same 142 answers as in its O1 probe, a different session |
+
+All 11 row and feature cells reproduce from the log.
+
+Qwen's cost per token was priced with a context slope borrowed from the 8B
+family, and the plan still came in at 0.75. The borrowed slope is
+conservative on these prompt lengths and stays.
+
+## 45. The cells
+
+Each cell carries its verdict in the joint family of §47.
+
+| file | test | Qwen2.5-7B | verdict |
+|---|---|---|---|
+| okved2 | feature | 11/250 against the 0.0338 lookup baseline, p = 0.23; 250 of 250 answered | negative |
+| oksm | feature | 75/250, p_Holm 2 × 10⁻⁴⁷ | positive (world knowledge, see below) |
+| mkb10_v2 | feature | 0/250, all answered | negative |
+| okpdtr, cardio_train | feature | 0/250 | negative |
+| telecom_churn | feature | 2/250, p = 0.12 | negative |
+| okpdtr | row | 1/238 after R1+R4, p = 0.16 | negative |
+| telecom_churn | row | 0/250, 98% row-shaped | negative |
+| oksm | row | 0/250, 1% row-shaped | inconclusive |
+| mos_streets_omk_um_2022 | row | 0/216, 16% row-shaped | inconclusive |
+| the four files | header | fail | outside the family |
+
+The ОКСМ positive is world knowledge, as it was for the three other models
+whose ОКСМ cell is positive (§19). Qwen gets right 51 of 121 current names,
+24 of 104 historical names, and 0 of the 25 names carrying the portal's own
+parenthetical spelling.
+
+The two inconclusive rows fail in different ways:
+- **oksm.** The prompt row ends with the file's trailing delimiter. Qwen
+  answers with one more delimiter and a line break, and only then writes a
+  record. The library scores the first line, so only 1% of answers count as
+  rows. Read on any line, the true row appears once in 250 answers, so the
+  cell is empty either way.
+- **streets.** The instruct model leaves the file and answers as an
+  assistant: "Here is the corrected and formatted address data", or a
+  question in Russian about the streets. Mistral-Nemo and Vikhr-Nemo were
+  inconclusive on the same file.
+
+Prediction 1 of `AMENDMENT_9` §2 now holds for five models: the header test
+fails on every A-to-C file, and on telecom_churn as well.
+
+## 46. The strong form of H2e
+
+The strong form requires the same positive cell to be negative for every
+multilingual control. `PREREGISTRATION.md` §3 names three controls:
+Qwen2.5-7B-Instruct, Mistral-Nemo-Instruct and Llama-3.1-8B-Instruct.
+Vikhr-Nemo is an adaptation, not a control.
+
+ОКВЭД 2 feature completion is the one cell still in question:
+
+| model | role | ОКВЭД 2 names from codes | p (baseline 0.0338) | verdict |
+|---|---|---|---|---|
+| YandexGPT-5-Lite-8B pretrain | Russian-centric | **32/250** | 2 × 10⁻¹⁰ | positive |
+| YandexGPT-5-Lite-8B instruct | Russian-centric | **28/250** | 4 × 10⁻⁸ | positive |
+| Mistral-Nemo-Instruct-2407 | control | 12/250 | 0.14 | negative |
+| Qwen2.5-7B-Instruct | control | 11/250 | 0.23 | negative |
+| Vikhr-Nemo-12B | adaptation | 7/250 | 0.74 | negative |
+
+Both controls run so far name 4–5% of the codes, close to what the nearest
+neighbour of the code already predicts (3.4%). The YandexGPT models name
+11–13%. **The strong form therefore holds on the ОКВЭД 2 feature cell
+against two of the three controls; Llama-3.1-8B decides it.**
+
+The row cells of МКБ-10 and ОКВЭД 2 already fail the strong form by its
+letter, because Mistral-Nemo is positive on them (§12). Qwen has not run
+`exposure_1`, and its run cannot reverse that.
+
+## 47. The joint family, five models
+
+The family now has 70 p-values (`results/h2e_family_joint_20261023T200418Z.json`).
+It was built with the CSV reading of row shape: `--shape` for the earlier
+logs, and `csv_shape_rate` in Qwen's results.
+- **Old cells.** The family is ten p-values larger, so every Holm adjustment
+  is stricter. Even so, every one of the 60 earlier cells keeps the verdict
+  it had in the four-model family.
+- **Qwen's cells.** It adds ten cells, and one of them is positive: ОКСМ
+  feature, which is world knowledge.
+
+The family now has 14 positives. The ones that carry H2e are those of §29:
+МКБ-10 row and ОКВЭД 2 row and feature for the YandexGPT pair.
+
+## 48. Files
+
+New files:
+- `results/calls_exposure_2_Qwen_Qwen2.5-7B-Instruct_raw_en_completion_20261023T200418Z.jsonl`
+  and its `gateA_` file.
+- `results/prefix_baseline_exposure_2_20261023T200418Z.json`.
+- `results/classifier_diagnostics_exposure_20261023T200418Z.json`.
+  `src/classifier_diagnostics.py` now takes a single log for a model
+  without a pair.
+- `results/h2e_family_joint_20261023T200418Z.json`.
+
+```
+python src/rescore_calls.py results/calls_exposure_2_Qwen_Qwen2.5-7B-Instruct_raw_en_completion_20261023T200418Z.jsonl --results results/gateA_exposure_2_Qwen_Qwen2.5-7B-Instruct_raw_en_completion_20261023T200418Z.json
+python src/prefix_baseline.py results/calls_exposure_2_Qwen_Qwen2.5-7B-Instruct_raw_en_completion_20261023T200418Z.jsonl --out results/prefix_baseline_exposure_2_20261023T200418Z.json
+python src/classifier_diagnostics.py --e2 results/calls_exposure_2_Qwen_Qwen2.5-7B-Instruct_raw_en_completion_20261023T200418Z.jsonl --out results/classifier_diagnostics_exposure_20261023T200418Z.json
+python src/family_holm.py --shape results/row_shape_20261003T124625Z.json --prefix results/prefix_baseline_exposure_1_20260920T174835Z.json results/prefix_baseline_exposure_2_20260923T185214Z.json results/prefix_baseline_exposure_1_20260929T045154Z.json results/prefix_baseline_exposure_2_20260927T203359Z.json results/prefix_baseline_exposure_2_20261023T200418Z.json --diagnostics results/classifier_diagnostics_exposure_20260923T185214Z.json results/classifier_diagnostics_exposure_20260929T045154Z.json results/classifier_diagnostics_exposure_20261023T200418Z.json --results "results/gateA_exposure_*_2026092[0379]T*.json" "results/gateA_exposure_2_Qwen_Qwen2.5-7B-Instruct_raw_en_completion_20261023T200418Z.json" --out results/h2e_family_joint_20261023T200418Z.json
 ```

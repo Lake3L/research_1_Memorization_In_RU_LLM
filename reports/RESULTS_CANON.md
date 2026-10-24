@@ -141,7 +141,7 @@ three parts are the instrument, the completion protocol and the `AMENDMENT_7`
 rules.
 
 OLMo's iris is the weakest of the study: 15/142, against 32–95 for the other
-six models on the same 142 prompts. Its other tests are in the table of §6:
+seven models on the same 142 prompts (with ruadapt-Qwen, §7). Its other tests are in the table of §6:
 - First token on iris is above the data baseline. Diabetes and adult are at
   baseline.
 - Feature completion is zero on four files.
@@ -200,14 +200,117 @@ adult, and T-lite passes on neither.
 
 On the primary outcome, then, this pair retains its base's memorization.
 Neither attenuation nor amplification is shown. The Nemo pair went the other
-way, where Vikhr-Nemo held 32 of Mistral-Nemo's 51 (p = 0.029,
-`RESULTS_PROMPTING_PROBE.md`), so the direction is not common to the two
-adaptations.
+way: after the same rules, Vikhr-Nemo held 24 of the 103 rows and
+Mistral-Nemo 36 (McNemar p = 0.029, `RESULTS_EXPOSURE.md` §38). The direction
+is therefore not common to the two adaptations. (The first version of this
+paragraph, 2026-10-23, put that p beside the library counts, 32 and 51 of
+142; their own McNemar p is 0.0034, `RESULTS_PROMPTING_PROBE.md` §2.)
 
 These are one cell of H1b, not its test. The confirmatory test is the paired
 Wilcoxon over datasets in the full design (four variants, three seeds). The second Qwen pair, ruadapt-Qwen, runs next on the same prompts.
 
-## 7. Files
+## 7. Session B2 (2026-10-23): ruadapt-Qwen
+
+ruadapt_qwen2.5_7B_ext_u48_instruct ran `probe` and then `h1b_rest` on one
+card. Qwen2.5-7B-Instruct ran `exposure_2` on the other
+(`RESULTS_EXPOSURE.md` Part VIII). Settings as in B1. ruadapt's tokenizer
+extends Qwen's vocabulary: the round-trip passed, `appends_eos` is false,
+and the instrument check gave 10/10 and 0/10. All ten row and feature cells
+reproduce from their logs.
+
+| run | calls | wall time | planning figure |
+|---|---|---|---|
+| ruadapt-Qwen, `probe` | 912 | 58 min | 1.2 h |
+| ruadapt-Qwen, `h1b_rest` | 1,836 | 2 h 34 min | 3.4 h |
+| Qwen2.5-7B-Instruct, `exposure_2` | 2,662 | 4 h 20 min | 5.7 h |
+
+The longer card took 4 h 20 min against 5.7 h planned. All three runs came
+in at 0.75 of their figures, and `--validate` over 37 runs still shows a
+worst ratio of 0.94.
+
+Qwen answered the iris anchor of `exposure_2` with the same 142 answers,
+byte for byte, as in its O1 probe. The measurement is deterministic across
+sessions.
+
+**Row completion**, scored with Qwen's O1 probe on identical prompts
+(`results/prefix_baseline_probe_20261023T200418Z.json`):
+
+| file | Qwen2.5-7B | ruadapt-Qwen | R1+R4, Qwen | R1+R4, ruadapt | Qwen only / ruadapt only | exact McNemar p |
+|---|---|---|---|---|---|---|
+| iris | 84/142 | 76/142 | 58/103 | 50/103 | 16 / 8 | 0.15 |
+| uci-wine, openml-diabetes, titanic-train, adult-train | 0 | 0 | 0 | 0 | — | — |
+
+Over all 142 iris queries the count is 22 / 14, p = 0.24. The answers are
+row-shaped at the following rates, all above the floor:
+
+| file | row-shaped |
+|---|---|
+| iris | 100% |
+| uci-wine | 78% |
+| openml-diabetes | 74% |
+| titanic-train | 98% |
+| adult-train | 100% |
+
+Mean normalised distance (`AMENDMENT_3` §2):
+
+| | iris | uci-wine | openml-diabetes | titanic-train | adult-train |
+|---|---|---|---|---|---|
+| Qwen2.5-7B | 0.080 | 0.426 | 0.524 | 0.524 | 0.469 |
+| ruadapt-Qwen | 0.076 | 0.450 | 0.530 | 0.542 | 0.456 |
+
+**The other three tests** (first token in
+`results/first_token_h1b_rest_20261023T210223Z.json`):
+
+| test | file | Qwen2.5-7B | ruadapt-Qwen |
+|---|---|---|---|
+| header | iris | pass (5 rows) | pass (23 rows) |
+| header | openml-diabetes | pass (2 rows) | pass (1 row) |
+| header | adult-train | pass (1 row) | fail |
+| header | uci-wine, titanic-train, california-housing | fail | fail |
+| first token | iris (baseline 0.493) | 121/142, p = 3 × 10⁻¹⁹ | 119/142, p = 1 × 10⁻¹⁷ |
+| first token | openml-diabetes (0.280) | 59/250, p = 0.95 | 54/250, p = 0.99 |
+| first token | adult-train (0.220) | 59/250, p = 0.29 | 50/250, p = 0.80 |
+| feature | the five files | 0 everywhere | wine 1/170, others 0; every answer in shape |
+
+On iris first token, ruadapt also keeps the row-conditional bound
+(p = 0.01). Its 23 recovered header rows are the most of any model on iris;
+the next are YandexGPT pretrain with 20, Mistral-Nemo with 19 and T-lite
+with 18.
+
+**Reading.** ruadapt-Qwen holds iris slightly below its base. The row
+difference is 8 queries of 103 and is not significant (p = 0.15). The
+distances move by at most 0.03. The iris first-token count moves by two
+queries, and the two files at baseline stay at baseline. This pair, too,
+retains on the primary outcome.
+
+## 8. H1b over the three pairs so far
+
+Iris row completion is the one canon file where any model reproduces rows.
+It was scored after `AMENDMENT_7` R1 and R4 on the same 103 kept queries for
+every model:
+
+| pair | base | adapted | base only / adapted only | exact McNemar p | reading |
+|---|---|---|---|---|---|
+| Mistral-Nemo ↔ Vikhr-Nemo | 36/103 | 24/103 | 19 / 7 | 0.029 | attenuated |
+| Qwen2.5-7B ↔ T-lite | 58/103 | 67/103 | 12 / 21 | 0.16 | retained |
+| Qwen2.5-7B ↔ ruadapt-Qwen | 58/103 | 50/103 | 16 / 8 | 0.15 | retained |
+
+Sources: `results/prefix_baseline_ru_probe_20260908T121529Z.json` (C1's iris
+anchor), `results/prefix_baseline_probe_20261023T162400Z.json` and
+`results/prefix_baseline_probe_20261023T200418Z.json`.
+
+Only one of the three Russian adaptations loses a detectable part of what its
+base holds, the 12B Vikhr-Nemo. The two Qwen adaptations stay within chance
+of their base, in opposite directions: T-lite above, ruadapt below. The
+other four files of `probe` are zero for all five models, so they contribute
+no paired information. H1b's confirmatory Wilcoxon over datasets therefore has
+one informative dataset per pair in this design.
+
+What is established is narrower and still useful: Russian adaptation does
+not, as a rule, erase verbatim memorization of the canon. Whether it
+attenuates it depends on the adaptation.
+
+## 9. Files
 
 Session O1:
 - `results/calls_probe_Qwen_Qwen2.5-7B-Instruct_raw_en_completion_20261005T101710Z.jsonl`
@@ -228,6 +331,22 @@ Session B1:
 - `results/prefix_baseline_probe_20261023T162400Z.json` (Qwen and T-lite,
   paired).
 - `results/first_token_h1b_rest_20261023T160000Z.json`.
+
+Session B2:
+- `results/calls_probe_RefalMachine_ruadapt_qwen2.5_7B_ext_u48_instruct_raw_en_completion_20261023T200418Z.jsonl`.
+- `results/calls_h1b_rest_RefalMachine_ruadapt_qwen2.5_7B_ext_u48_instruct_raw_en_completion_20261023T210223Z.jsonl`.
+- Both call logs have their `gateA_` files.
+- `results/prefix_baseline_probe_20261023T200418Z.json` (Qwen and ruadapt,
+  paired).
+- `results/first_token_h1b_rest_20261023T210223Z.json`.
+- Qwen's `exposure_2` run is listed in `RESULTS_EXPOSURE.md` §48.
+
+```
+python src/prefix_baseline.py results/calls_probe_Qwen_Qwen2.5-7B-Instruct_raw_en_completion_20261005T101710Z.jsonl results/calls_probe_RefalMachine_ruadapt_qwen2.5_7B_ext_u48_instruct_raw_en_completion_20261023T200418Z.jsonl --group canon --out results/prefix_baseline_probe_20261023T200418Z.json
+python src/rescore_first_token.py results/calls_h1b_rest_Qwen_Qwen2.5-7B-Instruct_raw_en_completion_20261023T132159Z.jsonl results/calls_h1b_rest_RefalMachine_ruadapt_qwen2.5_7B_ext_u48_instruct_raw_en_completion_20261023T210223Z.jsonl --out results/first_token_h1b_rest_20261023T210223Z.json
+```
+
+Session O1 and B1:
 
 ```
 python src/rescore_calls.py results/calls_probe_Qwen_Qwen2.5-7B-Instruct_raw_en_completion_20261005T101710Z.jsonl --results results/gateA_probe_Qwen_Qwen2.5-7B-Instruct_raw_en_completion_20261005T101710Z.json

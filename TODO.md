@@ -288,18 +288,32 @@ session itself is `notebooks/session.json`.
       negative everywhere; OLMo wine inconclusive (78/170 answered). The
       longer card took 5 h 09 min against 6.8 h planned. →
       `reports/RESULTS_CANON.md` §4–7
-- [ ] **Session B2** (`notebooks/session.json`): Qwen2.5-7B `exposure_2`
-      (5.7 h, decides the strong form of H2e on the ОКВЭД feature cell);
-      ruadapt-Qwen `probe` + `h1b_rest` (4.6 h) on the other card. Attach the
-      nine `ru_exposure` CSVs. Then:
-      - score ruadapt with `prefix_baseline.py` paired with Qwen's O1 probe;
-      - rescore first token;
-      - check ruadapt's round-trip and `appends_eos = false`;
-      - run Qwen exposure_2 through `classifier_diagnostics.py`, the
-        sequence-recall bins and the H2e families: H2e cells against Qwen
-        for the strong form;
-      - `price_plan.py --validate`, and fit Qwen's context slope from
-        exposure_2.
+- [x] **Session B2** (2026-10-23):
+      - Qwen2.5-7B `exposure_2`: ОКВЭД feature 11/250, p = 0.23, negative.
+        The strong form of H2e holds against two of the three controls;
+        Llama decides it.
+      - The joint H2e family covers five models, 70 p-values; no verdict
+        changed.
+      - ruadapt-Qwen: iris 50/103 against Qwen's 58, p = 0.15, retains.
+      - H1b over three pairs: one attenuation (Nemo), two retentions.
+      - Qwen's borrowed context slope priced exposure_2 at 0.75, so no refit.
+
+      → `reports/RESULTS_EXPOSURE.md` Part VIII, `reports/RESULTS_CANON.md`
+      §7–8
+- [ ] **Session B3** (`notebooks/session.json`): T-lite (5.7 h) and ruadapt
+      (5.5 h) on `exposure_2`, one per card. Attach the nine `ru_exposure`
+      CSVs. Then:
+      - pair each with Qwen's B2 log: `prefix_baseline.py` on the rows, and
+        the feature cells on identical prompts — does Russian adaptation add
+        ОКВЭД or МКБ-10 names?
+      - `classifier_diagnostics.py --e2 <T-lite> <ruadapt>`;
+      - regenerate the joint H2e family (`family_holm.py` already marks
+        both models as adapted);
+      - `price_plan.py --validate`.
+- [ ] **Llama-3.1-8B-Instruct** is gated and needs Danil to do two things:
+      accept the licence on Hugging Face, and add an `HF_TOKEN` secret to the
+      notebook. The notebook does not read a token yet. It is the third
+      control and decides the strong form of H2e on the ОКВЭД feature cell.
 - [ ] Then GigaChat after its smoke test (add its instruct name to
       `family_holm.ADAPTED_MARKERS`); T-lite and ruadapt-Qwen (block B, and
       H2/H2e as Russian-centric models); Llama-3.1-8B (gated). Price every

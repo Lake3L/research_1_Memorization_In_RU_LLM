@@ -39,6 +39,8 @@ Usage:
 `--e1` may be left out when a pair has run `exposure_2` only: the gradient and
 the metro row of `trailing` need the `exposure_1` log and are then skipped;
 the feature, ОКСМ and remaining trailing tables come from `exposure_2` alone.
+A model without a pair (a multilingual control) takes one log per option;
+when `--e1` is given it lists the same models in the same order as `--e2`.
 """
 
 import argparse
@@ -200,10 +202,12 @@ def trailing(calls, dataset):
 
 def main():
     ap = argparse.ArgumentParser()
-    ap.add_argument("--e1", nargs=2, default=None, metavar=("BASE", "ADAPTED"))
-    ap.add_argument("--e2", nargs=2, required=True, metavar=("BASE", "ADAPTED"))
+    ap.add_argument("--e1", nargs="+", default=None, metavar="LOG")
+    ap.add_argument("--e2", nargs="+", required=True, metavar="LOG")
     ap.add_argument("--out", required=True)
     args = ap.parse_args()
+    if args.e1 and len(args.e1) != len(args.e2):
+        ap.error("--e1 and --e2 must list the same models")
     baselines = json.load(open(os.path.join(ROOT, "data", "feature_baselines.json"), encoding="utf-8"))
 
     result = {"_what": __doc__.split("\n\n")[0], "models": {}}

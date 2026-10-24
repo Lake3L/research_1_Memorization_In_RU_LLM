@@ -53,7 +53,8 @@ def holm(pvalues):
 # The adapted (or instruction-tuned) member of each pair; everything else is
 # the base. Mistral-Nemo-Instruct-2407 is the *base* of the Nemo pair, so the
 # word "instruct" alone cannot decide.
-ADAPTED_MARKERS = ("vikhr", "yandexgpt-5-lite-8b-instruct", "gigachat-20b-a3b-instruct")
+ADAPTED_MARKERS = ("vikhr", "t-lite", "ruadapt", "yandexgpt-5-lite-8b-instruct",
+                   "gigachat-20b-a3b-instruct")
 
 
 def short(model):

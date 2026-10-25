@@ -1,20 +1,18 @@
 {
   "_what": "The runs this GPU session performs. The notebook reads this file from the repository checkout, so the experiment is defined in version control rather than in a notebook copy.",
   "_rule": "To change what runs: edit this file, commit, push. The notebook needs no changes.",
-  "session_id": "2026-10-24-block-C-B3-qwen-adaptations-exposure_2",
-  "purpose": "Session B3: the two Russian adaptations of Qwen2.5-7B on exposure_2, one per card, on the prompts their base answered in B2. Qwen2.5-7B-Instruct named 11 of 250 OKVED 2 codes against the 3.4% lookup baseline (p = 0.23), like Mistral-Nemo (12); the YandexGPT pair named 28 and 32 (reports/RESULTS_EXPOSURE.md Part VIII). The question is whether Russian adaptation of a multilingual base adds what a from-scratch Russian model has: OKVED 2 and MKB-10 names from codes, and the classifier rows of exposure_2, paired with Qwen on identical prompts. On the canon both adaptations kept their base's iris (T-lite 67/103, ruadapt 50/103 against Qwen's 58/103; reports/RESULTS_CANON.md §8). Planning figures from src/price_plan.py with each model's own tokenizer, every answer to its budget x 1.15; validated on 37 runs (actual/plan 0.71-0.94; B2's three runs 0.75): T-lite 5.7 h, ruadapt 5.5 h (its extended vocabulary encodes Cyrillic in fewer tokens). The longer card is 5.7 h. Qwen's exposure_2 run, priced the same way, took 4 h 20 min.",
-  "dataset_group": "canon,ru_exposure",
+  "session_id": "2026-10-25-block-C-B4-qwen-adaptations-ru_probe",
+  "purpose": "Session B4: H2 proper on the two confirmatory Russian-adapted Qwen models, one per card. Plan ru_probe: the four Russian pre-cutoff files of AMENDMENT_1 with rows under 200 tokens (hflabs_city, govdomains, mos_zemelnye_uchastki, mos_torgovye_obekty), the fresh control trudvsem_vacancies_2026, and iris as the in-session anchor. These are the same cells on which the Nemo pair (C1) and the YandexGPT pair (Y3) were negative, and govdomains fired only through near-duplicate rows. T-lite-it-1.0 and ruadapt_qwen2.5_7B_ext_u48_instruct are the confirmatory Russian-centric models of PREREGISTRATION.md §3 and have not yet met these files. On exposure_2 (B3) neither named OKVED 2 codes above the lookup baseline (10 and 4 of 250, against Qwen's 11 and YandexGPT's 28-32). iris must return 95/142 and 76/142, byte for byte, as in B1-B3. russian_retail (ru_probe_long) does not fit: 15.6 h for T-lite and 13.1 h for ruadapt by the planning figure. Planning figures from src/price_plan.py with each model's own tokenizer, every answer to its budget x 1.15, validated on 39 runs (actual/plan 0.71-0.94; B3's two runs 0.71 and 0.73): T-lite 7.2 h, ruadapt 6.9 h. The longer card is 7.2 h, about 5.4 h at B3's ratio.",
+  "dataset_group": "canon,ru_pre_cutoff,fresh_control",
   "datasets": [
     "iris",
-    "oksm",
-    "okpdtr",
-    "mos_streets_omk_um_2022",
-    "telecom_churn",
-    "mkb10_v2",
-    "okved2",
-    "cardio_train"
+    "hflabs_city",
+    "govdomains",
+    "mos_zemelnye_uchastki",
+    "mos_torgovye_obekty",
+    "trudvsem_vacancies_2026"
   ],
-  "attached_input": "the nine ru_exposure CSVs, attached as one Kaggle dataset (loose or zipped); the fetch step adopts them from /kaggle/input, looks inside zips, and verifies every hash before any weights load",
+  "attached_input": "trudvsem_vacancies_2026.csv — the frozen fresh control, attached as a Kaggle dataset as in sessions C1 and Y3; it cannot be re-fetched. The other four Russian files are fetched from their registered sources and hash-checked before any weights load",
   "variant": "raw",
   "prompt_language": "en",
   "load_in_4bit": true,
@@ -32,20 +30,20 @@
       "--free-weights-after"
     ],
     "plans": [
-      "exposure_2"
+      "ru_probe"
     ],
     "note": "verified against the checkout before any weights are downloaded"
   },
   "runs": [
     {
       "model": "t-tech/T-lite-it-1.0",
-      "extra": "--plan exposure_2 --protocol reference --prompting completion --free-weights-after",
-      "why": "feature completion on the four classifiers and header and row on the rest of exposure_2; 5.7 h; Qwen2.5-7B's continued-pretraining adaptation, paired with Qwen's B2 run. iris anchors the plan (95/142 in B1)"
+      "extra": "--plan ru_probe --protocol reference --prompting completion --free-weights-after",
+      "why": "header and row completion on the AMENDMENT_1 files and the fresh control; 7.2 h; H2 for the continued-pretraining adaptation of Qwen2.5-7B. iris anchors the plan (95/142)"
     },
     {
       "model": "RefalMachine/ruadapt_qwen2.5_7B_ext_u48_instruct",
-      "extra": "--plan exposure_2 --protocol reference --prompting completion --free-weights-after",
-      "why": "the same cells, same seed, the other card; 5.5 h; Qwen2.5-7B's vocabulary-extended adaptation. iris anchors the plan (76/142 in B2). Needs the T4 x2 accelerator"
+      "extra": "--plan ru_probe --protocol reference --prompting completion --free-weights-after",
+      "why": "the same cells, same seed, the other card; 6.9 h; H2 for the vocabulary-extended adaptation. iris anchors the plan (76/142). Needs the T4 x2 accelerator"
     }
   ]
 }

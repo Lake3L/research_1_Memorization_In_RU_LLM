@@ -310,6 +310,14 @@ What is established is narrower and still useful: Russian adaptation does
 not, as a rule, erase verbatim memorization of the canon. Whether it
 attenuates it depends on the adaptation.
 
+The two Qwen adaptations do differ from each other. Session B3 repeated both
+iris anchors byte for byte, on the same 103 kept queries. There T-lite has
+26 rows that ruadapt lacks and ruadapt 9 that T-lite lacks, McNemar
+p = 0.006 (`results/prefix_baseline_exposure_2_20261024T212338Z.json`). This
+contrast is exploratory, since H1b compares each adaptation with its base.
+Each stays within chance of Qwen, but on opposite sides, and the two sides
+are far enough apart to be told apart.
+
 ## 9. Files
 
 Session O1:

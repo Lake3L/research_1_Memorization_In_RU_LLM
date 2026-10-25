@@ -81,6 +81,18 @@ multilingual control, ran `exposure_2`.
 - **The joint family.** It now has 70 p-values, and every earlier verdict
   stands.
 
+**What Part IX adds (2026-10-25).** T-lite and ruadapt-Qwen, the two
+Russian adaptations of Qwen2.5-7B, ran `exposure_2` on their base's prompts.
+- **ОКВЭД 2 codes.** They name 10 and 4 of 250, against their base's 11.
+  The YandexGPT models name 28 and 32.
+- **МКБ-10.** Neither names a rubric from its code.
+- **What it means.** The one cell that separates a from-scratch Russian
+  model from the multilingual ones does not move with Russian adaptation.
+- **ОКСМ.** It is world knowledge for T-lite, and inconclusive for ruadapt,
+  which misspells the feature's name in its answers.
+- **The joint family.** It now covers seven models and 90 p-values, and no
+  verdict changed.
+
 ---
 
 # Part I — session E1
@@ -1309,4 +1321,123 @@ python src/rescore_calls.py results/calls_exposure_2_Qwen_Qwen2.5-7B-Instruct_ra
 python src/prefix_baseline.py results/calls_exposure_2_Qwen_Qwen2.5-7B-Instruct_raw_en_completion_20261023T200418Z.jsonl --out results/prefix_baseline_exposure_2_20261023T200418Z.json
 python src/classifier_diagnostics.py --e2 results/calls_exposure_2_Qwen_Qwen2.5-7B-Instruct_raw_en_completion_20261023T200418Z.jsonl --out results/classifier_diagnostics_exposure_20261023T200418Z.json
 python src/family_holm.py --shape results/row_shape_20261003T124625Z.json --prefix results/prefix_baseline_exposure_1_20260920T174835Z.json results/prefix_baseline_exposure_2_20260923T185214Z.json results/prefix_baseline_exposure_1_20260929T045154Z.json results/prefix_baseline_exposure_2_20260927T203359Z.json results/prefix_baseline_exposure_2_20261023T200418Z.json --diagnostics results/classifier_diagnostics_exposure_20260923T185214Z.json results/classifier_diagnostics_exposure_20260929T045154Z.json results/classifier_diagnostics_exposure_20261023T200418Z.json --results "results/gateA_exposure_*_2026092[0379]T*.json" "results/gateA_exposure_2_Qwen_Qwen2.5-7B-Instruct_raw_en_completion_20261023T200418Z.json" --out results/h2e_family_joint_20261023T200418Z.json
+```
+
+---
+
+# Part IX — session B3: the two Russian adaptations of Qwen2.5-7B on `exposure_2`
+
+## 49. The session
+
+T-lite-it-1.0 and ruadapt_qwen2.5_7B_ext_u48_instruct ran plan
+`exposure_2` on 2026-10-24, one model per card. The prompts were the ones
+Qwen2.5-7B answered in B2; the feature prompts are identical on all six
+files, checked from the logs.
+
+| | T-lite | ruadapt |
+|---|---|---|
+| calls | 2,662 | 2,662 |
+| cells | 16 of 16 | 16 of 16 |
+| wall time | 4 h 04 min | 4 h 04 min |
+| planning figure | 5.7 h | 5.5 h |
+| actual / plan | 0.71 | 0.73 |
+
+- **Checks.** The instrument check gave 10/10 and 0/10 for both models, and
+  both tokenizer round-trips passed.
+- **Anchors.** The iris answers are byte-identical to each model's earlier
+  session: 95/142 for T-lite, 76/142 for ruadapt.
+- **Reproduction.** All 22 row and feature cells reproduce from their logs.
+
+## 50. The cells, beside their base
+
+Each cell carries its verdict in the joint family of §52.
+
+| file | test | Qwen2.5-7B (base, B2) | T-lite | ruadapt-Qwen |
+|---|---|---|---|---|
+| okved2 | feature | 11/250, p = 0.23 | 10/250, p = 0.34 | 4/250, p = 0.97 |
+| mkb10_v2 | feature | 0/250 | 0/250 | 0/250 |
+| oksm | feature | 75/250, positive | **98/250, positive** | 18/250, inconclusive (66/250 answered) |
+| okpdtr, cardio_train | feature | 0/250 | 0/250 | 0/250 |
+| telecom_churn | feature | 2/250 | 2/250 | 2/250 |
+| okpdtr | row, R1+R4 | 1/238 | 0/238 | 1/238 |
+| telecom_churn | row | 0/250 | 0/250 | 0/250 |
+| oksm | row | inconclusive (1%) | inconclusive (2%) | inconclusive (1%) |
+| mos_streets_omk_um_2022 | row | inconclusive (16%) | inconclusive (1%) | inconclusive (2%) |
+| the four files | header | fail | fail | fail |
+
+Every feature cell in the table is negative unless it says otherwise.
+
+**Russian adaptation of Qwen adds no classifier names.** On identical
+prompts the two adaptations name ОКВЭД 2 codes no better than their base:
+10 and 4 of 250, against Qwen's 11. The YandexGPT models name 28 and 32.
+Neither adaptation names a single МКБ-10 rubric from its code.
+
+On the one test where a from-scratch Russian model separates from every
+multilingual model, the two Russian-centric adaptations sit with the
+multilingual models. That holds both for T-lite's continued pretraining and
+for ruadapt's extended vocabulary.
+
+H2e is therefore not confirmed for either adaptation on these files.
+`exposure_1`, with the МКБ-10 and ОКВЭД 2 rows, has not run for them.
+
+Two cells need a word:
+- **ОКСМ for T-lite.** It is positive and, like every other ОКСМ positive, it
+  is world knowledge: 64 of 121 current names and 33 of 104 historical ones.
+  It is also the first model to produce a portal spelling, 1 of the 25. The
+  name is "Гуам(США)". One name is not evidence that T-lite saw the
+  portal's file.
+- **ОКСМ for ruadapt.** It is inconclusive for a reason the floor was built
+  for. In 196 of 250 answers ruadapt writes the key as "Полное наименование по
+  ОКОМ" instead of "ОКСМ", and only 66 answers carry the key the library
+  looks for. The library cannot read the rest, though the value after the
+  misspelt key is often a real country name. Under the `FAIL_ADAPTER` rule a
+  count made of unread answers is not a rate, and 18 matches over 66 read
+  answers stay unscored.
+
+The streets file fails three ways:
+- T-lite returns an empty answer to 124 of 250 prompts.
+- ruadapt mostly begins with a line break and writes a street record on the
+  second line, which the library does not read. The true row appears on some
+  line 5 times in 250.
+- Qwen answers as an assistant (§45).
+
+## 51. The strong form of H2e
+
+Unchanged by this session. T-lite and ruadapt are adaptations, not controls,
+so they do not enter the strong form. The ОКВЭД 2 feature cell still holds
+against Mistral-Nemo and Qwen2.5-7B, and Llama-3.1-8B is still required to
+decide it.
+
+What the session adds is the reading. The cell separates the from-scratch
+Russian model from every other model run, both adaptations included.
+Russian adaptation of a multilingual base, in either of its two forms, does
+not produce it. Something in the YandexGPT models' training does, and this
+design does not say what.
+
+## 52. The joint family, seven models
+
+The family now has 90 p-values
+(`results/h2e_family_joint_20261024T212338Z.json`).
+- **Old cells.** Every one of the 70 earlier cells keeps its verdict.
+- **New cells.** Of the 20 new cells, one is positive: T-lite's ОКСМ, which
+  is world knowledge.
+- **Positives.** The family has 15. The largest adjusted p of a positive
+  outside ОКСМ is 3 × 10⁻⁶, so the H2e positives of §29 stand.
+
+## 53. Files
+
+New files:
+- `results/calls_exposure_2_t-tech_T-lite-it-1.0_raw_en_completion_20261024T212338Z.jsonl`.
+- `results/calls_exposure_2_RefalMachine_ruadapt_qwen2.5_7B_ext_u48_instruct_raw_en_completion_20261024T212338Z.jsonl`.
+- Both call logs have their `gateA_` files.
+- `results/prefix_baseline_exposure_2_20261024T212338Z.json` (both models,
+  paired).
+- `results/classifier_diagnostics_exposure_20261024T212338Z.json`.
+- `results/h2e_family_joint_20261024T212338Z.json`.
+
+```
+python src/rescore_calls.py results/calls_exposure_2_<model>_raw_en_completion_20261024T212338Z.jsonl --results results/gateA_exposure_2_<model>_raw_en_completion_20261024T212338Z.json
+python src/prefix_baseline.py results/calls_exposure_2_t-tech_T-lite-it-1.0_raw_en_completion_20261024T212338Z.jsonl results/calls_exposure_2_RefalMachine_ruadapt_qwen2.5_7B_ext_u48_instruct_raw_en_completion_20261024T212338Z.jsonl --out results/prefix_baseline_exposure_2_20261024T212338Z.json
+python src/classifier_diagnostics.py --e2 results/calls_exposure_2_t-tech_T-lite-it-1.0_raw_en_completion_20261024T212338Z.jsonl results/calls_exposure_2_RefalMachine_ruadapt_qwen2.5_7B_ext_u48_instruct_raw_en_completion_20261024T212338Z.jsonl --out results/classifier_diagnostics_exposure_20261024T212338Z.json
+python src/family_holm.py --shape results/row_shape_20261003T124625Z.json --prefix <the five prefix files of §48> results/prefix_baseline_exposure_2_20261024T212338Z.json --diagnostics <the three diagnostics files of §48> results/classifier_diagnostics_exposure_20261024T212338Z.json --results "results/gateA_exposure_*_2026092[0379]T*.json" "results/gateA_exposure_2_Qwen_Qwen2.5-7B-Instruct_raw_en_completion_20261023T200418Z.json" "results/gateA_exposure_2_*_20261024T212338Z.json" --out results/h2e_family_joint_20261024T212338Z.json
 ```

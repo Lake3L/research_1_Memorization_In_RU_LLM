@@ -300,20 +300,34 @@ session itself is `notebooks/session.json`.
 
       → `reports/RESULTS_EXPOSURE.md` Part VIII, `reports/RESULTS_CANON.md`
       §7–8
-- [ ] **Session B3** (`notebooks/session.json`): T-lite (5.7 h) and ruadapt
-      (5.5 h) on `exposure_2`, one per card. Attach the nine `ru_exposure`
-      CSVs. Then:
-      - pair each with Qwen's B2 log: `prefix_baseline.py` on the rows, and
-        the feature cells on identical prompts — does Russian adaptation add
-        ОКВЭД or МКБ-10 names?
-      - `classifier_diagnostics.py --e2 <T-lite> <ruadapt>`;
-      - regenerate the joint H2e family (`family_holm.py` already marks
-        both models as adapted);
+- [x] **Session B3** (2026-10-24): T-lite and ruadapt on `exposure_2`.
+      - ОКВЭД feature: 10 and 4 of 250 against Qwen's 11 and Yandex's 28–32.
+        МКБ-10: 0 for all three. Russian adaptation of Qwen adds no
+        classifier names.
+      - ОКСМ: world knowledge for T-lite; inconclusive for ruadapt, which
+        writes the key "ОКОМ".
+      - Joint H2e family: 7 models, 90 p-values, no verdict changed.
+
+      → `reports/RESULTS_EXPOSURE.md` Part IX
+- [ ] **Session B4** (`notebooks/session.json`): T-lite (7.2 h) and ruadapt
+      (6.9 h) on `ru_probe`, which is H2 proper for the confirmatory models.
+      Attach `trudvsem_vacancies_2026.csv`. Then:
+      - `prefix_baseline.py` with both logs;
+      - `row_shape` / `csv_shape_rate`;
+      - regenerate the H2 family (`family_holm.py --group ru_pre_cutoff`)
+        with six models;
       - `price_plan.py --validate`.
-- [ ] **Llama-3.1-8B-Instruct** is gated and needs Danil to do two things:
-      accept the licence on Hugging Face, and add an `HF_TOKEN` secret to the
-      notebook. The notebook does not read a token yet. It is the third
-      control and decides the strong form of H2e on the ОКВЭД feature cell.
+
+      Neither model fits `ru_probe_long` (15.6 h and 13.1 h).
+- [ ] **Llama-3.1-8B-Instruct** is gated. The author requested access on
+      2026-10-25 with Russia as the country. Meta's FAQ says Llama is
+      available globally except in comprehensively sanctioned jurisdictions;
+      rejections come without reasons.
+      - If granted: export the Kaggle secret as `HF_TOKEN` in the notebook
+        (not read yet). It is the third control and decides the strong form
+        of H2e on the ОКВЭД feature cell.
+      - If rejected: ask llamamodels@meta.com, or replace the control by a
+        dated amendment before its first run. Never misstate the country.
 - [ ] Then GigaChat after its smoke test (add its instruct name to
       `family_holm.ADAPTED_MARKERS`); T-lite and ruadapt-Qwen (block B, and
       H2/H2e as Russian-centric models); Llama-3.1-8B (gated). Price every

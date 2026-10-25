@@ -119,6 +119,30 @@ def ensure_environment():
         except OSError:
             pass
 
+
+def supply_hf_token():
+    """Make a Hugging Face token available for gated models (Llama-3.1).
+
+    A token already in the environment wins; otherwise a Kaggle secret named
+    HF_TOKEN, attached to the notebook, is read and exported, so huggingface_hub
+    sends it with every download. It lives here rather than in a notebook cell
+    for the same reason as ensure_environment. The value is never printed or
+    written to any results file; ungated models need no token and run as before.
+    """
+    if os.environ.get("HF_TOKEN"):
+        print("[hf] token: from the environment", flush=True)
+        return
+    try:
+        from kaggle_secrets import UserSecretsClient
+        token = UserSecretsClient().get_secret("HF_TOKEN")
+    except Exception:  # not on Kaggle, or no secret attached
+        token = None
+    if token:
+        os.environ["HF_TOKEN"] = token
+        print("[hf] token: from the Kaggle secret HF_TOKEN", flush=True)
+    else:
+        print("[hf] token: none (gated models will fail with 401)", flush=True)
+
 # Our own GPT-4-0613 numbers from the first half of the gate (RESULTS_GATE.md
 # §2), measured with this same code. They are the closer comparison than the
 # paper's, because they share our sample sizes and our scoring.
@@ -393,6 +417,7 @@ def main():
         model_label = f"mock:{args.mock}"
     else:
         ensure_environment()        # before transformers is imported below
+        supply_hf_token()           # before any download
         import torch
         from hf_llm import HFLLM
         if revision is None:

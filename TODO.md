@@ -319,15 +319,18 @@ session itself is `notebooks/session.json`.
       - `price_plan.py --validate`.
 
       Neither model fits `ru_probe_long` (15.6 h and 13.1 h).
-- [ ] **Llama-3.1-8B-Instruct** is gated. The author requested access on
-      2026-10-25 with Russia as the country. Meta's FAQ says Llama is
-      available globally except in comprehensively sanctioned jurisdictions;
-      rejections come without reasons.
-      - If granted: export the Kaggle secret as `HF_TOKEN` in the notebook
-        (not read yet). It is the third control and decides the strong form
-        of H2e on the ОКВЭД feature cell.
-      - If rejected: ask llamamodels@meta.com, or replace the control by a
-        dated amendment before its first run. Never misstate the country.
+- [ ] **Llama-3.1-8B-Instruct**: access granted 2026-10-26. The pinned
+      revision 0e9e39f2 is still the head, 16.1 GB, with no custom code.
+      `run_hf_gate.supply_hf_token` reads a Kaggle secret named `HF_TOKEN`;
+      the value is never printed. The author has to:
+      - create a read token;
+      - attach it to the notebook as that secret;
+      - optionally run `hf auth login` locally, so `price_plan.py` can use
+        Llama's own tokenizer.
+
+      Then queue Llama `exposure_2` (it decides the strong form of H2e on the
+      ОКВЭД feature cell), `probe` and `h1b_rest`. Check
+      `load.tokenizer.appends_eos` before reading any count.
 - [ ] Then GigaChat after its smoke test (add its instruct name to
       `family_holm.ADAPTED_MARKERS`); T-lite and ruadapt-Qwen (block B, and
       H2/H2e as Russian-centric models); Llama-3.1-8B (gated). Price every

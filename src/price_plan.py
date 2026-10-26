@@ -140,8 +140,21 @@ def price_cells(cells, model, tokenizer):
     return lines, total
 
 
+# A gated model's prompt tokens are counted with an open copy whose
+# tokenizer.json is byte-identical to the pinned revision's (the same git blob,
+# 5cc5f00a5b20, checked against the Hub's file metadata on 2026-10-26), so
+# pricing needs no token on this machine. Runs always load the gated original.
+TOKENIZER_COPY = {
+    "meta-llama/Llama-3.1-8B-Instruct": ("NousResearch/Meta-Llama-3.1-8B-Instruct",
+                                         "d10aef7999a2b5ba950ab3974312feeedbfe0b77"),
+}
+
+
 def load_tokenizer(model):
     from transformers import AutoTokenizer
+    if model in TOKENIZER_COPY:
+        repo, revision = TOKENIZER_COPY[model]
+        return AutoTokenizer.from_pretrained(repo, revision=revision)
     return AutoTokenizer.from_pretrained(model)
 
 

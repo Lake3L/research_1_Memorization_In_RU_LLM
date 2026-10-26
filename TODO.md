@@ -309,28 +309,28 @@ session itself is `notebooks/session.json`.
       - Joint H2e family: 7 models, 90 p-values, no verdict changed.
 
       → `reports/RESULTS_EXPOSURE.md` Part IX
-- [ ] **Session B4** (`notebooks/session.json`): T-lite (7.2 h) and ruadapt
-      (6.9 h) on `ru_probe`, which is H2 proper for the confirmatory models.
-      Attach `trudvsem_vacancies_2026.csv`. Then:
-      - `prefix_baseline.py` with both logs;
-      - `row_shape` / `csv_shape_rate`;
-      - regenerate the H2 family (`family_holm.py --group ru_pre_cutoff`)
-        with six models;
-      - `price_plan.py --validate`.
+- [x] **Session B4** (2026-10-25): T-lite and ruadapt on `ru_probe`.
+      - H2 is negative for both. govdomains is only near-duplicates
+        (31 and 22 become 1/111).
+      - ruadapt's torgovye cell is inconclusive: its answers begin with a
+        line break.
+      - H2 family: six models, 26 p-values, none below 0.73, no verdict
+        changed.
 
-      Neither model fits `ru_probe_long` (15.6 h and 13.1 h).
-- [ ] **Llama-3.1-8B-Instruct**: access granted 2026-10-26. The pinned
-      revision 0e9e39f2 is still the head, 16.1 GB, with no custom code.
-      `run_hf_gate.supply_hf_token` reads a Kaggle secret named `HF_TOKEN`;
-      the value is never printed. The author has to:
-      - create a read token;
-      - attach it to the notebook as that secret;
-      - optionally run `hf auth login` locally, so `price_plan.py` can use
-        Llama's own tokenizer.
-
-      Then queue Llama `exposure_2` (it decides the strong form of H2e on the
-      ОКВЭД feature cell), `probe` and `h1b_rest`. Check
-      `load.tokenizer.appends_eos` before reading any count.
+      → `reports/RESULTS_EXPOSURE.md` Part X
+- [ ] **Session B5** (`notebooks/session.json`): Llama-3.1-8B-Instruct.
+      - Cards: `exposure_2` (7.1 h) on one; `probe` (1.5 h) and then
+        `h1b_rest` (4.3 h) on the other.
+      - Needs the `ru_exposure` CSVs and the `HF_TOKEN` secret (attached
+        2026-10-26).
+      - Check the run printed `[hf] token: from the Kaggle secret`, and
+        that `appends_eos` is false.
+      - Then: the ОКВЭД feature cell decides the strong form of H2e. Run
+        `classifier_diagnostics.py --e2 <llama>` and regenerate the joint
+        family with 8 models.
+      - Canon: `prefix_baseline.py` with Qwen's O1 probe; rescore first
+        token.
+      - Add a measured Llama cost family to `price_plan.py`.
 - [ ] Then GigaChat after its smoke test (add its instruct name to
       `family_holm.ADAPTED_MARKERS`); T-lite and ruadapt-Qwen (block B, and
       H2/H2e as Russian-centric models); Llama-3.1-8B (gated). Price every

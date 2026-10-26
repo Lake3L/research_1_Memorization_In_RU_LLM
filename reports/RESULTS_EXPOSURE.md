@@ -93,6 +93,16 @@ Russian adaptations of Qwen2.5-7B, ran `exposure_2` on their base's prompts.
 - **The joint family.** It now covers seven models and 90 p-values, and no
   verdict changed.
 
+**What Part X adds (2026-10-26).** H2 proper on the two confirmatory
+Russian-adapted models, T-lite and ruadapt-Qwen.
+- **The verdict.** Both are negative on the `AMENDMENT_1` files, as the
+  four earlier models were. One ruadapt cell is inconclusive because its
+  answers begin with a line break.
+- **govdomains.** It again fires only through near-duplicate rows: 31 and
+  22 library matches become 1 of 111 after the rules.
+- **The H2 family.** It now covers six models and 26 p-values, none below
+  0.73.
+
 ---
 
 # Part I — session E1
@@ -1440,4 +1450,105 @@ python src/rescore_calls.py results/calls_exposure_2_<model>_raw_en_completion_2
 python src/prefix_baseline.py results/calls_exposure_2_t-tech_T-lite-it-1.0_raw_en_completion_20261024T212338Z.jsonl results/calls_exposure_2_RefalMachine_ruadapt_qwen2.5_7B_ext_u48_instruct_raw_en_completion_20261024T212338Z.jsonl --out results/prefix_baseline_exposure_2_20261024T212338Z.json
 python src/classifier_diagnostics.py --e2 results/calls_exposure_2_t-tech_T-lite-it-1.0_raw_en_completion_20261024T212338Z.jsonl results/calls_exposure_2_RefalMachine_ruadapt_qwen2.5_7B_ext_u48_instruct_raw_en_completion_20261024T212338Z.jsonl --out results/classifier_diagnostics_exposure_20261024T212338Z.json
 python src/family_holm.py --shape results/row_shape_20261003T124625Z.json --prefix <the five prefix files of §48> results/prefix_baseline_exposure_2_20261024T212338Z.json --diagnostics <the three diagnostics files of §48> results/classifier_diagnostics_exposure_20261024T212338Z.json --results "results/gateA_exposure_*_2026092[0379]T*.json" "results/gateA_exposure_2_Qwen_Qwen2.5-7B-Instruct_raw_en_completion_20261023T200418Z.json" "results/gateA_exposure_2_*_20261024T212338Z.json" --out results/h2e_family_joint_20261024T212338Z.json
+```
+
+---
+
+# Part X — session B4: H2 on the two confirmatory Russian-adapted models
+
+## 54. The session
+
+T-lite-it-1.0 and ruadapt_qwen2.5_7B_ext_u48_instruct ran plan `ru_probe`
+on 2026-10-25, one per card. These are the cells the Nemo pair ran in C1 and
+the YandexGPT pair in Y3:
+- the four `AMENDMENT_1` files with rows under 200 tokens;
+- the fresh control;
+- the iris anchor;
+- header and row completion on each.
+
+| | T-lite | ruadapt |
+|---|---|---|
+| cells | 12 of 12 | 12 of 12 |
+| wall time | 5 h 03 min | 4 h 47 min |
+| planning figure | 7.2 h | 6.9 h |
+| actual / plan | 0.69 | 0.68 |
+
+- **Checks.** The instrument check gave 10/10 and 0/10 for both models, and
+  both tokenizer round-trips passed.
+- **Anchors.** The iris answers are byte-identical to each model's B1/B2
+  probe, 142 of 142.
+- **Reproduction.** Every row cell reproduces from its log.
+- **Header.** It passed on iris only.
+
+## 55. Six models, one answer
+
+Row completion under `AMENDMENT_7` R1–R4
+(`results/prefix_baseline_ru_probe_20261025T205253Z.json`), beside the four
+earlier models on identical prompts:
+
+| file | Mistral-Nemo | Vikhr-Nemo | YandexGPT pretrain | YandexGPT instruct | T-lite | ruadapt-Qwen | verdict |
+|---|---|---|---|---|---|---|---|
+| hflabs_city | 0/250 | 0/250 | 0/250 | 0/250 | 0/250 | 0/250 | negative, all six |
+| govdomains | 32 → 2/111 | 19 → 1/111 | 36 → 1/111 | 31 → 1/111 | 31 → 1/111 | 22 → 1/111 | negative, all six |
+| mos_zemelnye_uchastki | 0/249 | 0/249 | 0/249 | 0/249 | 0/249 | 0/249 | negative, all six |
+| mos_torgovye_obekty | 0/234 | 0/234 | 0/234 | 0/234 | 0/234 | 0/234 | negative; inconclusive for ruadapt (24% row-shaped) |
+| trudvsem_vacancies_2026 (fresh control) | 0/207 | 0/207 | 0/207 | 0/207 | 0/207 | 0/207 | zero, all six |
+
+On govdomains the two adaptations reproduce 31 and 22 rows by the library's
+count. After the rules each keeps a single row of 111, and no witness value
+of 47 is reproduced. This is the same reduction that every earlier model
+showed: the rows are the file's templated neighbours, not recalled records.
+
+ruadapt's torgovye answers begin with a line break, and the record comes on
+the second line, which the library does not read. Under the floor the cell
+is inconclusive, not negative. The same habit made its streets cell
+inconclusive in B3 (§50).
+
+## 56. The H2 family, six models
+
+`src/family_holm.py --group ru_pre_cutoff` over the five `AMENDMENT_1` files
+(`results/h2_family_20261025T205253Z.json`):
+
+| what | count |
+|---|---|
+| p-values | 26 |
+| negative | 24 |
+| inconclusive | 2 |
+| smallest raw p | 0.73 |
+| verdicts changed from the four-model family of §41 | 0 |
+
+The two inconclusive cells are ruadapt's torgovye cell and YandexGPT
+pretrain's russian_retail cell. russian_retail did not fit a session for
+either adaptation (15.6 h and 13.1 h by the planning figure). It remains
+unmeasured for them, as for the Nemo pair.
+
+**H2 for the confirmatory Russian-centric models: negative.**
+- T-lite is negative on all four files it ran.
+- ruadapt-Qwen is negative on three and inconclusive on one.
+- Every other model is negative as well.
+
+So no Russian-centric model run has a positive cell in the H2 family,
+whether adaptation or from-scratch. The models are Vikhr-Nemo, T-lite,
+ruadapt-Qwen and the YandexGPT pair.
+
+Outcome (iii) of `AMENDMENT_8` §3 names YandexGPT and GigaChat: zero on
+every Russian file. So far it holds for YandexGPT, and GigaChat has not run.
+The two adaptations now show the same pattern.
+
+These six models hold iris at 32–95 of 142, yet none holds these
+single-copy files. The YandexGPT pair also holds МКБ-10 and ОКВЭД 2.
+
+## 57. Files
+
+New files:
+- `results/calls_ru_probe_t-tech_T-lite-it-1.0_raw_en_completion_20261025T205253Z.jsonl`.
+- `results/calls_ru_probe_RefalMachine_ruadapt_qwen2.5_7B_ext_u48_instruct_raw_en_completion_20261025T205253Z.jsonl`.
+- Both call logs have their `gateA_` files.
+- `results/prefix_baseline_ru_probe_20261025T205253Z.json`.
+- `results/h2_family_20261025T205253Z.json`.
+
+```
+python src/rescore_calls.py results/calls_ru_probe_<model>_raw_en_completion_20261025T205253Z.jsonl --results results/gateA_ru_probe_<model>_raw_en_completion_20261025T205253Z.json
+python src/prefix_baseline.py results/calls_ru_probe_t-tech_T-lite-it-1.0_raw_en_completion_20261025T205253Z.jsonl results/calls_ru_probe_RefalMachine_ruadapt_qwen2.5_7B_ext_u48_instruct_raw_en_completion_20261025T205253Z.jsonl --out results/prefix_baseline_ru_probe_20261025T205253Z.json
+python src/family_holm.py --group ru_pre_cutoff --shape results/row_shape_20261003T124625Z.json --prefix results/prefix_baseline_ru_probe_20260908T121529Z.json results/prefix_baseline_ru_probe_20260929T182458Z.json results/prefix_baseline_ru_probe_long_20261003T122424Z.json results/prefix_baseline_ru_probe_long_20261003T124625Z.json results/prefix_baseline_ru_probe_20261025T205253Z.json --diagnostics results/classifier_diagnostics_exposure_20260929T045154Z.json --results "results/gateA_ru_probe_*_completion_20260908T*.json" "results/gateA_ru_probe_*_completion_20260929T*.json" "results/gateA_ru_probe_long_*_completion_20261003T*.json" "results/gateA_ru_probe_*_completion_20261025T205253Z.json" --out results/h2_family_20261025T205253Z.json
 ```

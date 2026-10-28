@@ -1,62 +1,49 @@
 {
   "_what": "The runs this GPU session performs. The notebook reads this file from the repository checkout, so the experiment is defined in version control rather than in a notebook copy.",
   "_rule": "To change what runs: edit this file, commit, push. The notebook needs no changes.",
-  "session_id": "2026-10-26-block-B-C-B5-llama",
-  "purpose": "Session B5: Llama-3.1-8B-Instruct, the off-family multilingual control of PREREGISTRATION.md §3, gated; access granted 2026-10-26 and read from the Kaggle secret HF_TOKEN by src/run_hf_gate.py (the run prints '[hf] token: from the Kaggle secret HF_TOKEN'; without it the download fails with 401). (1) exposure_2 on one card: Llama is the third and last control for the strong form of H2e, which now rests on the OKVED 2 feature cell alone: the YandexGPT pair named 28 and 32 of 250 codes against the 3.4% lookup baseline, Mistral-Nemo 12, Qwen2.5-7B 11, its adaptations 10 and 4 (reports/RESULTS_EXPOSURE.md Parts VIII-IX). (2) probe and then h1b_rest on the other card: Llama on the canon, for H1 beside the other seven models on identical prompts. Its tokenizer prepends <|begin_of_text|> and does not append an end-of-text token (checked on a byte-identical copy of tokenizer.json, src/price_plan.py TOKENIZER_COPY); the load report must still show appends_eos = false. Planning figures from src/price_plan.py with Llama's own tokenizer, every answer to its budget x 1.15, and, since Llama has never run, the cost of the slowest measured family (12B): exposure_2 7.1 h, probe 1.5 h, h1b_rest 4.3 h. The longer card is 7.1 h; the 8B models measured so far ran at 0.68-0.94 of their figures, and an 8B model priced as a 12B one should come in lower. Both cards load the same 16.1 GB checkpoint, downloaded once; no run frees weights, because the other card may still be using them.",
+  "session_id": "2026-10-28-block-C-B6-qwen-tlite-exposure_1",
+  "purpose": "Session B6: plan exposure_1 on Qwen2.5-7B-Instruct and its continued-pretraining adaptation T-lite-it-1.0, one per card, on identical prompts. exposure_1 holds the row-completion side of the two classifiers: MKB-10 and OKVED 2 rows, plus header and row on cardio_train, alice_train_sessions and the Moscow metro export. On MKB-10 the frozen distance bins of src/classifier_diagnostics.py separated the lineages. Far from any name in the prompt, the YandexGPT models named the next rubric 18 times of 121 and the Nemo pair 2-3 times, so YandexGPT holds the classification as ordered text and the Nemo pair only reconstructs it (reports/RESULTS_EXPOSURE.md §28). The question is where the Qwen family falls: on exposure_2 Qwen and its adaptations named no more OKVED 2 codes than the lookup baseline (Parts VIII-IX). ruadapt-Qwen and Llama-3.1-8B follow in the next session. iris anchors the plan: 84/142 and 95/142, byte for byte, as in every earlier session. Planning figures from src/price_plan.py with each model's own tokenizer, every answer to its budget x 1.15; validated on 44 runs (actual/plan 0.68-0.94; the Qwen family 0.68-0.79): Qwen 6.2 h, T-lite 6.2 h. The longer card is 6.2 h, about 4.5 h at the family's ratio.",
   "dataset_group": "canon,ru_exposure",
   "datasets": [
     "iris",
-    "uci-wine",
-    "openml-diabetes",
-    "titanic-train",
-    "adult-train",
-    "california-housing",
-    "oksm",
-    "okpdtr",
-    "mos_streets_omk_um_2022",
-    "telecom_churn",
     "mkb10_v2",
     "okved2",
-    "cardio_train"
+    "cardio_train",
+    "alice_train_sessions",
+    "mos_metro_stations_2022"
   ],
-  "attached_input": "the nine ru_exposure CSVs, attached as one Kaggle dataset (loose or zipped); the fetch step adopts them from /kaggle/input, looks inside zips, and verifies every hash before any weights load; the canon is fetched and hash-checked from its registered sources. The Kaggle secret HF_TOKEN must be attached to the notebook",
+  "attached_input": "the nine ru_exposure CSVs, attached as one Kaggle dataset (loose or zipped); the fetch step adopts them from /kaggle/input, looks inside zips, and verifies every hash before any weights load",
   "variant": "raw",
   "prompt_language": "en",
   "load_in_4bit": true,
   "parallel": true,
   "seed": 42,
   "scale": 1.0,
-  "disk": "one checkpoint, 16.1 GB, shared by both cards",
+  "disk": "two checkpoints at once, about 30 GB at the peak (Qwen 15.2 + T-lite 15.2, neither with custom code)",
   "requires": {
     "flags": [
       "--prompting",
       "--protocol",
       "--only-cells",
       "--resume",
-      "--group"
+      "--group",
+      "--free-weights-after"
     ],
     "plans": [
-      "exposure_2",
-      "probe",
-      "h1b_rest"
+      "exposure_1"
     ],
     "note": "verified against the checkout before any weights are downloaded"
   },
   "runs": [
     {
-      "model": "meta-llama/Llama-3.1-8B-Instruct",
-      "extra": "--plan exposure_2 --protocol reference --prompting completion",
-      "why": "feature completion on the four classifiers and header and row on the rest of exposure_2, the prompts every other model answered; 7.1 h; decides the strong form of H2e on the OKVED 2 feature cell. iris anchors the plan"
+      "model": "Qwen/Qwen2.5-7B-Instruct",
+      "extra": "--plan exposure_1 --protocol reference --prompting completion --free-weights-after",
+      "why": "MKB-10 and OKVED 2 row completion, scored with the frozen distance bins, plus header and row on the other three files; 6.2 h; the multilingual base"
     },
     {
-      "model": "meta-llama/Llama-3.1-8B-Instruct",
-      "extra": "--plan probe --protocol reference --prompting completion",
-      "why": "row completion on the canon; 1.5 h; H1 for the off-family control on the 142 iris prompts every model answered"
-    },
-    {
-      "model": "meta-llama/Llama-3.1-8B-Instruct",
-      "extra": "--plan h1b_rest --protocol reference --prompting completion",
-      "why": "header, first token and feature on the canon; 4.3 h; queued on the card the probe frees. Needs the T4 x2 accelerator"
+      "model": "t-tech/T-lite-it-1.0",
+      "extra": "--plan exposure_1 --protocol reference --prompting completion --free-weights-after",
+      "why": "the same cells, same seed, the other card; 6.2 h; Qwen's Russian adaptation, paired on identical prompts. Needs the T4 x2 accelerator"
     }
   ]
 }

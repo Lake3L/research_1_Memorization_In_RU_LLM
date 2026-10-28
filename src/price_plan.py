@@ -80,6 +80,10 @@ FAMILY = {
     "t-tech/T-lite-it-1.0": "qwen-7b",
     "RefalMachine/ruadapt_qwen2.5_7B_ext_u48_instruct": "qwen-7b",
     "allenai/OLMo-7B-hf": "olmo-7b",
+    # session B5 (2026-10-26): its three runs took 0.68-0.75 of the 12B figure.
+    # The 8B family of the same architecture would have been exceeded by its
+    # h1b_rest run, and qwen-7b left it at 0.96, so the 12B family stays.
+    "meta-llama/Llama-3.1-8B-Instruct": "nemo-12b",
 }
 # a model never measured is priced as the slowest family measured, and the
 # output says so; its first session corrects the figure

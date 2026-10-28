@@ -103,6 +103,19 @@ Russian-adapted models, T-lite and ruadapt-Qwen.
 - **The H2 family.** It now covers six models and 26 p-values, none below
   0.73.
 
+**What Part XI adds (2026-10-28).** Llama-3.1-8B-Instruct, the third and
+last control, ran `exposure_2`.
+- **ОКВЭД 2.** The cell is inconclusive. Llama mostly answers without the
+  field's name, so the library reads only 68 of 250 answers.
+- **The strong form of H2e.** By its letter it is therefore not
+  established: two controls are negative, one is inconclusive, and none is
+  positive.
+- **The unnamed answers.** Read too, in the exploratory diagnostic only,
+  they give Llama 9 of 250 codes (p = 0.47), beside Mistral-Nemo's 12 and
+  Qwen's 11. The YandexGPT pair named 28 and 32.
+- **The joint family.** It now covers eight models and 100 p-values, and no
+  verdict changed.
+
 ---
 
 # Part I — session E1
@@ -1551,4 +1564,118 @@ New files:
 python src/rescore_calls.py results/calls_ru_probe_<model>_raw_en_completion_20261025T205253Z.jsonl --results results/gateA_ru_probe_<model>_raw_en_completion_20261025T205253Z.json
 python src/prefix_baseline.py results/calls_ru_probe_t-tech_T-lite-it-1.0_raw_en_completion_20261025T205253Z.jsonl results/calls_ru_probe_RefalMachine_ruadapt_qwen2.5_7B_ext_u48_instruct_raw_en_completion_20261025T205253Z.jsonl --out results/prefix_baseline_ru_probe_20261025T205253Z.json
 python src/family_holm.py --group ru_pre_cutoff --shape results/row_shape_20261003T124625Z.json --prefix results/prefix_baseline_ru_probe_20260908T121529Z.json results/prefix_baseline_ru_probe_20260929T182458Z.json results/prefix_baseline_ru_probe_long_20261003T122424Z.json results/prefix_baseline_ru_probe_long_20261003T124625Z.json results/prefix_baseline_ru_probe_20261025T205253Z.json --diagnostics results/classifier_diagnostics_exposure_20260929T045154Z.json --results "results/gateA_ru_probe_*_completion_20260908T*.json" "results/gateA_ru_probe_*_completion_20260929T*.json" "results/gateA_ru_probe_long_*_completion_20261003T*.json" "results/gateA_ru_probe_*_completion_20261025T205253Z.json" --out results/h2_family_20261025T205253Z.json
+```
+
+---
+
+# Part XI — session B5: Llama-3.1-8B-Instruct, the third control
+
+## 58. The session
+
+Llama-3.1-8B-Instruct is the off-family multilingual control of
+`PREREGISTRATION.md` §3. It ran on 2026-10-26: `exposure_2` on one card,
+and `probe` then `h1b_rest` on the other (`RESULTS_CANON.md` §9).
+- **Access.** The model is gated. The token came from a Kaggle secret, read
+  by `run_hf_gate.supply_hf_token`, and the revision is the one pinned in
+  `models.lock`.
+- **Checks.** The tokenizer round-trip passed, `appends_eos` is false, and
+  the instrument check gave 10/10 and 0/10 in all three runs.
+- **Reproduction.** All 21 row and feature cells reproduce from their logs.
+
+| run | wall time | planning figure | actual / plan |
+|---|---|---|---|
+| `exposure_2` | 4 h 55 min | 7.1 h | 0.68 |
+| `probe` | 1 h 11 min | 1.5 h | 0.75 |
+| `h1b_rest` | 3 h 10 min | 4.3 h | 0.73 |
+
+These figures are the 12B family's. The 8B family of the same architecture
+would have under-priced the `h1b_rest` run, so Llama stays priced as a 12B
+model (`src/price_plan.py`).
+
+## 59. The cells
+
+| file | test | Llama-3.1-8B | verdict |
+|---|---|---|---|
+| okved2 | feature | 3/250; 68 of 250 answers carry the field name | **inconclusive** |
+| okpdtr | feature | 0/250; 87 of 250 carry it | inconclusive |
+| mkb10_v2 | feature | 0/250 | negative |
+| cardio_train | feature | 0/250 | negative |
+| telecom_churn | feature | 1/250 | negative |
+| oksm | feature | 55/250 over 125 read, p_Holm 6 × 10⁻²⁷ | positive (world knowledge) |
+| okpdtr | row, R1+R4 | 2/238, raw p = 0.014, 6 of 247 witnesses; p_Holm 1 | negative |
+| telecom_churn | row | 0/250 | negative |
+| mos_streets_omk_um_2022 | row | 0/216, 54% row-shaped | negative |
+| oksm | row | 1/250, 37% row-shaped | inconclusive |
+| the four files | header | fail | outside the family |
+
+Notes on the cells:
+- **ОКСМ.** As for every model, it is world knowledge: 42 of 121 current
+  names, 13 of 104 historical ones, and none of the 25 portal spellings.
+- **Streets.** Llama is the first control to answer the streets file in
+  rows often enough to give a negative there. Mistral-Nemo and Qwen were
+  inconclusive.
+- **The iris anchor.** It gave the same 142 answers in both runs: 12/142,
+  which is negative after the rules (`RESULTS_CANON.md` §9).
+
+**Why the two classifier cells are inconclusive.** On ОКВЭД 2 and ОКПДТР
+Llama most often answers without the field's name. It writes
+" = Деятельность по предоставлению…" where the prompt asks for
+"Наименование = …". The library reads a value only after the field's name,
+so 182 and 163 answers are unread. Under `FAIL_ADAPTER` a cell with fewer
+than half its answers read is inconclusive, whatever the count.
+
+## 60. The strong form of H2e, after the three controls
+
+| model | role | ОКВЭД 2 names from codes | verdict |
+|---|---|---|---|
+| YandexGPT-5-Lite-8B pretrain | Russian-centric | 32/250 | positive |
+| YandexGPT-5-Lite-8B instruct | Russian-centric | 28/250 | positive |
+| Mistral-Nemo-Instruct-2407 | control | 12/250 | negative |
+| Qwen2.5-7B-Instruct | control | 11/250 | negative |
+| Llama-3.1-8B-Instruct | control | 3/250, 68 read | inconclusive |
+| T-lite, ruadapt-Qwen, Vikhr-Nemo | adaptations | 10, 4, 7 | negative |
+
+The strong form requires the cell to be negative for every control. Two of
+the three controls are negative, and the third is inconclusive. **By its
+letter, therefore, the strong form is not established.** It is not refuted
+either, because no control is positive.
+
+The exploratory diagnostic reads the unnamed answers too, and changes no
+verdict (`src/classifier_diagnostics.py`, "without the feature's name";
+`results/classifier_diagnostics_exposure_20261026T072958Z.json`). It takes
+the value after a leading "= " when the library finds none.
+- **ОКВЭД 2.** All 250 Llama answers are then read, and 9 are right
+  (3.6%, p = 0.47 against the 3.4% lookup baseline). That is beside
+  Mistral-Nemo's 12 and Qwen's 11.
+- **ОКПДТР.** Read the same way, it stays at 0.
+
+The data therefore point the way the strong form predicts: only the model
+trained from scratch on Russian names ОКВЭД 2 codes. The confirmatory
+statement still has to carry Llama's cell as inconclusive. A scoring rule
+adopted after seeing the answers cannot turn it into a negative.
+
+## 61. The joint family, eight models
+
+The family now has 100 p-values
+(`results/h2e_family_joint_20261026T072958Z.json`).
+- **Old cells.** Every one of the 90 earlier cells keeps its verdict.
+- **Positives.** The family has 16. Llama adds ОКСМ, which is world
+  knowledge. Its ОКПДТР row (raw p = 0.014) does not survive Holm.
+- **The H2e positives of §29.** They stand, with the largest adjusted p
+  3 × 10⁻⁶.
+
+## 62. Files
+
+New files:
+- `results/calls_exposure_2_meta-llama_Llama-3.1-8B-Instruct_raw_en_completion_20261026T072958Z.jsonl`
+  and its `gateA_` file.
+- `results/prefix_baseline_exposure_2_20261026T072958Z.json`.
+- `results/classifier_diagnostics_exposure_20261026T072958Z.json`.
+- `results/h2e_family_joint_20261026T072958Z.json`.
+
+```
+python src/rescore_calls.py results/calls_exposure_2_meta-llama_Llama-3.1-8B-Instruct_raw_en_completion_20261026T072958Z.jsonl --results results/gateA_exposure_2_meta-llama_Llama-3.1-8B-Instruct_raw_en_completion_20261026T072958Z.json
+python src/prefix_baseline.py results/calls_exposure_2_meta-llama_Llama-3.1-8B-Instruct_raw_en_completion_20261026T072958Z.jsonl --out results/prefix_baseline_exposure_2_20261026T072958Z.json
+python src/classifier_diagnostics.py --e2 results/calls_exposure_2_meta-llama_Llama-3.1-8B-Instruct_raw_en_completion_20261026T072958Z.jsonl --out results/classifier_diagnostics_exposure_20261026T072958Z.json
+python src/family_holm.py --shape results/row_shape_20261003T124625Z.json --prefix <the six prefix files of §53> results/prefix_baseline_exposure_2_20261026T072958Z.json --diagnostics <the four diagnostics files of §53> results/classifier_diagnostics_exposure_20261026T072958Z.json --results "results/gateA_exposure_*_2026092[0379]T*.json" "results/gateA_exposure_2_Qwen_Qwen2.5-7B-Instruct_raw_en_completion_20261023T200418Z.json" "results/gateA_exposure_2_*_20261024T212338Z.json" "results/gateA_exposure_2_meta-llama_Llama-3.1-8B-Instruct_raw_en_completion_20261026T072958Z.json" --out results/h2e_family_joint_20261026T072958Z.json
 ```

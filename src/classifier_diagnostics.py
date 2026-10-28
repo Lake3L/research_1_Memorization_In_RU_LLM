@@ -132,8 +132,18 @@ def feature_rows(calls, dataset, feature):
         # line: an answer that begins with a blank line is scored empty by the
         # library (Part II §15) and is read here from its first non-empty line
         uncut = library_feature_value(str(c["response"]).lstrip("\n").split("\n")[0], feature)
+        # an answer that drops the feature's name and starts "= value"
+        # (Llama-3.1-8B on okved2 and okpdtr, session B5) is unreadable to the
+        # library; it is read here for the record, never for a verdict
+        keyless = None
+        if answer is None:
+            head = feature_response(c).lstrip(" ").split("\n")[0]
+            if head.startswith("= "):
+                keyless = head[2:].strip()
+        lenient = answer if answer is not None else keyless
         out.append({"truth": truth, "answer": answer, "match": answer is not None and truth == answer,
                     "uncut_answer": uncut, "uncut_match": uncut is not None and truth == uncut,
+                    "lenient_answer": lenient, "lenient_match": lenient is not None and truth == lenient,
                     "status": str(row.get("Статус", "")),
                     "value_in_prompt": f"{feature} = {truth}" in c["prompt"].rsplit("\n\n", 1)[0]})
     return out
@@ -157,6 +167,11 @@ def feature_table(calls, baselines):
                     "answered": sum(r["answer"] is not None for r in found),
                     "uncut_answered": sum(r["uncut_answer"] is not None for r in found),
                     "uncut_matches": sum(r["uncut_match"] for r in found),
+                    "lenient_answered": sum(r["lenient_answer"] is not None for r in found),
+                    "lenient_matches": sum(r["lenient_match"] for r in found),
+                    "p_lenient": (float(stats.binomtest(sum(r["lenient_match"] for r in found), n,
+                                                        b["baseline"], alternative="greater").pvalue)
+                                  if n else None),
                     "matches_with_value_in_few_shot": sum(r["match"] and r["value_in_prompt"] for r in found),
                     "baseline": b["baseline"], "baseline_from": b["baseline_from"],
                     "p": float(stats.binomtest(k, n, b["baseline"], alternative="greater").pvalue) if n else None})
@@ -236,7 +251,9 @@ def main():
         for f in entry["feature"]:
             print(f"    {f['dataset']:18s} {f['matches']:>3d}/{f['n']:<3d} baseline {f['baseline']:.4f} "
                   f"[{f['baseline_from']}]  p = {f['p']:.2e}  (answered {f['answered']}; uncut: "
-                  f"answered {f['uncut_answered']}, matches {f['uncut_matches']}; value in "
+                  f"answered {f['uncut_answered']}, matches {f['uncut_matches']}; without the feature's "
+                  f"name: answered {f['lenient_answered']}, matches {f['lenient_matches']}, "
+                  f"p = {f['p_lenient']:.2e}; value in "
                   f"few-shot: {f['matches_with_value_in_few_shot']}, unidentified {f['unidentified']})")
         print("  ОКСМ feature completion by what carries the name")
         for g, v in entry["portal_form"].items():

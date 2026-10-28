@@ -318,7 +318,76 @@ contrast is exploratory, since H1b compares each adaptation with its base.
 Each stays within chance of Qwen, but on opposite sides, and the two sides
 are far enough apart to be told apart.
 
-## 9. Files
+## 9. Session B5 (2026-10-26): Llama-3.1-8B-Instruct, the off-family control
+
+Llama-3.1-8B-Instruct ran `probe` and then `h1b_rest` on one card, with
+its `exposure_2` run on the other (`RESULTS_EXPOSURE.md` Part XI). The model
+is gated; its token came from a Kaggle secret.
+- **Checks.** The tokenizer round-trip passed, `appends_eos` is false, and
+  the instrument check gave 10/10 and 0/10.
+- **Reproduction.** All ten row and feature cells reproduce from their logs.
+- **Time.** `probe` took 1 h 11 min against 1.5 h planned, and `h1b_rest`
+  3 h 10 min against 4.3 h.
+- **The iris anchor.** Its `exposure_2` run gave the same 142 iris answers,
+  byte for byte.
+
+**Row completion** (`results/prefix_baseline_probe_20261026T072958Z.json`,
+paired with Qwen's O1 probe):
+
+| file | library | R1+R4 | p (R2) | witnesses reproduced | row-shaped | mean distance | verdict |
+|---|---|---|---|---|---|---|---|
+| iris | 12/142 | 5/103 | 0.068 | 63/247 | 100% | 0.185 | **negative** |
+| uci-wine | 0/170 | 0/170 | 1 | 18/1,360 | 100% | 0.430 | negative |
+| openml-diabetes | 0/250 | 0/250 | 1 | 0/687 | 100% | 0.546 | negative |
+| titanic-train | 0/250 | 0/250 | 1 | 0/484 | 98% | 0.538 | negative |
+| adult-train | 0/100 | 0/97 | 1 | 0/100 | 100% | 0.421 | negative |
+
+Llama is the first model of the study whose iris row cell is negative. Its
+12 library matches fall to 5 of the 103 queries the rules keep, and 5 is
+not above the R2 null. On the same 103 queries Qwen2.5-7B has 54 rows that
+Llama lacks, and Llama has 1 that Qwen lacks (McNemar p = 3 × 10⁻¹⁵).
+
+**Header, first token, feature** (first token in
+`results/first_token_h1b_rest_20261026T084158Z.json`):
+
+| test | file | Llama-3.1-8B |
+|---|---|---|
+| header | iris | pass (6 rows) |
+| header | the other five | fail |
+| first token | iris (baseline 0.493) | 94/142, p = 4 × 10⁻⁵; row-conditional bound p = 0.99 |
+| first token | openml-diabetes (0.280) | 34/250, p = 1 |
+| first token | adult-train (0.220) | 64/250, p = 0.10 |
+| feature | the five files | 0 everywhere; 170–250 of 250 answers in shape |
+
+Llama thus still carries iris:
+- Its header recovers six rows of the file's head.
+- Its first tokens beat the visible baseline.
+
+But it does not reproduce random iris rows above the null. This is the
+pattern Bordt et al. describe for the canon outside iris ("only evidence for
+the memorization of the initial rows and not of the entire dataset").
+
+**H1 over the nine models run.** Iris row completion after the rules, on
+the same 103 kept queries:
+
+| model | iris, library (of 142) | iris, R1+R4 (of 103) | verdict |
+|---|---|---|---|
+| T-lite-it-1.0 | 95 | 67 | positive |
+| Qwen2.5-7B-Instruct | 84 | 58 | positive |
+| YandexGPT-5-Lite-8B pretrain | 76 | 52 | positive |
+| ruadapt-Qwen | 76 | 50 | positive |
+| YandexGPT-5-Lite-8B instruct | 53 | 37 | positive |
+| Mistral-Nemo-Instruct-2407 | 51 | 36 | positive |
+| Vikhr-Nemo-12B | 32 | 24 | positive |
+| OLMo-7B-hf | 15 | 9 | positive |
+| Llama-3.1-8B-Instruct | 12 | 5 | negative |
+
+Every Russian-centric model is positive on iris; the one negative is a
+Western control. The other four canon files are zero by row completion for
+every model. GigaChat base and instruct, the remaining two of the eleven
+pinned models, have not run.
+
+## 10. Files
 
 Session O1:
 - `results/calls_probe_Qwen_Qwen2.5-7B-Instruct_raw_en_completion_20261005T101710Z.jsonl`
@@ -348,6 +417,19 @@ Session B2:
   paired).
 - `results/first_token_h1b_rest_20261023T210223Z.json`.
 - Qwen's `exposure_2` run is listed in `RESULTS_EXPOSURE.md` §48.
+
+Session B5:
+- `results/calls_probe_meta-llama_Llama-3.1-8B-Instruct_raw_en_completion_20261026T072958Z.jsonl`.
+- `results/calls_h1b_rest_meta-llama_Llama-3.1-8B-Instruct_raw_en_completion_20261026T084158Z.jsonl`.
+- Both call logs have their `gateA_` files.
+- `results/prefix_baseline_probe_20261026T072958Z.json` (Qwen and Llama,
+  paired).
+- `results/first_token_h1b_rest_20261026T084158Z.json`.
+
+```
+python src/prefix_baseline.py results/calls_probe_Qwen_Qwen2.5-7B-Instruct_raw_en_completion_20261005T101710Z.jsonl results/calls_probe_meta-llama_Llama-3.1-8B-Instruct_raw_en_completion_20261026T072958Z.jsonl --group canon --out results/prefix_baseline_probe_20261026T072958Z.json
+python src/rescore_first_token.py results/calls_h1b_rest_meta-llama_Llama-3.1-8B-Instruct_raw_en_completion_20261026T084158Z.jsonl --out results/first_token_h1b_rest_20261026T084158Z.json
+```
 
 ```
 python src/prefix_baseline.py results/calls_probe_Qwen_Qwen2.5-7B-Instruct_raw_en_completion_20261005T101710Z.jsonl results/calls_probe_RefalMachine_ruadapt_qwen2.5_7B_ext_u48_instruct_raw_en_completion_20261023T200418Z.jsonl --group canon --out results/prefix_baseline_probe_20261023T200418Z.json

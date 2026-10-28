@@ -1,0 +1,67 @@
+{
+  "calls_h1b_rest_meta-llama_Llama-3.1-8B-Instruct_raw_en_completion_20261026T084158Z.jsonl": [
+    {
+      "dataset": "iris.csv",
+      "n": 142,
+      "matches": 94,
+      "rate": 0.6619718309859155,
+      "num_digits": 1,
+      "mode_token": "5",
+      "baselines": {
+        "mode": 0.4084507042253521,
+        "previous_row": 0.49295774647887325,
+        "logistic_regression": 0.7533333333333333,
+        "gradient_boosting": 0.7133333333333333
+      },
+      "baseline": 0.49295774647887325,
+      "baseline_source": "previous_row",
+      "p_value": 3.5399295966644e-05,
+      "row_conditional_baseline": 0.7533333333333333,
+      "row_conditional_source": "logistic_regression",
+      "p_value_row_conditional": 0.9945108754680193,
+      "library_reported_baseline": 0.34507042253521125
+    },
+    {
+      "dataset": "openml-diabetes.csv",
+      "n": 250,
+      "matches": 34,
+      "rate": 0.136,
+      "num_digits": 1,
+      "mode_token": "1",
+      "baselines": {
+        "mode": 0.28,
+        "previous_row": 0.148,
+        "logistic_regression": 0.230506748153807,
+        "gradient_boosting": 0.2343943638061285
+      },
+      "baseline": 0.28,
+      "baseline_source": "mode",
+      "p_value": 0.9999999826464189,
+      "row_conditional_baseline": 0.2343943638061285,
+      "row_conditional_source": "gradient_boosting",
+      "p_value_row_conditional": 0.999964145394865,
+      "library_reported_baseline": 0.268
+    },
+    {
+      "dataset": "adult-train.csv",
+      "n": 250,
+      "matches": 64,
+      "rate": 0.256,
+      "num_digits": 1,
+      "mode_token": "3",
+      "baselines": {
+        "mode": 0.22,
+        "previous_row": 0.18,
+        "logistic_regression": 0.400939771373903,
+        "gradient_boosting": 0.43478395222407207
+      },
+      "baseline": 0.22,
+      "baseline_source": "mode",
+      "p_value": 0.09868722416454942,
+      "row_conditional_baseline": 0.43478395222407207,
+      "row_conditional_source": "gradient_boosting",
+      "p_value_row_conditional": 0.9999999985054622,
+      "library_reported_baseline": 0.712
+    }
+  ]
+}

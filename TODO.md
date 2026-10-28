@@ -318,19 +318,26 @@ session itself is `notebooks/session.json`.
         changed.
 
       → `reports/RESULTS_EXPOSURE.md` Part X
-- [ ] **Session B5** (`notebooks/session.json`): Llama-3.1-8B-Instruct.
-      - Cards: `exposure_2` (7.1 h) on one; `probe` (1.5 h) and then
-        `h1b_rest` (4.3 h) on the other.
-      - Needs the `ru_exposure` CSVs and the `HF_TOKEN` secret (attached
-        2026-10-26).
-      - Check the run printed `[hf] token: from the Kaggle secret`, and
-        that `appends_eos` is false.
-      - Then: the ОКВЭД feature cell decides the strong form of H2e. Run
-        `classifier_diagnostics.py --e2 <llama>` and regenerate the joint
-        family with 8 models.
-      - Canon: `prefix_baseline.py` with Qwen's O1 probe; rescore first
-        token.
-      - Add a measured Llama cost family to `price_plan.py`.
+- [x] **Session B5** (2026-10-26): Llama-3.1-8B-Instruct.
+      - ОКВЭД feature is inconclusive: it answers without the field name, so
+        68/250 are read. The strong form of H2e is not established by its
+        letter (2 controls negative, 1 inconclusive, none positive). Read
+        exploratorily it is 9/250, p = 0.47.
+      - iris row is negative (5/103 after the rules), the first such model;
+        header and first token on iris are positive.
+      - Joint H2e family: 8 models, 100 p-values, no verdict changed.
+      - Llama stays priced as 12B (the 8B family would under-price it).
+
+      → `reports/RESULTS_EXPOSURE.md` Part XI, `reports/RESULTS_CANON.md` §9
+- [ ] **Session B6** (`notebooks/session.json`): Qwen and T-lite on
+      `exposure_1`, 6.2 h each. Attach the `ru_exposure` CSVs. Then:
+      - `prefix_baseline.py` with both logs;
+      - `classifier_diagnostics.py --e1 <Qwen> <T-lite> --e2 <their
+        exposure_2 logs>` for the distance bins;
+      - `sequence_recall.py` with the Yandex and Nemo logs, paired;
+      - the joint H2e family.
+- [ ] **Session B7**: ruadapt-Qwen (6.1 h) and Llama (7.5 h) on
+      `exposure_1`. Llama needs the `HF_TOKEN` secret.
 - [ ] Then GigaChat after its smoke test (add its instruct name to
       `family_holm.ADAPTED_MARKERS`); T-lite and ruadapt-Qwen (block B, and
       H2/H2e as Russian-centric models); Llama-3.1-8B (gated). Price every

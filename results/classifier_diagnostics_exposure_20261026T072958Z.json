@@ -1,0 +1,208 @@
+{
+  "_what": "Exploratory diagnostics of the exposure sessions (reports/RESULTS_EXPOSURE.md).",
+  "models": {
+    "meta-llama/Llama-3.1-8B-Instruct": {
+      "gradient": null,
+      "feature": [
+        {
+          "dataset": "mkb10_v2.csv",
+          "feature": "Наименование",
+          "matches": 0,
+          "n": 250,
+          "unidentified": 0,
+          "answered": 244,
+          "uncut_answered": 244,
+          "uncut_matches": 0,
+          "lenient_answered": 250,
+          "lenient_matches": 0,
+          "p_lenient": 1.0,
+          "matches_with_value_in_few_shot": 0,
+          "baseline": 0.01469,
+          "baseline_from": "mode",
+          "p": 1.0
+        },
+        {
+          "dataset": "okved2.csv",
+          "feature": "Наименование",
+          "matches": 3,
+          "n": 250,
+          "unidentified": 0,
+          "answered": 68,
+          "uncut_answered": 68,
+          "uncut_matches": 3,
+          "lenient_answered": 250,
+          "lenient_matches": 9,
+          "p_lenient": 0.4719496356166204,
+          "matches_with_value_in_few_shot": 0,
+          "baseline": 0.033825,
+          "baseline_from": "nn1",
+          "p": 0.9912039348808711
+        },
+        {
+          "dataset": "oksm.csv",
+          "feature": "Полное наименование по ОКСМ",
+          "matches": 55,
+          "n": 250,
+          "unidentified": 0,
+          "answered": 125,
+          "uncut_answered": 125,
+          "uncut_matches": 55,
+          "lenient_answered": 250,
+          "lenient_matches": 98,
+          "p_lenient": 1.5062791563062363e-76,
+          "matches_with_value_in_few_shot": 0,
+          "baseline": 0.033113,
+          "baseline_from": "nn1",
+          "p": 6.243720023594994e-29
+        },
+        {
+          "dataset": "okpdtr.csv",
+          "feature": "Наименование",
+          "matches": 0,
+          "n": 250,
+          "unidentified": 0,
+          "answered": 87,
+          "uncut_answered": 87,
+          "uncut_matches": 0,
+          "lenient_answered": 250,
+          "lenient_matches": 0,
+          "p_lenient": 1.0,
+          "matches_with_value_in_few_shot": 0,
+          "baseline": 0.001833,
+          "baseline_from": "nn1",
+          "p": 1.0
+        },
+        {
+          "dataset": "cardio_train.csv",
+          "feature": "age",
+          "matches": 0,
+          "n": 250,
+          "unidentified": 0,
+          "answered": 247,
+          "uncut_answered": 247,
+          "uncut_matches": 0,
+          "lenient_answered": 250,
+          "lenient_matches": 0,
+          "p_lenient": 1.0,
+          "matches_with_value_in_few_shot": 0,
+          "baseline": 0.000457,
+          "baseline_from": "mode",
+          "p": 1.0
+        },
+        {
+          "dataset": "telecom_churn.csv",
+          "feature": "Total day minutes",
+          "matches": 1,
+          "n": 250,
+          "unidentified": 0,
+          "answered": 250,
+          "uncut_answered": 250,
+          "uncut_matches": 1,
+          "lenient_answered": 250,
+          "lenient_matches": 1,
+          "p_lenient": 0.45158399898110113,
+          "matches_with_value_in_few_shot": 0,
+          "baseline": 0.0024,
+          "baseline_from": "mode",
+          "p": 0.45158399898110113
+        }
+      ],
+      "portal_form": {
+        "portal parenthetical": {
+          "matches": 0,
+          "n": 25,
+          "examples": [
+            [
+              "Гибралтар(Брит.)",
+              "Гибралтар"
+            ],
+            [
+              "Остров Рождества(Австралия)",
+              null
+            ],
+            [
+              "Ангилья(Брит.)",
+              "Американские Виргинские острова"
+            ],
+            [
+              "Вьетнам Южный (Кохинхин)",
+              "Демократическая социалистическая республика Вьетнам"
+            ],
+            [
+              "Тайвань(в составе Китая)",
+              "Китайская Республика"
+            ]
+          ]
+        },
+        "current, plain": {
+          "matches": 42,
+          "n": 121,
+          "examples": [
+            [
+              "Республика Словения",
+              "Социалистическая республика Словении"
+            ],
+            [
+              "Папский Престол (Государство-Город Ватикан)",
+              null
+            ],
+            [
+              "Республика Сербия",
+              "Сербская Республика"
+            ],
+            [
+              "Восточная Республика Уругвай",
+              "Восточный Уругвай"
+            ],
+            [
+              "Республика Экваториальная Гвинея",
+              null
+            ]
+          ]
+        },
+        "historical, plain": {
+          "matches": 13,
+          "n": 104,
+          "examples": [
+            [
+              "Федерация Сент-Китс и Невис",
+              "Сент-Китс и Невис"
+            ],
+            [
+              "Чешская и Словацкая Федеративная Республика",
+              null
+            ],
+            [
+              "Нидерландские Антильские Острова",
+              null
+            ],
+            [
+              "Республика Кот Д’Ивуар",
+              "Республика Кот д`Ивуар"
+            ],
+            [
+              "Виргинские Острова Соединенных Штатов Америки",
+              null
+            ]
+          ]
+        }
+      },
+      "trailing": [
+        {
+          "dataset": "oksm.csv",
+          "n": 250,
+          "empty": 62,
+          "first_line_is_row": 1,
+          "row_on_any_line": 1
+        },
+        {
+          "dataset": "mos_streets_omk_um_2022.csv",
+          "n": 250,
+          "empty": 9,
+          "first_line_is_row": 0,
+          "row_on_any_line": 2
+        }
+      ]
+    }
+  }
+}

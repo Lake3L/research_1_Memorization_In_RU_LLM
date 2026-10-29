@@ -1,8 +1,8 @@
 {
   "_what": "The runs this GPU session performs. The notebook reads this file from the repository checkout, so the experiment is defined in version control rather than in a notebook copy.",
   "_rule": "To change what runs: edit this file, commit, push. The notebook needs no changes.",
-  "session_id": "2026-10-28-block-C-B6-qwen-tlite-exposure_1",
-  "purpose": "Session B6: plan exposure_1 on Qwen2.5-7B-Instruct and its continued-pretraining adaptation T-lite-it-1.0, one per card, on identical prompts. exposure_1 holds the row-completion side of the two classifiers: MKB-10 and OKVED 2 rows, plus header and row on cardio_train, alice_train_sessions and the Moscow metro export. On MKB-10 the frozen distance bins of src/classifier_diagnostics.py separated the lineages. Far from any name in the prompt, the YandexGPT models named the next rubric 18 times of 121 and the Nemo pair 2-3 times, so YandexGPT holds the classification as ordered text and the Nemo pair only reconstructs it (reports/RESULTS_EXPOSURE.md §28). The question is where the Qwen family falls: on exposure_2 Qwen and its adaptations named no more OKVED 2 codes than the lookup baseline (Parts VIII-IX). ruadapt-Qwen and Llama-3.1-8B follow in the next session. iris anchors the plan: 84/142 and 95/142, byte for byte, as in every earlier session. Planning figures from src/price_plan.py with each model's own tokenizer, every answer to its budget x 1.15; validated on 44 runs (actual/plan 0.68-0.94; the Qwen family 0.68-0.79): Qwen 6.2 h, T-lite 6.2 h. The longer card is 6.2 h, about 4.5 h at the family's ratio.",
+  "session_id": "2026-10-29-block-C-B7-ruadapt-llama-exposure_1",
+  "purpose": "Session B7: plan exposure_1 on ruadapt_qwen2.5_7B_ext_u48_instruct and Llama-3.1-8B-Instruct, one per card. These are the two models still missing from the MKB-10 and OKVED 2 row cells and the frozen distance bins. In B6, Qwen2.5-7B and T-lite named the next MKB-10 rubric once in 121 far prompts, as the Nemo pair did, against 18 for the from-scratch YandexGPT models (reports/RESULTS_EXPOSURE.md Part XII). With these two runs every model run so far has both exposure plans: ruadapt is the vocabulary-extended adaptation, Llama the off-family control. Llama is gated: the Kaggle secret HF_TOKEN must be attached, and the run prints '[hf] token: from the Kaggle secret HF_TOKEN'. iris anchors the plan: 76/142 and 12/142, byte for byte, as in their earlier sessions. Planning figures from src/price_plan.py with each model's own tokenizer, every answer to its budget x 1.15, validated on 46 runs (actual/plan 0.68-0.94): ruadapt 6.1 h; Llama 7.5 h, priced as the 12B family on purpose (its three runs took 0.68-0.75 of that figure). The longer card is 7.5 h, about 5.3 h at Llama's ratio.",
   "dataset_group": "canon,ru_exposure",
   "datasets": [
     "iris",
@@ -12,14 +12,14 @@
     "alice_train_sessions",
     "mos_metro_stations_2022"
   ],
-  "attached_input": "the nine ru_exposure CSVs, attached as one Kaggle dataset (loose or zipped); the fetch step adopts them from /kaggle/input, looks inside zips, and verifies every hash before any weights load",
+  "attached_input": "the nine ru_exposure CSVs, attached as one Kaggle dataset (loose or zipped); the fetch step adopts them from /kaggle/input, looks inside zips, and verifies every hash before any weights load. The Kaggle secret HF_TOKEN must be attached to the notebook for Llama",
   "variant": "raw",
   "prompt_language": "en",
   "load_in_4bit": true,
   "parallel": true,
   "seed": 42,
   "scale": 1.0,
-  "disk": "two checkpoints at once, about 30 GB at the peak (Qwen 15.2 + T-lite 15.2, neither with custom code)",
+  "disk": "two checkpoints at once, about 32 GB at the peak (ruadapt-Qwen 15.5 + Llama 16.1, neither with custom code)",
   "requires": {
     "flags": [
       "--prompting",
@@ -36,14 +36,14 @@
   },
   "runs": [
     {
-      "model": "Qwen/Qwen2.5-7B-Instruct",
+      "model": "meta-llama/Llama-3.1-8B-Instruct",
       "extra": "--plan exposure_1 --protocol reference --prompting completion --free-weights-after",
-      "why": "MKB-10 and OKVED 2 row completion, scored with the frozen distance bins, plus header and row on the other three files; 6.2 h; the multilingual base"
+      "why": "MKB-10 and OKVED 2 row completion with the frozen distance bins, plus header and row on the other three files; 7.5 h; the off-family control. Queued first so that it takes a card at once"
     },
     {
-      "model": "t-tech/T-lite-it-1.0",
+      "model": "RefalMachine/ruadapt_qwen2.5_7B_ext_u48_instruct",
       "extra": "--plan exposure_1 --protocol reference --prompting completion --free-weights-after",
-      "why": "the same cells, same seed, the other card; 6.2 h; Qwen's Russian adaptation, paired on identical prompts. Needs the T4 x2 accelerator"
+      "why": "the same cells, same seed, the other card; 6.1 h; Qwen2.5-7B's vocabulary-extended Russian adaptation, paired with Qwen's B6 run on identical prompts. Needs the T4 x2 accelerator"
     }
   ]
 }

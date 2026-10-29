@@ -339,16 +339,22 @@ session itself is `notebooks/session.json`.
         refuses duplicates.
 
       → `reports/RESULTS_EXPOSURE.md` Part XII
-- [ ] **Session B7** (`notebooks/session.json`): Llama (7.5 h) and ruadapt
-      (6.1 h) on `exposure_1`. Needs the `ru_exposure` CSVs and the
-      `HF_TOKEN` secret. Then:
-      - `prefix_baseline.py` with both logs;
-      - `classifier_diagnostics.py --e1 <both> --e2 <their exposure_2
-        logs>`;
-      - `sequence_recall.py` with all eight logs;
-      - the joint family.
+- [x] **Session B7** (2026-10-29): ruadapt and Llama on `exposure_1`.
+      - Rows are positive for all eight models, controls included.
+      - The МКБ-10 far bin is 0/121 for both new models. Only YandexGPT
+        holds the classifiers as text (18/121 far bin; ОКВЭД codes 28–32).
+      - Joint family: 120 p-values, final for eight models, no verdict
+        changed.
 
-      After it, every model run has both exposure plans.
+      → `reports/RESULTS_EXPOSURE.md` Part XIII
+- [ ] **Session B8** (`notebooks/session.json`): Llama (8.8 h) and Qwen
+      (7.2 h) on `ru_probe`. This is the fresh-control validity gate
+      (PREREGISTRATION §4) for the two controls, and it completes the H2
+      family for eight models. Needs `trudvsem_vacancies_2026.csv` and
+      `HF_TOKEN`. Then:
+      - `prefix_baseline.py` with both logs;
+      - the H2 family with `--group ru_pre_cutoff`, the command of
+        `RESULTS_EXPOSURE.md` §57 plus the new files.
 - [ ] Then: decide the next block with the author.
       - GigaChat: read its code, then a smoke test.
       - E3, the fresh twin.

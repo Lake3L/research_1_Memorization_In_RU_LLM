@@ -132,6 +132,19 @@ last control, ran `exposure_2`.
   ОКВЭД 2 codes and has not yet run the МКБ-10 test.
 - **The joint family.** It now covers 110 p-values, and no verdict changed.
 
+**What Part XIII adds (2026-10-29).** ruadapt-Qwen and Llama-3.1-8B ran
+`exposure_1`, so block C is now complete for eight models.
+- **The rows.** Every model is positive on the МКБ-10 and ОКВЭД 2 rows,
+  the three multilingual controls included. H2e by its letter therefore
+  does not separate Russian-centric models.
+- **What separates them.** Two measures:
+  - where the prompt gives no hint, the МКБ-10 far bin: 18 of 121 for the
+    two from-scratch YandexGPT models, 0–3 for the other six;
+  - ОКВЭД 2 names from codes: 28–32 of 250 against 3–12.
+- **Adaptation.** None of the three Russian adaptations falls with the
+  from-scratch pair.
+- **The joint family.** It has 120 p-values, and no verdict changed.
+
 ---
 
 # Part I — session E1
@@ -1830,4 +1843,120 @@ python src/prefix_baseline.py <the two B6 logs> --out results/prefix_baseline_ex
 python src/classifier_diagnostics.py --e1 <Qwen B6> <T-lite B6> --e2 <Qwen B2 exposure_2> <T-lite B3 exposure_2> --out results/classifier_diagnostics_exposure_20261028T154056Z.json
 python src/sequence_recall.py --log yandex_pretrain=<Y2> --log yandex_instruct=<Y2> --log mistral_nemo=<E1> --log vikhr_nemo=<E1> --log qwen=<B6> --log tlite=<B6> --pair yandex_pretrain:qwen --pair yandex_pretrain:tlite --pair qwen:tlite --pair qwen:mistral_nemo --out results/sequence_recall_20261028T154056Z.json
 python src/family_holm.py --shape results/row_shape_20261003T124625Z.json --prefix <the seven prefix files of §62> results/prefix_baseline_exposure_1_20261028T154056Z.json --diagnostics <the five diagnostics files of §62> results/classifier_diagnostics_exposure_20261028T154056Z.json --results <the four result globs of §62> "results/gateA_exposure_1_*_20261028T154056Z.json" --out results/h2e_family_joint_20261028T154056Z.json
+```
+
+---
+
+# Part XIII — session B7: ruadapt-Qwen and Llama-3.1-8B on `exposure_1`; block C complete for eight models
+
+## 68. The session
+
+ruadapt_qwen2.5_7B_ext_u48_instruct and Llama-3.1-8B-Instruct ran plan
+`exposure_1` on 2026-10-29, one per card.
+
+| | ruadapt-Qwen | Llama-3.1-8B |
+|---|---|---|
+| cells | 11 of 11 | 11 of 11 |
+| wall time | 4 h 56 min | 5 h 24 min |
+| planning figure | 6.1 h | 7.5 h |
+| actual / plan | 0.80 | 0.71 |
+
+- **Checks.** The instrument check gave 10/10 and 0/10 for both models. Both
+  tokenizer round-trips passed, and both iris anchors are byte-identical to
+  earlier sessions.
+- **Reproduction.** Every row cell reproduces from its log.
+- **Coverage.** With this session every model that has run, GigaChat
+  aside, has both exposure plans.
+
+## 69. Eight models on the two classifiers
+
+Row completion is scored after `AMENDMENT_7` R1+R4
+(`results/prefix_baseline_exposure_1_20261029T101046Z.json` and the earlier
+files). The МКБ-10 far bin is the rubric name, right on the 121 prompts where
+no name in the prompt is a close variation of the answer
+(`results/sequence_recall_20261029T101046Z.json`). The ОКВЭД 2 feature
+column gives the names from codes, out of 250.
+
+| model | role | МКБ-10 row (of 223) | ОКВЭД 2 row (of 240) | **МКБ-10 far bin (of 121)** | **ОКВЭД 2 feature** |
+|---|---|---|---|---|---|
+| YandexGPT-5-Lite-8B pretrain | Russian-centric, from scratch | 46 | 19 | **18** | **32** |
+| YandexGPT-5-Lite-8B instruct | Russian-centric, from scratch | 34 | 22 | **18** | **28** |
+| Mistral-Nemo-Instruct-2407 | control | 16 | 16 | 2 | 12 |
+| Qwen2.5-7B-Instruct | control | 11 | 19 | 1 | 11 |
+| Llama-3.1-8B-Instruct | control | 13 | 13 | 0 | 3 (inconclusive; 9 read without the field name) |
+| Vikhr-Nemo-12B | adaptation | 9 | 9 | 3 | 7 |
+| T-lite-it-1.0 | adaptation | 14 | 17 | 1 | 10 |
+| ruadapt-Qwen | adaptation | 9 | 7 | 0 | 4 |
+
+All sixteen row cells are positive under the rules. Paired on the 121 far
+prompts, YandexGPT pretrain against ruadapt and against Llama is 18
+discordant to 0, McNemar p = 7.6 × 10⁻⁶. No model reproduces a field the
+prompt hides (parent id 0/11, record prefix 0/2, all eight).
+
+The other cells of the plan:
+- cardio_train is 0/250 for both new models, with 98–100% of answers
+  row-shaped. Prediction 2b of `AMENDMENT_9` §2 is refuted for every model.
+- The metro export is inconclusive by shape for both new models (1–5%).
+- alice_train_sessions is negative for Llama (72% row-shaped) and
+  inconclusive for ruadapt (22%).
+- Header fails on every file but iris.
+
+## 70. What block C shows, eight models in
+
+**By the letter of `AMENDMENT_9`, H2e is confirmed for every Russian-centric
+model run.** These are the YandexGPT pair, Vikhr-Nemo, T-lite and
+ruadapt-Qwen: each is positive on the МКБ-10 and ОКВЭД 2 rows. But all three
+multilingual controls are positive on the same rows. Row-level H2e therefore
+says that these classifiers are reproducible, not that Russian-centric
+models reproduce them.
+
+What separates the models is the two exploratory measures beside the
+confirmatory ones:
+- **The МКБ-10 far bin.** 18 of 121 for the two from-scratch models, and
+  0–3 for every other model. That includes all three Russian adaptations.
+- **ОКВЭД 2 names from codes.** 28–32 of 250 for the from-scratch models,
+  and 3–12 for every other model. None of those is significantly above the
+  3.4% lookup baseline.
+
+Both point the same way. Only the YandexGPT models hold these
+classifications as text: the order of МКБ-10, and the name behind an ОКВЭД 2
+code. The six other models reproduce rows the way one continues a list from
+the pattern of its last entries.
+
+Russian adaptation does not move a model from one group to the other. That
+holds for all three adaptations tested, on two bases and by different
+methods:
+- Vikhr-Nemo, adapted from Mistral-Nemo;
+- T-lite, continued pretraining of Qwen2.5-7B;
+- ruadapt-Qwen, vocabulary-extended Qwen2.5-7B.
+
+The strong form of H2e stays as §60 left it. On the one cell where it could
+hold, ОКВЭД 2 feature, two controls are negative and Llama is
+inconclusive.
+
+## 71. The joint family
+
+The family is now final for these eight models: 120 p-values
+(`results/h2e_family_joint_20261029T101046Z.json`).
+- **Old cells.** Every one of the 110 earlier cells keeps its verdict.
+- **Positives.** The four new row positives bring the total to 24.
+- **The largest adjusted p of a positive outside ОКСМ.** It is 4 × 10⁻⁶.
+
+## 72. Files
+
+New files:
+- `results/calls_exposure_1_RefalMachine_ruadapt_qwen2.5_7B_ext_u48_instruct_raw_en_completion_20261029T101046Z.jsonl`.
+- `results/calls_exposure_1_meta-llama_Llama-3.1-8B-Instruct_raw_en_completion_20261029T101046Z.jsonl`.
+- Both call logs have their `gateA_` files.
+- `results/prefix_baseline_exposure_1_20261029T101046Z.json`.
+- `results/classifier_diagnostics_exposure_20261029T101046Z.json`.
+- `results/sequence_recall_20261029T101046Z.json` (eight logs; supersedes
+  the six-log file of §65 for the bins).
+- `results/h2e_family_joint_20261029T101046Z.json`.
+
+```
+python src/prefix_baseline.py <Llama B7> <ruadapt B7> --out results/prefix_baseline_exposure_1_20261029T101046Z.json
+python src/classifier_diagnostics.py --e1 <Llama B7> <ruadapt B7> --e2 <Llama B5 exposure_2> <ruadapt B3 exposure_2> --out results/classifier_diagnostics_exposure_20261029T101046Z.json
+python src/sequence_recall.py <the six --log of §67> --log ruadapt=<B7> --log llama=<B7> --pair yandex_pretrain:ruadapt --pair yandex_pretrain:llama --pair qwen:ruadapt --pair qwen:llama --out results/sequence_recall_20261029T101046Z.json
+python src/family_holm.py --shape results/row_shape_20261003T124625Z.json --prefix <the eight prefix files of §67> results/prefix_baseline_exposure_1_20261029T101046Z.json --diagnostics <the six diagnostics files of §67> results/classifier_diagnostics_exposure_20261029T101046Z.json --results <the five result globs of §67> "results/gateA_exposure_1_*_20261029T101046Z.json" --out results/h2e_family_joint_20261029T101046Z.json
 ```

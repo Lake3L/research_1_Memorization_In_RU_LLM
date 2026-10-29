@@ -1,25 +1,25 @@
 {
   "_what": "The runs this GPU session performs. The notebook reads this file from the repository checkout, so the experiment is defined in version control rather than in a notebook copy.",
   "_rule": "To change what runs: edit this file, commit, push. The notebook needs no changes.",
-  "session_id": "2026-10-29-block-C-B7-ruadapt-llama-exposure_1",
-  "purpose": "Session B7: plan exposure_1 on ruadapt_qwen2.5_7B_ext_u48_instruct and Llama-3.1-8B-Instruct, one per card. These are the two models still missing from the MKB-10 and OKVED 2 row cells and the frozen distance bins. In B6, Qwen2.5-7B and T-lite named the next MKB-10 rubric once in 121 far prompts, as the Nemo pair did, against 18 for the from-scratch YandexGPT models (reports/RESULTS_EXPOSURE.md Part XII). With these two runs every model run so far has both exposure plans: ruadapt is the vocabulary-extended adaptation, Llama the off-family control. Llama is gated: the Kaggle secret HF_TOKEN must be attached, and the run prints '[hf] token: from the Kaggle secret HF_TOKEN'. iris anchors the plan: 76/142 and 12/142, byte for byte, as in their earlier sessions. Planning figures from src/price_plan.py with each model's own tokenizer, every answer to its budget x 1.15, validated on 46 runs (actual/plan 0.68-0.94): ruadapt 6.1 h; Llama 7.5 h, priced as the 12B family on purpose (its three runs took 0.68-0.75 of that figure). The longer card is 7.5 h, about 5.3 h at Llama's ratio.",
-  "dataset_group": "canon,ru_exposure",
+  "session_id": "2026-10-29-block-C-B8-qwen-llama-ru_probe",
+  "purpose": "Session B8: plan ru_probe on the two multilingual controls that have not met it, Qwen2.5-7B-Instruct and Llama-3.1-8B-Instruct, one per card. Plan ru_probe holds the four AMENDMENT_1 files with rows under 200 tokens, the fresh control trudvsem_vacancies_2026, and iris. The fresh control is the validity gate of PREREGISTRATION.md §4, which applies to every model: a positive verbatim verdict on it marks that model x test unreliable. The two controls' verbatim cells already carry the strong form of H2e, and neither has met the gate yet. The run also completes the H2 family over the eight models run so far: six were negative on every file of this plan (reports/RESULTS_EXPOSURE.md Part X). Llama is gated: the Kaggle secret HF_TOKEN must be attached, and the run prints '[hf] token: from the Kaggle secret HF_TOKEN'. iris anchors the plan: 84/142 and 12/142, byte for byte. Planning figures from src/price_plan.py with each model's own tokenizer, every answer to its budget x 1.15, validated on 48 runs (actual/plan 0.68-0.94): Qwen 7.2 h; Llama 8.8 h, priced as the 12B family on purpose (its four runs took 0.68-0.75 of that figure). The longer card is 8.8 h, inside the 10-hour session rule, and about 6.3 h at Llama's ratio. russian_retail (ru_probe_long) fits neither model.",
+  "dataset_group": "canon,ru_pre_cutoff,fresh_control",
   "datasets": [
     "iris",
-    "mkb10_v2",
-    "okved2",
-    "cardio_train",
-    "alice_train_sessions",
-    "mos_metro_stations_2022"
+    "hflabs_city",
+    "govdomains",
+    "mos_zemelnye_uchastki",
+    "mos_torgovye_obekty",
+    "trudvsem_vacancies_2026"
   ],
-  "attached_input": "the nine ru_exposure CSVs, attached as one Kaggle dataset (loose or zipped); the fetch step adopts them from /kaggle/input, looks inside zips, and verifies every hash before any weights load. The Kaggle secret HF_TOKEN must be attached to the notebook for Llama",
+  "attached_input": "trudvsem_vacancies_2026.csv — the frozen fresh control, attached as a Kaggle dataset as in sessions C1, Y3 and B4; it cannot be re-fetched. The other four Russian files are fetched from their registered sources and hash-checked before any weights load. The Kaggle secret HF_TOKEN must be attached to the notebook for Llama",
   "variant": "raw",
   "prompt_language": "en",
   "load_in_4bit": true,
   "parallel": true,
   "seed": 42,
   "scale": 1.0,
-  "disk": "two checkpoints at once, about 32 GB at the peak (ruadapt-Qwen 15.5 + Llama 16.1, neither with custom code)",
+  "disk": "two checkpoints at once, about 31 GB at the peak (Qwen 15.2 + Llama 16.1, neither with custom code)",
   "requires": {
     "flags": [
       "--prompting",
@@ -30,20 +30,20 @@
       "--free-weights-after"
     ],
     "plans": [
-      "exposure_1"
+      "ru_probe"
     ],
     "note": "verified against the checkout before any weights are downloaded"
   },
   "runs": [
     {
       "model": "meta-llama/Llama-3.1-8B-Instruct",
-      "extra": "--plan exposure_1 --protocol reference --prompting completion --free-weights-after",
-      "why": "MKB-10 and OKVED 2 row completion with the frozen distance bins, plus header and row on the other three files; 7.5 h; the off-family control. Queued first so that it takes a card at once"
+      "extra": "--plan ru_probe --protocol reference --prompting completion --free-weights-after",
+      "why": "header and row completion on the AMENDMENT_1 files and the fresh control; 8.8 h; the off-family control. Queued first so that the longer run takes a card at once"
     },
     {
-      "model": "RefalMachine/ruadapt_qwen2.5_7B_ext_u48_instruct",
-      "extra": "--plan exposure_1 --protocol reference --prompting completion --free-weights-after",
-      "why": "the same cells, same seed, the other card; 6.1 h; Qwen2.5-7B's vocabulary-extended Russian adaptation, paired with Qwen's B6 run on identical prompts. Needs the T4 x2 accelerator"
+      "model": "Qwen/Qwen2.5-7B-Instruct",
+      "extra": "--plan ru_probe --protocol reference --prompting completion --free-weights-after",
+      "why": "the same cells, same seed, the other card; 7.2 h; the multilingual base of both Qwen pairs, beside T-lite and ruadapt on identical prompts (B4). Needs the T4 x2 accelerator"
     }
   ]
 }

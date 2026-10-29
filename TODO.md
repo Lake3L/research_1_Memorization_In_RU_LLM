@@ -329,15 +329,31 @@ session itself is `notebooks/session.json`.
       - Llama stays priced as 12B (the 8B family would under-price it).
 
       → `reports/RESULTS_EXPOSURE.md` Part XI, `reports/RESULTS_CANON.md` §9
-- [ ] **Session B6** (`notebooks/session.json`): Qwen and T-lite on
-      `exposure_1`, 6.2 h each. Attach the `ru_exposure` CSVs. Then:
+- [x] **Session B6** (2026-10-28): Qwen and T-lite on `exposure_1`.
+      - МКБ-10 and ОКВЭД 2 rows are positive by the rules (11 and 14 of 223;
+        19 and 17 of 240).
+      - They are reconstruction: МКБ-10 far bin 1/121 for both, against
+        Yandex 18/121 (p = 1.5 × 10⁻⁵).
+      - T-lite is identical to its base.
+      - Joint family: 110 p-values, no verdict changed. `family_holm.py`
+        refuses duplicates.
+
+      → `reports/RESULTS_EXPOSURE.md` Part XII
+- [ ] **Session B7** (`notebooks/session.json`): Llama (7.5 h) and ruadapt
+      (6.1 h) on `exposure_1`. Needs the `ru_exposure` CSVs and the
+      `HF_TOKEN` secret. Then:
       - `prefix_baseline.py` with both logs;
-      - `classifier_diagnostics.py --e1 <Qwen> <T-lite> --e2 <their
-        exposure_2 logs>` for the distance bins;
-      - `sequence_recall.py` with the Yandex and Nemo logs, paired;
-      - the joint H2e family.
-- [ ] **Session B7**: ruadapt-Qwen (6.1 h) and Llama (7.5 h) on
-      `exposure_1`. Llama needs the `HF_TOKEN` secret.
+      - `classifier_diagnostics.py --e1 <both> --e2 <their exposure_2
+        logs>`;
+      - `sequence_recall.py` with all eight logs;
+      - the joint family.
+
+      After it, every model run has both exposure plans.
+- [ ] Then: decide the next block with the author.
+      - GigaChat: read its code, then a smoke test.
+      - E3, the fresh twin.
+      - Block D (H4, prompt language) or block E (H3).
+      - Start the paper's results section.
 - [ ] Then GigaChat after its smoke test (add its instruct name to
       `family_holm.ADAPTED_MARKERS`); T-lite and ruadapt-Qwen (block B, and
       H2/H2e as Russian-centric models); Llama-3.1-8B (gated). Price every

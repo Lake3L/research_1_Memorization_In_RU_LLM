@@ -34,6 +34,7 @@ import argparse
 import glob
 import json
 import os
+import sys
 
 ALPHA = 0.05
 WELL_FORMED_FLOOR = 0.5
@@ -106,12 +107,30 @@ def main():
                                    or ("pass" if c.get("passed") else "fail")})
 
     cells = []
+    seen = {}
+
+    def first_time(model, dataset, test, count):
+        """A model scored in two of the given files would enter the family
+        twice and make every Holm adjustment stricter than the design's;
+        the same count is taken once, a different one stops the run."""
+        key = (model, dataset, test)
+        if key in seen:
+            if seen[key] != count:
+                sys.exit(f"{model} {dataset} {test}: two input files disagree "
+                         f"({seen[key]} and {count})")
+            return False
+        seen[key] = count
+        return True
+
     for path in args.prefix:
         for key, s in json.load(open(path, encoding="utf-8"))["cells"].items():
             model, dataset = key.split("|")
             if dataset not in members or any(
                     m["model"] == model and m["dataset"] == dataset and m["test"] == "row"
                     for m in not_measured):
+                continue
+            if not first_time(model, dataset, "row",
+                              f"{s['after_rules']['matches']}/{s['after_rules']['n']}"):
                 continue
             p = s["after_rules"]["p"]
             cells.append({"model": model, "dataset": dataset, "test": "row",
@@ -124,6 +143,8 @@ def main():
         for model, entry in json.load(open(path, encoding="utf-8"))["models"].items():
             for f in entry["feature"]:
                 if f["dataset"] not in members:
+                    continue
+                if not first_time(model, f["dataset"], "feature", f"{f['matches']}/{f['n']}"):
                     continue
                 answered = f.get("answered")
                 cells.append({"model": model, "dataset": f["dataset"], "test": "feature",

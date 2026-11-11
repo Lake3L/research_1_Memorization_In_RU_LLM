@@ -145,6 +145,19 @@ last control, ran `exposure_2`.
   from-scratch pair.
 - **The joint family.** It has 120 p-values, and no verdict changed.
 
+**What Part XIV adds (2026-11-11).** Qwen2.5-7B and Llama-3.1-8B, the two
+controls that had not yet seen the fresh control, ran `ru_probe`.
+- **The fresh-control gate.** Both are at 0 of 207 on
+  trudvsem_vacancies_2026, with 98% of answers row-shaped. The gate now
+  holds for all eight models that ran the file.
+- **The H2 files.** Both controls are negative on all four, exactly like
+  the six earlier models. govdomains again falls from about 30 library
+  matches to 1–2 of 111 under the rules.
+- **The H2 family.** It has 34 p-values over eight models: 32 negative,
+  2 inconclusive, smallest raw p 0.73. No verdict changed.
+- **What is left for H2.** No Russian-centric model has a positive cell.
+  GigaChat, the last pinned Russian-centric pair, has not run.
+
 ---
 
 # Part I — session E1
@@ -1959,4 +1972,125 @@ python src/prefix_baseline.py <Llama B7> <ruadapt B7> --out results/prefix_basel
 python src/classifier_diagnostics.py --e1 <Llama B7> <ruadapt B7> --e2 <Llama B5 exposure_2> <ruadapt B3 exposure_2> --out results/classifier_diagnostics_exposure_20261029T101046Z.json
 python src/sequence_recall.py <the six --log of §67> --log ruadapt=<B7> --log llama=<B7> --pair yandex_pretrain:ruadapt --pair yandex_pretrain:llama --pair qwen:ruadapt --pair qwen:llama --out results/sequence_recall_20261029T101046Z.json
 python src/family_holm.py --shape results/row_shape_20261003T124625Z.json --prefix <the eight prefix files of §67> results/prefix_baseline_exposure_1_20261029T101046Z.json --diagnostics <the six diagnostics files of §67> results/classifier_diagnostics_exposure_20261029T101046Z.json --results <the five result globs of §67> "results/gateA_exposure_1_*_20261029T101046Z.json" --out results/h2e_family_joint_20261029T101046Z.json
+```
+
+---
+
+# Part XIV — session B8: the two remaining controls on `ru_probe`
+
+## 73. The session
+
+Qwen2.5-7B-Instruct and Llama-3.1-8B-Instruct ran plan `ru_probe` on
+2026-11-10, one per card, with the same cells as §54:
+- the four `AMENDMENT_1` files;
+- the fresh control;
+- the iris anchor;
+- header and row completion on each.
+
+The session had two purposes:
+- the fresh control is a validity gate for every model (PREREGISTRATION
+  §4), and neither control had run it;
+- the H2 family was missing the two controls.
+
+| | Llama-3.1-8B | Qwen2.5-7B |
+|---|---|---|
+| cells | 12 of 12 | 12 of 12 |
+| wall time | 5 h 12 min | 4 h 54 min |
+| planning figure | 8.8 h | 7.2 h |
+| actual / plan | 0.58 | 0.67 |
+
+- **Checks.** The instrument check gave 10/10 and 0/10 for both models.
+  Both tokenizer round-trips passed, and neither tokenizer appends
+  end-of-text.
+- **Revisions.** Both loaded at their pinned revisions.
+- **Anchors.** The iris answers are byte-identical to each model's four
+  earlier runs:
+  - 146 of 146 shared prompts with `exposure_1`, `exposure_2` and
+    `h1b_rest`;
+  - 142 of 142 with `probe`.
+- **Reproduction.** All six row cells of each model reproduce from the log.
+- **Header.** It passed on iris only.
+- **Pricing.** The largest actual/plan over all runs stays 0.94.
+
+## 74. The cells
+
+Row completion under `AMENDMENT_7` R1–R4
+(`results/prefix_baseline_ru_probe_20261110T130456Z.json`). The library
+count comes first; the count over the queries the rules keep follows the
+arrow.
+
+| file | Llama-3.1-8B | Qwen2.5-7B | earlier six models (§55) | verdict |
+|---|---|---|---|---|
+| hflabs_city | 0/250 | 0/250 | 0/250 | negative |
+| govdomains | 30 → 2/111 | 28 → 1/111 | 1–2/111 | negative |
+| mos_zemelnye_uchastki | 0/249 | 0/249 | 0/249 | negative |
+| mos_torgovye_obekty | 0/234 | 0/234 | 0/234 | negative (61% and 65% row-shaped) |
+| trudvsem_vacancies_2026 (fresh control) | 0/207 | 0/207 | 0/207 | zero |
+| iris (anchor) | 12 → 5/103 | 84 → 58/103 | — | as in B5 and B1 |
+
+- **govdomains.** No witness value of 47 is reproduced by either model, so
+  the cell is negative, as for every model before. What the library counts
+  are the file's templated neighbours.
+- **The fresh control.** 98.4% of both models' answers have the shape of a
+  row, so these zeros are answers, not refusals. Every model that ran the
+  file is now at zero on it:
+  - the three controls, Mistral-Nemo, Qwen2.5-7B and Llama-3.1-8B;
+  - the three adaptations, Vikhr-Nemo, T-lite and ruadapt-Qwen;
+  - the two from-scratch YandexGPT models.
+
+  The fresh-control condition of H2's refutation therefore holds.
+- **The pair on identical prompts.** On the Russian files Llama and Qwen
+  differ by one govdomains row: both reproduce one, and Llama one more
+  (McNemar p = 1). On iris Qwen keeps 54 rows that Llama misses, and Llama
+  keeps 1 that Qwen misses (McNemar p = 3 × 10⁻¹⁵).
+
+## 75. The H2 family, eight models
+
+`src/family_holm.py --group ru_pre_cutoff`, the command of §57 with the new
+files (`results/h2_family_20261110T130456Z.json`):
+
+| what | count |
+|---|---|
+| p-values | 34 |
+| negative | 32 |
+| inconclusive | 2 |
+| smallest raw p | 0.73 |
+| verdicts changed from the six-model family of §56 | 0 |
+
+- **The inconclusive cells.** They are the same two as in §56: ruadapt on
+  torgovye (24% row-shaped) and YandexGPT pretrain on russian_retail (24%).
+- **Not measured.** russian_retail remains unmeasured for most models:
+  - the Nemo pair ran out of memory on it;
+  - the Qwen family and Llama do not fit it in a session.
+
+**Where H2 stands.** PREREGISTRATION §6 refutes H2 when three conditions
+hold:
+1. every Russian-centric × Russian pre-cutoff cell is negative;
+2. the positive-control gate passed;
+3. the fresh controls stayed negative.
+
+Today:
+- Condition 2 has held since the gate passed on 2026-08-11
+  (`reports/RESULTS_GATE.md` §6).
+- Condition 3 now holds for all eight models.
+- Condition 1 holds for every cell measured, except the two inconclusive
+  ones. It cannot be closed while GigaChat, the second from-scratch Russian
+  pair (`AMENDMENT_8`), has not run.
+
+The strong form needs a positive Russian-centric cell to compare against.
+None exists, so the strong form has nothing to test.
+
+## 76. Files
+
+New files:
+- `results/calls_ru_probe_meta-llama_Llama-3.1-8B-Instruct_raw_en_completion_20261110T130455Z.jsonl`.
+- `results/calls_ru_probe_Qwen_Qwen2.5-7B-Instruct_raw_en_completion_20261110T130456Z.jsonl`.
+- Both call logs have their `gateA_` files.
+- `results/prefix_baseline_ru_probe_20261110T130456Z.json`.
+- `results/h2_family_20261110T130456Z.json`.
+
+```
+python src/rescore_calls.py results/calls_ru_probe_<model>_raw_en_completion_<stamp>.jsonl --results results/gateA_ru_probe_<model>_raw_en_completion_<stamp>.json
+python src/prefix_baseline.py results/calls_ru_probe_meta-llama_Llama-3.1-8B-Instruct_raw_en_completion_20261110T130455Z.jsonl results/calls_ru_probe_Qwen_Qwen2.5-7B-Instruct_raw_en_completion_20261110T130456Z.jsonl --out results/prefix_baseline_ru_probe_20261110T130456Z.json
+python src/family_holm.py --group ru_pre_cutoff --shape results/row_shape_20261003T124625Z.json --prefix results/prefix_baseline_ru_probe_20260908T121529Z.json results/prefix_baseline_ru_probe_20260929T182458Z.json results/prefix_baseline_ru_probe_long_20261003T122424Z.json results/prefix_baseline_ru_probe_long_20261003T124625Z.json results/prefix_baseline_ru_probe_20261025T205253Z.json results/prefix_baseline_ru_probe_20261110T130456Z.json --diagnostics results/classifier_diagnostics_exposure_20260929T045154Z.json --results "results/gateA_ru_probe_*_completion_20260908T*.json" "results/gateA_ru_probe_*_completion_20260929T*.json" "results/gateA_ru_probe_long_*_completion_20261003T*.json" "results/gateA_ru_probe_*_completion_20261025T205253Z.json" "results/gateA_ru_probe_*_completion_20261110T13045*.json" --out results/h2_family_20261110T130456Z.json
 ```

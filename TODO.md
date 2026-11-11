@@ -347,14 +347,14 @@ session itself is `notebooks/session.json`.
         changed.
 
       → `reports/RESULTS_EXPOSURE.md` Part XIII
-- [ ] **Session B8** (`notebooks/session.json`): Llama (8.8 h) and Qwen
-      (7.2 h) on `ru_probe`. This is the fresh-control validity gate
-      (PREREGISTRATION §4) for the two controls, and it completes the H2
-      family for eight models. Needs `trudvsem_vacancies_2026.csv` and
-      `HF_TOKEN`. Then:
-      - `prefix_baseline.py` with both logs;
-      - the H2 family with `--group ru_pre_cutoff`, the command of
-        `RESULTS_EXPOSURE.md` §57 plus the new files.
+- [x] **Session B8** (2026-11-10): Llama and Qwen on `ru_probe`.
+      - The fresh control is 0/207 for both; the gate now holds for all
+        eight models that ran it.
+      - Both are negative on the four H2 files.
+      - H2 family: 34 p-values over eight models, 32 negative and 2
+        inconclusive, no verdict changed. H2 waits only for GigaChat.
+
+      → `reports/RESULTS_EXPOSURE.md` Part XIV
 - [ ] Then: decide the next block with the author.
       - GigaChat: read its code, then a smoke test.
       - E3, the fresh twin.
@@ -384,9 +384,19 @@ session itself is `notebooks/session.json`.
       `ДатаВклМСП`, legal entities), and a data.mos.ru set via a free API key,
       to be checked from a Russian address. Author chooses; register source,
       schema, collection date and hash before any model runs on it.
-- [ ] Read the GigaChat custom code before the first Kaggle preflight; GigaChat
-      smoke test at full size on a T4 before pricing any plan. (The YandexGPT
-      licence is read, 2026-09-24.)
+- [x] Read the GigaChat custom code (2026-11-11, LOG.md). The architecture is
+      DeepSeek-MoE v1 with GQA attention, and transformers 5.14.1 has no native
+      class for it. Before a smoke test:
+      - two compatibility shims: `transformers.utils.LossKwargs` is gone, and
+        `ROPE_INIT_FUNCTIONS["default"]` is missing;
+      - `trust_remote_code` in `hf_llm.py`;
+      - the weights are fp32, 82.4 GB per model: convert them to fp16 shard by
+        shard, 41.2 GB, the same tensors the loader casts to;
+      - the instruct tokenizer drops `[` and `]` under `skip_special_tokens`;
+      - pass `num_logits_to_keep=1`;
+      - nf4 is about 11.4 GB, leaving about 4 GB of headroom on a T4.
+- [ ] GigaChat smoke test at full size on a T4 before pricing any plan. (The
+      YandexGPT licence is read, 2026-09-24.)
 - [ ] Write the block C1 results document (`src/report_run.py`,
       `src/prefix_baseline.py`, `src/compare_pair.py`, E2 table).
 - [x] First token on the Russian datasets: the library's own pre-check (the
